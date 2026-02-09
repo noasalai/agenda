@@ -637,6 +637,19 @@ async function loadEvents(){
   els.typeFilter.addEventListener("change", refresh);
   els.search.addEventListener("input", refresh);
 })();
-</script>
+</script> 
+  function sendHeight() {
+  const h = Math.max(
+    document.documentElement.scrollHeight,
+    document.body.scrollHeight
+  );
+  parent.postMessage({ type: "DAC_AGENDA_HEIGHT", height: h }, "*");
+}
+
+window.addEventListener("load", sendHeight);
+window.addEventListener("resize", sendHeight);
+
+// si ton agenda rerend (changement mois/filtre), appelle sendHeight() à la fin de render()
+
 </body>
 </html>
