@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Agenda dacvarest.fr </title>
   <style>
     :root{
@@ -238,17 +238,6 @@
       input[type="search"]{min-width: 180px; width:100%;}
       .controls{justify-content:flex-start;}
     }
-    html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-main, .container, #app {
-  min-height: 100vh;
-}
-
   </style>
 </head>
 <body>
@@ -648,19 +637,6 @@ async function loadEvents(){
   els.typeFilter.addEventListener("change", refresh);
   els.search.addEventListener("input", refresh);
 })();
-</script> 
-  function sendHeight() {
-  const h = Math.max(
-    document.documentElement.scrollHeight,
-    document.body.scrollHeight
-  );
-  parent.postMessage({ type: "DAC_AGENDA_HEIGHT", height: h }, "*");
-}
-
-window.addEventListener("load", sendHeight);
-window.addEventListener("resize", sendHeight);
-
-// si ton agenda rerend (changement mois/filtre), appelle sendHeight() à la fin de render()
-
+</script>
 </body>
 </html>
