@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Agenda dacvarest.fr </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Agenda dacvarest.fr</title>
   <style>
     :root{
       --bg:#ffffff;
@@ -15,10 +15,11 @@
       --radius:14px;
       --gap:14px;
     }
-.logo-img{
-    height: 100px;
-    width: auto;
-  }
+
+    .logo-img{
+      height: 100px;
+      width: auto;
+    }
 
     *{box-sizing:border-box}
     body{
@@ -90,6 +91,7 @@
     .chip .dot.event{background:#fde68a}
     .selectors{
       display:flex; gap:10px; align-items:center;
+      flex-wrap:wrap;
     }
     select, input[type="search"]{
       border:1px solid var(--line);
@@ -101,6 +103,21 @@
       min-height:40px;
     }
     input[type="search"]{min-width: 240px}
+
+    /* Checkbox */
+    .check{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      font-size:13px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .check input{ accent-color:#1d4ed8; }
 
     /* Calendar grid */
     .monthTitle{
@@ -119,7 +136,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: var(--gap);
     }
     .dow{
@@ -138,6 +155,7 @@
       flex-direction:column;
       gap:10px;
       box-shadow: 0 1px 0 rgba(15,23,42,.02);
+      min-width:0;
     }
     .day.isWeekend{
       background: #f3f4f6;
@@ -159,6 +177,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
+      min-width:0;
     }
 
     .card{
@@ -168,12 +187,14 @@
       border: 1px solid rgba(15,23,42,.08);
       box-shadow: 0 1px 0 rgba(15,23,42,.03);
       overflow:hidden;
+      min-width:0;
     }
     .card .row1{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:10px;
+      min-width:0;
     }
     .badge{
       font-size:11px;
@@ -188,6 +209,9 @@
       margin: 0 0 6px;
       font-size:13px;
       line-height:1.25;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+      min-width:0;
     }
     .meta{
       display:flex;
@@ -201,6 +225,8 @@
       display:inline-flex;
       align-items:center;
       gap:6px;
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
     .links{
       display:flex;
@@ -215,6 +241,8 @@
       border-radius: 10px;
       border:1px solid rgba(29,78,216,.20);
       background:#fff;
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
     .links a:hover{
       border-color: rgba(29,78,216,.45);
@@ -228,30 +256,30 @@
     }
 
     /* Responsive */
-  @media (max-width: 800px){
-  .grid{grid-template-columns: repeat(2, 1fr);}
-  .dow{display:none;}
-  .day{min-height: 180px;}
-}
-    @media (max-width: 640px){
-      .grid{grid-template-columns: 1fr;}
+    @media (max-width: 900px){
+      .grid{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .dow{display:none;}
+      .day{min-height: 180px;}
       input[type="search"]{min-width: 180px; width:100%;}
       .controls{justify-content:flex-start;}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns: 1fr;}
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="topbar">
-     <div class="brand">
-  <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png"
-       alt="Logo DAC Var Est"
-       class="logo-img">
-  <div class="title">
-    <b>Agenda dacvarest.fr </b>
-    <span>Calendrier alimenté automatiquement (Google Sheet)</span>
-  </div>
-</div>
+      <div class="brand">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png"
+             alt="Logo DAC Var Est"
+             class="logo-img">
+        <div class="title">
+          <b>Agenda dacvarest.fr</b>
+          <span>Calendrier alimenté automatiquement (Google Sheet)</span>
+        </div>
+      </div>
 
       <div class="controls">
         <div class="chip"><span class="dot event"></span> Événement / atelier / animation</div>
@@ -264,6 +292,12 @@
             <option value="">Tous types</option>
           </select>
           <input id="search" type="search" placeholder="Rechercher (titre, ville, lieu)..." />
+
+          <!-- ✅ Nouvelle option -->
+          <label class="check" title="Affiche uniquement les jours qui contiennent au moins un événement (par défaut)">
+            <input id="onlyWithEvents" type="checkbox" checked>
+            Afficher uniquement les jours avec événements
+          </label>
         </div>
       </div>
     </div>
@@ -301,6 +335,7 @@ const els = {
   year: document.getElementById("year"),
   typeFilter: document.getElementById("typeFilter"),
   search: document.getElementById("search"),
+  onlyWithEvents: document.getElementById("onlyWithEvents"),
   monthLabel: document.getElementById("monthLabel"),
   status: document.getElementById("status"),
   dowRow: document.getElementById("dowRow"),
@@ -334,7 +369,6 @@ function parseCSV(text){
     if ((c === "\n" || c === "\r") && !inQuotes){
       if (c === "\r" && next === "\n") i++;
       row.push(cur); cur="";
-      // ignore lignes vides
       if (row.some(v => v.trim() !== "")) rows.push(row);
       row = [];
       continue;
@@ -348,7 +382,6 @@ function parseCSV(text){
 
 function toISODate(yyyy_mm_dd){
   const s = normalize(yyyy_mm_dd);
-  // attend "YYYY-MM-DD"
   if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
   const [y,m,d] = s.split("-").map(Number);
   const dt = new Date(Date.UTC(y, m-1, d));
@@ -357,7 +390,6 @@ function toISODate(yyyy_mm_dd){
 }
 
 function setSelectOptions(){
-  // Month
   els.month.innerHTML = "";
   for (let m=0; m<12; m++){
     const opt = document.createElement("option");
@@ -365,7 +397,6 @@ function setSelectOptions(){
     opt.textContent = MONTHS_FR[m].replace(/^\w/, c => c.toUpperCase());
     els.month.appendChild(opt);
   }
-  // Year
   els.year.innerHTML = "";
   const now = new Date();
   const thisY = now.getFullYear();
@@ -375,8 +406,6 @@ function setSelectOptions(){
     opt.textContent = String(y);
     els.year.appendChild(opt);
   }
-
-  // Defaults = mois courant
   els.month.value = String(now.getMonth()+1).padStart(2,"0");
   els.year.value = String(thisY);
 }
@@ -396,31 +425,28 @@ function monthLabel(y, m){
 }
 
 function firstGridDate(y, m){
-  // retourne la date (UTC) du 1er jour affiché dans la grille (lundi de la semaine du 1)
   const first = new Date(Date.UTC(y, m-1, 1));
   const dow = (first.getUTCDay() + 6) % 7; // 0=lun ... 6=dim
-  const delta = dow; // combien reculer pour tomber sur lundi
+  const delta = dow;
   const start = new Date(first);
   start.setUTCDate(first.getUTCDate() - delta);
   return start;
 }
 
 function isWeekend(utcDate){
-  const day = utcDate.getUTCDay(); // 0 dim, 6 sam
+  const day = utcDate.getUTCDay();
   return day === 0 || day === 6;
 }
 
 function safeLink(url){
   const u = normalize(url);
   if (!u) return null;
-  // autorise http(s) uniquement
   if (/^https?:\/\//i.test(u)) return u;
   return null;
 }
 
 function buildTypeOptions(events){
   const types = Array.from(new Set(events.map(e => e.type).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"fr"));
-  // reset
   els.typeFilter.innerHTML = `<option value="">Tous types</option>`;
   for (const t of types){
     const opt = document.createElement("option");
@@ -447,48 +473,125 @@ function eventMatchesFilters(e){
   return hay.includes(q);
 }
 
+function escapeHtml(s){
+  return normalize(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function renderEventCard(e){
+  const bg = colorForEvent(e);
+  const link = safeLink(e.lien);
+
+  const timeStr = (e.heure_debut || e.heure_fin)
+    ? `${e.heure_debut || ""}${(e.heure_debut && e.heure_fin) ? " à " : ""}${e.heure_fin || ""}`.trim()
+    : "";
+
+  const whereStr = [e.ville, e.lieu].filter(Boolean).join(" · ");
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.style.background = bg;
+
+  card.innerHTML = `
+    <div class="row1">
+      <h4>${escapeHtml(e.titre || "Événement")}</h4>
+      ${e.type ? `<span class="badge">${escapeHtml(e.type)}</span>` : ""}
+    </div>
+    <div class="meta">
+      ${timeStr ? `<span>🕒 ${escapeHtml(timeStr)}</span>` : ""}
+      ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
+    </div>
+    <div class="links">
+      ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
+    </div>
+  `;
+  return card;
+}
+
 function renderCalendar(eventsAll){
   const y = Number(els.year.value);
   const m = Number(els.month.value); // 1-12
 
   els.monthLabel.textContent = monthLabel(y,m);
+  els.dowRow.style.display = ""; // reset (sera éventuellement caché en mode compact)
 
-  // filtre par mois
-  const eventsMonth = eventsAll.filter(e => e.y === y && e.m === m).filter(eventMatchesFilters);
+  const eventsMonth = eventsAll
+    .filter(e => e.y === y && e.m === m)
+    .filter(eventMatchesFilters);
 
-  // index par jour
   const byDay = new Map();
   for (const e of eventsMonth){
-    const key = e.d; // jour du mois
+    const key = e.d;
     if (!byDay.has(key)) byDay.set(key, []);
     byDay.get(key).push(e);
   }
-  // trier événements par heure
   for (const [k, arr] of byDay){
     arr.sort((a,b) => (a.heure_debut||"").localeCompare(b.heure_debut||""));
   }
 
-  // grille 6 semaines * 7 jours
-  const start = firstGridDate(y, m);
   els.calendar.innerHTML = "";
+  const onlyWithEvents = !!els.onlyWithEvents?.checked;
 
-  const daysToRender = 42;
-  for (let i=0; i<daysToRender; i++){
-    const dt = new Date(start);
-    dt.setUTCDate(start.getUTCDate() + i);
+  // Mode 1 : calendrier complet (42 cases)
+  if (!onlyWithEvents){
+    const start = firstGridDate(y, m);
+    const daysToRender = 42;
 
-    const cell = document.createElement("div");
-    const inMonth = (dt.getUTCFullYear() === y && (dt.getUTCMonth()+1) === m);
+    for (let i=0; i<daysToRender; i++){
+      const dt = new Date(start);
+      dt.setUTCDate(start.getUTCDate() + i);
 
-    cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "") + (!inMonth ? " empty" : "");
+      const cell = document.createElement("div");
+      const inMonth = (dt.getUTCFullYear() === y && (dt.getUTCMonth()+1) === m);
 
-    if (!inMonth){
+      cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "") + (!inMonth ? " empty" : "");
+
+      if (!inMonth){
+        els.calendar.appendChild(cell);
+        continue;
+      }
+
+      const d = dt.getUTCDate();
+      const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
+      cell.innerHTML = `
+        <div class="num">
+          <strong>${d}</strong>
+          <small>${dow}</small>
+        </div>
+        <div class="events"></div>
+      `;
+
+      const slot = cell.querySelector(".events");
+      const dayEvents = byDay.get(d) || [];
+      for (const e of dayEvents){
+        slot.appendChild(renderEventCard(e));
+      }
+
       els.calendar.appendChild(cell);
-      continue;
     }
 
-    const d = dt.getUTCDate();
-    const dow = DOW_LABELS[( (dt.getUTCDay()+6)%7 )]; // label
+    els.status.textContent = `${eventsMonth.length} élément(s) affiché(s)`;
+    return;
+  }
+
+  // Mode 2 : uniquement les jours avec événements
+  // (plus lisible + compact)
+  els.dowRow.style.display = "none";
+
+  const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  for (let d=1; d<=daysInMonth; d++){
+    const dayEvents = byDay.get(d) || [];
+    if (dayEvents.length === 0) continue;
+
+    const dt = new Date(Date.UTC(y, m-1, d));
+    const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
+
+    const cell = document.createElement("div");
+    cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "");
     cell.innerHTML = `
       <div class="num">
         <strong>${d}</strong>
@@ -498,55 +601,13 @@ function renderCalendar(eventsAll){
     `;
 
     const slot = cell.querySelector(".events");
-    const dayEvents = byDay.get(d) || [];
-
-    if (dayEvents.length === 0){
-      // rien (on laisse vide comme ton exemple)
-    } else {
-      for (const e of dayEvents){
-        const bg = colorForEvent(e);
-        const link = safeLink(e.lien);
-
-        const timeStr = (e.heure_debut || e.heure_fin)
-          ? `${e.heure_debut || ""}${(e.heure_debut && e.heure_fin) ? " à " : ""}${e.heure_fin || ""}`.trim()
-          : "";
-
-        const whereStr = [e.ville, e.lieu].filter(Boolean).join(" · ");
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.background = bg;
-
-        card.innerHTML = `
-          <div class="row1">
-            <h4>${escapeHtml(e.titre || "Événement")}</h4>
-            ${e.type ? `<span class="badge">${escapeHtml(e.type)}</span>` : ""}
-          </div>
-          <div class="meta">
-            ${timeStr ? `<span>🕒 ${escapeHtml(timeStr)}</span>` : ""}
-            ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
-          </div>
-          <div class="links">
-            ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
-          </div>
-        `;
-        slot.appendChild(card);
-      }
+    for (const e of dayEvents){
+      slot.appendChild(renderEventCard(e));
     }
-
     els.calendar.appendChild(cell);
   }
 
   els.status.textContent = `${eventsMonth.length} élément(s) affiché(s)`;
-}
-
-function escapeHtml(s){
-  return normalize(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
 }
 
 async function loadEvents(){
@@ -572,8 +633,6 @@ async function loadEvents(){
   const header = rows[0].map(h => normKey(h));
   const idx = (name) => header.indexOf(normKey(name));
 
-  const required = ["date","titre","type","heure_debut","heure_fin","ville","lieu","lien","etiquette","couleur"];
-  // on accepte si certaines colonnes manquent (sauf date+titre)
   const hasDate = idx("date") !== -1;
   const hasTitle = idx("titre") !== -1;
 
@@ -606,7 +665,7 @@ async function loadEvents(){
       etiquette: r[idx("etiquette")] ?? "Lien",
       couleur: r[idx("couleur")] ?? ""
     };
-    // garde que les lignes qui ont un titre
+
     if (normalize(e.titre)) evts.push(e);
   }
 
@@ -630,12 +689,12 @@ async function loadEvents(){
   buildTypeOptions(eventsAll);
   renderCalendar(eventsAll);
 
-  // listeners
   const refresh = () => renderCalendar(eventsAll);
   els.month.addEventListener("change", refresh);
   els.year.addEventListener("change", refresh);
   els.typeFilter.addEventListener("change", refresh);
   els.search.addEventListener("input", refresh);
+  els.onlyWithEvents.addEventListener("change", refresh);
 })();
 </script>
 </body>
