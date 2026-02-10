@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agenda DAC Var Est</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --card:#f8fafc;
+      --shadow: 0 6px 18px rgba(15,23,42,.08);
+      --radius:14px;
+      --gap:14px;
+    }
+.logo-img{
+    height: 100px;
+    width: auto;
+  }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+    }
+    .wrap{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px 18px 32px;
+    }
+
+    /* Header */
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 10px 0 18px;
+      border-bottom:1px solid var(--line);
+      margin-bottom: 18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width:260px;
+    }
+    .brand .logo{
+      width:40px;height:40px;border-radius:10px;
+      background: linear-gradient(135deg,#1d4ed8,#06b6d4);
+      box-shadow: var(--shadow);
+    }
+    .brand .title{
+      line-height:1.2;
+    }
+    .brand .title b{display:block;font-size:16px}
+    .brand .title span{font-size:12px;color:var(--muted)}
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      font-size:12px;
+      color:var(--muted);
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+      white-space:nowrap;
+    }
+    .chip .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:#93c5fd;
+      border:1px solid rgba(15,23,42,.08);
+    }
+    .chip .dot.info{background:#fca5a5}
+    .chip .dot.atelier{background:#a7f3d0}
+    .chip .dot.event{background:#fde68a}
+    .selectors{
+      display:flex; gap:10px; align-items:center;
+    }
+    select, input[type="search"]{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:14px;
+      background:#fff;
+      outline:none;
+      min-height:40px;
+    }
+    input[type="search"]{min-width: 240px}
+
+    /* Calendar grid */
+    .monthTitle{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      margin: 12px 0 12px;
+    }
+    .monthTitle h2{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.2px;
+    }
+    .monthTitle .hint{color:var(--muted); font-size:12px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: var(--gap);
+    }
+    .dow{
+      font-weight:700;
+      color:#334155;
+      font-size:13px;
+      padding: 6px 4px;
+    }
+    .day{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      min-height: 165px;
+      padding: 10px 10px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    .day.isWeekend{
+      background: #f3f4f6;
+    }
+    .day .num{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .day .num strong{
+      font-size:16px;
+    }
+    .day .num small{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .events{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .card{
+      border-radius: 14px;
+      padding: 10px 10px 10px;
+      background: var(--card);
+      border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 1px 0 rgba(15,23,42,.03);
+      overflow:hidden;
+    }
+    .card .row1{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .badge{
+      font-size:11px;
+      color:#0f172a;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(15,23,42,.08);
+      white-space:nowrap;
+    }
+    .card h4{
+      margin: 0 0 6px;
+      font-size:13px;
+      line-height:1.25;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color: var(--muted);
+      font-size:12px;
+      margin-bottom: 8px;
+    }
+    .meta span{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .links a{
+      font-size:12px;
+      color:#1d4ed8;
+      text-decoration:none;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border:1px solid rgba(29,78,216,.20);
+      background:#fff;
+    }
+    .links a:hover{
+      border-color: rgba(29,78,216,.45);
+      box-shadow: 0 2px 10px rgba(29,78,216,.10);
+    }
+
+    .empty{
+      border:1px dashed var(--line);
+      background: transparent;
+      box-shadow:none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px){
+      .grid{grid-template-columns: repeat(2, 1fr);}
+      .dow{display:none;}
+      .day{min-height: 180px;}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns: 1fr;}
+      input[type="search"]{min-width: 180px; width:100%;}
+      .controls{justify-content:flex-start;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+     <div class="brand">
+  <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png"
+       alt="Logo DAC Var Est"
+       class="logo-img">
+  <div class="title">
+    <b>Agenda</b>
+    <span>Calendrier alimenté automatiquement (Google Sheet)</span>
+  </div>
+</div>
+
+      <div class="controls">
+        <div class="chip"><span class="dot event"></span> Événement / atelier / animation</div>
+        <div class="chip"><span class="dot info"></span> Info / news / actualité</div>
+
+        <div class="selectors">
+          <select id="month"></select>
+          <select id="year"></select>
+          <select id="typeFilter">
+            <option value="">Tous types</option>
+          </select>
+          <input id="search" type="search" placeholder="Rechercher (titre, ville, lieu)..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="monthTitle">
+      <h2 id="monthLabel">—</h2>
+      <div class="hint" id="status">Chargement…</div>
+    </div>
+
+    <div class="grid" id="dowRow"></div>
+    <div class="grid" id="calendar"></div>
+  </div>
+
+<script>
+/** ✅ Colle ton lien CSV publié ici */
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLAA5l_f45nY5csWzDS8CqtT8bzXpxzMNg5S15KJtT8EccfIPZ2UDz6cdv8BLbEkwD7Hrz4YsnDGpq/pub?gid=229654026&single=true&output=csv";
+
+/** Réglages */
+const WEEK_START = 1; // 1 = lundi (FR)
+const DOW_LABELS = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+const MONTHS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+// Couleurs par défaut par type (si colonne "couleur" vide)
+const TYPE_COLORS = {
+  "info": "#FFE9D6",
+  "webinaire": "#EAF2FF",
+  "atelier": "#E7FFF2",
+  "événement": "#FFF7CC",
+  "evenement": "#FFF7CC",
+  "default": "#F8FAFC"
+};
+
+const els = {
+  month: document.getElementById("month"),
+  year: document.getElementById("year"),
+  typeFilter: document.getElementById("typeFilter"),
+  search: document.getElementById("search"),
+  monthLabel: document.getElementById("monthLabel"),
+  status: document.getElementById("status"),
+  dowRow: document.getElementById("dowRow"),
+  calendar: document.getElementById("calendar"),
+};
+
+function normalize(s){
+  return (s ?? "").toString().trim();
+}
+function normKey(s){
+  return normalize(s).toLowerCase()
+    .normalize("NFD").replace(/\p{Diacritic}/gu,""); // enlève accents
+}
+function parseCSV(text){
+  // petit parseur CSV (gère guillemets)
+  const rows = [];
+  let row = [];
+  let cur = "";
+  let inQuotes = false;
+
+  for (let i=0; i<text.length; i++){
+    const c = text[i];
+    const next = text[i+1];
+
+    if (c === '"' && inQuotes && next === '"'){ cur += '"'; i++; continue; }
+    if (c === '"'){ inQuotes = !inQuotes; continue; }
+
+    if (c === "," && !inQuotes){
+      row.push(cur); cur=""; continue;
+    }
+    if ((c === "\n" || c === "\r") && !inQuotes){
+      if (c === "\r" && next === "\n") i++;
+      row.push(cur); cur="";
+      // ignore lignes vides
+      if (row.some(v => v.trim() !== "")) rows.push(row);
+      row = [];
+      continue;
+    }
+    cur += c;
+  }
+  row.push(cur);
+  if (row.some(v => v.trim() !== "")) rows.push(row);
+  return rows;
+}
+
+function toISODate(yyyy_mm_dd){
+  const s = normalize(yyyy_mm_dd);
+  // attend "YYYY-MM-DD"
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
+  const [y,m,d] = s.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d));
+  if (Number.isNaN(dt.getTime())) return null;
+  return dt;
+}
+
+function setSelectOptions(){
+  // Month
+  els.month.innerHTML = "";
+  for (let m=0; m<12; m++){
+    const opt = document.createElement("option");
+    opt.value = String(m+1).padStart(2,"0");
+    opt.textContent = MONTHS_FR[m].replace(/^\w/, c => c.toUpperCase());
+    els.month.appendChild(opt);
+  }
+  // Year
+  els.year.innerHTML = "";
+  const now = new Date();
+  const thisY = now.getFullYear();
+  for (let y=thisY-1; y<=thisY+3; y++){
+    const opt = document.createElement("option");
+    opt.value = String(y);
+    opt.textContent = String(y);
+    els.year.appendChild(opt);
+  }
+
+  // Defaults = mois courant
+  els.month.value = String(now.getMonth()+1).padStart(2,"0");
+  els.year.value = String(thisY);
+}
+
+function renderDow(){
+  els.dowRow.innerHTML = "";
+  for (const lab of DOW_LABELS){
+    const div = document.createElement("div");
+    div.className = "dow";
+    div.textContent = lab;
+    els.dowRow.appendChild(div);
+  }
+}
+
+function monthLabel(y, m){
+  return `Agenda – ${MONTHS_FR[m-1].replace(/^\w/, c => c.toUpperCase())} ${y}`;
+}
+
+function firstGridDate(y, m){
+  // retourne la date (UTC) du 1er jour affiché dans la grille (lundi de la semaine du 1)
+  const first = new Date(Date.UTC(y, m-1, 1));
+  const dow = (first.getUTCDay() + 6) % 7; // 0=lun ... 6=dim
+  const delta = dow; // combien reculer pour tomber sur lundi
+  const start = new Date(first);
+  start.setUTCDate(first.getUTCDate() - delta);
+  return start;
+}
+
+function isWeekend(utcDate){
+  const day = utcDate.getUTCDay(); // 0 dim, 6 sam
+  return day === 0 || day === 6;
+}
+
+function safeLink(url){
+  const u = normalize(url);
+  if (!u) return null;
+  // autorise http(s) uniquement
+  if (/^https?:\/\//i.test(u)) return u;
+  return null;
+}
+
+function buildTypeOptions(events){
+  const types = Array.from(new Set(events.map(e => e.type).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"fr"));
+  // reset
+  els.typeFilter.innerHTML = `<option value="">Tous types</option>`;
+  for (const t of types){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    els.typeFilter.appendChild(opt);
+  }
+}
+
+function colorForEvent(e){
+  if (normalize(e.couleur)) return e.couleur;
+  const key = normKey(e.type);
+  return TYPE_COLORS[key] || TYPE_COLORS.default;
+}
+
+function eventMatchesFilters(e){
+  const tf = normalize(els.typeFilter.value);
+  if (tf && e.type !== tf) return false;
+
+  const q = normKey(els.search.value);
+  if (!q) return true;
+
+  const hay = normKey([e.titre, e.ville, e.lieu, e.type].join(" "));
+  return hay.includes(q);
+}
+
+function renderCalendar(eventsAll){
+  const y = Number(els.year.value);
+  const m = Number(els.month.value); // 1-12
+
+  els.monthLabel.textContent = monthLabel(y,m);
+
+  // filtre par mois
+  const eventsMonth = eventsAll.filter(e => e.y === y && e.m === m).filter(eventMatchesFilters);
+
+  // index par jour
+  const byDay = new Map();
+  for (const e of eventsMonth){
+    const key = e.d; // jour du mois
+    if (!byDay.has(key)) byDay.set(key, []);
+    byDay.get(key).push(e);
+  }
+  // trier événements par heure
+  for (const [k, arr] of byDay){
+    arr.sort((a,b) => (a.heure_debut||"").localeCompare(b.heure_debut||""));
+  }
+
+  // grille 6 semaines * 7 jours
+  const start = firstGridDate(y, m);
+  els.calendar.innerHTML = "";
+
+  const daysToRender = 42;
+  for (let i=0; i<daysToRender; i++){
+    const dt = new Date(start);
+    dt.setUTCDate(start.getUTCDate() + i);
+
+    const cell = document.createElement("div");
+    const inMonth = (dt.getUTCFullYear() === y && (dt.getUTCMonth()+1) === m);
+
+    cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "") + (!inMonth ? " empty" : "");
+
+    if (!inMonth){
+      els.calendar.appendChild(cell);
+      continue;
+    }
+
+    const d = dt.getUTCDate();
+    const dow = DOW_LABELS[( (dt.getUTCDay()+6)%7 )]; // label
+    cell.innerHTML = `
+      <div class="num">
+        <strong>${d}</strong>
+        <small>${dow}</small>
+      </div>
+      <div class="events"></div>
+    `;
+
+    const slot = cell.querySelector(".events");
+    const dayEvents = byDay.get(d) || [];
+
+    if (dayEvents.length === 0){
+      // rien (on laisse vide comme ton exemple)
+    } else {
+      for (const e of dayEvents){
+        const bg = colorForEvent(e);
+        const link = safeLink(e.lien);
+
+        const timeStr = (e.heure_debut || e.heure_fin)
+          ? `${e.heure_debut || ""}${(e.heure_debut && e.heure_fin) ? " à " : ""}${e.heure_fin || ""}`.trim()
+          : "";
+
+        const whereStr = [e.ville, e.lieu].filter(Boolean).join(" · ");
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.background = bg;
+
+        card.innerHTML = `
+          <div class="row1">
+            <h4>${escapeHtml(e.titre || "Événement")}</h4>
+            ${e.type ? `<span class="badge">${escapeHtml(e.type)}</span>` : ""}
+          </div>
+          <div class="meta">
+            ${timeStr ? `<span>🕒 ${escapeHtml(timeStr)}</span>` : ""}
+            ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
+          </div>
+          <div class="links">
+            ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
+          </div>
+        `;
+        slot.appendChild(card);
+      }
+    }
+
+    els.calendar.appendChild(cell);
+  }
+
+  els.status.textContent = `${eventsMonth.length} élément(s) affiché(s)`;
+}
+
+function escapeHtml(s){
+  return normalize(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+async function loadEvents(){
+  els.status.textContent = "Chargement…";
+
+  if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("COLLE_TON_LIEN_CSV_ICI")){
+    els.status.textContent = "⚠️ Tu dois coller l’URL CSV Google Sheet dans le code.";
+    return [];
+  }
+
+  const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+  if (!res.ok){
+    els.status.textContent = "⚠️ Impossible de charger la Google Sheet (lien CSV ? publication ?).";
+    return [];
+  }
+  const text = await res.text();
+  const rows = parseCSV(text);
+  if (rows.length < 2){
+    els.status.textContent = "⚠️ Aucune donnée (vérifie les colonnes et la publication).";
+    return [];
+  }
+
+  const header = rows[0].map(h => normKey(h));
+  const idx = (name) => header.indexOf(normKey(name));
+
+  const required = ["date","titre","type","heure_debut","heure_fin","ville","lieu","lien","etiquette","couleur"];
+  // on accepte si certaines colonnes manquent (sauf date+titre)
+  const hasDate = idx("date") !== -1;
+  const hasTitle = idx("titre") !== -1;
+
+  if (!hasDate || !hasTitle){
+    els.status.textContent = "⚠️ Colonnes obligatoires manquantes : date + titre.";
+    return [];
+  }
+
+  const evts = [];
+  for (let i=1; i<rows.length; i++){
+    const r = rows[i];
+    const dateStr = r[idx("date")] ?? "";
+    const dt = toISODate(dateStr);
+    if (!dt) continue;
+
+    const y = dt.getUTCFullYear();
+    const m = dt.getUTCMonth()+1;
+    const d = dt.getUTCDate();
+
+    const e = {
+      date: dateStr,
+      y,m,d,
+      titre: r[idx("titre")] ?? "",
+      type: r[idx("type")] ?? "",
+      heure_debut: r[idx("heure_debut")] ?? "",
+      heure_fin: r[idx("heure_fin")] ?? "",
+      ville: r[idx("ville")] ?? "",
+      lieu: r[idx("lieu")] ?? "",
+      lien: r[idx("lien")] ?? "",
+      etiquette: r[idx("etiquette")] ?? "Lien",
+      couleur: r[idx("couleur")] ?? ""
+    };
+    // garde que les lignes qui ont un titre
+    if (normalize(e.titre)) evts.push(e);
+  }
+
+  els.status.textContent = `${evts.length} événement(s) chargé(s)`;
+  return evts;
+}
+
+(async function init(){
+  setSelectOptions();
+  renderDow();
+
+  let eventsAll = [];
+  try{
+    eventsAll = await loadEvents();
+  } catch(err){
+    console.error(err);
+    els.status.textContent = "⚠️ Erreur lors du chargement (console pour détails).";
+    return;
+  }
+
+  buildTypeOptions(eventsAll);
+  renderCalendar(eventsAll);
+
+  // listeners
+  const refresh = () => renderCalendar(eventsAll);
+  els.month.addEventListener("change", refresh);
+  els.year.addEventListener("change", refresh);
+  els.typeFilter.addEventListener("change", refresh);
+  els.search.addEventListener("input", refresh);
+})();
+</script>
+</body>
+</html>
