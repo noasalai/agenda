@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Carte DAC Var Est (SVG) – 69 communes</title>
+<style>
+  :root { --dac-blue:#1e74ff; --inner:#5f5f5f; --bg:transparent; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); }
+  .wrap { max-width:1200px; margin:0 auto; padding:16px; display:grid; grid-template-columns: 1.3fr 0.7fr; gap:16px; }
+  @media (max-width: 900px) { .wrap { grid-template-columns:1fr; } }
+  .card { background:#fff; border:1px solid #e8e8e8; border-radius:16px; box-shadow: 0 10px 30px rgba(0,0,0,.06); overflow:hidden; }
+  .head { padding:14px 16px; border-bottom:1px solid #efefef; }
+  .head h1 { margin:0; font-size:16px; font-weight:800; }
+  .head p { margin:6px 0 0; color:#666; font-size:13px; line-height:1.35; }
+  .mapBox { aspect-ratio: 1.25/1; width:100%; background:transparent; }
+  svg { width:100%; height:100%; display:block; }
+
+  .commune{
+    fill:#f8fafc;
+    stroke:var(--inner);
+    stroke-width:1.1;
+    vector-effect: non-scaling-stroke;
+    transition: fill .12s ease, stroke .12s ease, stroke-width .12s ease, opacity .12s ease;
+    cursor:pointer;
+  }
+  .commune:hover{ fill: rgba(30,116,255,.18); stroke: var(--dac-blue); stroke-width: 1.6; }
+  .commune.is-selected{ fill: rgba(30,116,255,.16); stroke: var(--dac-blue); stroke-width:2; }
+
+  .outer{
+    fill:none; stroke: var(--dac-blue); stroke-width:4.5; vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,.22)); pointer-events:none;
+  }
+
+  .label{
+    font-size: 11.5px; font-weight: 500; fill:#151515;
+    paint-order: stroke; stroke:#fff; stroke-width: 3px; stroke-linejoin: round;
+    pointer-events:none; user-select:none; transition: opacity .12s ease;
+  }
+
+  .side { padding:12px 12px 14px; }
+  .search { width:100%; box-sizing:border-box; padding:10px 12px; border:1px solid #e2e2e2; border-radius:12px; outline:none; }
+  .row { display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+  .ctrl { width:100%; box-sizing:border-box; padding:10px 12px; border:1px solid #e2e2e2; border-radius:12px; outline:none; background:#fff; font-size:13px; }
+  .chk { display:flex; gap:8px; align-items:center; font-size:13px; color:#222; }
+  .list { margin-top:10px; max-height: 420px; overflow:auto; border:1px solid #eee; border-radius:12px; padding:6px; }
+  .item { padding:8px 10px; border-radius:10px; cursor:pointer; border:1px solid transparent; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+  .item:hover { background:rgba(30,116,255,.07); border-color:rgba(30,116,255,.15); }
+  .item b { font-size:13px; font-weight:650; }
+  .badge { font-size:12px; color:#555; background:#f4f4f4; border:1px solid #eaeaea; padding:2px 8px; border-radius:999px; white-space:nowrap; }
+  .note { margin-top:10px; color:#666; font-size:12px; line-height:1.35; }
+  code { background:#f6f6f6; padding:1px 6px; border-radius:8px; }
+
+  .legend { margin-top:10px; border:1px solid #eee; border-radius:12px; padding:10px; display:none; }
+  .legend.show { display:block; }
+  .lg { display:flex; gap:10px; align-items:center; padding:6px 0; }
+  .sw { width:16px; height:16px; border-radius:4px; border:1px solid rgba(0,0,0,.12); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="head">
+        <h1>Carte DAC Var Est (SVG) — 69 communes</h1>
+        <p>Carte 100% vectorielle : limites communes via GeoJSON (filtrées sur tes 69 communes). Option CPTS via le panneau à droite.</p>
+      </div>
+      <div class="mapBox">
+        <svg id="svg" viewBox="0 0 1550 1222" aria-label="Carte DAC Var Est"></svg>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="side">
+        <input id="q" class="search" placeholder="Rechercher une commune…" />
+
+        <div class="row">
+          <label class="chk"><input id="toggleCpts" type="checkbox" /> Afficher les zones CPTS</label>
+        </div>
+
+        <div class="row">
+          <select id="cptsSelect" class="ctrl" disabled>
+            <option value="__all__">Toutes les CPTS (couleurs)</option>
+            <option value="dpv">CPTS Dracénie Provence Verdon</option>
+            <option value="cdv">CPTS Coeur du Var</option>
+            <option value="gst">CPTS Golf St Tropez</option>
+            <option value="vem">CPTS Var Esterel Méditerranée</option>
+            <option value="pdf">CPTS Pays de Fayence</option>
+            <option value="zb">Zone blanche</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label class="chk" title="Si activé : affiche uniquement les communes de la zone sélectionnée (sauf 'Toutes')">
+            <input id="onlyZone" type="checkbox" disabled />
+            Afficher uniquement la zone sélectionnée
+          </label>
+        </div>
+
+        <div id="legend" class="legend"></div>
+        <div id="list" class="list"></div>
+
+        <div class="note">
+          ⚠️ Mets un fichier GeoJSON des communes dans le même dossier et renomme-le <code>communes.geojson</code>.
+          <br>Optionnel : <code>var_est_outline.svg</code> pour le contour bleu.
+        </div>
+      </div>
+    </aside>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+  // 69 communes DAC Var Est (tes libellés “métier”)
+  const COMMUNES = ["AIGUINES","AMPUS","ARTIGNOSC","AUPS","BAGNOLS EN FORET","BARGEME","BARGEMON","BAUDINARD","BAUDUEN","BRENON","CALLAS","CALLIAN","CAVALAIRE SUR MER","CHATEAUDOUBLE","CHÂTEAUVIEUX","CLAVIERS","COGOLIN","COMPS SUR ARTUBY","DRAGUIGNAN","FAYENCE","FIGANIERES","FLAYOSC","FREJUS","GASSIN","GRIMAUD (PORT)","LA BASTIDE","LA CROIX VALMER","LA GARDE FREINET","LA MARTRE","LA MOLE","LA MOTTE","LA ROQUE ESCLAPON","LE BOURGUET","LE CANNET DES MAURES","LE LUC EN PROVENCE","LE MUY","LE THORONET","LES ADRETS DE L'ESTEREL","LES ARCS","LES MAYONS","LORGUES","MOISSAC BELLEVUE","MONS","MONTAUROUX","MONTFERRAT","PLAN DE LA TOUR","PUGET SUR ARGENS","RAMATUELLE","RAYOL CANADEL SUR MER","REGUSSE","ROQUEBRUNE SUR ARGENS","SAINT ANTONIN","SAINT PAUL EN FORET","SAINT RAPHAEL","SAINT TROPEZ","SAINTE MAXIME","SALERNES","SALLES SUR VERDON","SEILLANS","SILLANS LA CASCADE","TANNERON","TARADEAU","TOURRETTES","TOURTOUR","TRANS EN PROVENCE","TRIGANCE","VERIGNON","VIDAUBAN","VILLECROZE"];
+
+  // Normalisation “large”
+  const norm = s => (s || "")
+    .toUpperCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[-’']/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+
+  // Canonicalisation : GeoJSON -> libellé métier
+  function canon(raw) {
+    let s = norm(raw);
+
+    // 1) Articles: "Les Salles..." -> "Salles..."
+    s = s.replace(/^LES\s+/, "");
+
+    // 2) Variantes connues GeoJSON -> tes libellés
+    // Le Plan-de-la-Tour => "LE PLAN DE LA TOUR"
+    if (s === "LE PLAN DE LA TOUR") s = "PLAN DE LA TOUR";
+
+    // Le Luc => Le Luc en Provence (chez toi)
+    if (s === "LE LUC") s = "LE LUC EN PROVENCE";
+
+    // Grimaud => Grimaud (Port) (chez toi)
+    if (s === "GRIMAUD") s = "GRIMAUD (PORT)";
+
+    // Saint-Antonin-du-Var => Saint Antonin (chez toi)
+    if (s === "SAINT ANTONIN DU VAR") s = "SAINT ANTONIN";
+
+    // Artignosc-sur-Verdon => Artignosc (chez toi)
+    if (s === "ARTIGNOSC SUR VERDON") s = "ARTIGNOSC";
+
+    // Baudinard-sur-Verdon => Baudinard (chez toi)
+    if (s === "BAUDINARD SUR VERDON") s = "BAUDINARD";
+
+    // Les Adrets de l'Esterel : parfois sans apostrophe
+    if (s === "LES ADRETS DE L ESTEREL") s = "LES ADRETS DE L ESTEREL";
+
+    return s;
+  }
+
+  // ✅ wanted basé sur canon() : robuste
+  const wanted = new Set(COMMUNES.map(c => canon(c)));
+
+  // --- CPTS (listes métier) ---
+  const CPTS_ZONES = {
+    dpv: {
+      label: "CPTS Dracénie Provence Verdon",
+      color: "rgba(129, 198, 226, .55)",
+      communes: [
+        "AIGUINES","AMPUS","ARTIGNOSC","AUPS","BARGEME","BARGEMON","BAUDINARD","BAUDUEN",
+        "CALLAS","CHATEAUDOUBLE","CLAVIERS","COMPS SUR ARTUBY","DRAGUIGNAN",
+        "FIGANIERES","FLAYOSC","LA BASTIDE","LA MOTTE","LA ROQUE ESCLAPON",
+        "LORGUES","MOISSAC BELLEVUE","MONTFERRAT","REGUSSE","SALERNES","SALLES SUR VERDON",
+        "SILLANS LA CASCADE","TARADEAU","TOURTOUR","TRANS EN PROVENCE","VERIGNON","VIDAUBAN",
+        "VILLECROZE","LE MUY","LES ARCS","SAINT ANTONIN",
+        // (si GeoJSON les sort en "… SUR VERDON", canon() les ramène bien)
+        "BAUDINARD SUR VERDON"
+      ]
+    },
+    cdv: {
+      label: "CPTS Coeur du Var",
+      color: "rgba(246, 222, 183, .65)",
+      communes: ["LE LUC EN PROVENCE","LE THORONET","LE CANNET DES MAURES","LES MAYONS"]
+    },
+    gst: {
+      label: "CPTS Golf St Tropez",
+      color: "rgba(176, 245, 193, .60)",
+      communes: [
+        "SAINTE MAXIME","PLAN DE LA TOUR","LA GARDE FREINET","GRIMAUD (PORT)","COGOLIN","GASSIN",
+        "SAINT TROPEZ","RAMATUELLE","LA CROIX VALMER","CAVALAIRE SUR MER","LA MOLE","RAYOL CANADEL SUR MER"
+      ]
+    },
+    vem: {
+      label: "CPTS Var Esterel Méditerranée",
+      color: "rgba(241, 158, 133, .55)",
+      communes: ["FREJUS","SAINT RAPHAEL","PUGET SUR ARGENS","ROQUEBRUNE SUR ARGENS","LES ADRETS DE L'ESTEREL"]
+    },
+    pdf: {
+      label: "CPTS Pays de Fayence",
+      color: "rgba(251, 243, 192, .70)",
+      communes: [
+        "BAGNOLS EN FORET","CALLIAN","FAYENCE","MONS","MONTAUROUX",
+        "SAINT PAUL EN FORET","SEILLANS","TANNERON","TOURRETTES"
+      ]
+    },
+    zb: {
+      label: "Zone blanche",
+      color: "rgba(160,160,160,.65)",
+      communes: ["TRIGANCE","LE BOURGUET","BRENON","CHÂTEAUVIEUX","LA MARTRE"]
+    }
+  };
+
+  // map canon(commune) -> zone key
+  const zoneOf = new Map();
+  for (const [key, z] of Object.entries(CPTS_ZONES)) {
+    for (const c of z.communes) zoneOf.set(canon(c), key);
+  }
+
+  // D3 setup
+  const svg = d3.select("#svg");
+  const g = svg.append("g");
+  const width = 1550, height = 1222;
+
+  svg.call(d3.zoom().scaleExtent([1, 10]).on("zoom", (event) => {
+    g.attr("transform", event.transform);
+  }));
+
+  async function loadOutline() {
+    try {
+      const txt = await fetch("./var_est_outline.svg").then(r => r.text());
+      const dom = new DOMParser().parseFromString(txt, "image/svg+xml");
+      const path = dom.querySelector("path");
+      if(!path) return;
+      g.append("path").attr("class","outer").attr("d", path.getAttribute("d"));
+    } catch(e) {
+      console.warn("Outline non chargé (var_est_outline.svg manquant).", e);
+    }
+  }
+
+  // UI
+  const listEl = document.getElementById("list");
+  const qEl = document.getElementById("q");
+  const toggleCptsEl = document.getElementById("toggleCpts");
+  const cptsSelectEl = document.getElementById("cptsSelect");
+  const onlyZoneEl = document.getElementById("onlyZone");
+  const legendEl = document.getElementById("legend");
+
+  let features = [];
+  let geoPath = null;
+
+  function getName(props) {
+    return props.libgeo || props.NOM || props.nom || props.name || props.NOM_COM || props.NOM_M || props.libelle || "";
+  }
+
+  function smartLabel(name) {
+    let n = (name || "").replace(/\s+SUR\s+/i, " s/ ").replace(/\s+EN\s+/i, " en ");
+    if(n.length <= 16) return n;
+    return n.split(" ").slice(0,2).join(" ");
+  }
+
+  function currentCptsState() {
+    return { enabled: !!toggleCptsEl.checked, zone: cptsSelectEl.value, only: !!onlyZoneEl.checked };
+  }
+
+  function zoneKeyForFeature(f) {
+    return zoneOf.get(canon(f.__label)) || null;
+  }
+
+  function isFeatureVisibleByCpts(f) {
+    const st = currentCptsState();
+    if (!st.enabled) return true;
+    if (st.zone === "__all__") return true;
+    return zoneKeyForFeature(f) === st.zone;
+  }
+
+  function communeFill(f) {
+    const st = currentCptsState();
+    if (!st.enabled) return "#f8fafc";
+    const z = zoneKeyForFeature(f);
+    if (!z) return "#f8fafc";
+    if (st.zone === "__all__") return CPTS_ZONES[z].color;
+    if (z === st.zone) return CPTS_ZONES[z].color;
+    return "#f8fafc";
+  }
+
+  function applyCptsStyles() {
+    const st = currentCptsState();
+
+    if (st.enabled) { legendEl.classList.add("show"); renderLegend(st.zone); }
+    else { legendEl.classList.remove("show"); legendEl.innerHTML = ""; }
+
+    g.selectAll("path.commune")
+      .style("fill", d => communeFill(d))
+      .style("opacity", d => {
+        if (!st.enabled) return 1;
+        if (st.zone === "__all__") return 1;
+        const inZone = isFeatureVisibleByCpts(d);
+        return st.only ? (inZone ? 1 : 0.05) : (inZone ? 1 : 0.25);
+      });
+
+    g.selectAll("text.label")
+      .style("opacity", d => {
+        if (!st.enabled) return 1;
+        if (st.zone === "__all__") return 1;
+        const inZone = isFeatureVisibleByCpts(d);
+        return st.only ? (inZone ? 1 : 0.0) : (inZone ? 1 : 0.35);
+      });
+
+    renderList(qEl.value || "");
+  }
+
+  function renderLegend(selectedZone) {
+    const rows = [];
+    if (selectedZone === "__all__") {
+      for (const key of ["dpv","cdv","gst","vem","pdf","zb"]) rows.push({ label: CPTS_ZONES[key].label, color: CPTS_ZONES[key].color });
+    } else if (CPTS_ZONES[selectedZone]) {
+      rows.push({ label: CPTS_ZONES[selectedZone].label, color: CPTS_ZONES[selectedZone].color });
+    }
+    legendEl.innerHTML = rows.map(r => `
+      <div class="lg"><span class="sw" style="background:${r.color}"></span><span>${r.label}</span></div>
+    `).join("");
+  }
+
+  function renderList(filterText="") {
+    const st = currentCptsState();
+    const ft = canon(filterText);
+
+    let items = features.slice();
+    if (st.enabled && st.zone !== "__all__" && st.only) items = items.filter(f => isFeatureVisibleByCpts(f));
+
+    items = items
+      .filter(f => !filterText || canon(f.__label).includes(ft))
+      .sort((a,b)=> (a.__label||"").localeCompare(b.__label||"", "fr"));
+
+    listEl.innerHTML = "";
+    for (const f of items) {
+      const zKey = zoneKeyForFeature(f);
+      const zLabel = zKey ? CPTS_ZONES[zKey].label.replace("CPTS ", "") : "—";
+      const div = document.createElement("div");
+      div.className = "item";
+      const right = st.enabled ? zLabel : "Zoom";
+      div.innerHTML = `<b>${f.__label}</b><span class="badge">${right}</span>`;
+      div.onclick = () => selectFeature(f.__id, true);
+      listEl.appendChild(div);
+    }
+  }
+
+  function selectFeature(id, doZoom=false) {
+    g.selectAll(".commune").classed("is-selected", d => d.__id === id);
+    if (!doZoom) return;
+
+    const node = g.selectAll(".commune").filter(d => d.__id === id).node();
+    if (!node) return;
+
+    const bbox = node.getBBox();
+    const cx = bbox.x + bbox.width/2;
+    const cy = bbox.y + bbox.height/2;
+    const scale = Math.min(7, Math.max(2.0, 520 / Math.max(bbox.width, bbox.height)));
+
+    svg.transition().duration(550).call(
+      d3.zoom().transform,
+      d3.zoomIdentity.translate(width/2, height/2).scale(scale).translate(-cx, -cy)
+    );
+  }
+
+  async function main() {
+    await loadOutline();
+
+    const res = await fetch("./communes.geojson");
+    if(!res.ok) throw new Error("communes.geojson introuvable (HTTP " + res.status + ")");
+    const data = await res.json();
+
+    features = (data.features || [])
+      .map((f, i) => {
+        const label = getName(f.properties);
+        f.__label = label;
+        f.__id = i;
+        return f;
+      })
+      .filter(f => wanted.has(canon(f.__label)));
+
+
+    // dédoublonnage par canon
+    const seen = new Set();
+    features = features.filter(f => {
+      const k = canon(f.__label);
+      if(seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    if (features.length !== 69) {
+      console.warn("⚠️ Communes trouvées:", features.length, "au lieu de 69");
+      const found = new Set(features.map(f => canon(f.__label)));
+      const missing = [...wanted].filter(w => !found.has(w));
+      console.warn("Manquantes (canon):", missing);
+    }
+
+    const fc = { type:"FeatureCollection", features };
+
+    const projection = d3.geoMercator();
+    projection.fitExtent([[80,80],[width-80,height-80]], fc);
+    geoPath = d3.geoPath(projection);
+
+    g.selectAll("path.commune")
+      .data(features)
+      .enter()
+      .append("path")
+      .attr("class","commune")
+      .attr("d", geoPath)
+      .style("fill", d => communeFill(d))
+      .on("click", (event, d) => selectFeature(d.__id, false));
+
+    g.selectAll("text.label")
+      .data(features)
+      .enter()
+      .append("text")
+      .attr("class","label")
+      .attr("transform", d => {
+        const c = geoPath.centroid(d);
+        return `translate(${c[0]},${c[1]})`;
+      })
+      .attr("text-anchor","middle")
+      .attr("dy","0.32em")
+      .text(d => smartLabel(d.__label));
+
+    renderList();
+
+    qEl.addEventListener("input", () => renderList(qEl.value));
+
+    toggleCptsEl.addEventListener("change", () => {
+      const enabled = toggleCptsEl.checked;
+      cptsSelectEl.disabled = !enabled;
+      onlyZoneEl.disabled = !enabled;
+      if (!enabled) { cptsSelectEl.value = "__all__"; onlyZoneEl.checked = false; }
+      applyCptsStyles();
+    });
+
+    cptsSelectEl.addEventListener("change", () => {
+      if (cptsSelectEl.value === "__all__") onlyZoneEl.checked = false;
+      applyCptsStyles();
+    });
+
+    onlyZoneEl.addEventListener("change", () => {
+      if (cptsSelectEl.value === "__all__") onlyZoneEl.checked = false;
+      applyCptsStyles();
+    });
+
+    applyCptsStyles();
+  }
+
+  main().catch(err => {
+    console.error(err);
+    alert("Erreur : " + err.message + "\n\nVérifie que communes.geojson est bien dans le même dossier, et ouvre via Live Server.");
+  });
+</script>
+</body>
+</html>
