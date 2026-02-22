@@ -51,6 +51,11 @@
       align-items:center;
       min-width:260px;
     }
+    .brand .logo{
+      width:40px;height:40px;border-radius:10px;
+      background: linear-gradient(135deg,#1d4ed8,#06b6d4);
+      box-shadow: var(--shadow);
+    }
     .brand .title{
       line-height:1.2;
     }
@@ -114,7 +119,7 @@
     }
     .check input{ accent-color:#1d4ed8; }
 
-    /* Titles */
+    /* Calendar grid */
     .monthTitle{
       display:flex;
       align-items:flex-end;
@@ -129,7 +134,6 @@
     }
     .monthTitle .hint{color:var(--muted); font-size:12px}
 
-    /* Calendar grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -251,35 +255,6 @@
       box-shadow:none;
     }
 
-    /* Year view layout */
-    .yearWrap{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-    .monthBlock{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px;
-      background:#fff;
-      box-shadow: 0 1px 0 rgba(15,23,42,.02);
-    }
-    .monthBlockHeader{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-    .monthBlockHeader h3{
-      margin:0;
-      font-size:16px;
-    }
-    .monthBlockHeader .mini{
-      color:var(--muted);
-      font-size:12px;
-    }
-
     /* Responsive */
     @media (max-width: 900px){
       .grid{grid-template-columns: repeat(2, minmax(0,1fr));}
@@ -311,25 +286,14 @@
         <div class="chip"><span class="dot info"></span> Info / news / actualité</div>
 
         <div class="selectors">
-          <!-- ✅ Nouveau : Vue -->
-          <select id="viewMode" title="Vue">
-            <option value="year" selected>Année complète</option>
-            <option value="month">Mois</option>
-            <option value="week">Semaine</option>
-          </select>
-
           <select id="month"></select>
           <select id="year"></select>
-
-          <!-- ✅ Nouveau : Sélecteur semaine (visible seulement en mode Semaine) -->
-          <select id="week" style="display:none"></select>
-
           <select id="typeFilter">
             <option value="">Tous types</option>
           </select>
-
           <input id="search" type="search" placeholder="Rechercher (titre, ville, lieu)..." />
 
+          <!-- ✅ Nouvelle option -->
           <label class="check" title="Affiche uniquement les jours qui contiennent au moins un événement (par défaut)">
             <input id="onlyWithEvents" type="checkbox" checked>
             Afficher uniquement les jours avec événements
@@ -344,12 +308,7 @@
     </div>
 
     <div class="grid" id="dowRow"></div>
-
-    <!-- Calendrier standard (mois / semaine) -->
     <div class="grid" id="calendar"></div>
-
-    <!-- Vue année -->
-    <div class="yearWrap" id="yearWrap" style="display:none"></div>
   </div>
 
 <script>
@@ -372,10 +331,8 @@ const TYPE_COLORS = {
 };
 
 const els = {
-  viewMode: document.getElementById("viewMode"),
   month: document.getElementById("month"),
   year: document.getElementById("year"),
-  week: document.getElementById("week"),
   typeFilter: document.getElementById("typeFilter"),
   search: document.getElementById("search"),
   onlyWithEvents: document.getElementById("onlyWithEvents"),
@@ -383,7 +340,6 @@ const els = {
   status: document.getElementById("status"),
   dowRow: document.getElementById("dowRow"),
   calendar: document.getElementById("calendar"),
-  yearWrap: document.getElementById("yearWrap"),
 };
 
 function normalize(s){
@@ -391,9 +347,10 @@ function normalize(s){
 }
 function normKey(s){
   return normalize(s).toLowerCase()
-    .normalize("NFD").replace(/\p{Diacritic}/gu,"");
+    .normalize("NFD").replace(/\p{Diacritic}/gu,""); // enlève accents
 }
 function parseCSV(text){
+  // petit parseur CSV (gère guillemets)
   const rows = [];
   let row = [];
   let cur = "";
@@ -449,9 +406,6 @@ function setSelectOptions(){
     opt.textContent = String(y);
     els.year.appendChild(opt);
   }
-
-  // ⚙️ Par défaut : Année complète + année en cours
-  els.viewMode.value = "year";
   els.month.value = String(now.getMonth()+1).padStart(2,"0");
   els.year.value = String(thisY);
 }
@@ -469,27 +423,28 @@ function renderDow(){
 function monthLabel(y, m){
   return `Agenda – ${MONTHS_FR[m-1].replace(/^\w/, c => c.toUpperCase())} ${y}`;
 }
-function yearLabel(y){
-  return `Agenda – Année ${y}`;
-}
 
 function firstGridDate(y, m){
   const first = new Date(Date.UTC(y, m-1, 1));
   const dow = (first.getUTCDay() + 6) % 7; // 0=lun ... 6=dim
+  const delta = dow;
   const start = new Date(first);
-  start.setUTCDate(first.getUTCDate() - dow);
+  start.setUTCDate(first.getUTCDate() - delta);
   return start;
 }
+
 function isWeekend(utcDate){
   const day = utcDate.getUTCDay();
   return day === 0 || day === 6;
 }
+
 function safeLink(url){
   const u = normalize(url);
   if (!u) return null;
   if (/^https?:\/\//i.test(u)) return u;
   return null;
 }
+
 function buildTypeOptions(events){
   const types = Array.from(new Set(events.map(e => e.type).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"fr"));
   els.typeFilter.innerHTML = `<option value="">Tous types</option>`;
@@ -500,11 +455,13 @@ function buildTypeOptions(events){
     els.typeFilter.appendChild(opt);
   }
 }
+
 function colorForEvent(e){
   if (normalize(e.couleur)) return e.couleur;
   const key = normKey(e.type);
   return TYPE_COLORS[key] || TYPE_COLORS.default;
 }
+
 function eventMatchesFilters(e){
   const tf = normalize(els.typeFilter.value);
   if (tf && e.type !== tf) return false;
@@ -515,6 +472,7 @@ function eventMatchesFilters(e){
   const hay = normKey([e.titre, e.ville, e.lieu, e.type].join(" "));
   return hay.includes(q);
 }
+
 function escapeHtml(s){
   return normalize(s)
     .replaceAll("&","&amp;")
@@ -523,6 +481,7 @@ function escapeHtml(s){
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
 }
+
 function renderEventCard(e){
   const bg = colorForEvent(e);
   const link = safeLink(e.lien);
@@ -553,11 +512,12 @@ function renderEventCard(e){
   return card;
 }
 
-/* =========================
-   ✅ VUE MOIS (ou base)
-   ========================= */
-function renderMonth(eventsAll, y, m){
+function renderCalendar(eventsAll){
+  const y = Number(els.year.value);
+  const m = Number(els.month.value); // 1-12
+
   els.monthLabel.textContent = monthLabel(y,m);
+  els.dowRow.style.display = ""; // reset (sera éventuellement caché en mode compact)
 
   const eventsMonth = eventsAll
     .filter(e => e.y === y && e.m === m)
@@ -576,9 +536,8 @@ function renderMonth(eventsAll, y, m){
   els.calendar.innerHTML = "";
   const onlyWithEvents = !!els.onlyWithEvents?.checked;
 
-  // calendrier complet (42 cases)
+  // Mode 1 : calendrier complet (42 cases)
   if (!onlyWithEvents){
-    els.dowRow.style.display = "";
     const start = firstGridDate(y, m);
     const daysToRender = 42;
 
@@ -616,10 +575,11 @@ function renderMonth(eventsAll, y, m){
     }
 
     els.status.textContent = `${eventsMonth.length} élément(s) affiché(s)`;
-    return {count: eventsMonth.length};
+    return;
   }
 
-  // uniquement les jours avec événements
+  // Mode 2 : uniquement les jours avec événements
+  // (plus lisible + compact)
   els.dowRow.style.display = "none";
 
   const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
@@ -648,336 +608,8 @@ function renderMonth(eventsAll, y, m){
   }
 
   els.status.textContent = `${eventsMonth.length} élément(s) affiché(s)`;
-  return {count: eventsMonth.length};
 }
 
-/* =========================
-   ✅ VUE ANNÉE
-   ========================= */
-function renderYear(eventsAll, y){
-  els.monthLabel.textContent = yearLabel(y);
-  els.status.textContent = "—";
-
-  els.calendar.innerHTML = "";
-  els.dowRow.style.display = "none";
-  els.yearWrap.innerHTML = "";
-
-  let totalCount = 0;
-
-  for (let m=1; m<=12; m++){
-    const block = document.createElement("div");
-    block.className = "monthBlock";
-
-    const header = document.createElement("div");
-    header.className = "monthBlockHeader";
-    header.innerHTML = `
-      <h3>${MONTHS_FR[m-1].replace(/^\w/, c => c.toUpperCase())} ${y}</h3>
-      <span class="mini" id="mini_${y}_${m}">—</span>
-    `;
-    block.appendChild(header);
-
-    // une grille par mois
-    const grid = document.createElement("div");
-    grid.className = "grid";
-    block.appendChild(grid);
-
-    // on rend le mois dans cette grille (sans toucher els.calendar)
-    const count = renderMonthIntoGrid(eventsAll, y, m, grid);
-    totalCount += count;
-
-    header.querySelector(`#mini_${y}_${m}`).textContent = `${count} évènement(s)`;
-
-    // si “uniquement jours avec évènements” et mois vide => on peut masquer le bloc
-    if (els.onlyWithEvents.checked && count === 0){
-      block.style.display = "none";
-    }
-
-    els.yearWrap.appendChild(block);
-  }
-
-  els.status.textContent = `${totalCount} élément(s) affiché(s)`;
-}
-
-/* Rendu d’un mois dans une grille fournie (utilisé par la vue Année) */
-function renderMonthIntoGrid(eventsAll, y, m, targetGrid){
-  const eventsMonth = eventsAll
-    .filter(e => e.y === y && e.m === m)
-    .filter(eventMatchesFilters);
-
-  const byDay = new Map();
-  for (const e of eventsMonth){
-    const key = e.d;
-    if (!byDay.has(key)) byDay.set(key, []);
-    byDay.get(key).push(e);
-  }
-  for (const [k, arr] of byDay){
-    arr.sort((a,b) => (a.heure_debut||"").localeCompare(b.heure_debut||""));
-  }
-
-  const onlyWithEvents = !!els.onlyWithEvents?.checked;
-  targetGrid.innerHTML = "";
-
-  // Vue année : on garde un rendu lisible
-  // - si onlyWithEvents => uniquement les jours contenant quelque chose
-  // - sinon => on affiche le mois complet 42 cases (plus lourd, mais ok)
-  if (onlyWithEvents){
-    const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
-    for (let d=1; d<=daysInMonth; d++){
-      const dayEvents = byDay.get(d) || [];
-      if (dayEvents.length === 0) continue;
-
-      const dt = new Date(Date.UTC(y, m-1, d));
-      const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
-
-      const cell = document.createElement("div");
-      cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "");
-      cell.innerHTML = `
-        <div class="num">
-          <strong>${d}</strong>
-          <small>${dow}</small>
-        </div>
-        <div class="events"></div>
-      `;
-
-      const slot = cell.querySelector(".events");
-      for (const e of dayEvents){
-        slot.appendChild(renderEventCard(e));
-      }
-      targetGrid.appendChild(cell);
-    }
-    return eventsMonth.length;
-  }
-
-  const start = firstGridDate(y, m);
-  const daysToRender = 42;
-  for (let i=0; i<daysToRender; i++){
-    const dt = new Date(start);
-    dt.setUTCDate(start.getUTCDate() + i);
-
-    const cell = document.createElement("div");
-    const inMonth = (dt.getUTCFullYear() === y && (dt.getUTCMonth()+1) === m);
-
-    cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "") + (!inMonth ? " empty" : "");
-    if (!inMonth){
-      targetGrid.appendChild(cell);
-      continue;
-    }
-
-    const d = dt.getUTCDate();
-    const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
-    cell.innerHTML = `
-      <div class="num">
-        <strong>${d}</strong>
-        <small>${dow}</small>
-      </div>
-      <div class="events"></div>
-    `;
-
-    const slot = cell.querySelector(".events");
-    const dayEvents = byDay.get(d) || [];
-    for (const e of dayEvents){
-      slot.appendChild(renderEventCard(e));
-    }
-
-    targetGrid.appendChild(cell);
-  }
-  return eventsMonth.length;
-}
-
-/* =========================
-   ✅ VUE SEMAINE
-   ========================= */
-function getWeekRangesForMonth(y, m){
-  // retourne des semaines (lundi->dimanche) qui couvrent le mois sélectionné
-  const start = firstGridDate(y, m); // lundi de la grille
-  const ranges = [];
-  for (let i=0; i<42; i+=7){
-    const ws = new Date(start);
-    ws.setUTCDate(start.getUTCDate()+i);
-    const we = new Date(ws);
-    we.setUTCDate(ws.getUTCDate()+6);
-
-    // on ne garde que les semaines qui touchent le mois
-    const touchesMonth =
-      (ws.getUTCFullYear()===y && (ws.getUTCMonth()+1)===m) ||
-      (we.getUTCFullYear()===y && (we.getUTCMonth()+1)===m);
-
-    if (touchesMonth){
-      ranges.push({ws, we});
-    }
-  }
-  return ranges;
-}
-
-function fmtDateShort(dt){
-  const d = String(dt.getUTCDate()).padStart(2,"0");
-  const m = String(dt.getUTCMonth()+1).padStart(2,"0");
-  return `${d}/${m}`;
-}
-
-function buildWeekSelect(y, m){
-  const ranges = getWeekRangesForMonth(y, m);
-  els.week.innerHTML = "";
-
-  ranges.forEach((r, idx)=>{
-    const opt = document.createElement("option");
-    opt.value = String(idx);
-    opt.textContent = `Semaine ${idx+1} (${fmtDateShort(r.ws)} → ${fmtDateShort(r.we)})`;
-    els.week.appendChild(opt);
-  });
-
-  // default = 1ère semaine qui contient "aujourd'hui" si possible
-  const now = new Date();
-  let chosen = 0;
-  for (let i=0;i<ranges.length;i++){
-    const ws = ranges[i].ws.getTime();
-    const we = ranges[i].we.getTime();
-    const t = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-    if (t>=ws && t<=we){ chosen = i; break; }
-  }
-  els.week.value = String(chosen);
-
-  return ranges;
-}
-
-function renderWeek(eventsAll, y, m, weekIdx){
-  const ranges = getWeekRangesForMonth(y, m);
-  const r = ranges[weekIdx] || ranges[0];
-  if (!r) return;
-
-  els.monthLabel.textContent = `Agenda – Semaine (${fmtDateShort(r.ws)} → ${fmtDateShort(r.we)})`;
-  els.dowRow.style.display = "";
-  els.calendar.innerHTML = "";
-
-  // events filtrés + sur la plage
-  const events = eventsAll
-    .filter(eventMatchesFilters)
-    .filter(e => {
-      const t = Date.UTC(e.y, e.m-1, e.d);
-      return t >= r.ws.getTime() && t <= r.we.getTime();
-    });
-
-  // map par jour (timestamp UTC)
-  const byDay = new Map();
-  for (const e of events){
-    const key = Date.UTC(e.y, e.m-1, e.d);
-    if (!byDay.has(key)) byDay.set(key, []);
-    byDay.get(key).push(e);
-  }
-  for (const [k, arr] of byDay){
-    arr.sort((a,b) => (a.heure_debut||"").localeCompare(b.heure_debut||""));
-  }
-
-  const onlyWithEvents = !!els.onlyWithEvents.checked;
-
-  // si onlyWithEvents = true, on affiche uniquement les jours de la semaine qui ont des events
-  if (onlyWithEvents){
-    els.dowRow.style.display = "none";
-    const days = [];
-    for (let i=0;i<7;i++){
-      const dt = new Date(r.ws);
-      dt.setUTCDate(r.ws.getUTCDate()+i);
-      days.push(dt);
-    }
-
-    for (const dt of days){
-      const key = dt.getTime();
-      const dayEvents = byDay.get(key) || [];
-      if (dayEvents.length===0) continue;
-
-      const d = dt.getUTCDate();
-      const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
-
-      const cell = document.createElement("div");
-      cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "");
-      cell.innerHTML = `
-        <div class="num">
-          <strong>${d}</strong>
-          <small>${dow}</small>
-        </div>
-        <div class="events"></div>
-      `;
-      const slot = cell.querySelector(".events");
-      for (const e of dayEvents){
-        slot.appendChild(renderEventCard(e));
-      }
-      els.calendar.appendChild(cell);
-    }
-
-    els.status.textContent = `${events.length} élément(s) affiché(s)`;
-    return;
-  }
-
-  // sinon => 7 jours, même s’il n’y a rien
-  for (let i=0;i<7;i++){
-    const dt = new Date(r.ws);
-    dt.setUTCDate(r.ws.getUTCDate()+i);
-
-    const d = dt.getUTCDate();
-    const dow = DOW_LABELS[((dt.getUTCDay()+6)%7)];
-    const key = dt.getTime();
-    const dayEvents = byDay.get(key) || [];
-
-    const cell = document.createElement("div");
-    cell.className = "day" + (isWeekend(dt) ? " isWeekend" : "");
-    cell.innerHTML = `
-      <div class="num">
-        <strong>${d}</strong>
-        <small>${dow}</small>
-      </div>
-      <div class="events"></div>
-    `;
-    const slot = cell.querySelector(".events");
-    for (const e of dayEvents){
-      slot.appendChild(renderEventCard(e));
-    }
-    els.calendar.appendChild(cell);
-  }
-
-  els.status.textContent = `${events.length} élément(s) affiché(s)`;
-}
-
-/* =========================
-   ✅ ROUTER DE VUE
-   ========================= */
-function updateViewVisibility(){
-  const mode = els.viewMode.value;
-
-  // Affichage des éléments UI
-  els.yearWrap.style.display = (mode === "year") ? "" : "none";
-  els.calendar.style.display = (mode === "year") ? "none" : "";
-  els.dowRow.style.display = (mode === "year") ? "none" : "";
-
-  // Mois utile seulement en month/week
-  els.month.style.display = (mode === "year") ? "none" : "";
-  // Semaine utile seulement en week
-  els.week.style.display = (mode === "week") ? "" : "none";
-}
-
-function renderByMode(eventsAll){
-  const mode = els.viewMode.value;
-  const y = Number(els.year.value);
-  const m = Number(els.month.value);
-
-  updateViewVisibility();
-
-  if (mode === "year"){
-    renderYear(eventsAll, y);
-    return;
-  }
-  if (mode === "week"){
-    buildWeekSelect(y, m);
-    const idx = Number(els.week.value || "0");
-    renderWeek(eventsAll, y, m, idx);
-    return;
-  }
-  // month
-  renderMonth(eventsAll, y, m);
-}
-
-/* =========================
-   ✅ LOAD EVENTS
-   ========================= */
 async function loadEvents(){
   els.status.textContent = "Chargement…";
 
@@ -1001,7 +633,10 @@ async function loadEvents(){
   const header = rows[0].map(h => normKey(h));
   const idx = (name) => header.indexOf(normKey(name));
 
-  if (idx("date") === -1 || idx("titre") === -1){
+  const hasDate = idx("date") !== -1;
+  const hasTitle = idx("titre") !== -1;
+
+  if (!hasDate || !hasTitle){
     els.status.textContent = "⚠️ Colonnes obligatoires manquantes : date + titre.";
     return [];
   }
@@ -1034,6 +669,7 @@ async function loadEvents(){
     if (normalize(e.titre)) evts.push(e);
   }
 
+  els.status.textContent = `${evts.length} événement(s) chargé(s)`;
   return evts;
 }
 
@@ -1051,16 +687,11 @@ async function loadEvents(){
   }
 
   buildTypeOptions(eventsAll);
+  renderCalendar(eventsAll);
 
-  // ✅ Par défaut : Année complète
-  renderByMode(eventsAll);
-
-  const refresh = () => renderByMode(eventsAll);
-
-  els.viewMode.addEventListener("change", refresh);
+  const refresh = () => renderCalendar(eventsAll);
   els.month.addEventListener("change", refresh);
   els.year.addEventListener("change", refresh);
-  els.week.addEventListener("change", refresh);
   els.typeFilter.addEventListener("change", refresh);
   els.search.addEventListener("input", refresh);
   els.onlyWithEvents.addEventListener("change", refresh);
