@@ -4,21 +4,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Agenda dacvarest.fr</title>
+
   <style>
     :root{
-      --bg:#ffffff;
+      /* Look institutionnel + DAC */
+      --bg:#f7f9fc;
+      --surface:#ffffff;
       --text:#0f172a;
       --muted:#64748b;
-      --line:#e5e7eb;
-      --card:#f8fafc;
-      --shadow: 0 6px 18px rgba(15,23,42,.08);
-      --radius:14px;
-      --gap:14px;
-    }
+      --line:rgba(15,23,42,.10);
 
-    .logo-img{
-      height: 100px;
-      width: auto;
+      /* Bleu DAC (tu peux ajuster) */
+      --brand:#3666AE;
+      --brand-2:#2E5A9B;
+
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --radius:16px;
+      --gap:14px;
+
+      /* Badges types */
+      --t-event:#fde68a;
+      --t-info:#fca5a5;
+      --t-web:#bfdbfe;
+      --t-atelier:#a7f3d0;
+
+      --card:#f8fafc;
     }
 
     *{box-sizing:border-box}
@@ -26,8 +36,12 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
-      background:var(--bg);
+      background:
+        radial-gradient(900px 300px at 30% -10%, rgba(54,102,174,.20), rgba(255,255,255,0)),
+        radial-gradient(900px 300px at 80% -10%, rgba(46,90,155,.14), rgba(255,255,255,0)),
+        var(--bg);
     }
+
     .wrap{
       max-width: 1400px;
       margin: 0 auto;
@@ -41,32 +55,49 @@
       gap:12px;
       align-items:center;
       justify-content:space-between;
-      padding: 10px 0 18px;
+      padding: 12px 0 18px;
       border-bottom:1px solid var(--line);
       margin-bottom: 18px;
     }
+
     .brand{
       display:flex;
-      gap:12px;
+      gap:14px;
       align-items:center;
-      min-width:260px;
+      min-width:280px;
     }
-    .brand .logo{
-      width:40px;height:40px;border-radius:10px;
-      background: linear-gradient(135deg,#1d4ed8,#06b6d4);
-      box-shadow: var(--shadow);
+
+    .logo-img{
+      height: 64px;
+      width: auto;
+      filter: drop-shadow(0 6px 14px rgba(15,23,42,.10));
     }
-    .brand .title{
+
+    .title{
       line-height:1.2;
     }
-    .brand .title b{display:block;font-size:16px}
-    .brand .title span{font-size:12px;color:var(--muted)}
-    .controls{
+    .title b{
+      display:block;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .title span{
+      display:block;
+      margin-top:4px;
+      font-size:12.5px;
+      color:var(--muted);
+    }
+
+    .right{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
       align-items:center;
       justify-content:flex-end;
+    }
+
+    .legend{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
     }
     .chip{
       display:inline-flex;
@@ -75,36 +106,41 @@
       padding:8px 10px;
       border:1px solid var(--line);
       border-radius:999px;
-      background:#fff;
+      background: rgba(255,255,255,.70);
       font-size:12px;
       color:var(--muted);
-      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+      box-shadow: 0 1px 0 rgba(15,23,42,.03);
       white-space:nowrap;
+      backdrop-filter: blur(6px);
     }
-    .chip .dot{
+    .dot{
       width:10px;height:10px;border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
       background:#93c5fd;
-      border:1px solid rgba(15,23,42,.08);
     }
-    .chip .dot.info{background:#fca5a5}
-    .chip .dot.atelier{background:#a7f3d0}
-    .chip .dot.event{background:#fde68a}
+    .dot.event{ background: var(--t-event); }
+    .dot.info{ background: var(--t-info); }
+
     .selectors{
-      display:flex; gap:10px; align-items:center;
-      flex-wrap:wrap;
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
     }
+
     select, input[type="search"]{
       border:1px solid var(--line);
       border-radius:12px;
       padding:10px 12px;
       font-size:14px;
-      background:#fff;
+      background: rgba(255,255,255,.90);
       outline:none;
       min-height:40px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
     }
-    input[type="search"]{min-width: 240px}
+    select:focus, input[type="search"]:focus{
+      border-color: rgba(54,102,174,.35);
+      box-shadow: 0 0 0 4px rgba(54,102,174,.12);
+    }
+    input[type="search"]{min-width: 260px}
 
-    /* Checkbox */
     .check{
       display:inline-flex;
       align-items:center;
@@ -112,14 +148,15 @@
       padding:8px 10px;
       border:1px solid var(--line);
       border-radius:12px;
-      background:#fff;
+      background: rgba(255,255,255,.90);
       font-size:13px;
       color:var(--muted);
       white-space:nowrap;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
     }
-    .check input{ accent-color:#1d4ed8; }
+    .check input{ accent-color: var(--brand); }
 
-    /* Calendar grid */
+    /* Title row */
     .monthTitle{
       display:flex;
       align-items:flex-end;
@@ -134,22 +171,26 @@
     }
     .monthTitle .hint{color:var(--muted); font-size:12px}
 
+    /* Calendar grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: var(--gap);
     }
+
     .dow{
       font-weight:700;
       color:#334155;
       font-size:13px;
       padding: 6px 4px;
+      opacity:.9;
     }
+
     .day{
       border:1px solid var(--line);
       border-radius: var(--radius);
-      background: #fff;
-      min-height: 165px;
+      background: rgba(255,255,255,.92);
+      min-height: 170px;
       padding: 10px 10px 12px;
       display:flex;
       flex-direction:column;
@@ -158,8 +199,9 @@
       min-width:0;
     }
     .day.isWeekend{
-      background: #f3f4f6;
+      background: rgba(15,23,42,.03);
     }
+
     .day .num{
       display:flex;
       align-items:center;
@@ -168,11 +210,13 @@
     }
     .day .num strong{
       font-size:16px;
+      color:#0b1224;
     }
     .day .num small{
       color:var(--muted);
       font-size:12px;
     }
+
     .events{
       display:flex;
       flex-direction:column;
@@ -180,47 +224,59 @@
       min-width:0;
     }
 
+    /* Event card */
     .card{
       border-radius: 14px;
-      padding: 10px 10px 10px;
       background: var(--card);
-      border: 1px solid rgba(15,23,42,.08);
+      border: 1px solid rgba(15,23,42,.10);
       box-shadow: 0 1px 0 rgba(15,23,42,.03);
       overflow:hidden;
       min-width:0;
     }
-    .card .row1{
+
+    .cardInner{
+      padding: 10px 10px 10px;
+      border-left: 5px solid rgba(54,102,174,.35);
+      background: linear-gradient(90deg, rgba(54,102,174,.06), rgba(255,255,255,0) 60%);
+    }
+
+    .cardTop{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:10px;
       min-width:0;
     }
+
     .badge{
       font-size:11px;
       color:#0f172a;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(255,255,255,.65);
-      border: 1px solid rgba(15,23,42,.08);
+      border: 1px solid rgba(15,23,42,.12);
       white-space:nowrap;
+      background: rgba(255,255,255,.75);
     }
+
     .card h4{
       margin: 0 0 6px;
-      font-size:13px;
-      line-height:1.25;
+      font-size:13.5px;
+      line-height:1.28;
       overflow-wrap:anywhere;
       word-break:break-word;
       min-width:0;
+      color:#0b1224;
     }
+
     .meta{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:8px 10px;
       color: var(--muted);
       font-size:12px;
       margin-bottom: 8px;
     }
+
     .meta span{
       display:inline-flex;
       align-items:center;
@@ -228,25 +284,111 @@
       overflow-wrap:anywhere;
       word-break:break-word;
     }
+
     .links{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
     }
+
     .links a{
       font-size:12px;
-      color:#1d4ed8;
+      color: var(--brand);
       text-decoration:none;
       padding: 6px 10px;
       border-radius: 10px;
-      border:1px solid rgba(29,78,216,.20);
+      border:1px solid rgba(54,102,174,.22);
       background:#fff;
       overflow-wrap:anywhere;
       word-break:break-word;
+      transition: .15s ease;
     }
     .links a:hover{
-      border-color: rgba(29,78,216,.45);
-      box-shadow: 0 2px 10px rgba(29,78,216,.10);
+      border-color: rgba(54,102,174,.45);
+      box-shadow: 0 6px 18px rgba(54,102,174,.12);
+      transform: translateY(-1px);
+    }
+
+    /* Infographie */
+    .thumbWrap{
+      margin-top: 10px;
+      border-top: 1px dashed rgba(15,23,42,.14);
+      padding-top: 10px;
+    }
+    .thumbTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .thumb{
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,.10);
+      background: #fff;
+      overflow: hidden;
+      cursor: zoom-in;
+      box-shadow: 0 8px 22px rgba(15,23,42,.08);
+    }
+    .thumb img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    /* Modal (zoom image) */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.70);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .modal.open{ display:flex; }
+    .modalCard{
+      max-width: 1100px;
+      width: 100%;
+      max-height: 86vh;
+      background: #0b1020;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    }
+    .modalBar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+    }
+    .modalBar button{
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.92);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+    }
+    .modalBody{
+      background:#0b1020;
+      overflow:auto;
+      max-height: calc(86vh - 46px);
+    }
+    .modalBody img{
+      width: 100%;
+      height: auto;
+      display:block;
     }
 
     .empty{
@@ -261,10 +403,11 @@
       .dow{display:none;}
       .day{min-height: 180px;}
       input[type="search"]{min-width: 180px; width:100%;}
-      .controls{justify-content:flex-start;}
+      .right{justify-content:flex-start;}
     }
     @media (max-width: 640px){
       .grid{grid-template-columns: 1fr;}
+      .logo-img{height:56px}
     }
   </style>
 </head>
@@ -276,27 +419,30 @@
              alt="Logo DAC Var Est"
              class="logo-img">
         <div class="title">
-          <b>Agenda dacvarest.fr</b>
-          <span>Calendrier alimenté automatiquement (Google Sheet)</span>
+          <b>Agenda territorial — DAC Var Est</b>
+          <span>Calendrier partagé (alimenté automatiquement via Google Sheet)</span>
         </div>
       </div>
 
-      <div class="controls">
-        <div class="chip"><span class="dot event"></span> Événement / atelier / animation</div>
-        <div class="chip"><span class="dot info"></span> Info / news / actualité</div>
+      <div class="right">
+        <div class="legend">
+          <div class="chip"><span class="dot event"></span> Événement / atelier / animation</div>
+          <div class="chip"><span class="dot info"></span> Info / news / actualité</div>
+        </div>
 
         <div class="selectors">
           <select id="month"></select>
           <select id="year"></select>
+
           <select id="typeFilter">
             <option value="">Tous types</option>
           </select>
+
           <input id="search" type="search" placeholder="Rechercher (titre, ville, lieu)..." />
 
-          <!-- ✅ Nouvelle option -->
           <label class="check" title="Affiche uniquement les jours qui contiennent au moins un événement (par défaut)">
             <input id="onlyWithEvents" type="checkbox" checked>
-            Afficher uniquement les jours avec événements
+            Uniquement jours avec événements
           </label>
         </div>
       </div>
@@ -311,12 +457,24 @@
     <div class="grid" id="calendar"></div>
   </div>
 
+  <!-- Modal zoom infographie -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-label="Aperçu infographie">
+      <div class="modalBar">
+        <div id="modalTitle">Infographie</div>
+        <button id="modalClose" type="button">Fermer</button>
+      </div>
+      <div class="modalBody">
+        <img id="modalImg" alt="Infographie" />
+      </div>
+    </div>
+  </div>
+
 <script>
 /** ✅ Colle ton lien CSV publié ici */
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGpQYOcOHDjE8YyA1WjJDxGZE3JFBKwpBvMQzIaWiekbf5HNf11owqJFjU9PsaRcExANXdFPhul_In/pub?gid=229654026&single=true&output=csv";
 
 /** Réglages */
-const WEEK_START = 1; // 1 = lundi (FR)
 const DOW_LABELS = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
 const MONTHS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 
@@ -340,6 +498,10 @@ const els = {
   status: document.getElementById("status"),
   dowRow: document.getElementById("dowRow"),
   calendar: document.getElementById("calendar"),
+  modal: document.getElementById("modal"),
+  modalImg: document.getElementById("modalImg"),
+  modalTitle: document.getElementById("modalTitle"),
+  modalClose: document.getElementById("modalClose"),
 };
 
 function normalize(s){
@@ -347,10 +509,10 @@ function normalize(s){
 }
 function normKey(s){
   return normalize(s).toLowerCase()
-    .normalize("NFD").replace(/\p{Diacritic}/gu,""); // enlève accents
+    .normalize("NFD").replace(/\p{Diacritic}/gu,"");
 }
+
 function parseCSV(text){
-  // petit parseur CSV (gère guillemets)
   const rows = [];
   let row = [];
   let cur = "";
@@ -427,9 +589,8 @@ function monthLabel(y, m){
 function firstGridDate(y, m){
   const first = new Date(Date.UTC(y, m-1, 1));
   const dow = (first.getUTCDay() + 6) % 7; // 0=lun ... 6=dim
-  const delta = dow;
   const start = new Date(first);
-  start.setUTCDate(first.getUTCDate() - delta);
+  start.setUTCDate(first.getUTCDate() - dow);
   return start;
 }
 
@@ -443,6 +604,27 @@ function safeLink(url){
   if (!u) return null;
   if (/^https?:\/\//i.test(u)) return u;
   return null;
+}
+
+/* ✅ Convertit (souvent) un lien Google Drive de partage en lien direct image */
+function driveToDirect(url){
+  const u = normalize(url);
+  if (!u) return null;
+
+  // déjà direct
+  if (/\.(png|jpg|jpeg|webp|gif)(\?.*)?$/i.test(u)) return u;
+
+  // formats Drive classiques
+  // https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+  const m1 = u.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+  if (m1 && m1[1]) return `https://drive.google.com/uc?export=view&id=${m1[1]}`;
+
+  // https://drive.google.com/open?id=FILE_ID
+  const m2 = u.match(/[?&]id=([^&]+)/i);
+  if (m2 && m2[1] && u.includes("drive.google.com")) return `https://drive.google.com/uc?export=view&id=${m2[1]}`;
+
+  // Google Photos & autres -> on ne force pas
+  return u;
 }
 
 function buildTypeOptions(events){
@@ -482,6 +664,36 @@ function escapeHtml(s){
     .replaceAll("'","&#039;");
 }
 
+function openModal(title, imgUrl){
+  els.modalTitle.textContent = title || "Infographie";
+  els.modalImg.src = imgUrl;
+  els.modal.classList.add("open");
+  els.modal.setAttribute("aria-hidden","false");
+}
+
+function closeModal(){
+  els.modal.classList.remove("open");
+  els.modal.setAttribute("aria-hidden","true");
+  els.modalImg.src = "";
+}
+
+els.modalClose.addEventListener("click", closeModal);
+els.modal.addEventListener("click", (e)=>{
+  if (e.target === els.modal) closeModal();
+});
+document.addEventListener("keydown", (e)=>{
+  if (e.key === "Escape") closeModal();
+});
+
+function typeBadgeStyle(type){
+  const k = normKey(type);
+  if (k.includes("info")) return "background: rgba(252,165,165,.28);";
+  if (k.includes("web")) return "background: rgba(191,219,254,.30);";
+  if (k.includes("atelier")) return "background: rgba(167,243,208,.30);";
+  if (k.includes("evenement") || k.includes("événement") || k.includes("event")) return "background: rgba(253,230,138,.35);";
+  return "background: rgba(255,255,255,.75);";
+}
+
 function renderEventCard(e){
   const bg = colorForEvent(e);
   const link = safeLink(e.lien);
@@ -492,23 +704,60 @@ function renderEventCard(e){
 
   const whereStr = [e.ville, e.lieu].filter(Boolean).join(" · ");
 
+  // ✅ Infographie (si colonne infographie remplie)
+  const infRaw = normalize(e.infographie);
+  const infUrl = infRaw ? driveToDirect(infRaw) : null;
+  const safeInf = safeLink(infUrl);
+
   const card = document.createElement("div");
   card.className = "card";
   card.style.background = bg;
 
+  const badge = e.type
+    ? `<span class="badge" style="${typeBadgeStyle(e.type)}">${escapeHtml(e.type)}</span>`
+    : "";
+
   card.innerHTML = `
-    <div class="row1">
-      <h4>${escapeHtml(e.titre || "Événement")}</h4>
-      ${e.type ? `<span class="badge">${escapeHtml(e.type)}</span>` : ""}
-    </div>
-    <div class="meta">
-      ${timeStr ? `<span>🕒 ${escapeHtml(timeStr)}</span>` : ""}
-      ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
-    </div>
-    <div class="links">
-      ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
+    <div class="cardInner">
+      <div class="cardTop">
+        <h4>${escapeHtml(e.titre || "Événement")}</h4>
+        ${badge}
+      </div>
+
+      <div class="meta">
+        ${timeStr ? `<span>🕒 ${escapeHtml(timeStr)}</span>` : ""}
+        ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
+      </div>
+
+      <div class="links">
+        ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "En savoir plus")}</a>` : ""}
+        ${safeInf ? `<a href="${safeInf}" target="_blank" rel="noopener noreferrer">Ouvrir l’infographie</a>` : ""}
+      </div>
+
+      ${safeInf ? `
+        <div class="thumbWrap">
+          <div class="thumbTitle">
+            <span>Infographie</span>
+            <span style="opacity:.8">Clique pour zoom</span>
+          </div>
+          <div class="thumb" data-title="${escapeHtml(e.titre || "Infographie")}" data-img="${escapeHtml(safeInf)}">
+            <img src="${escapeHtml(safeInf)}" alt="Infographie ${escapeHtml(e.titre || "")}" loading="lazy">
+          </div>
+        </div>
+      ` : ""}
     </div>
   `;
+
+  // hook zoom
+  const t = card.querySelector(".thumb");
+  if (t){
+    t.addEventListener("click", ()=>{
+      const title = t.getAttribute("data-title") || "Infographie";
+      const img = t.getAttribute("data-img");
+      if (img) openModal(title, img);
+    });
+  }
+
   return card;
 }
 
@@ -517,7 +766,7 @@ function renderCalendar(eventsAll){
   const m = Number(els.month.value); // 1-12
 
   els.monthLabel.textContent = monthLabel(y,m);
-  els.dowRow.style.display = ""; // reset (sera éventuellement caché en mode compact)
+  els.dowRow.style.display = "";
 
   const eventsMonth = eventsAll
     .filter(e => e.y === y && e.m === m)
@@ -536,7 +785,6 @@ function renderCalendar(eventsAll){
   els.calendar.innerHTML = "";
   const onlyWithEvents = !!els.onlyWithEvents?.checked;
 
-  // Mode 1 : calendrier complet (42 cases)
   if (!onlyWithEvents){
     const start = firstGridDate(y, m);
     const daysToRender = 42;
@@ -578,8 +826,7 @@ function renderCalendar(eventsAll){
     return;
   }
 
-  // Mode 2 : uniquement les jours avec événements
-  // (plus lisible + compact)
+  // jours avec événements (compact + clean)
   els.dowRow.style.display = "none";
 
   const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
@@ -633,13 +880,13 @@ async function loadEvents(){
   const header = rows[0].map(h => normKey(h));
   const idx = (name) => header.indexOf(normKey(name));
 
-  const hasDate = idx("date") !== -1;
-  const hasTitle = idx("titre") !== -1;
-
-  if (!hasDate || !hasTitle){
+  if (idx("date") === -1 || idx("titre") === -1){
     els.status.textContent = "⚠️ Colonnes obligatoires manquantes : date + titre.";
     return [];
   }
+
+  // ✅ colonne optionnelle
+  const idxInf = idx("infographie");
 
   const evts = [];
   for (let i=1; i<rows.length; i++){
@@ -662,8 +909,9 @@ async function loadEvents(){
       ville: r[idx("ville")] ?? "",
       lieu: r[idx("lieu")] ?? "",
       lien: r[idx("lien")] ?? "",
-      etiquette: r[idx("etiquette")] ?? "Lien",
-      couleur: r[idx("couleur")] ?? ""
+      etiquette: r[idx("etiquette")] ?? "En savoir plus",
+      couleur: r[idx("couleur")] ?? "",
+      infographie: (idxInf !== -1 ? (r[idxInf] ?? "") : "")
     };
 
     if (normalize(e.titre)) evts.push(e);
