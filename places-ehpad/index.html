@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DAC Var Est — Places disponibles EHPAD</title>
+
+<style>
+  :root{
+    --brand:#3666AE;
+    --brand-2:#2E5A9B;
+    --ink:#0b1220;
+    --muted:#5f6b7b;
+    --line: rgba(11,18,32,.12);
+
+    --bg:#f7f9fc;
+    --card:#ffffff;
+
+    --shadow: 0 12px 30px rgba(11,18,32,.08);
+
+    --ok: rgba(47,191,113,.14);
+    --warn: rgba(246,183,60,.16);
+    --bad: rgba(239,71,111,.16);
+
+    --radius: 16px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: "Pepper Sans SemiBold","Pepper Sans Semi Bold","Pepper Sans",
+                 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--ink);
+    background:
+      linear-gradient(180deg, rgba(54,102,174,.08), transparent 220px),
+      var(--bg);
+  }
+
+  a{color:var(--brand); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:20px 18px 70px}
+
+  header{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow);
+    padding:14px 16px;
+  }
+
+  .toprow{display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+  .brand{display:flex; gap:14px; align-items:center; min-width: 280px}
+  .logos{display:flex; gap:12px; align-items:center}
+  .logoMain{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 10px;
+    border:1px solid rgba(54,102,174,.18);
+    border-radius:14px;
+    background: rgba(54,102,174,.06);
+  }
+  .logoMain img{height:44px; width:auto; display:block}
+  .logoArs{
+    padding:8px 10px;
+    border:1px solid rgba(11,18,32,.10);
+    border-radius:14px;
+    background: rgba(255,255,255,.9);
+  }
+  .logoArs img{height:44px; width:auto; display:block}
+
+  .title h1{margin:0; font-size:1.15rem; letter-spacing:.2px; color:var(--brand-2)}
+  .title p{margin:.25rem 0 0; color:var(--muted); font-size:.95rem; line-height:1.25rem}
+
+  .pillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .pill{
+    display:inline-flex; gap:8px; align-items:center;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.9);
+    padding:9px 12px;
+    border-radius:999px;
+    font-size:.9rem;
+    color:var(--muted);
+  }
+  .pill strong{color:var(--ink)}
+
+  .btn{
+    display:inline-flex; gap:8px; align-items:center; justify-content:center;
+    border:1px solid rgba(54,102,174,.30);
+    background: linear-gradient(180deg, rgba(54,102,174,.12), rgba(54,102,174,.06));
+    color:var(--brand-2);
+    padding:10px 12px;
+    border-radius:12px;
+    font-weight:800;
+    cursor:pointer;
+    user-select:none;
+    transition: transform .08s ease, filter .15s ease;
+    text-decoration:none;
+  }
+  .btn:hover{filter:brightness(1.02)}
+  .btn:active{transform: translateY(1px)}
+
+  .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:14px; margin-top:14px}
+  @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+  .panel{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding:14px;
+  }
+
+  .kpis{display:grid; grid-template-columns: repeat(4, 1fr); gap:12px}
+  @media (max-width: 980px){ .kpis{grid-template-columns: repeat(2, 1fr)} }
+
+  .kpi{
+    border:1px solid rgba(54,102,174,.14);
+    border-radius: 14px;
+    padding:12px;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(120px 90px at 100% 0%, rgba(54,102,174,.16), transparent 60%),
+      #fff;
+  }
+  .kpi .label{color:var(--muted); font-size:.85rem}
+  .kpi .value{font-size:1.35rem; font-weight:900; margin-top:6px; color:var(--brand-2)}
+  .kpi .hint{color:var(--muted); font-size:.82rem; margin-top:2px}
+
+  .filters{display:flex; gap:10px; flex-wrap:wrap; align-items:end}
+  .field{display:flex; flex-direction:column; gap:6px; min-width: 180px}
+  .field label{font-size:.83rem; color:var(--muted)}
+  .input, select{
+    border:1px solid rgba(11,18,32,.16);
+    background:#fff;
+    border-radius:12px;
+    padding:10px 12px;
+    outline:none;
+    font-size:.95rem;
+  }
+  .input:focus, select:focus{border-color: rgba(54,102,174,.55); box-shadow: 0 0 0 4px rgba(54,102,174,.12)}
+
+  .toggle{
+    display:flex; gap:10px; align-items:center;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid rgba(11,18,32,.16);
+    background: #fff;
+  }
+  .toggle input{width:18px; height:18px}
+  .toggle span{color:var(--muted); font-size:.95rem}
+  .toggle b{color:var(--brand-2)}
+
+  .cards{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:12px}
+  @media (max-width: 980px){ .cards{grid-template-columns:1fr} }
+
+  .card{
+    background:#fff;
+    border:1px solid rgba(11,18,32,.12);
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(11,18,32,.06);
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    cursor:pointer;
+    transition: transform .10s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform: translateY(-1px); box-shadow: 0 14px 28px rgba(11,18,32,.08)}
+  .card:active{transform: translateY(0px)}
+
+  .card .row{display:flex; align-items:start; justify-content:space-between; gap:10px}
+  .card h3{margin:0; font-size:1rem; line-height:1.25rem; color:var(--ink)}
+  .meta{color:var(--muted); font-size:.88rem}
+
+  .badges{display:flex; flex-wrap:wrap; gap:8px}
+  .badge{
+    font-size:.78rem;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid rgba(11,18,32,.12);
+    background: rgba(11,18,32,.03);
+    color:var(--muted);
+  }
+  .badge.blue{border-color: rgba(54,102,174,.28); background: rgba(54,102,174,.10); color: var(--brand-2)}
+  .badge.ok{border-color: rgba(47,191,113,.25); background: var(--ok); color: #0f5132}
+  .badge.warn{border-color: rgba(246,183,60,.32); background: var(--warn); color: #7a4a00}
+  .badge.bad{border-color: rgba(239,71,111,.30); background: var(--bad); color: #7b1430}
+
+  .mini{
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap:10px;
+    padding-top:8px;
+    border-top:1px dashed rgba(11,18,32,.18);
+  }
+  .progress{height:10px; border-radius:999px; background: rgba(11,18,32,.08); overflow:hidden}
+  .bar{height:100%; width:0% ; background: linear-gradient(90deg, rgba(54,102,174,.92), rgba(54,102,174,.40)); border-radius:999px}
+
+  .seg{
+    display:inline-flex;
+    border:1px solid rgba(11,18,32,.12);
+    background: rgba(11,18,32,.03);
+    border-radius: 14px;
+    overflow:hidden;
+  }
+  .seg button{
+    border:0;
+    background:transparent;
+    padding:10px 12px;
+    cursor:pointer;
+    font-weight:900;
+    color: var(--muted);
+  }
+  .seg button.active{
+    background: rgba(54,102,174,.14);
+    color: var(--brand-2);
+  }
+  .legendDot{width:10px;height:10px;border-radius:999px;display:inline-block;margin-right:8px; border:1px solid rgba(11,18,32,.15)}
+
+  .note{color:var(--muted); font-size:.84rem; margin-top:10px; line-height:1.25rem}
+  footer{margin-top:14px; color:var(--muted); font-size:.85rem; text-align:center}
+
+  .banner{
+    margin-top:10px;
+    border:1px solid rgba(246,183,60,.35);
+    background: rgba(246,183,60,.12);
+    border-radius:14px;
+    padding:10px 12px;
+    color:#7a4a00;
+    font-size:.9rem;
+    display:none;
+  }
+
+  /* Modal */
+  .backdrop{
+    position:fixed; inset:0;
+    background: rgba(2,6,23,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:50;
+  }
+  .modal{
+    width:min(980px, 100%);
+    background:#fff;
+    border:1px solid rgba(255,255,255,.30);
+    border-radius: 22px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    overflow:hidden;
+  }
+  .modalHead{
+    display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+    padding:14px 16px;
+    border-bottom:1px solid rgba(11,18,32,.10);
+    background:
+      linear-gradient(90deg, rgba(54,102,174,.16), rgba(54,102,174,.06));
+  }
+  .modalHead h2{margin:0; font-size:1.1rem; color:var(--brand-2)}
+  .modalHead p{margin:.2rem 0 0; color:var(--muted)}
+  .close{
+    border:1px solid rgba(11,18,32,.16);
+    background:#fff;
+    border-radius:12px;
+    padding:10px 12px;
+    cursor:pointer;
+    font-weight:900;
+  }
+  .modalBody{padding:14px 16px}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width: 900px){ .cols{grid-template-columns:1fr} }
+  .box{
+    border:1px solid rgba(11,18,32,.12);
+    background: #fff;
+    border-radius: 18px;
+    padding:12px;
+  }
+  .box h4{margin:0 0 8px; font-size:.95rem; color:var(--brand-2)}
+  .kv{display:grid; grid-template-columns: 180px 1fr; gap:8px 10px; font-size:.93rem}
+  .kv .k{color:var(--muted)}
+  .kv .v{color:var(--ink); word-break:break-word}
+  .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+
+  @media print {
+    body{background:#fff}
+    .btn, .seg, .toggle, .filters, #exportBtn, .banner {display:none !important}
+    header, .panel, .card, .modal, .box {box-shadow:none !important}
+    .wrap{padding:0}
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="toprow">
+      <div class="brand">
+        <div class="logos">
+          <a class="logoMain" href="https://www.dacvarest.fr/" target="_blank" rel="noopener" title="Ouvrir le site du DAC Var Est">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="Logo DAC Var Est" />
+          </a>
+          <a class="logoArs" href="https://www.dacvarest.fr/" target="_blank" rel="noopener" title="ARS / République Française">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/ars_r_publiquefrancaise.png" alt="Logo ARS / République Française" />
+          </a>
+        </div>
+
+        <div class="title">
+          <h1>Places disponibles EHPAD — Var Est</h1>
+          <p>Page alimentée automatiquement par une feuille Google Sheets publiée (CSV).</p>
+        </div>
+      </div>
+
+      <div class="pillrow">
+        <div class="pill"><strong>Mise à jour</strong> <span id="lastUpdateVal">—</span></div>
+        <div class="pill"><strong id="resultCount">0</strong> <span>établissements</span></div>
+        <a class="btn" href="#" id="exportBtn" title="Télécharger l'extraction filtrée">Exporter (CSV)</a>
+      </div>
+    </div>
+
+    <div class="banner" id="cfgBanner">
+      ⚠️ Il manque l’URL Google Sheets publiée. Ouvre le fichier HTML et remplace <b>SHEET_CSV_URL</b> (voir README du XLSX).
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="kpis">
+        <div class="kpi">
+          <div class="label">Total établissements</div>
+          <div class="value" id="kpiTotal">—</div>
+          <div class="hint">dans la feuille</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Places disponibles</div>
+          <div class="value" id="kpiPlaces">—</div>
+          <div class="hint">somme (filtre inclus)</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Taux moyen</div>
+          <div class="value" id="kpiTaux">—</div>
+          <div class="hint">pondéré (capacité)</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Communes couvertes</div>
+          <div class="value" id="kpiCommunes">—</div>
+          <div class="hint">avec au moins 1 EHPAD</div>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="filters">
+        <div class="field" style="flex:1; min-width:240px">
+          <label>Recherche</label>
+          <input class="input" id="q" placeholder="Nom EHPAD, commune, téléphone, mail…" />
+        </div>
+
+        <div class="field">
+          <label>Commune</label>
+          <select id="commune"></select>
+        </div>
+
+        <div class="field">
+          <label>Zone CPTS</label>
+          <select id="cpts"></select>
+        </div>
+
+        <div class="field">
+          <label>Statut</label>
+          <select id="statut">
+            <option value="">Tous</option>
+            <option value="PUBLIC">Public</option>
+            <option value="PRIVE">Privé</option>
+          </select>
+        </div>
+
+        <label class="toggle">
+          <input type="checkbox" id="onlyAvail" />
+          <span>Uniquement avec place(s)</span>
+        </label>
+
+        <label class="toggle"><input type="checkbox" id="fAS" /><span><b>AS</b></span></label>
+        <label class="toggle"><input type="checkbox" id="fSF" /><span><b>Secteur fermé</b></span></label>
+        <label class="toggle"><input type="checkbox" id="fHT" /><span><b>HT</b></span></label>
+        <label class="toggle"><input type="checkbox" id="fHTU" /><span><b>HTU</b></span></label>
+        <label class="toggle"><input type="checkbox" id="fAJ" /><span><b>Accueil de jour</b></span></label>
+
+        <label class="toggle" title="Trie les résultats">
+          <span class="tiny" style="margin-right:8px">Tri</span>
+          <select id="sort" style="border:none; padding:0; background:transparent; font-weight:900; color:var(--brand-2)">
+            <option value="places_desc">Places (desc)</option>
+            <option value="places_asc">Places (asc)</option>
+            <option value="taux_asc">Taux (asc)</option>
+            <option value="taux_desc">Taux (desc)</option>
+            <option value="name_asc">Nom (A→Z)</option>
+          </select>
+        </label>
+
+        <button class="btn" id="resetBtn" type="button">Réinitialiser</button>
+      </div>
+
+      <div id="cards" class="cards" aria-live="polite"></div>
+      <div id="empty" class="note" style="display:none">
+        Aucun résultat avec ces filtres.
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px">
+        <div>
+          <div style="font-weight:900; font-size:1rem; color:var(--brand-2)">Focus disponibilité</div>
+          <div class="tiny">par commune / zone CPTS</div>
+        </div>
+
+        <div class="seg" role="tablist" aria-label="Focus">
+          <button id="tabComm" type="button" class="active">Communes</button>
+          <button id="tabCpts" type="button">Zones CPTS</button>
+          <button id="tabEhp" type="button">EHPAD</button>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div id="chartWrap"></div>
+
+      <div class="note">
+        <strong>Note :</strong> les disponibilités évoluent vite : pour confirmer, contacter directement l’établissement.
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    DAC Var Est — Page connectée à Google Sheets
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-label="Détail établissement">
+  <div class="modal">
+    <div class="modalHead">
+      <div>
+        <h2 id="mTitle">—</h2>
+        <p id="mSub">—</p>
+      </div>
+      <button class="close" id="mClose" type="button">Fermer</button>
+    </div>
+    <div class="modalBody">
+      <div class="cols">
+        <div class="box">
+          <h4>Disponibilités</h4>
+          <div class="kv">
+            <div class="k">Date MAJ</div><div class="v" id="mMaj">—</div>
+            <div class="k">Places dispo</div><div class="v" id="mPlaces">—</div>
+            <div class="k">Capacité</div><div class="v" id="mCap">—</div>
+            <div class="k">Taux</div><div class="v" id="mTaux">—</div>
+            <div class="k">Détail</div><div class="v" id="mDetail">—</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <h4>Offre / dispositifs</h4>
+          <div class="kv">
+            <div class="k">Zone CPTS</div><div class="v" id="mCpts">—</div>
+            <div class="k">AS + capacité</div><div class="v" id="mAS">—</div>
+            <div class="k">Secteur fermé</div><div class="v" id="mSF">—</div>
+            <div class="k">HT + capacité</div><div class="v" id="mHT">—</div>
+            <div class="k">HTU</div><div class="v" id="mHTU">—</div>
+            <div class="k">Accueil de jour</div><div class="v" id="mAJ">—</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h4>Contacts</h4>
+          <div class="kv">
+            <div class="k">Téléphone</div><div class="v" id="mTel">—</div>
+            <div class="k">Accueil</div><div class="v" id="mMailA">—</div>
+            <div class="k">Direction</div><div class="v" id="mMailD">—</div>
+            <div class="k">Médecin</div><div class="v" id="mMailM">—</div>
+            <div class="k">IDEC/Cadre</div><div class="v" id="mMailI">—</div>
+          </div>
+
+          <div class="actions">
+            <a class="btn" id="callBtn" href="#">Appeler</a>
+            <a class="btn" id="mailBtn" href="#">Écrire</a>
+            <button class="btn" id="copyBtn" type="button">Copier les infos</button>
+          </div>
+
+          <div class="note" id="mComment"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /***********************
+   * 1) CONFIG
+   ***********************/
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAbPB6xHPl_-q1pFLSEh4Es02xpvDSE_wZDUQDY6as5HosSgInEn296zPA8nN9B3Z-GawD5wqFvFaf/pub?gid=1329612563&single=true&output=csv";
+
+  /***********************
+   * 2) CPTS ZONES (identique à votre zonage)
+   ***********************/
+  const CPTS_ZONES = {
+    dpv:{label:"CPTS Dracénie Provence Verdon",color:"rgba(129, 198, 226, .55)",communes:["AIGUINES","AMPUS","ARTIGNOSC","AUPS","BARGEME","BARGEMON","BAUDINARD","BAUDUEN","CALLAS","CHATEAUDOUBLE","CLAVIERS","COMPS SUR ARTUBY","DRAGUIGNAN","FIGANIERES","FLAYOSC","LA BASTIDE","LA MOTTE","LA ROQUE ESCLAPON","LORGUES","MOISSAC BELLEVUE","MONTFERRAT","REGUSSE","SALERNES","SALLES SUR VERDON","SILLANS LA CASCADE","TARADEAU","TOURTOUR","TRANS EN PROVENCE","VERIGNON","VIDAUBAN","VILLECROZE","LE MUY","LES ARCS","SAINT ANTONIN","BAUDINARD SUR VERDON"]},
+    cdv:{label:"CPTS Coeur du Var",color:"rgba(246, 222, 183, .65)",communes:["LE LUC EN PROVENCE","LE THORONET","LE CANNET DES MAURES","LES MAYONS"]},
+    gst:{label:"CPTS Golf St Tropez",color:"rgba(176, 245, 193, .60)",communes:["SAINTE MAXIME","PLAN DE LA TOUR","LA GARDE FREINET","GRIMAUD (PORT)","COGOLIN","GASSIN","SAINT TROPEZ","RAMATUELLE","LA CROIX VALMER","CAVALAIRE SUR MER","LA MOLE","RAYOL CANADEL SUR MER"]},
+    vem:{label:"CPTS Var Esterel Méditerranée",color:"rgba(241, 158, 133, .55)",communes:["FREJUS","SAINT RAPHAEL","PUGET SUR ARGENS","ROQUEBRUNE SUR ARGENS","LES ADRETS DE L'ESTEREL"]},
+    pdf:{label:"CPTS Pays de Fayence",color:"rgba(251, 243, 192, .70)",communes:["BAGNOLS EN FORET","CALLIAN","FAYENCE","MONS","MONTAUROUX","SAINT PAUL EN FORET","SEILLANS","TANNERON","TOURRETTES"]},
+    zb:{label:"Zone blanche CPTS",color:"rgba(160,160,160,.65)",communes:["TRIGANCE","LE BOURGUET","BRENON","CHÂTEAUVIEUX","LA MARTRE"]}
+  };
+
+  const el = (id)=>document.getElementById(id);
+
+  const state = {
+    q: "",
+    commune: "",
+    cpts: "",
+    statut: "",
+    onlyAvail: false,
+    fAS: false,
+    fSF: false,
+    fHT: false,
+    fHTU: false,
+    fAJ: false,
+    sort: "places_desc",
+    focusMode: "communes"
+  };
+
+  let DATA2 = [];
+
+  function escapeHtml(str){
+    return (str ?? "").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function normalize(s){
+    return (s ?? "").toString().toLowerCase()
+      .normalize("NFD").replace(/\p{Diacritic}/gu,"")
+      .replace(/[’']/g,"'")
+      .replace(/\([^)]*\)/g,"")
+      .replace(/\s+/g," ").trim();
+  }
+  function normUp(s){ return normalize(s).toUpperCase(); }
+
+  const CPTS_INDEX = Object.entries(CPTS_ZONES).map(([key,z])=>{
+    const norms = (z.communes||[]).map(c=>normUp(c));
+    return { key, label:z.label, color:z.color, norms };
+  });
+
+  function resolveCpts(commune){
+    const c = normUp(commune);
+    if (!c) return { key:"", label:"—", color:"rgba(160,160,160,.40)" };
+    for (const z of CPTS_INDEX){
+      if (z.norms.includes(c)) return { key:z.key, label:z.label, color:z.color };
+      for (const n of z.norms){
+        if (n && (n === c || n.startsWith(c) || c.startsWith(n))) return { key:z.key, label:z.label, color:z.color };
+      }
+    }
+    const zb = CPTS_ZONES.zb;
+    return { key:"zb", label:zb.label, color:zb.color };
+  }
+
+  function toNum(v){
+    const n = Number((v ?? "").toString().replace(",", "."));
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function pct(n) {
+    if (!Number.isFinite(n)) return "—";
+    return (Math.round(n*10)/10).toString().replace(".", ",") + "%";
+  }
+
+  function isOui(v){ return normalize(v).startsWith("oui"); }
+
+  /***********************
+   * 3) CSV loader
+   ***********************/
+  function parseCsv(text){
+    // CSV Google Sheets: separator might be comma, semicolon, or tab; we detect.
+    const firstLine = text.split(/\r?\n/).find(l=>l.trim().length>0) || "";
+    const sep = (firstLine.includes(";")) ? ";" : (firstLine.includes("\t") ? "\t" : ",");
+    const rows = [];
+    let cur = [];
+    let val = "";
+    let inQ = false;
+
+    // simple CSV parser with quotes
+    for (let i=0;i<text.length;i++) {
+      const ch = text[i];
+      const next = text[i+1];
+
+      if (inQ) {
+        if (ch === '"' && next === '"') { val += '"'; i++; continue; }
+        if (ch === '"') { inQ = false; continue; }
+        val += ch; continue;
+      } else {
+        if (ch === '"') { inQ = true; continue; }
+        if (ch === "\r") continue;
+        if (ch === "\n") { cur.push(val); rows.push(cur); cur=[]; val=""; continue; }
+        if (ch === sep) { cur.push(val); val=""; continue; }
+        val += ch;
+      }
+    }
+    cur.push(val); rows.push(cur);
+
+    // remove empty trailing lines
+    const cleaned = rows.filter(r=>r.some(x=> (x||"").trim() !== ""));
+    if (!cleaned.length) return [];
+
+    const header = cleaned[0].map(h=>h.trim());
+    const out = [];
+    for (let i=1;i<cleaned.length;i++) {
+      const r = cleaned[i];
+      const obj = {};
+      for (let c=0;c<header.length;c++) obj[header[c]] = (r[c] ?? "").trim();
+      out.push(obj);
+    }
+    return out;
+  }
+
+  async function loadFromSheet(){
+    if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("PASTE_YOUR_PUBLISHED_CSV_URL_HERE")) {
+      el("cfgBanner").style.display = "block";
+      return;
+    }
+    const res = await fetch(SHEET_CSV_URL, {cache:"no-store"});
+    if (!res.ok) throw new Error("Erreur de chargement Sheets (CSV).");
+    const text = await res.text();
+    const rows = parseCsv(text);
+
+    // map & normalize expected fields
+    const required = [
+      "Date_maj","Commune","EHPAD","Statut","Telephone",
+      "Capacite_total","Places_disponibles","Taux_remplissage",
+      "Disponibilites_details","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour",
+      "Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec"
+    ];
+
+    // If some headers mismatch, we still carry what exists.
+    const normalized = rows.map(r=>{
+      const obj = {};
+      for (const k of required) obj[k] = (r[k] ?? "");
+      // allow casing variations by fallback lookup
+      if (!obj.Commune) obj.Commune = r.COMMUNE ?? r.commune ?? "";
+      if (!obj.EHPAD) obj.EHPAD = r["NOM EHPAD"] ?? r.nom ?? "";
+      // CPTS
+      const z = resolveCpts(obj.Commune);
+      obj.CPTS_key = z.key;
+      obj.CPTS_label = z.label;
+      obj.CPTS_color = z.color;
+      return obj;
+    });
+
+    DATA2 = normalized;
+
+    // last update = max Date_maj if parseable (dd/mm/yyyy)
+    const dates = DATA2.map(r=>r.Date_maj).filter(Boolean);
+    const maxDate = dates.map(s=> {
+      const m = s.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+      if (!m) return null;
+      return new Date(Number(m[3]), Number(m[2])-1, Number(m[1]));
+    }).filter(Boolean).sort((a,b)=>b-a)[0] || null;
+    el("lastUpdateVal").textContent = maxDate ? maxDate.toLocaleDateString("fr-FR") : "—";
+
+    buildCommuneOptions();
+    buildCptsOptions();
+    renderCards();
+  }
+
+  /***********************
+   * 4) UI helpers
+   ***********************/
+  function buildCommuneOptions(){
+    const communes = Array.from(new Set(DATA2.map(d=>d.Commune).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"fr"));
+    el("commune").innerHTML = '<option value="">Toutes</option>' + communes.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  }
+
+  function buildCptsOptions(){
+    const zones = Array.from(new Map(DATA2.map(d=>[d.CPTS_key, {key:d.CPTS_key, label:d.CPTS_label}])).values()).filter(z=>z.key);
+    zones.sort((a,b)=> (a.label||"").localeCompare(b.label||"","fr"));
+    el("cpts").innerHTML = '<option value="">Toutes</option>' + zones.map(z=>`<option value="${escapeHtml(z.key)}">${escapeHtml(z.label)}</option>`).join("");
+  }
+
+  function filtered(){
+    const q = normalize(state.q);
+    let out = DATA2.filter(r=>{
+      if (state.commune && r.Commune !== state.commune) return false;
+      if (state.cpts && r.CPTS_key !== state.cpts) return false;
+      if (state.statut && (r.Statut||"").toUpperCase() !== state.statut) return false;
+
+      const places = toNum(r.Places_disponibles);
+      if (state.onlyAvail && places <= 0) return false;
+
+      if (state.fAS && !isOui(r.Aide_sociale_capacite)) return false;
+      if (state.fSF && !isOui(r.Secteur_ferme_capacite)) return false;
+      if (state.fHT && !isOui(r.HT_capacite)) return false;
+      if (state.fHTU && !isOui(r.HTU)) return false;
+      if (state.fAJ && !isOui(r.Accueil_jour)) return false;
+
+      if (!q) return true;
+      const hay = normalize([
+        r.Date_maj, r.Commune, r.EHPAD, r.Telephone, r.Disponibilites_details,
+        r.CPTS_label,
+        r.Aide_sociale_capacite, r.Secteur_ferme_capacite, r.HT_capacite, r.HTU, r.Accueil_jour,
+        r.Mail_accueil, r.Mail_direction, r.Mail_medecin, r.Mail_idec
+      ].join(" | "));
+      return hay.includes(q);
+    });
+
+    const sorter = {
+      places_desc: (a,b)=>toNum(b.Places_disponibles)-toNum(a.Places_disponibles),
+      places_asc: (a,b)=>toNum(a.Places_disponibles)-toNum(b.Places_disponibles),
+      taux_asc: (a,b)=>toNum(a.Taux_remplissage)-toNum(b.Taux_remplissage),
+      taux_desc: (a,b)=>toNum(b.Taux_remplissage)-toNum(a.Taux_remplissage),
+      name_asc: (a,b)=> (a.EHPAD||"").localeCompare((b.EHPAD||""),"fr")
+    }[state.sort] || ((a,b)=>0);
+
+    out.sort(sorter);
+    return out;
+  }
+
+  function badgeForPlaces(places){
+    if (places <= 0) return {cls:"badge bad", label:"Complet"};
+    if (places === 1) return {cls:"badge warn", label:"1 place"};
+    if (places <= 3) return {cls:"badge ok", label:`${places} places`};
+    return {cls:"badge ok", label:`${places} places`};
+  }
+
+  function featureBadges(r){
+    const b = [];
+    if (isOui(r.Aide_sociale_capacite)) b.push('<span class="badge blue">AS</span>');
+    if (isOui(r.Secteur_ferme_capacite)) b.push('<span class="badge blue">Secteur fermé</span>');
+    if (isOui(r.HT_capacite)) b.push('<span class="badge blue">HT</span>');
+    if (isOui(r.HTU)) b.push('<span class="badge blue">HTU</span>');
+    if (isOui(r.Accueil_jour)) b.push('<span class="badge blue">Accueil jour</span>');
+    return b.join("");
+  }
+
+  function cptsBadge(r){
+    if (!r.CPTS_label) return "";
+    const dot = `<span class="legendDot" style="background:${r.CPTS_color}"></span>`;
+    return `<span class="badge">${dot}${escapeHtml(r.CPTS_label)}</span>`;
+  }
+
+  function renderCards(){
+    const out = filtered();
+    el("resultCount").textContent = out.length.toString();
+    el("empty").style.display = out.length ? "none" : "block";
+
+    el("kpiTotal").textContent = out.length.toString();
+    el("kpiPlaces").textContent = out.reduce((s,r)=>s+toNum(r.Places_disponibles),0).toString();
+
+    const capSum = out.reduce((s,r)=>s+toNum(r.Capacite_total),0);
+    const weighted = out.reduce((s,r)=>s+toNum(r.Taux_remplissage)*toNum(r.Capacite_total),0);
+    el("kpiTaux").textContent = capSum ? pct(weighted/capSum) : "—";
+    el("kpiCommunes").textContent = (new Set(out.map(r=>r.Commune).filter(Boolean))).size.toString();
+
+    const cards = out.map((r, idx)=>{
+      const places = toNum(r.Places_disponibles);
+      const cap = toNum(r.Capacite_total);
+      const taux = toNum(r.Taux_remplissage);
+      const b = badgeForPlaces(places);
+      const p = Math.max(0, Math.min(100, taux));
+
+      const statusBadge = (r.Statut||"").toUpperCase()==="PUBLIC"
+        ? '<span class="badge blue">Public</span>'
+        : (r.Statut ? '<span class="badge blue">Privé</span>' : "");
+
+      const tel = (r.Telephone||"").toString().trim();
+      const telLine = tel ? `<span class="badge">${escapeHtml(tel)}</span>` : "";
+
+      const feats = featureBadges(r);
+      const cpts = cptsBadge(r);
+
+      return `
+        <article class="card" data-idx="${idx}">
+          <div class="row">
+            <div>
+              <h3>${escapeHtml(r.EHPAD||"—")}</h3>
+              <div class="meta">${escapeHtml(r.Commune||"")} • MAJ ${escapeHtml(r.Date_maj||"—")}</div>
+            </div>
+            <div class="badges" style="justify-content:flex-end">
+              <span class="${b.cls}">${escapeHtml(b.label)}</span>
+              ${statusBadge}
+            </div>
+          </div>
+
+          <div class="badges">
+            <span class="badge">${escapeHtml("Capacité : " + (cap||"—"))}</span>
+            <span class="badge">${escapeHtml("Taux : " + (Number.isFinite(taux)? pct(taux) : "—"))}</span>
+            ${telLine}
+          </div>
+
+          <div class="badges">${cpts}</div>
+          <div class="badges">${feats || '<span class="badge">—</span>'}</div>
+
+          <div class="mini">
+            <div>
+              <div class="tiny">Remplissage</div>
+              <div class="progress" aria-hidden="true"><div class="bar" style="width:${p.toFixed(1)}%"></div></div>
+            </div>
+            <div class="tiny" style="text-align:right">${Number.isFinite(taux)? pct(taux) : "—"}</div>
+          </div>
+        </article>
+      `;
+    });
+
+    const container = el("cards");
+    container.innerHTML = cards.join("");
+
+    container.querySelectorAll(".card").forEach(card=>{
+      card.addEventListener("click", ()=>{
+        const idx = Number(card.getAttribute("data-idx"));
+        const rec = filtered()[idx];
+        if (rec) openModal(rec);
+      });
+    });
+
+    renderFocus(out);
+  }
+
+  function renderFocus(records){
+    const wrap = el("chartWrap");
+    const mode = state.focusMode;
+
+    if (mode === "communes") {
+      const map = new Map();
+      for (const r of records) {
+        const c = r.Commune || "—";
+        map.set(c, (map.get(c)||0) + toNum(r.Places_disponibles));
+      }
+      const rows = Array.from(map.entries()).filter(([k])=>k!=="—").sort((a,b)=>b[1]-a[1]).slice(0,10);
+      if (!rows.length) { wrap.innerHTML = '<div class="note">Pas assez de données.</div>'; return; }
+      const max = Math.max(...rows.map(r=>r[1]), 1);
+      wrap.innerHTML = rows.map(([name,val])=> {
+        const w = (val/max)*100;
+        return `
+          <div style="margin:10px 0">
+            <div style="display:flex; justify-content:space-between; gap:10px">
+              <div style="font-weight:900">${escapeHtml(name)}</div>
+              <div class="tiny">${val} place(s)</div>
+            </div>
+            <div class="progress"><div class="bar" style="width:${w.toFixed(1)}%"></div></div>
+          </div>`;
+      }).join("");
+      return;
+    }
+
+    if (mode === "cpts") {
+      const map = new Map();
+      for (const r of records) {
+        const key = r.CPTS_key || "zb";
+        if (!map.has(key)) map.set(key, {label:r.CPTS_label||"Zone blanche CPTS", color:r.CPTS_color||"rgba(160,160,160,.65)", val:0});
+        map.get(key).val += toNum(r.Places_disponibles);
+      }
+      const rows = Array.from(map.entries()).map(([key,obj])=>({key,...obj})).sort((a,b)=>b.val-a.val);
+      const max = Math.max(...rows.map(r=>r.val), 1);
+      wrap.innerHTML = rows.map(r=> {
+        const w=(r.val/max)*100;
+        const dot = `<span class="legendDot" style="background:${r.color}"></span>`;
+        return `
+          <div style="margin:12px 0">
+            <div style="display:flex; justify-content:space-between; gap:10px">
+              <div style="font-weight:900">${dot}${escapeHtml(r.label)}</div>
+              <div class="tiny">${r.val} place(s)</div>
+            </div>
+            <div class="progress"><div class="bar" style="width:${w.toFixed(1)}%; background:${r.color}"></div></div>
+          </div>`;
+      }).join("");
+      return;
+    }
+
+    // EHPAD top
+    const rows = [...records].sort((a,b)=>toNum(b.Places_disponibles)-toNum(a.Places_disponibles)).slice(0,10);
+    const max = Math.max(...rows.map(r=>toNum(r.Places_disponibles)), 1);
+    wrap.innerHTML = rows.map(r=> {
+      const val=toNum(r.Places_disponibles);
+      const w=(val/max)*100;
+      return `
+        <div style="margin:10px 0">
+          <div style="display:flex; justify-content:space-between; gap:10px">
+            <div style="font-weight:900">${escapeHtml(r.EHPAD)}</div>
+            <div class="tiny">${val} place(s)</div>
+          </div>
+          <div class="progress"><div class="bar" style="width:${w.toFixed(1)}%"></div></div>
+        </div>`;
+    }).join("");
+  }
+
+  function openModal(r){
+    el("mTitle").textContent = r.EHPAD || "—";
+    el("mSub").textContent = (r.Commune ? r.Commune + " • " : "") + ((r.Statut||"").toUpperCase()==="PUBLIC" ? "Public" : (r.Statut ? "Privé" : "—"));
+
+    const places = toNum(r.Places_disponibles);
+    const cap = toNum(r.Capacite_total);
+    const taux = Number((r.Taux_remplissage||"").toString().replace(",", "."));
+
+    el("mMaj").textContent = r.Date_maj || "—";
+    el("mPlaces").textContent = Number.isFinite(places) ? places.toString() : "—";
+    el("mCap").textContent = Number.isFinite(cap) ? cap.toString() : "—";
+    el("mTaux").textContent = Number.isFinite(taux) ? pct(taux) : "—";
+    el("mDetail").textContent = (r.Disponibilites_details || "—").toString();
+
+    const showRaw = (v)=> {
+      const s = (v ?? "").toString().trim();
+      return s ? s : "—";
+    };
+    el("mCpts").textContent = r.CPTS_label || "—";
+    el("mAS").textContent = showRaw(r.Aide_sociale_capacite);
+    el("mSF").textContent = showRaw(r.Secteur_ferme_capacite);
+    el("mHT").textContent = showRaw(r.HT_capacite);
+    el("mHTU").textContent = showRaw(r.HTU);
+    el("mAJ").textContent = showRaw(r.Accueil_jour);
+
+    const tel = (r.Telephone||"").toString().trim();
+    el("mTel").innerHTML = tel ? `<a href="tel:${tel.replace(/\s+/g,'').replace(/\./g,'')}">${escapeHtml(tel)}</a>` : "—";
+
+    function mailCell(mail){
+      const m = (mail||"").toString().trim();
+      if (!m) return "—";
+      const found = m.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+      if (found) {
+        return `<a href="mailto:${found[0]}">${escapeHtml(found[0])}</a><div class="tiny">${escapeHtml(m.replace(found[0],'').replace(/\s+/g,' ').trim())}</div>`;
+      }
+      return `<span>${escapeHtml(m)}</span>`;
+    }
+
+    el("mMailA").innerHTML = mailCell(r.Mail_accueil);
+    el("mMailD").innerHTML = mailCell(r.Mail_direction);
+    el("mMailM").innerHTML = mailCell(r.Mail_medecin);
+    el("mMailI").innerHTML = mailCell(r.Mail_idec);
+
+    const com = (r.Commentaires||"").toString().trim();
+    el("mComment").style.display = com ? "block" : "none";
+    el("mComment").textContent = com;
+
+    const telHref = tel ? "tel:" + tel.replace(/\s+/g,'').replace(/\./g,'') : "#";
+    el("callBtn").setAttribute("href", telHref);
+    el("callBtn").style.pointerEvents = tel ? "auto" : "none";
+    el("callBtn").style.opacity = tel ? "1" : ".55";
+
+    const emails = [r.Mail_accueil, r.Mail_direction, r.Mail_idec, r.Mail_medecin]
+      .map(v=>(v||"").toString())
+      .map(v=>{
+        const f = v.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+        return f ? f[0] : "";
+      })
+      .filter(Boolean);
+
+    const mailHref = emails.length ? ("mailto:" + emails[0]) : "#";
+    el("mailBtn").setAttribute("href", mailHref);
+    el("mailBtn").style.pointerEvents = emails.length ? "auto" : "none";
+    el("mailBtn").style.opacity = emails.length ? "1" : ".55";
+
+    el("copyBtn").onclick = async ()=>{
+      const txt = [
+        `EHPAD : ${r.EHPAD}`,
+        `Commune : ${r.Commune}`,
+        `Zone CPTS : ${r.CPTS_label}`,
+        `MAJ : ${r.Date_maj}`,
+        `Statut : ${r.Statut}`,
+        `Places dispo : ${places} / Capacité : ${cap}`,
+        `Taux : ${Number.isFinite(taux)? pct(taux) : "—"}`,
+        `AS : ${showRaw(r.Aide_sociale_capacite)}`,
+        `Secteur fermé : ${showRaw(r.Secteur_ferme_capacite)}`,
+        `HT : ${showRaw(r.HT_capacite)}`,
+        `HTU : ${showRaw(r.HTU)}`,
+        `Accueil de jour : ${showRaw(r.Accueil_jour)}`,
+        `Téléphone : ${tel || "—"}`,
+        `Détail : ${(r.Disponibilites_details||"").toString().replace(/\s+/g," ").trim()}`,
+      ].join("\n");
+      try {
+        await navigator.clipboard.writeText(txt);
+        el("copyBtn").textContent = "Copié ✅";
+        setTimeout(()=>el("copyBtn").textContent="Copier les infos", 1200);
+      } catch(e) {
+        alert("Copie impossible sur ce navigateur.");
+      }
+    };
+
+    el("backdrop").style.display = "flex";
+  }
+
+  function closeModal(){ el("backdrop").style.display = "none"; }
+
+  function exportCsv(){
+    const rows = filtered();
+    const headers = [
+      "Date_maj","Commune","CPTS_label","Statut","EHPAD","Telephone",
+      "Capacite_total","Places_disponibles","Taux_remplissage",
+      "Disponibilites_details","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour",
+      "Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec"
+    ];
+    const esc = (v)=>('"' + (v ?? "").toString().replaceAll('"','""').replace(/\r?\n/g," ") + '"');
+    const csv = [headers.join(";")].concat(rows.map(r=>headers.map(h=>esc(r[h]??"")).join(";"))).join("\n");
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "places_disponibles_ehpad_var_est.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function setActiveTab(mode){
+    state.focusMode = mode;
+    el("tabComm").classList.toggle("active", mode==="communes");
+    el("tabCpts").classList.toggle("active", mode==="cpts");
+    el("tabEhp").classList.toggle("active", mode==="ehpads");
+    renderCards();
+  }
+
+  function init(){
+    el("q").addEventListener("input", (e)=>{ state.q = e.target.value; renderCards(); });
+    el("commune").addEventListener("change", (e)=>{ state.commune = e.target.value; renderCards(); });
+    el("cpts").addEventListener("change", (e)=>{ state.cpts = e.target.value; renderCards(); });
+    el("statut").addEventListener("change", (e)=>{ state.statut = e.target.value; renderCards(); });
+
+    el("onlyAvail").addEventListener("change", (e)=>{ state.onlyAvail = e.target.checked; renderCards(); });
+    el("fAS").addEventListener("change", (e)=>{ state.fAS = e.target.checked; renderCards(); });
+    el("fSF").addEventListener("change", (e)=>{ state.fSF = e.target.checked; renderCards(); });
+    el("fHT").addEventListener("change", (e)=>{ state.fHT = e.target.checked; renderCards(); });
+    el("fHTU").addEventListener("change", (e)=>{ state.fHTU = e.target.checked; renderCards(); });
+    el("fAJ").addEventListener("change", (e)=>{ state.fAJ = e.target.checked; renderCards(); });
+    el("sort").addEventListener("change", (e)=>{ state.sort = e.target.value; renderCards(); });
+
+    el("resetBtn").addEventListener("click", ()=>{
+      state.q=""; state.commune=""; state.cpts=""; state.statut="";
+      state.onlyAvail=false; state.fAS=false; state.fSF=false; state.fHT=false; state.fHTU=false; state.fAJ=false;
+      state.sort="places_desc";
+
+      el("q").value=""; el("commune").value=""; el("cpts").value=""; el("statut").value="";
+      el("onlyAvail").checked=false; el("fAS").checked=false; el("fSF").checked=false; el("fHT").checked=false; el("fHTU").checked=false; el("fAJ").checked=false;
+      el("sort").value="places_desc";
+      renderCards();
+    });
+
+    el("exportBtn").addEventListener("click", (e)=>{ e.preventDefault(); exportCsv(); });
+
+    el("tabComm").addEventListener("click", ()=>setActiveTab("communes"));
+    el("tabCpts").addEventListener("click", ()=>setActiveTab("cpts"));
+    el("tabEhp").addEventListener("click", ()=>setActiveTab("ehpads"));
+
+    el("mClose").addEventListener("click", closeModal);
+    el("backdrop").addEventListener("click", (e)=>{ if (e.target === el("backdrop")) closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if (e.key==="Escape") closeModal(); });
+
+    // load
+    loadFromSheet().catch(err=>{
+      console.error(err);
+      el("cfgBanner").style.display = "block";
+      el("cfgBanner").textContent = "⚠️ Impossible de charger la feuille Google Sheets (CSV). Vérifie l’URL publiée et l’accès public.";
+    });
+  }
+
+  init();
+</script>
+</body>
+</html>
