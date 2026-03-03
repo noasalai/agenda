@@ -16,11 +16,7 @@
       --gap:14px;
     }
 
-    .logo-img{
-      height: 100px;
-      width: auto;
-    }
-
+    .logo-img{height:100px;width:auto;}
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -51,14 +47,7 @@
       align-items:center;
       min-width:260px;
     }
-    .brand .logo{
-      width:40px;height:40px;border-radius:10px;
-      background: linear-gradient(135deg,#1d4ed8,#06b6d4);
-      box-shadow: var(--shadow);
-    }
-    .brand .title{
-      line-height:1.2;
-    }
+    .brand .title{line-height:1.2;}
     .brand .title b{display:block;font-size:16px}
     .brand .title span{font-size:12px;color:var(--muted)}
     .controls{
@@ -157,22 +146,15 @@
       box-shadow: 0 1px 0 rgba(15,23,42,.02);
       min-width:0;
     }
-    .day.isWeekend{
-      background: #f3f4f6;
-    }
+    .day.isWeekend{ background: #f3f4f6; }
     .day .num{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:8px;
     }
-    .day .num strong{
-      font-size:16px;
-    }
-    .day .num small{
-      color:var(--muted);
-      font-size:12px;
-    }
+    .day .num strong{ font-size:16px; }
+    .day .num small{ color:var(--muted); font-size:12px; }
     .events{
       display:flex;
       flex-direction:column;
@@ -188,7 +170,21 @@
       box-shadow: 0 1px 0 rgba(15,23,42,.03);
       overflow:hidden;
       min-width:0;
+
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .12s ease, border-color .12s ease;
+      outline:none;
     }
+    .card:hover{
+      border-color: rgba(29,78,216,.22);
+      box-shadow: 0 8px 26px rgba(15,23,42,.10);
+      transform: translateY(-1px);
+    }
+    .card:focus-visible{
+      box-shadow: 0 0 0 3px rgba(29,78,216,.22), 0 10px 30px rgba(15,23,42,.10);
+      border-color: rgba(29,78,216,.35);
+    }
+
     .card .row1{
       display:flex;
       align-items:flex-start;
@@ -255,6 +251,127 @@
       box-shadow:none;
     }
 
+    /* ✅ MODAL (mini-fenêtre) */
+    .modalBack{
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modalBack.show{ display:flex; }
+
+    .modal{
+      width: min(980px, 100%);
+      max-height: min(88vh, 980px);
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 22px 80px rgba(15,23,42,.35);
+      overflow: hidden;
+      border: 1px solid rgba(15,23,42,.12);
+      display:flex;
+      flex-direction:column;
+    }
+    .modalHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+    }
+    .modalTitle{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+    }
+    .modalTitle b{
+      font-size:16px;
+      line-height:1.25;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+    .modalTitle .sub{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color: var(--muted);
+      font-size:12px;
+    }
+    .closeBtn{
+      border:1px solid rgba(15,23,42,.14);
+      background:#fff;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-size:14px;
+      line-height:1;
+      box-shadow: 0 1px 0 rgba(15,23,42,.03);
+    }
+    .closeBtn:hover{ box-shadow: 0 8px 18px rgba(15,23,42,.10); }
+
+    .modalBody{
+      padding: 14px 16px 16px;
+      overflow:auto;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .modalActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(29,78,216,.22);
+      background:#fff;
+      color:#1d4ed8;
+      font-size:14px;
+      text-decoration:none;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ box-shadow: 0 10px 22px rgba(29,78,216,.10); border-color: rgba(29,78,216,.40); }
+
+    .viewer{
+      border: 1px solid rgba(15,23,42,.10);
+      border-radius: 16px;
+      overflow:hidden;
+      background: #f8fafc;
+      min-height: 320px;
+    }
+    .viewer img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .viewer iframe{
+      width:100%;
+      height: 70vh;
+      min-height: 520px;
+      border:0;
+      display:block;
+      background:#fff;
+    }
+    .viewerEmpty{
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     /* Responsive */
     @media (max-width: 900px){
       .grid{grid-template-columns: repeat(2, minmax(0,1fr));}
@@ -262,12 +379,16 @@
       .day{min-height: 180px;}
       input[type="search"]{min-width: 180px; width:100%;}
       .controls{justify-content:flex-start;}
+      .viewer iframe{height: 62vh; min-height: 420px;}
     }
     @media (max-width: 640px){
       .grid{grid-template-columns: 1fr;}
+      .modalHead{ padding: 12px 12px; }
+      .modalBody{ padding: 12px 12px 14px; }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="topbar">
@@ -293,7 +414,6 @@
           </select>
           <input id="search" type="search" placeholder="Rechercher (titre, ville, lieu)..." />
 
-          <!-- ✅ Nouvelle option -->
           <label class="check" title="Affiche uniquement les jours qui contiennent au moins un événement (par défaut)">
             <input id="onlyWithEvents" type="checkbox" checked>
             Afficher uniquement les jours avec événements
@@ -309,6 +429,25 @@
 
     <div class="grid" id="dowRow"></div>
     <div class="grid" id="calendar"></div>
+  </div>
+
+  <!-- ✅ MODAL -->
+  <div class="modalBack" id="modalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHead">
+        <div class="modalTitle">
+          <b id="modalTitle">—</b>
+          <div class="sub" id="modalSub"></div>
+          <div class="modalActions" id="modalActions"></div>
+        </div>
+        <button class="closeBtn" id="modalClose" aria-label="Fermer">✕</button>
+      </div>
+      <div class="modalBody">
+        <div class="viewer" id="modalViewer">
+          <div class="viewerEmpty">—</div>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
@@ -340,17 +479,25 @@ const els = {
   status: document.getElementById("status"),
   dowRow: document.getElementById("dowRow"),
   calendar: document.getElementById("calendar"),
+
+  modalBack: document.getElementById("modalBack"),
+  modalClose: document.getElementById("modalClose"),
+  modalTitle: document.getElementById("modalTitle"),
+  modalSub: document.getElementById("modalSub"),
+  modalActions: document.getElementById("modalActions"),
+  modalViewer: document.getElementById("modalViewer"),
 };
 
-function normalize(s){
-  return (s ?? "").toString().trim();
-}
+let __eventsAll = [];
+
+function normalize(s){ return (s ?? "").toString().trim(); }
+
 function normKey(s){
   return normalize(s).toLowerCase()
     .normalize("NFD").replace(/\p{Diacritic}/gu,""); // enlève accents
 }
+
 function parseCSV(text){
-  // petit parseur CSV (gère guillemets)
   const rows = [];
   let row = [];
   let cur = "";
@@ -427,9 +574,8 @@ function monthLabel(y, m){
 function firstGridDate(y, m){
   const first = new Date(Date.UTC(y, m-1, 1));
   const dow = (first.getUTCDay() + 6) % 7; // 0=lun ... 6=dim
-  const delta = dow;
   const start = new Date(first);
-  start.setUTCDate(first.getUTCDate() - delta);
+  start.setUTCDate(first.getUTCDate() - dow);
   return start;
 }
 
@@ -445,8 +591,35 @@ function safeLink(url){
   return null;
 }
 
+/* ✅ Google Drive share -> preview embed (si besoin) */
+function toDrivePreview(url){
+  const u = normalize(url);
+  if (!u) return null;
+
+  // Formats classiques : https://drive.google.com/file/d/<ID>/view?...
+  const m1 = u.match(/drive\.google\.com\/file\/d\/([^\/]+)\//i);
+  if (m1 && m1[1]) return `https://drive.google.com/file/d/${m1[1]}/preview`;
+
+  // https://drive.google.com/open?id=<ID>
+  const m2 = u.match(/[?&]id=([^&]+)/i);
+  if (u.includes("drive.google.com") && m2 && m2[1]) return `https://drive.google.com/file/d/${m2[1]}/preview`;
+
+  return null;
+}
+
+function isImageUrl(url){
+  const u = normalize(url).toLowerCase();
+  return /\.(png|jpe?g|webp|gif)(\?.*)?$/.test(u);
+}
+
+function isPdfUrl(url){
+  const u = normalize(url).toLowerCase();
+  return /\.pdf(\?.*)?$/.test(u);
+}
+
 function buildTypeOptions(events){
-  const types = Array.from(new Set(events.map(e => e.type).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"fr"));
+  const types = Array.from(new Set(events.map(e => e.type).filter(Boolean)))
+    .sort((a,b)=>a.localeCompare(b,"fr"));
   els.typeFilter.innerHTML = `<option value="">Tous types</option>`;
   for (const t of types){
     const opt = document.createElement("option");
@@ -482,19 +655,115 @@ function escapeHtml(s){
     .replaceAll("'","&#039;");
 }
 
+function formatTime(e){
+  const timeStr = (e.heure_debut || e.heure_fin)
+    ? `${e.heure_debut || ""}${(e.heure_debut && e.heure_fin) ? " à " : ""}${e.heure_fin || ""}`.trim()
+    : "";
+  return timeStr;
+}
+
+function formatWhere(e){
+  return [e.ville, e.lieu].filter(Boolean).join(" · ");
+}
+
+/* ✅ MODAL */
+function closeModal(){
+  els.modalBack.classList.remove("show");
+  els.modalBack.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+function openModal(e){
+  els.modalTitle.textContent = e.titre || "Événement";
+
+  const timeStr = formatTime(e);
+  const whereStr = formatWhere(e);
+  const dateLabel = normalize(e.date) ? e.date : "";
+  const chips = [];
+
+  if (e.type) chips.push(`🏷️ ${escapeHtml(e.type)}`);
+  if (dateLabel) chips.push(`📅 ${escapeHtml(dateLabel)}`);
+  if (timeStr) chips.push(`🕒 ${escapeHtml(timeStr)}`);
+  if (whereStr) chips.push(`📍 ${escapeHtml(whereStr)}`);
+
+  els.modalSub.innerHTML = chips.map(x => `<span>${x}</span>`).join("");
+
+  // Actions
+  els.modalActions.innerHTML = "";
+  const link = safeLink(e.lien);
+  if (link){
+    const a = document.createElement("a");
+    a.className = "btn";
+    a.href = link;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = "Ouvrir le lien";
+    els.modalActions.appendChild(a);
+  }
+
+  // Viewer (affiche)
+  let affiche = safeLink(e.affiche);
+
+  // Fallback : si pas d’affiche, et que lien est image/pdf -> on l’utilise
+  if (!affiche && link && (isImageUrl(link) || isPdfUrl(link) || toDrivePreview(link))) {
+    affiche = link;
+  }
+
+  // Drive preview si applicable
+  const drivePrev = affiche ? toDrivePreview(affiche) : null;
+
+  els.modalViewer.innerHTML = "";
+
+  if (!affiche){
+    const div = document.createElement("div");
+    div.className = "viewerEmpty";
+    div.textContent = "Pas d’affiche renseignée pour cet événement (colonne 'affiche').";
+    els.modalViewer.appendChild(div);
+  } else if (drivePrev){
+    const iframe = document.createElement("iframe");
+    iframe.src = drivePrev;
+    iframe.title = "Affiche (Google Drive)";
+    iframe.loading = "lazy";
+    els.modalViewer.appendChild(iframe);
+  } else if (isPdfUrl(affiche)){
+    const iframe = document.createElement("iframe");
+    iframe.src = affiche;
+    iframe.title = "Affiche (PDF)";
+    iframe.loading = "lazy";
+    els.modalViewer.appendChild(iframe);
+  } else if (isImageUrl(affiche)){
+    const img = document.createElement("img");
+    img.src = affiche;
+    img.alt = "Affiche de l'événement";
+    img.loading = "lazy";
+    els.modalViewer.appendChild(img);
+  } else {
+    const div = document.createElement("div");
+    div.className = "viewerEmpty";
+    div.innerHTML = `Lien d’affiche non reconnu (mets une image .jpg/.png/.webp ou un PDF).<br><br>
+      <a class="btn" href="${affiche}" target="_blank" rel="noopener noreferrer">Ouvrir l’affiche</a>`;
+    els.modalViewer.appendChild(div);
+  }
+
+  // Show
+  els.modalBack.classList.add("show");
+  els.modalBack.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+}
+
 function renderEventCard(e){
   const bg = colorForEvent(e);
   const link = safeLink(e.lien);
 
-  const timeStr = (e.heure_debut || e.heure_fin)
-    ? `${e.heure_debut || ""}${(e.heure_debut && e.heure_fin) ? " à " : ""}${e.heure_fin || ""}`.trim()
-    : "";
-
-  const whereStr = [e.ville, e.lieu].filter(Boolean).join(" · ");
+  const timeStr = formatTime(e);
+  const whereStr = formatWhere(e);
 
   const card = document.createElement("div");
   card.className = "card";
   card.style.background = bg;
+  card.tabIndex = 0;
+  card.setAttribute("role","button");
+  card.setAttribute("aria-label", `Ouvrir le détail : ${normalize(e.titre) || "Événement"}`);
 
   card.innerHTML = `
     <div class="row1">
@@ -506,9 +775,24 @@ function renderEventCard(e){
       ${whereStr ? `<span>📍 ${escapeHtml(whereStr)}</span>` : ""}
     </div>
     <div class="links">
-      ${link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
+      ${link ? `<a class="eventLink" href="${link}" target="_blank" rel="noopener noreferrer">${escapeHtml(e.etiquette || "Lien")}</a>` : ""}
     </div>
   `;
+
+  // ✅ Clic ouvre modal (sauf si on clique sur le lien)
+  card.addEventListener("click", () => openModal(e));
+  card.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" || ev.key === " "){
+      ev.preventDefault();
+      openModal(e);
+    }
+  });
+
+  const a = card.querySelector("a.eventLink");
+  if (a){
+    a.addEventListener("click", (ev) => ev.stopPropagation());
+  }
+
   return card;
 }
 
@@ -517,7 +801,7 @@ function renderCalendar(eventsAll){
   const m = Number(els.month.value); // 1-12
 
   els.monthLabel.textContent = monthLabel(y,m);
-  els.dowRow.style.display = ""; // reset (sera éventuellement caché en mode compact)
+  els.dowRow.style.display = "";
 
   const eventsMonth = eventsAll
     .filter(e => e.y === y && e.m === m)
@@ -536,7 +820,6 @@ function renderCalendar(eventsAll){
   els.calendar.innerHTML = "";
   const onlyWithEvents = !!els.onlyWithEvents?.checked;
 
-  // Mode 1 : calendrier complet (42 cases)
   if (!onlyWithEvents){
     const start = firstGridDate(y, m);
     const daysToRender = 42;
@@ -578,8 +861,6 @@ function renderCalendar(eventsAll){
     return;
   }
 
-  // Mode 2 : uniquement les jours avec événements
-  // (plus lisible + compact)
   els.dowRow.style.display = "none";
 
   const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
@@ -633,6 +914,14 @@ async function loadEvents(){
   const header = rows[0].map(h => normKey(h));
   const idx = (name) => header.indexOf(normKey(name));
 
+  const pick = (row, names) => {
+    for (const n of names){
+      const i = idx(n);
+      if (i !== -1) return row[i] ?? "";
+    }
+    return "";
+  };
+
   const hasDate = idx("date") !== -1;
   const hasTitle = idx("titre") !== -1;
 
@@ -655,15 +944,17 @@ async function loadEvents(){
     const e = {
       date: dateStr,
       y,m,d,
-      titre: r[idx("titre")] ?? "",
-      type: r[idx("type")] ?? "",
-      heure_debut: r[idx("heure_debut")] ?? "",
-      heure_fin: r[idx("heure_fin")] ?? "",
-      ville: r[idx("ville")] ?? "",
-      lieu: r[idx("lieu")] ?? "",
-      lien: r[idx("lien")] ?? "",
-      etiquette: r[idx("etiquette")] ?? "Lien",
-      couleur: r[idx("couleur")] ?? ""
+      titre: pick(r, ["titre"]),
+      type: pick(r, ["type"]),
+      heure_debut: pick(r, ["heure_debut","heure debut","debut","heure début"]),
+      heure_fin: pick(r, ["heure_fin","heure fin","fin","heure fin"]),
+      ville: pick(r, ["ville","commune"]),
+      lieu: pick(r, ["lieu","adresse","salle"]),
+      lien: pick(r, ["lien","url","inscription","reservation"]),
+      etiquette: pick(r, ["etiquette","libelle","label","bouton"]) || "Lien",
+      couleur: pick(r, ["couleur","color"]),
+      // ✅ nouvelle colonne : "affiche" (ou variantes)
+      affiche: pick(r, ["affiche","visuel","image","poster","flyer","photo"])
     };
 
     if (normalize(e.titre)) evts.push(e);
@@ -673,23 +964,38 @@ async function loadEvents(){
   return evts;
 }
 
+(function bindModal(){
+  els.modalClose.addEventListener("click", closeModal);
+
+  // clic dehors = ferme
+  els.modalBack.addEventListener("click", (ev) => {
+    if (ev.target === els.modalBack) closeModal();
+  });
+
+  // ESC = ferme
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape" && els.modalBack.classList.contains("show")){
+      closeModal();
+    }
+  });
+})();
+
 (async function init(){
   setSelectOptions();
   renderDow();
 
-  let eventsAll = [];
   try{
-    eventsAll = await loadEvents();
+    __eventsAll = await loadEvents();
   } catch(err){
     console.error(err);
     els.status.textContent = "⚠️ Erreur lors du chargement (console pour détails).";
     return;
   }
 
-  buildTypeOptions(eventsAll);
-  renderCalendar(eventsAll);
+  buildTypeOptions(__eventsAll);
+  renderCalendar(__eventsAll);
 
-  const refresh = () => renderCalendar(eventsAll);
+  const refresh = () => renderCalendar(__eventsAll);
   els.month.addEventListener("change", refresh);
   els.year.addEventListener("change", refresh);
   els.typeFilter.addEventListener("change", refresh);
