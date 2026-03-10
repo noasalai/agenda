@@ -26,6 +26,8 @@
     --p2: rgba(54,102,174,.55);
     --p3: rgba(54,102,174,.25);
     --pHeat: rgba(54,102,174,1);
+
+    --density-stroke: rgba(255,255,255,.88);
   }
 
   *{box-sizing:border-box}
@@ -95,7 +97,10 @@
     position:relative;
     width:100%;
     aspect-ratio: 1.25/1;
-    background: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0));
+    background:
+      radial-gradient(900px 500px at 85% 85%, rgba(56,189,248,.07), transparent 60%),
+      radial-gradient(700px 400px at 15% 10%, rgba(54,102,174,.07), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0));
   }
   svg{ width:100%; height:100%; display:block; }
 
@@ -106,10 +111,10 @@
 
   .commune{
     fill:#f8fafc;
-    stroke: rgba(15,23,42,.45);
-    stroke-width:1.1;
+    stroke: rgba(15,23,42,.24);
+    stroke-width:1.15;
     vector-effect: non-scaling-stroke;
-    transition: fill .12s ease, stroke .12s ease, stroke-width .12s ease, opacity .12s ease;
+    transition: fill .12s ease, stroke .12s ease, stroke-width .12s ease, opacity .12s ease, filter .12s ease;
     cursor:pointer;
   }
   .commune:hover{
@@ -118,9 +123,18 @@
     stroke-width: 1.7;
   }
   .commune.is-selected{
-    fill: var(--soft);
     stroke: var(--dac-blue);
-    stroke-width:2.2;
+    stroke-width:2.3;
+    filter: drop-shadow(0 3px 10px rgba(54,102,174,.18));
+  }
+  .commune.density-active{
+    stroke: rgba(255,255,255,.86);
+    stroke-width:1.4;
+  }
+  .commune.density-active:hover{
+    stroke:#0f172a;
+    stroke-width:1.6;
+    filter: brightness(1.02);
   }
 
   .outer{
@@ -286,50 +300,44 @@
   }
   .bars h3{ margin:0 0 8px 0; font-size:12px; color:#0f172a; font-weight:980; }
   .barRow{
-  display:grid;
-  grid-template-columns: minmax(0, 1fr) 48px;
-  gap:10px;
-  align-items:center;
-  margin:6px 0;
-}
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) 48px;
+    gap:10px;
+    align-items:center;
+    margin:6px 0;
+  }
+  .barRow > div:first-child{ min-width:0; }
 
-.barRow > div:first-child{
-  min-width:0;
-}
-
-.bar{
-  height:10px;
-  border-radius:999px;
-  background: rgba(54,102,174,.10);
-  border:1px solid rgba(54,102,174,.14);
-  overflow:hidden;
-}
-
-.bar > span{
-  display:block;
-  height:100%;
-  width:0%;
-  background: var(--p1);
-  border-radius:999px;
-}
-
-.barLabel{
-  font-size:12px;
-  color:#0f172a;
-  font-weight:900;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.barVal{
-  font-size:12px;
-  color:#334155;
-  text-align:right;
-  font-weight:900;
-  white-space:nowrap;
-  min-width:48px;
-}
+  .bar{
+    height:10px;
+    border-radius:999px;
+    background: rgba(54,102,174,.10);
+    border:1px solid rgba(54,102,174,.14);
+    overflow:hidden;
+  }
+  .bar > span{
+    display:block;
+    height:100%;
+    width:0%;
+    background: var(--p1);
+    border-radius:999px;
+  }
+  .barLabel{
+    font-size:12px;
+    color:#0f172a;
+    font-weight:900;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .barVal{
+    font-size:12px;
+    color:#334155;
+    text-align:right;
+    font-weight:900;
+    white-space:nowrap;
+    min-width:48px;
+  }
 
   .list{
     margin-top:10px;
@@ -353,16 +361,71 @@
   .item:hover{ background:rgba(54,102,174,.08); border-color:rgba(54,102,174,.16); }
   .item b{ font-size:13px; font-weight:950; }
 
-  .legend{ margin-top:10px; border:1px solid rgba(15,23,42,.10); border-radius:14px; padding:10px; display:none; background:#fff; }
+  .legend{
+    margin-top:10px;
+    border:1px solid rgba(15,23,42,.10);
+    border-radius:14px;
+    padding:10px;
+    display:none;
+    background:#fff;
+  }
   .legend.show{ display:block; }
   .lgTitle{
     font-size:12px;
     font-weight:980;
     color:#0f172a;
-    margin:8px 0 4px;
+    margin:8px 0 6px;
   }
-  .lg{ display:flex; gap:10px; align-items:center; padding:6px 0; color:#0f172a; font-size:13px; }
-  .sw{ width:16px; height:16px; border-radius:5px; border:1px solid rgba(0,0,0,.12); }
+  .lg{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:6px 0;
+    color:#0f172a;
+    font-size:13px;
+  }
+  .sw{
+    width:16px;
+    height:16px;
+    border-radius:5px;
+    border:1px solid rgba(0,0,0,.12);
+  }
+  .sw.line{
+    width:20px;
+    height:12px;
+    border-radius:999px;
+    background:linear-gradient(90deg, rgba(15,23,42,.18), rgba(15,23,42,.4));
+  }
+
+ .densityLegendBand{
+  display:grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap:6px;
+  margin:10px 0 8px;
+}
+
+.densityLegendBand span{
+  height:14px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.densityLegendScale{
+  display:grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap:6px;
+  font-size:10px;
+  color:#475569;
+  font-weight:800;
+  line-height:1.15;
+}
+
+.densityLegendScale span{
+  text-align:center;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
 
   .note{ margin-top:10px; color:var(--muted); font-size:12px; line-height:1.35; }
   code{ background:#f1f5f9; padding:1px 6px; border-radius:8px; }
@@ -391,7 +454,7 @@
     box-shadow: 0 18px 40px rgba(0,0,0,.22);
     font-size:12px;
     line-height:1.25;
-    max-width:340px;
+    max-width:360px;
     opacity:0;
     transform: translateY(6px);
     transition: opacity .10s ease, transform .10s ease;
@@ -490,10 +553,8 @@
       <div class="head">
         <div class="titleRow">
           <div class="titleBlock">
-            <h1>Carte DAC Var Est — Premium++</h1>
+            <h1>Cartographie DAC Var Est</h1>
             <p>
-              Communes + CPTS + EMPSA + Sollicitations pros 2025 + Patients suivis 2025
-              (points / clusters / heat / densité / pin) + KPIs + repères optionnels Siège/Antenne.
             </p>
           </div>
         </div>
@@ -550,6 +611,14 @@
               <div class="t">Superficie Var Est (km²)</div>
               <div class="v" id="kpiSurfVE">—</div>
             </div>
+            <div class="kpi">
+              <div class="t">Densité moyenne</div>
+              <div class="v" id="kpiDensityVE">—</div>
+            </div>
+            <div class="kpi">
+              <div class="t">Commune la plus dense</div>
+              <div class="v" id="kpiDensityMax">—</div>
+            </div>
           </div>
 
           <div class="row" style="margin-top:10px">
@@ -561,6 +630,32 @@
 
           <div id="officesText" style="margin-top:6px;color:#475569;font-size:12px">
             Siège : <b>DRAGUIGNAN</b> • Antenne bureau : <b>FREJUS</b>
+          </div>
+        </div>
+
+        <div class="subtle">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+            <label class="chk" style="margin:0"><input id="toggleDensity" type="checkbox" /> Afficher densité de population</label>
+            <span class="badge">hab./km²</span>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <select id="densityPalette" class="ctrl" disabled>
+              <option value="sea">Palette : Mer douce</option>
+              <option value="teal">Palette : Aqua</option>
+              <option value="slate">Palette : Ardoise</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <label class="chk">
+              <input id="densityLabelsBoost" type="checkbox" checked disabled />
+              Renforcer les libellés sur la densité
+            </label>
+          </div>
+
+          <div id="densityText" style="margin-top:8px;color:#475569;font-size:12px">
+            La densité est calculée automatiquement à partir de la population JSON et de la surface géographique de chaque commune.
           </div>
         </div>
 
@@ -936,6 +1031,68 @@ function applyPalette(key){
 }
 
 /* =========================
+   DENSITY VISUAL
+   ========================= */
+const DENSITY_PALETTES = {
+  sea: [
+    "#f8fbfd",
+    "#e7f1f8",
+    "#d1e5f2",
+    "#a9d0e8",
+    "#77b7dc",
+    "#428ec4",
+    "#1f5d93"
+  ],
+  teal: [
+    "#f4fcfb",
+    "#dbf5f2",
+    "#b7ebe5",
+    "#86d8d0",
+    "#4fbdb4",
+    "#249a95",
+    "#136b69"
+  ],
+  slate: [
+    "#f7f9fb",
+    "#e6edf3",
+    "#cfdbe6",
+    "#aebfd0",
+    "#829ab1",
+    "#59738d",
+    "#30495f"
+  ]
+};
+
+const DENSITY_BINS = [0, 20, 50, 100, 200, 500, Infinity];
+const DENSITY_LABELS = [
+  "0 à 19",
+  "20 à 49",
+  "50 à 99",
+  "100 à 199",
+  "200 à 499",
+  "500 et +"
+];
+
+function densityBinIndex(v){
+  if (!Number.isFinite(v) || v < 0) return 0;
+  if (v < 20) return 0;
+  if (v < 50) return 1;
+  if (v < 100) return 2;
+  if (v < 200) return 3;
+  if (v < 500) return 4;
+  return 5;
+}
+function getDensityColor(v){
+  const palKey = densityPaletteEl?.value || "sea";
+  const pal = DENSITY_PALETTES[palKey] || DENSITY_PALETTES.sea;
+  const idx = densityBinIndex(v);
+  return pal[Math.min(idx + 1, pal.length - 1)];
+}
+function formatDensity(v){
+  return Number.isFinite(v) ? `${Math.round(v).toLocaleString("fr-FR")} hab./km²` : "—";
+}
+
+/* =========================
    KPI fixes
    ========================= */
 const KPI_FIXED = { superficie_km2: 2818.5 };
@@ -1000,9 +1157,16 @@ const qEl = document.getElementById("q");
 
 const kpiPopVE = document.getElementById("kpiPopVE");
 const kpiSurfVE = document.getElementById("kpiSurfVE");
+const kpiDensityVE = document.getElementById("kpiDensityVE");
+const kpiDensityMax = document.getElementById("kpiDensityMax");
 
 const toggleOfficesEl = document.getElementById("toggleOffices");
 const officesTextEl = document.getElementById("officesText");
+
+const toggleDensityEl = document.getElementById("toggleDensity");
+const densityPaletteEl = document.getElementById("densityPalette");
+const densityLabelsBoostEl = document.getElementById("densityLabelsBoost");
+const densityTextEl = document.getElementById("densityText");
 
 const toggleCptsEl = document.getElementById("toggleCpts");
 const cptsSelectEl = document.getElementById("cptsSelect");
@@ -1205,11 +1369,18 @@ function isProsFilterActive(){
   return !isAllSelected(st.profs) || !!st.q || (!!st.followOnly && !!allowedSetFromOnlyFilters());
 }
 
+function calcGeoAreaKm2(feature){
+  const R = 6371.0088;
+  const steradians = d3.geoArea(feature);
+  return steradians * R * R;
+}
+
 /* =========================
-   STATES (CPTS / EMPSA)
+   STATES (CPTS / EMPSA / DENSITY)
    ========================= */
 function currentCptsState() { return { enabled: !!toggleCptsEl.checked, zones: MULTI.cpts.slice(), only: !!onlyZoneEl.checked }; }
 function currentEmpsaState() { return { enabled: !!toggleEmpsaEl.checked, zones: MULTI.empsa.slice(), only: !!onlyEmpsaEl.checked }; }
+function currentDensityState() { return { enabled: !!toggleDensityEl.checked, palette: densityPaletteEl.value || "sea", labelsBoost: !!densityLabelsBoostEl.checked }; }
 
 function cptsKeyForFeature(f) { return zoneOf.get(canon(f.__label)) || null; }
 function isVisibleByCpts(f) {
@@ -1264,10 +1435,19 @@ function allowedSetFromOnlyFilters(){
 }
 function intersectSets(a,b){ const out = new Set(); for (const v of a) if (b.has(v)) out.add(v); return out; }
 
-function activeZoningForFill(){ if (toggleEmpsaEl.checked) return "empsa"; if (toggleCptsEl.checked) return "cpts"; return "none"; }
+/* =========================
+   FILLS / OPACITIES
+   ========================= */
+function activeFillMode(){
+  if (toggleDensityEl.checked) return "density";
+  if (toggleEmpsaEl.checked) return "empsa";
+  if (toggleCptsEl.checked) return "cpts";
+  return "none";
+}
 
 function communeFill(f){
-  const mode = activeZoningForFill();
+  const mode = activeFillMode();
+  if (mode === "density") return getDensityColor(f.__density_hab_km2);
   if (mode === "empsa") return empsaFill(f) || "#f8fafc";
   if (mode === "cpts") return cptsFill(f) || "#f8fafc";
   return "#f8fafc";
@@ -1286,12 +1466,15 @@ function communeOpacity(f){
     if (e.enabled && !isAllSelected(e.zones) && !e.only){ fade = true; keep = keep && isVisibleByEmpsa(f); }
 
     if (!fade) return 1;
-    return keep ? 1 : 0.25;
+    return keep ? 1 : (toggleDensityEl.checked ? 0.16 : 0.25);
   }
-  return allowed.has(canon(f.__label)) ? 1 : 0.05;
+  return allowed.has(canon(f.__label)) ? 1 : (toggleDensityEl.checked ? 0.08 : 0.05);
 }
 
 function labelOpacity(f){
+  const densityOn = toggleDensityEl.checked;
+  const densityBoost = densityOn && densityLabelsBoostEl.checked;
+
   const allowed = allowedSetFromOnlyFilters();
   if (!allowed){
     const c = currentCptsState();
@@ -1302,10 +1485,25 @@ function labelOpacity(f){
     if (c.enabled && !isAllSelected(c.zones) && !c.only){ fade = true; keep = keep && isVisibleByCpts(f); }
     if (e.enabled && !isAllSelected(e.zones) && !e.only){ fade = true; keep = keep && isVisibleByEmpsa(f); }
 
-    if (!fade) return 1;
-    return keep ? 1 : 0.35;
+    if (!fade) return densityBoost ? 0.92 : 1;
+    return keep ? (densityBoost ? 0.96 : 1) : (densityBoost ? 0.18 : 0.35);
   }
-  return allowed.has(canon(f.__label)) ? 1 : 0.0;
+  return allowed.has(canon(f.__label)) ? (densityBoost ? 0.96 : 1) : 0.0;
+}
+
+function labelFill(f){
+  if (!toggleDensityEl.checked) return "#0b1220";
+  const d = f.__density_hab_km2;
+  return Number.isFinite(d) && d >= 200 ? "#ffffff" : "#0b1220";
+}
+function labelStroke(f){
+  if (!toggleDensityEl.checked) return "#ffffff";
+  const d = f.__density_hab_km2;
+  return Number.isFinite(d) && d >= 200 ? "rgba(15,23,42,.55)" : "#ffffff";
+}
+function labelStrokeWidth(f){
+  if (!toggleDensityEl.checked) return "3px";
+  return densityLabelsBoostEl.checked ? "4px" : "3px";
 }
 
 /* =========================
@@ -1344,6 +1542,21 @@ function buildActiveFilters(){
 
   if (toggleOfficesEl.checked){
     filters.push({ id:"offices", label:"Repères", value:"Siège/Antenne", clear: () => { toggleOfficesEl.checked = false; applyOfficesVisibility(); updateChips(); } });
+  }
+
+  if (toggleDensityEl.checked){
+    filters.push({
+      id:"density",
+      label:"Densité",
+      value:`Population (${densityPaletteEl.value || "sea"})`,
+      clear: () => {
+        toggleDensityEl.checked = false;
+        densityPaletteEl.disabled = true;
+        densityLabelsBoostEl.disabled = true;
+        applyZonings();
+        updateChips();
+      }
+    });
   }
 
   const c = currentCptsState();
@@ -1434,6 +1647,12 @@ function updateChips(){
 clearAllFiltersBtn.addEventListener("click", () => {
   toggleOfficesEl.checked = false;
 
+  toggleDensityEl.checked = false;
+  densityPaletteEl.value = "sea";
+  densityPaletteEl.disabled = true;
+  densityLabelsBoostEl.checked = true;
+  densityLabelsBoostEl.disabled = true;
+
   toggleCptsEl.checked = false;
   setOnly(MULTI.cpts, "__all__");
   onlyZoneEl.checked = false;
@@ -1491,13 +1710,34 @@ async function loadOutline() {
 }
 
 /* =========================
-   APPLY ZONINGS + LIST + LEGEND
+   LEGEND
    ========================= */
+function renderDensityLegend(){
+  const palKey = densityPaletteEl.value || "sea";
+  const pal = DENSITY_PALETTES[palKey] || DENSITY_PALETTES.sea;
+  const blocks = pal.slice(1).map(c => `<span style="background:${c}"></span>`).join("");
+  const labels = DENSITY_LABELS.map(l => `<span>${escapeHtml(l)}</span>`).join("");
+
+  return `
+    <div class="lgTitle">Densité de population</div>
+    <div style="font-size:12px;color:#475569;line-height:1.35">
+      Choroplèthe par commune en <b>hab./km²</b>, calculée automatiquement depuis la population et la surface géographique.
+    </div>
+    <div class="densityLegendBand">${blocks}</div>
+    <div class="densityLegendScale">${labels}</div>
+    <div class="lg" style="padding-top:10px">
+      <span class="sw line"></span>
+      <span>Contour territoire DAC Var Est</span>
+    </div>
+  `;
+}
+
 function renderLegend(){
   const c = currentCptsState();
   const e = currentEmpsaState();
+  const densityOn = !!toggleDensityEl.checked;
 
-  if (!c.enabled && !e.enabled){
+  if (!c.enabled && !e.enabled && !densityOn){
     legendEl.classList.remove("show");
     legendEl.innerHTML = "";
     return;
@@ -1505,8 +1745,13 @@ function renderLegend(){
   legendEl.classList.add("show");
 
   let html = "";
+
+  if (densityOn){
+    html += renderDensityLegend();
+  }
+
   if (c.enabled){
-    html += `<div class="lgTitle">CPTS</div>`;
+    html += `<div class="lgTitle" style="margin-top:${densityOn ? 12 : 8}px">CPTS</div>`;
     const rows = [];
     if (isAllSelected(c.zones)) for (const key of ["dpv","cdv","gst","vem","pdf","zb"]) rows.push({ label: CPTS_ZONES[key].label, color: CPTS_ZONES[key].color });
     else for (const z of c.zones) if (CPTS_ZONES[z]) rows.push({ label: CPTS_ZONES[z].label, color: CPTS_ZONES[z].color });
@@ -1514,7 +1759,7 @@ function renderLegend(){
   }
 
   if (e.enabled){
-    html += `<div class="lgTitle" style="margin-top:${c.enabled ? 10 : 0}px">EMPSA</div>`;
+    html += `<div class="lgTitle" style="margin-top:${(c.enabled || densityOn) ? 12 : 8}px">EMPSA</div>`;
     const rows = [];
     if (isAllSelected(e.zones)) for (const key of ["zb","e1","e2"]) rows.push({ label: EMPSA_ZONES[key].label, color: EMPSA_ZONES[key].color });
     else for (const z of e.zones) if (EMPSA_ZONES[z]) rows.push({ label: EMPSA_ZONES[z].label, color: EMPSA_ZONES[z].color });
@@ -1524,13 +1769,24 @@ function renderLegend(){
   legendEl.innerHTML = html;
 }
 
+/* =========================
+   APPLY ZONINGS + LIST + LEGEND
+   ========================= */
 function applyZonings(){
+  const densityOn = !!toggleDensityEl.checked;
+
   gCommunes.selectAll("path.commune")
+    .classed("density-active", densityOn)
     .style("fill", d => communeFill(d))
-    .style("opacity", d => communeOpacity(d));
+    .style("opacity", d => communeOpacity(d))
+    .style("stroke", d => densityOn ? "rgba(255,255,255,.86)" : "rgba(15,23,42,.24)")
+    .style("stroke-width", d => d3.select(d3.event?.currentTarget || null) ? null : null);
 
   gLabels.selectAll("text.label")
-    .style("opacity", d => labelOpacity(d));
+    .style("opacity", d => labelOpacity(d))
+    .style("fill", d => labelFill(d))
+    .style("stroke", d => labelStroke(d))
+    .style("stroke-width", d => labelStrokeWidth(d));
 
   renderLegend();
   renderProsSummaryPanel();
@@ -1557,16 +1813,19 @@ function renderList(filterText="") {
   for (const f of items) {
     const cKey = cptsKeyForFeature(f);
     const eKey = empsaKeyForFeature(f);
-    const rightBase = (toggleEmpsaEl.checked || toggleCptsEl.checked)
-      ? `${toggleCptsEl.checked ? (CPTS_ZONES[cKey]?.label || "CPTS —") : ""}${(toggleEmpsaEl.checked && toggleCptsEl.checked) ? " • " : ""}${toggleEmpsaEl.checked ? (EMPSA_ZONES[eKey]?.label || "EMPSA —") : ""}`
-      : "Zoom";
+
+    const rightParts = [];
+    if (toggleDensityEl.checked) rightParts.push(formatDensity(f.__density_hab_km2));
+    if (toggleCptsEl.checked) rightParts.push(CPTS_ZONES[cKey]?.label || "CPTS —");
+    if (toggleEmpsaEl.checked) rightParts.push(EMPSA_ZONES[eKey]?.label || "EMPSA —");
+    if (!rightParts.length) rightParts.push("Zoom");
 
     const pop = getPopCommune(f.__label);
     const popTxt = (pop != null) ? ` • ${pop.toLocaleString("fr-FR")} hab.` : "";
 
     const div = document.createElement("div");
     div.className = "item";
-    div.innerHTML = `<b>${escapeHtml(f.__label)}</b><span class="badge">${escapeHtml(rightBase + popTxt)}</span>`;
+    div.innerHTML = `<b>${escapeHtml(f.__label)}</b><span class="badge">${escapeHtml(rightParts.join(" • ") + popTxt)}</span>`;
     div.onclick = () => selectFeature(f.__id, true);
     listEl.appendChild(div);
   }
@@ -1659,6 +1918,7 @@ async function exportAsPngHD(scale=3, includeHeat=false){
 
   const img = new Image();
   img.crossOrigin = "anonymous";
+
   img.onload = async () => {
     const vb = (clone.getAttribute("viewBox") || "0 0 1550 1222").split(" ").map(Number);
     const w = vb[2], h = vb[3];
@@ -1668,29 +1928,39 @@ async function exportAsPngHD(scale=3, includeHeat=false){
     canvas.height = Math.round(h * scale);
     const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "rgba(255,255,255,1)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.setTransform(scale,0,0,scale,0,0);
-    ctx.drawImage(img, 0, 0);
+    // Important : forcer le SVG à occuper tout le viewBox
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.drawImage(img, 0, 0, w, h);
 
     if (includeHeat && heatCanvas.style.display !== "none") {
       const heatImg = await canvasFromExistingHeat(scale);
       ctx.setTransform(1,0,0,1,0,0);
       ctx.globalAlpha = 0.92;
-      ctx.drawImage(heatImg, 0, 0);
+      ctx.drawImage(heatImg, 0, 0, canvas.width, canvas.height);
       ctx.globalAlpha = 1;
     }
 
     canvas.toBlob((blob) => {
-      if (blob) downloadBlob(blob, includeHeat ? "carte_dac_var_est_premiumpp_heat_HD.png" : "carte_dac_var_est_premiumpp_HD.png");
+      if (blob) {
+        downloadBlob(
+          blob,
+          includeHeat
+            ? "carte_dac_var_est_premiumpp_heat_HD.png"
+            : "carte_dac_var_est_premiumpp_HD.png"
+        );
+      }
       URL.revokeObjectURL(url);
     }, "image/png");
   };
+
   img.onerror = () => {
     URL.revokeObjectURL(url);
     alert("Impossible d'exporter en PNG (souvent lié à un chargement cross-domain).");
   };
+
   img.src = url;
 }
 
@@ -2823,6 +3093,22 @@ toggleEmpsaEl.addEventListener("change", () => {
 onlyEmpsaEl.addEventListener("change", () => { if (isAllSelected(MULTI.empsa)) onlyEmpsaEl.checked = false; applyZonings(); });
 
 /* =========================
+   DENSITY UI
+   ========================= */
+toggleDensityEl.addEventListener("change", () => {
+  const enabled = toggleDensityEl.checked;
+  densityPaletteEl.disabled = !enabled;
+  densityLabelsBoostEl.disabled = !enabled;
+  applyZonings();
+});
+densityPaletteEl.addEventListener("change", () => {
+  applyZonings();
+});
+densityLabelsBoostEl.addEventListener("change", () => {
+  applyZonings();
+});
+
+/* =========================
    OFFICES
    ========================= */
 function applyOfficesVisibility(){
@@ -2869,6 +3155,28 @@ function renderOffices(){
 }
 
 /* =========================
+   KPI DENSITY
+   ========================= */
+function updateDensityKpis(){
+  const popVE = features.reduce((acc, f) => acc + (Number.isFinite(f.__pop) ? f.__pop : 0), 0);
+  const surfVE = features.reduce((acc, f) => acc + (Number.isFinite(f.__area_km2) ? f.__area_km2 : 0), 0);
+  const densityAvg = (popVE > 0 && surfVE > 0) ? (popVE / surfVE) : null;
+
+  const best = features
+    .filter(f => Number.isFinite(f.__density_hab_km2))
+    .sort((a,b) => (b.__density_hab_km2 || 0) - (a.__density_hab_km2 || 0))[0];
+
+  kpiDensityVE.textContent = densityAvg != null ? `${Math.round(densityAvg).toLocaleString("fr-FR")} hab./km²` : "—";
+  kpiDensityMax.textContent = best ? `${best.__label}` : "—";
+
+  if (best){
+    densityTextEl.textContent = `Commune la plus dense : ${best.__label} (${Math.round(best.__density_hab_km2).toLocaleString("fr-FR")} hab./km²).`;
+  } else {
+    densityTextEl.textContent = "La densité est calculée automatiquement à partir de la population JSON et de la surface géographique de chaque commune.";
+  }
+}
+
+/* =========================
    MULTI SELECT SETUP
    ========================= */
 setupMultiSelect(cptsSelectEl, "cpts",   { behavior:"multi",  allValue:"__all__", resetTo:"__all__" });
@@ -2884,6 +3192,8 @@ async function main() {
 
   kpiSurfVE.textContent = KPI_FIXED.superficie_km2.toLocaleString("fr-FR");
   kpiPopVE.textContent = "—";
+  kpiDensityVE.textContent = "—";
+  kpiDensityMax.textContent = "—";
 
   const res = await fetch("./communes.geojson");
   if(!res.ok) throw new Error("communes.geojson introuvable (HTTP " + res.status + ")");
@@ -2906,17 +3216,26 @@ async function main() {
     return true;
   });
 
-  const popSum = features.reduce((acc, f) => acc + (getPopCommune(f.__label) || 0), 0);
-  if (popSum > 0) kpiPopVE.textContent = popSum.toLocaleString("fr-FR");
-  else if (POP_TOTAL_JSON != null) kpiPopVE.textContent = POP_TOTAL_JSON.toLocaleString("fr-FR");
-  else kpiPopVE.textContent = "—";
-
   const fc = { type:"FeatureCollection", features };
   projection = d3.geoMercator();
   projection.fitExtent([[80,80],[width-80,height-80]], fc);
   geoPath = d3.geoPath(projection);
 
-  for (const f of features) f.__centroid = geoPath.centroid(f);
+  for (const f of features) {
+    f.__centroid = geoPath.centroid(f);
+    f.__pop = getPopCommune(f.__label);
+    f.__area_km2 = calcGeoAreaKm2(f);
+    f.__density_hab_km2 = (Number.isFinite(f.__pop) && Number.isFinite(f.__area_km2) && f.__area_km2 > 0)
+      ? (f.__pop / f.__area_km2)
+      : null;
+  }
+
+  const popSum = features.reduce((acc, f) => acc + (f.__pop || 0), 0);
+  if (popSum > 0) kpiPopVE.textContent = popSum.toLocaleString("fr-FR");
+  else if (POP_TOTAL_JSON != null) kpiPopVE.textContent = POP_TOTAL_JSON.toLocaleString("fr-FR");
+  else kpiPopVE.textContent = "—";
+
+  updateDensityKpis();
 
   gCommunes.selectAll("path.commune")
     .data(features)
@@ -2932,6 +3251,7 @@ async function main() {
       const eKey = empsaKeyForFeature(d);
 
       const tags = [];
+      if (toggleDensityEl.checked) tags.push(formatDensity(d.__density_hab_km2));
       if (toggleCptsEl.checked) tags.push(CPTS_ZONES[cKey]?.label || "CPTS —");
       if (toggleEmpsaEl.checked) tags.push(EMPSA_ZONES[eKey]?.label || "EMPSA —");
 
@@ -2944,6 +3264,8 @@ async function main() {
         tags.length ? tags.join(" • ") : "Commune",
         {
           "Population commune (JSON)": popCommune != null ? popCommune.toLocaleString("fr-FR") : "—",
+          "Surface commune (km²)": Number.isFinite(d.__area_km2) ? d.__area_km2.toFixed(1).replace(".", ",") : "—",
+          "Densité commune": formatDensity(d.__density_hab_km2),
           "Population Var Est": (kpiPopVE.textContent || "—"),
           "Superficie Var Est (km²)": KPI_FIXED.superficie_km2.toLocaleString("fr-FR")
         }
@@ -2960,6 +3282,9 @@ async function main() {
     .attr("text-anchor","middle")
     .attr("dy","0.32em")
     .style("opacity", d => labelOpacity(d))
+    .style("fill", d => labelFill(d))
+    .style("stroke", d => labelStroke(d))
+    .style("stroke-width", d => labelStrokeWidth(d))
     .text(d => smartLabel(d.__label));
 
   renderOffices();
@@ -2980,12 +3305,15 @@ async function main() {
   onlyZoneEl.disabled = true;
   empsaSelectEl.disabled = true;
   onlyEmpsaEl.disabled = true;
+  densityPaletteEl.disabled = true;
+  densityLabelsBoostEl.disabled = true;
 
   cptsSelectEl.value = "__all__";
   empsaSelectEl.value = "__all__";
   profSelectEl.value = "__all__";
   prosModeEl.value = "clusters";
   paletteSelectEl.value = "dac";
+  densityPaletteEl.value = "sea";
 
   patientsModeEl.value = "clusters";
   patientsPaletteEl.value = "dac";
