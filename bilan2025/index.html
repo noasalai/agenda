@@ -1,0 +1,1653 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DAC Var Est — Rapport d'activité 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0e2a5c;--blue:#1b4fa8;--blue2:#2563c0;--blue3:#3b82f6;
+  --teal:#0891b2;--teal2:#06b6d4;
+  --orange:#c2410c;--orangeL:#fff4ee;
+  --green:#059669;--greenL:#f0fdf4;
+  --amber:#d97706;--amberL:#fffbeb;
+  --red:#dc2626;--redL:#fef2f2;
+  --ink:#0d1f3c;--ink2:#2c3e5d;--muted:#64748b;
+  --border:rgba(14,42,92,.09);
+  --card:#ffffff;--bg:#f5f7fb;--bg2:#eef2ff;
+  --shadow:0 4px 24px rgba(14,42,92,.07);
+  --shadow-md:0 8px 40px rgba(14,42,92,.10);
+  --shadow-lg:0 20px 60px rgba(14,42,92,.13);
+  --r:18px;--r-sm:10px;
+  --font-display:'Nunito',sans-serif;
+  --font-body:'Nunito',sans-serif;
+}
+body.dark{
+  --ink:#e8edf5;--ink2:#b8c5d6;--muted:#8899aa;
+  --card:#131f35;--bg:#0a1628;--bg2:#131f35;
+  --border:rgba(232,237,245,.08);
+  --shadow:0 4px 24px rgba(0,0,0,.3);
+  --shadow-md:0 8px 40px rgba(0,0,0,.4);
+  --orangeL:rgba(194,65,12,.13);--greenL:rgba(5,150,105,.10);
+  --amberL:rgba(217,119,6,.10);--redL:rgba(220,38,38,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);overflow-x:hidden;line-height:1.65}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(245,247,251,.94);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);transition:.3s}
+body.dark .topbar{background:rgba(10,22,40,.94)}
+.topbar-inner{max-width:1520px;margin:0 auto;padding:10px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topbar-brand{display:flex;align-items:center;gap:10px}
+.topbar-brand img{height:38px}
+.topbar-title strong{font-family:var(--font-display);font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;color:var(--blue)}
+.topbar-title span{display:block;font-size:11px;color:var(--muted);font-weight:500}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;
+  border-radius:999px;border:1.5px solid var(--border);background:var(--card);
+  font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;
+  color:var(--ink);transition:.18s ease}
+.btn-sm:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── LAYOUT ── */
+.layout{max-width:1520px;margin:0 auto;padding:76px 24px 60px;
+  display:grid;grid-template-columns:272px 1fr;gap:20px;align-items:start}
+@media(max-width:1100px){.layout{grid-template-columns:1fr;padding-top:70px}}
+
+/* ── SIDEBAR ── */
+.sidebar{position:sticky;top:76px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:18px;
+  max-height:calc(100vh - 96px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sidebar-label{font-family:var(--font-display);font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.8px;color:var(--blue);
+  padding:4px 8px;border-radius:6px;background:rgba(27,79,168,.08);
+  display:inline-block}
+.sidebar h2{font-family:var(--font-display);font-size:26px;font-weight:700;
+  color:var(--ink);margin-top:10px;line-height:1;text-transform:uppercase}
+.sidebar-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.nav-section{margin-top:14px;display:flex;flex-direction:column;gap:2px}
+.nav-group-title{font-size:10px;text-transform:uppercase;color:var(--muted);
+  font-weight:700;letter-spacing:.7px;padding:8px 8px 3px}
+.nav-section a{display:flex;align-items:center;justify-content:space-between;
+  padding:7px 8px;border-radius:8px;border:1px solid transparent;
+  font-size:12px;font-weight:500;color:var(--ink2);transition:.15s ease}
+.nav-section a:hover,.nav-section a.active{background:rgba(27,79,168,.08);
+  border-color:rgba(27,79,168,.14);color:var(--blue)}
+.nav-section a small{color:var(--muted);font-size:11px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{display:flex;flex-direction:column;gap:18px}
+
+/* ── HERO ── */
+.hero{border-radius:24px;overflow:hidden;
+  background:linear-gradient(140deg,var(--navy) 0%,var(--blue) 55%,var(--teal) 100%);
+  color:#fff;position:relative;box-shadow:var(--shadow-lg)}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 700px 500px at 100% -10%,rgba(255,255,255,.10),transparent),
+             radial-gradient(ellipse 400px 600px at -5% 110%,rgba(8,145,178,.22),transparent);
+  pointer-events:none}
+.hero-inner{padding:36px;display:grid;grid-template-columns:1.3fr .9fr;gap:28px;
+  align-items:center;position:relative}
+@media(max-width:860px){.hero-inner{grid-template-columns:1fr}}
+.hero-tag{display:inline-flex;align-items:center;padding:4px 12px;margin-right:6px;
+  border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.hero h1{font-family:var(--font-display);font-size:clamp(30px,4.5vw,54px);
+  font-weight:700;line-height:1;text-transform:uppercase;margin-top:14px}
+.hero h1 span{display:block;font-size:clamp(16px,2.5vw,28px);font-weight:400;
+  color:rgba(255,255,255,.78);margin-top:8px;text-transform:none}
+.hero-desc{margin-top:16px;font-size:14px;line-height:1.75;
+  color:rgba(255,255,255,.85);max-width:60ch}
+.hero-note{margin-top:14px;font-size:11px;color:rgba(255,255,255,.55);font-style:italic}
+.hero-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{padding:16px;border-radius:16px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+.kpi.green{background:linear-gradient(135deg,rgba(5,150,105,.85),rgba(4,120,87,.80))}
+.kpi.amber{background:linear-gradient(135deg,rgba(217,119,6,.85),rgba(245,158,11,.75))}
+.kpi.teal{background:linear-gradient(135deg,rgba(8,145,178,.85),rgba(6,182,212,.75))}
+.kpi.brand{background:linear-gradient(135deg,rgba(27,79,168,.85),rgba(37,99,192,.75))}
+.kpi .n{font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1}
+.kpi .n sup{font-size:18px}
+.kpi .t{font-size:12px;color:rgba(255,255,255,.82);margin-top:7px;line-height:1.35;font-weight:400}
+
+/* ── SECTION ── */
+.section{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.section-head{padding:24px 24px 0}
+.eyebrow{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;
+  background:rgba(27,79,168,.09);border:1px solid rgba(27,79,168,.16);
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue)}
+.eyebrow.teal{background:rgba(8,145,178,.09);border-color:rgba(8,145,178,.18);color:var(--teal)}
+.eyebrow.orange{background:rgba(194,65,12,.09);border-color:rgba(194,65,12,.18);color:var(--orange)}
+.eyebrow.green{background:rgba(5,150,105,.09);border-color:rgba(5,150,105,.18);color:var(--green)}
+.eyebrow.amber{background:rgba(217,119,6,.09);border-color:rgba(217,119,6,.18);color:var(--amber)}
+.section h3{font-family:var(--font-display);font-size:clamp(19px,2.8vw,28px);
+  font-weight:700;text-transform:uppercase;line-height:1.05;margin-top:10px}
+.section-desc{margin-top:8px;font-size:13.5px;line-height:1.7;color:var(--muted);max-width:90ch}
+.section-body{padding:18px 24px 24px;display:flex;flex-direction:column;gap:14px}
+.section-foot{padding:8px 24px 14px;font-size:11px;color:var(--muted);
+  font-style:italic;border-top:1px solid var(--border)}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.g21{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}
+@media(max-width:860px){.g2,.g21{grid-template-columns:1fr}}
+@media(max-width:960px){.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.g3,.g4{grid-template-columns:1fr}}
+
+/* ── PANEL ── */
+.panel{border-radius:var(--r-sm);background:var(--bg);border:1px solid var(--border);padding:14px}
+.panel.blue{background:rgba(27,79,168,.06);border-color:rgba(27,79,168,.13)}
+.panel.teal{background:rgba(8,145,178,.06);border-color:rgba(8,145,178,.13)}
+.panel.green{background:var(--greenL);border-color:rgba(5,150,105,.17)}
+.panel.orange{background:var(--orangeL);border-color:rgba(194,65,12,.17)}
+.panel.amber{background:var(--amberL);border-color:rgba(217,119,6,.17)}
+.panel.red{background:var(--redL);border-color:rgba(220,38,38,.17)}
+.panel.grad{background:linear-gradient(135deg,rgba(27,79,168,.06),rgba(8,145,178,.06));
+  border-color:rgba(27,79,168,.11)}
+.panel-title{font-size:10.5px;text-transform:uppercase;font-weight:700;
+  color:var(--blue);letter-spacing:.6px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px}
+.panel-title::before{content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--teal2);flex-shrink:0}
+
+/* ── METRIC ── */
+.metric{padding:12px 14px;border-radius:var(--r-sm);
+  background:var(--card);border:1px solid var(--border)}
+.metric .v{font-family:var(--font-display);font-size:30px;font-weight:700;
+  line-height:1;color:var(--blue)}
+.metric .l{margin-top:5px;font-size:12px;color:var(--muted);line-height:1.4}
+.metric.green .v{color:var(--green)}
+.metric.teal .v{color:var(--teal)}
+.metric.orange .v{color:var(--orange)}
+.metric.amber .v{color:var(--amber)}
+
+/* ── CALLOUT ── */
+.callout{padding:11px 14px;border-radius:var(--r-sm);
+  background:rgba(27,79,168,.07);border-left:3px solid var(--blue);
+  font-size:13px;font-weight:400;line-height:1.65;color:var(--ink2)}
+.callout.green{background:var(--greenL);border-color:var(--green)}
+.callout.orange{background:var(--orangeL);border-color:var(--orange)}
+.callout.amber{background:var(--amberL);border-color:var(--amber)}
+.callout.teal{background:rgba(8,145,178,.07);border-color:var(--teal)}
+.callout.red{background:var(--redL);border-color:var(--red)}
+.callout strong{color:var(--blue);font-weight:700}
+.callout.green strong{color:var(--green)}
+.callout.orange strong{color:var(--orange)}
+.callout.amber strong{color:var(--amber)}
+.callout.teal strong{color:var(--teal)}
+
+/* ── RICH TEXT ── */
+.rich{font-size:13.5px;line-height:1.75;color:var(--ink2)}
+.rich p{margin-bottom:10px}
+.rich p:last-child{margin-bottom:0}
+.rich ul{padding-left:16px;margin-bottom:10px}
+.rich li{margin-bottom:6px}
+.rich strong{color:var(--ink);font-weight:600}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow:auto;border-radius:var(--r-sm);border:1px solid var(--border)}
+table{border-collapse:collapse;width:100%;min-width:500px}
+th{padding:9px 12px;background:rgba(27,79,168,.07);font-size:11px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+  color:var(--blue);border-bottom:1px solid var(--border);text-align:left}
+td{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--border);
+  color:var(--ink2);font-weight:400}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(27,79,168,.025)}
+
+/* ── IMAGE ── */
+.img-box{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border)}
+.img-box img{width:100%;display:block}
+.img-cap{padding:5px 12px;font-size:11px;color:var(--muted);
+  font-style:italic;border-top:1px solid var(--border);background:var(--card)}
+
+/* ── BARS ── */
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:grid;grid-template-columns:160px 1fr 90px;gap:8px;align-items:center}
+@media(max-width:640px){.bar-row{grid-template-columns:1fr;gap:3px}}
+.bar-lbl{font-size:12px;font-weight:600;color:var(--ink2)}
+.bar-track{height:9px;border-radius:999px;overflow:hidden;
+  background:rgba(27,79,168,.08);border:1px solid rgba(27,79,168,.09)}
+.bar-track .fill{height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--teal2));
+  transition:width 1s cubic-bezier(.4,0,.2,1)}
+.bar-track .fill.orange{background:linear-gradient(90deg,var(--orange),var(--amber))}
+.bar-track .fill.green{background:linear-gradient(90deg,var(--green),var(--teal2))}
+.bar-val{font-size:12px;font-weight:700;text-align:right;color:var(--ink)}
+
+/* ── SAT BARS ── */
+.sat-row{padding:9px 0;border-bottom:1px solid var(--border)}
+.sat-row:last-child{border-bottom:none}
+.sat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.sat-lbl{font-size:12.5px;font-weight:500;color:var(--ink2)}
+.sat-pct{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--blue)}
+.sat-track{height:7px;border-radius:999px;background:rgba(27,79,168,.08);overflow:hidden}
+.sat-fill{height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--teal2));
+  width:0;transition:width 1s ease}
+.sat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* ── TAG ── */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
+  background:rgba(27,79,168,.09);color:var(--blue);border:1px solid rgba(27,79,168,.14)}
+.tag.green{background:var(--greenL);color:var(--green);border-color:rgba(5,150,105,.15)}
+.tag.orange{background:var(--orangeL);color:var(--orange);border-color:rgba(194,65,12,.15)}
+.tag.amber{background:var(--amberL);color:var(--amber);border-color:rgba(217,119,6,.15)}
+.tag.red{background:var(--redL);color:var(--red);border-color:rgba(220,38,38,.15)}
+.tag.teal{background:rgba(8,145,178,.09);color:var(--teal);border-color:rgba(8,145,178,.14)}
+
+/* ── BLOCKQUOTE ── */
+.bq{border-left:4px solid var(--blue);padding:10px 0 10px 16px;
+  font-size:14.5px;font-style:italic;line-height:1.7;color:var(--ink2)}
+.bq cite{display:block;margin-top:8px;font-size:12px;
+  font-style:normal;font-weight:600;color:var(--muted)}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:42px 1fr;gap:12px;
+  padding-bottom:14px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:'';position:absolute;left:20px;top:42px;
+  bottom:0;width:2px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-num{width:42px;height:42px;border-radius:12px;display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+  background:rgba(27,79,168,.11);color:var(--blue);
+  font-family:var(--font-display);font-size:15px;font-weight:700;
+  border:1px solid rgba(27,79,168,.17)}
+.tl-content{padding-top:10px}
+.tl-content strong{font-size:13px;font-weight:700;display:block;margin-bottom:3px}
+.tl-content p{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* ── DIVIDER ── */
+.hr{height:1px;background:var(--border);margin:4px 0}
+
+/* ── BIG NUMBER ── */
+.big-num{font-family:var(--font-display);font-size:clamp(44px,7vw,76px);
+  font-weight:700;color:var(--blue);line-height:1}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(12px);
+  transition:opacity .5s ease,transform .5s ease}
+.reveal.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:rgba(27,79,168,.18);border-radius:999px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC Var Est" onerror="this.style.display='none'">
+      <div class="topbar-title">
+        <strong>DAC Var Est — Rapport d'activité 2025</strong>
+        <span>Monographie sur le service rendu — Parcours complexes</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-sm" id="btnDark" type="button">🌙 Mode sombre</button>
+      <button class="btn-sm" id="btnTop" type="button">↑ Haut</button>
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/ars_r_publiquefrancaise.png" alt="ARS" style="height:30px" onerror="this.style.display='none'">
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- ══════════════════════════════════════════════ SIDEBAR -->
+<aside class="sidebar">
+  <span class="sidebar-label">Rapport 2025</span>
+  <h2>DAC<br>Var Est</h2>
+  <p class="sidebar-sub">Dispositif d'Appui à la Coordination — Parcours complexes — GCS Est Var</p>
+  <nav class="nav-section" id="mainNav">
+    <div class="nav-group-title">Présentation</div>
+    <a href="#intro">Chiffres clés <small>p.1</small></a>
+    <a href="#identite">Fiche d'identité <small>p.2</small></a>
+    <a href="#territoire">Territoire <small>p.3</small></a>
+    <a href="#historique">Historique <small>p.4</small></a>
+    <div class="nav-group-title">Activité</div>
+    <a href="#dynamique">Dynamique d'activité <small>p.5</small></a>
+    <a href="#adresseurs">Adresseurs <small>p.6</small></a>
+    <a href="#problematiques">Problématiques <small>p.7</small></a>
+    <a href="#ages">Tranches d'âge <small>p.8</small></a>
+    <a href="#intensites">Intensités PEC <small>p.9</small></a>
+    <div class="nav-group-title">Organisation</div>
+    <a href="#equipe">Équipe pluriprofessionnelle <small>p.10</small></a>
+    <a href="#parcours">Parcours patient <small>p.11</small></a>
+    <a href="#gouvernance">Gouvernance <small>p.12</small></a>
+    <a href="#animation">Animation territoriale <small>p.13</small></a>
+    <a href="#partenaires">Partenariats <small>p.14</small></a>
+    <div class="nav-group-title">Service rendu</div>
+    <a href="#satisfaction">Satisfaction <small>p.15</small></a>
+    <a href="#qualite">Qualité & pilotage <small>p.16</small></a>
+    <a href="#cpom">CPOM <small>p.17</small></a>
+  </nav>
+</aside>
+
+<!-- ══════════════════════════════════════════════ MAIN -->
+<main class="main">
+
+<!-- ── HERO ── -->
+<div class="hero reveal" id="intro" data-section>
+  <div class="hero-inner">
+    <div>
+      <div>
+        <span class="hero-tag">Rapport d'activité</span>
+        <span class="hero-tag">2025</span>
+      </div>
+      <h1>DAC Var Est
+        <span>Dispositif d'Appui à la Coordination des parcours complexes</span>
+      </h1>
+      <p class="hero-desc">Monographie sur le service rendu du DAC VAR EST 2025 — Groupement de Coopération Sanitaire couvrant 69 communes de l'Est Var, soit 350 874 habitants. Ce rapport présente l'activité 2025, l'organisation, les missions et les résultats du service rendu aux professionnels et aux usagers du territoire.</p>
+      <p class="hero-note">Données issues de l'outil régional SAS AZUREZO volet ANAP et pilotage (migration octobre 2022)</p>
+    </div>
+    <div class="hero-kpis">
+      <div class="kpi green"><div class="n countup" data-to="2402">0</div><div class="t">Sollicitations reçues en 2025</div></div>
+      <div class="kpi amber"><div class="n countup" data-to="34.57" data-dec="2">0<sup>%</sup></div><div class="t">Augmentation 2023–2025</div></div>
+      <div class="kpi teal"><div class="n countup" data-to="2023">0</div><div class="t">Dossiers traités en coordination</div></div>
+      <div class="kpi brand"><div class="n">98<sup>%</sup></div><div class="t">Recommanderaient le DAC</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 1. FICHE D'IDENTITÉ ── -->
+<div class="section reveal" id="identite" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 1</span>
+    <h3>Fiche d'identité du DAC Var Est</h3>
+    <p class="section-desc">Structure juridique, territoire couvert, ressources humaines et spécificités du dispositif.</p>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Identité structurelle</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Critère</th><th>Valeur</th></tr>
+            <tr><td><strong>Date de création</strong></td><td>17 juin 2022</td></tr>
+            <tr><td><strong>Personnalité juridique</strong></td><td>GCS — DAC VAR EST de droit privé</td></tr>
+            <tr><td><strong>Territoire couvert</strong></td><td>Est Var — 69 communes (Golfe de St Tropez, Esterel Côte d'Azur, Pays de Fayence, Dracénie Provence Verdon, Cœur du Var)</td></tr>
+            <tr><td><strong>Organisation</strong></td><td>Siège / standard unique : Draguignan — Antenne : Fréjus</td></tr>
+            <tr><td><strong>ETP</strong></td><td><strong>19,8 ETP</strong></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="panel orange">
+        <div class="panel-title">Structures regroupées</div>
+        <div class="rich">
+          <ul>
+            <li><strong>2 MAIA</strong></li>
+            <li><strong>1 PTA</strong> issue d'une CTA de PAERPA</li>
+          </ul>
+          <p>Un processus de convergence avait déjà conduit au rapprochement des MAIA au sein de la Plateforme Territoriale d'Appui.</p>
+          <p style="font-size:12.5px;color:var(--muted)">À noter : la mise à disposition par conventions au GCS de personnels contractuels de droit privé, de droit public et titulaires de la fonction publique hospitalière. Le GCS est lui-même employeur de droit privé.</p>
+        </div>
+
+        <div class="panel-title" style="margin-top:14px">Spécificités DAC VE</div>
+        <div class="g2" style="gap:8px">
+          <div style="padding:12px;border-radius:10px;background:rgba(8,145,178,.08);border:1px solid rgba(8,145,178,.18)">
+            <div style="font-size:18px;margin-bottom:6px">🦠</div>
+            <div style="font-size:12.5px;font-weight:700;color:var(--teal);line-height:1.4"><strong>Porteur de la Cellule de Coordination Covid Long</strong><br><span style="font-weight:400;color:var(--ink2)">pour le VAR</span></div>
+          </div>
+          <div style="padding:12px;border-radius:10px;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.18)">
+            <div style="font-size:18px;margin-bottom:6px">🚑</div>
+            <div style="font-size:12.5px;font-weight:700;color:var(--green);line-height:1.4"><strong>Coopération depuis 2023 avec le SAMU 83</strong><br><span style="font-weight:400;color:var(--ink2)">dans le cadre du SAS pour situations médico-sociales complexes</span></div>
+          </div>
+          <div style="padding:12px;border-radius:10px;background:rgba(27,79,168,.08);border:1px solid rgba(27,79,168,.18)">
+            <div style="font-size:18px;margin-bottom:6px">🏢</div>
+            <div style="font-size:12.5px;font-weight:700;color:var(--blue);line-height:1.4"><strong>Membre du Consortium Les 80 Tiers Lieu CIUS</strong><br><span style="font-weight:400;color:var(--ink2)">depuis 2024</span></div>
+          </div>
+          <div style="padding:12px;border-radius:10px;background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.18)">
+            <div style="font-size:18px;margin-bottom:6px">🚪</div>
+            <div style="font-size:12.5px;font-weight:700;color:var(--amber);line-height:1.4"><strong>Porte d'entrée</strong><br><span style="font-weight:400;color:var(--ink2)">pour demandes d'équipes mobiles CHD et CHIFSR (EMGEH et EMPSA) — parcours PA</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2. TERRITOIRE ── -->
+<div class="section reveal" id="territoire" data-section>
+  <div class="section-head">
+    <span class="eyebrow teal">Section 2</span>
+    <h3>Signalétique du territoire — Est Var</h3>
+    <p class="section-desc">Une population en hausse, une forte prévalence de personnes âgées et une offre de santé globalement inférieure à la région PACA.</p>
+  </div>
+  <div class="section-body">
+    <div class="g4">
+      <div class="metric"><div class="v countup" data-to="350874">0</div><div class="l">Habitants couverts (2022)</div></div>
+      <div class="metric"><div class="v countup" data-to="69">0</div><div class="l">Communes couvertes</div></div>
+      <div class="metric teal"><div class="v">2 818,5</div><div class="l">km² de superficie</div></div>
+      <div class="metric"><div class="v">124,5</div><div class="l">Hab./km² (moy. nat. 107,1)</div></div>
+    </div>
+    <div class="g2">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="callout orange"><strong>28 %</strong> de la population a plus de 65 ans — moy. nationale 20,8 %, moy. PACA 23,7 %</div>
+        <div class="callout red"><strong>Mortalité prématurée :</strong> 180 décès pour 100 000 personnes (moy. PACA 124,1)</div>
+        <div class="callout"><strong>Taux de pauvreté médian (2021) :</strong> 15 % — entre 10 % et 22 % selon les communes (médiane PACA 17,4 %)</div>
+        <div class="callout amber"><strong>11,7 %</strong> de la population de 17 ans+ sans médecin traitant — <strong>20,53 %</strong> exonérée au titre d'une ALD</div>
+      </div>
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/densitepopulationpdf.png" alt="Cartographie densité de la population — territoire DAC Var Est" style="width:100%">
+        <div class="img-cap">Cartographie — Densité de la population sur le territoire DAC Var Est</div>
+      </div>
+    </div>
+    <div class="panel blue">
+      <div class="panel-title">Densité de spécialistes / 100 000 pers. — Var (2024)</div>
+      <div class="bars">
+        <div class="bar-row"><div class="bar-lbl">Cardiologues</div><div class="bar-track" data-pct="50"><div class="fill"></div></div><div class="bar-val">11,2 <span style="font-size:10px;color:var(--green)">✓ (8,6)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Psychiatres</div><div class="bar-track" data-pct="59"><div class="fill orange"></div></div><div class="bar-val">13,6 <span style="font-size:10px;color:var(--red)">✗ (23,1)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Pédiatres</div><div class="bar-track" data-pct="94"><div class="fill"></div></div><div class="bar-val">28,7 <span style="font-size:10px;color:var(--amber)">(30,6 rég.)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Dermatologues</div><div class="bar-track" data-pct="48"><div class="fill orange"></div></div><div class="bar-val">2,1 <span style="font-size:10px;color:var(--red)">✗ (4,4)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Endocrinologues</div><div class="bar-track" data-pct="61"><div class="fill orange"></div></div><div class="bar-val">1,9 <span style="font-size:10px;color:var(--red)">✗ (3,1)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Neurologues</div><div class="bar-track" data-pct="88"><div class="fill"></div></div><div class="bar-val">1,4 <span style="font-size:10px;color:var(--amber)">(1,6)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Pneumologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val">2,7 <span style="font-size:10px;color:var(--green)">✓ (2,1)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Néphrologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val">1,2 <span style="font-size:10px;color:var(--green)">✓ (0,8)</span></div></div>
+      </div>
+    </div>
+    <!-- Densité MG libéraux + infirmières / Taux d'équipements -->
+    <div class="g2">
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/3-5-page-0003.png" alt="Densité de médecins généralistes libéraux et densité d'infirmières libérales pour 100 000 personnes" style="width:100%">
+        <div class="img-cap">Densité de MG libéraux et d'infirmiers libéraux pour 100 000 personnes — DRSM Paca-Corse 2022</div>
+      </div>
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/3-5-page-003.png" alt="Taux d'équipements en hébergement personnes âgées et accompagnement adultes en situation de handicap" style="width:100%">
+        <div class="img-cap">Taux d'équipements — Hébergement PA 75 ans+ et accompagnement adultes en situation de handicap (2021)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3. HISTORIQUE ── -->
+<div class="section reveal" id="historique" data-section>
+  <div class="section-head">
+    <span class="eyebrow amber">Section 3</span>
+    <h3>Contexte et historique d'unification des dispositifs</h3>
+  </div>
+  <div class="section-body">
+    <!-- image3-scaled = Historique 2013 2015 2017 2020 etc. -->
+    <div class="img-box">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image3-scaled.png" alt="Historique d'unification des dispositifs 2013–2022">
+      <div class="img-cap">Historique d'unification — De 2013 à la création du DAC Var Est en 2022</div>
+    </div>
+    <div class="bq">
+      « La mobilisation de la gouvernance du DAC a été un fait marquant dans sa construction, les dispositifs pré existants n'étant pas dotés de gouvernance propre mais rattachés aux porteurs. Les membres fondateurs que sont le Centre Hospitalier de la Dracénie, le Centre Hospitalier Intercommunal Fréjus Saint Raphaël et l'Association Jean Lachenaud font ainsi partie intégrante de cette nouvelle commission. »
+      <cite>— Directrice du DAC</cite>
+    </div>
+    <div class="g2">
+      <div class="callout"><strong>2 MAIA + 1 PTA</strong> fusionnés lors de la création du GCS le 17 juin 2022. Un processus de convergence avait déjà conduit au rapprochement des MAIA au sein de la Plateforme Territoriale d'Appui.</div>
+      <div class="callout teal">
+        <div style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--teal);margin-bottom:10px">● Membres fondateurs</div>
+        <div class="g3" style="gap:10px">
+          <div style="background:white;border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+            <div style="width:36px;height:36px;border-radius:8px;background:#eef2fb;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px">🏥</div>
+            <div>
+              <div style="font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:3px">CH Dracénie</div>
+              <div style="font-size:12px;color:var(--muted)">Centre Hospitalier de la Dracénie — Draguignan</div>
+            </div>
+          </div>
+          <div style="background:white;border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+            <div style="width:36px;height:36px;border-radius:8px;background:#eef2fb;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px">🏥</div>
+            <div>
+              <div style="font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:3px">CHI Fréjus Saint Raphaël</div>
+              <div style="font-size:12px;color:var(--muted)">Centre Hospitalier Intercommunal FSR Golfe de St Tropez</div>
+            </div>
+          </div>
+          <div style="background:white;border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px">●</div>
+            <div>
+              <div style="font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:3px">Association Jean Lachenaud</div>
+              <div style="font-size:12px;color:var(--muted)">Porteur du CRT — membre fondateur du GCS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 4. DYNAMIQUE D'ACTIVITÉ ── -->
+<div class="section reveal" id="dynamique" data-section>
+  <div class="section-head">
+    <span class="eyebrow green">Section 4</span>
+    <h3>Dynamique d'activité du DAC — 2025</h3>
+    <p class="section-desc">Une activité élevée et une file active dynamique et renouvelée en coordination.</p>
+  </div>
+  <div class="section-body">
+    <div class="g4">
+      <div class="metric green"><div class="v countup" data-to="2402">0</div><div class="l">Sollicitations reçues en 2025</div></div>
+      <div class="metric"><div class="v countup" data-to="2023">0</div><div class="l">Dossiers patients traités (indic. 16)</div></div>
+      <div class="metric teal"><div class="v countup" data-to="1810">0</div><div class="l">Nouveaux patients entrants (indic. 18a)</div></div>
+      <div class="metric orange"><div class="v">+34,57 %</div><div class="l">Augmentation 2023–2025</div></div>
+    </div>
+
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Résultats clés 2025</div>
+        <div class="rich">
+          <ul>
+            <li><strong>90 %</strong> des situations complexes accompagnées clôturées en coordination soutenue</li>
+            <li><strong>60 %</strong> clôturées en coordination intensive</li>
+            <li><strong>1 981 sorties</strong> en coordination dont <strong>79 décès</strong> et <strong>102 entrées en institution</strong></li>
+          </ul>
+        </div>
+        <!-- image11 = Durée médiane jours ouvrés -->
+        <div class="img-box" style="margin-top:12px">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image11.png" alt="Durée médiane d'accompagnement — jours ouvrés">
+          <div class="img-cap">Durée médiane d'accompagnement (jours ouvrés) — CS vs CI</div>
+        </div>
+      </div>
+
+      <div class="panel grad">
+        <div class="panel-title">Durée d'accompagnement 2025</div>
+        <div class="g2">
+          <div style="padding:12px;border-radius:var(--r-sm);background:var(--card);border:1px solid var(--border);text-align:center">
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--blue)">26 j</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">Durée médiane CS<br>(vs 39 j en 2024)</div>
+            <span class="tag green" style="margin-top:6px;display:inline-flex">-33 % vs 2024</span>
+          </div>
+          <div style="padding:12px;border-radius:var(--r-sm);background:var(--card);border:1px solid var(--border);text-align:center">
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--teal)">~9 m</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">Durée médiane CI<br>(vs 13 mois en 2024)</div>
+            <span class="tag green" style="margin-top:6px;display:inline-flex">-44,4 % vs 2024</span>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:12px">
+          <strong>Analyse :</strong> Évolution en baisse due à la dynamisation des files actives et aux procédures de suivi de stabilisation. La polyvalence des profils implique cependant une prise en charge plus chronophage pour les équipes.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 5. ADRESSEURS ── -->
+<div class="section reveal" id="adresseurs" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 5</span>
+    <h3>Répartition des sollicitations par type d'adresseur</h3>
+    <p class="section-desc">Forte prédominance des établissements de santé et augmentation constante des demandes du grand public depuis 2023.</p>
+  </div>
+  <div class="section-body">
+    <!-- image4 = adresseurs 2023 / image7 = adresseurs 2024 / image8 = adresseurs 2025 -->
+    <div class="g3">
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image4.png" alt="Répartition par type d'adresseur 2023">
+        <div class="img-cap">Type d'adresseur — 2023</div>
+      </div>
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image7.png" alt="Répartition par type d'adresseur 2024">
+        <div class="img-cap">Type d'adresseur — 2024</div>
+      </div>
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image8.png" alt="Répartition par type d'adresseur 2025">
+        <div class="img-cap">Type d'adresseur — 2025</div>
+      </div>
+    </div>
+
+    <!-- Cartographies patients suivis + médecins adresseurs -->
+    <div class="g2">
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/cartographiedespatients2025pdf.png" alt="Cartographie de la répartition des patients suivis — 2025" style="width:100%">
+        <div class="img-cap">Cartographie — Répartition des patients suivis par le DAC Var Est (2025)</div>
+      </div>
+      <div class="img-box">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/sollicitationsmedecins2025pdf.png" alt="Cartographie des médecins adresseurs — 2025" style="width:100%">
+        <div class="img-cap">Cartographie — Sollicitations des médecins adresseurs (2025)</div>
+      </div>
+    </div>
+
+    <!-- image9 = Répartitions par type de problématique (ici c'est le graphique des RÉPONSES apportées) -->
+    <div class="g21">
+      <div class="panel orange">
+        <div class="panel-title">Points saillants</div>
+        <div class="rich">
+          <ul>
+            <li><strong>Forte prédominance</strong> des ES du territoire (CH Dracénie et CHI FSR Golfe de St Tropez)</li>
+            <li><strong>Augmentation constante depuis 2023</strong> des demandes du grand public, orienté par un PS ou par ses propres moyens</li>
+            <li>Réponses apportées : <strong>appui en coordination des situations complexes à plus de 60 %</strong></li>
+            <li>Le niveau de coordination est <strong>systématiquement soutenu</strong> avant un relais en intensif</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel blue">
+        <div class="panel-title">Médecins généralistes — investissement 2025</div>
+        <div class="g2">
+          <div class="metric green"><div class="v countup" data-to="149">0</div><div class="l">MG ayant sollicité le DAC</div></div>
+          <div class="metric"><div class="v">54,18 %</div><div class="l">du total des MG du territoire (vs 26,84 % en 2024)</div></div>
+        </div>
+        <div class="callout green" style="margin-top:10px"><strong>MG = 32 %</strong> des PS ayant sollicité le DAC VE en 2025</div>
+        <div class="rich" style="margin-top:10px;font-size:12.5px">
+          <ul>
+            <li>MT informés dans <strong>100 % des situations identifiées avec MT</strong></li>
+            <li><strong>10,33 %</strong> sans MT (vs 34 % en 2024)</li>
+            <li>Sur 258 CI : <strong>185 PPCS réalisés (71,7 %)</strong> — contre 4,2 % en 2024</li>
+            <li><strong>34 %</strong> des PPCS adressés au MT — <strong>14,3 %</strong> validés avant mise en œuvre</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- image17 + image22 côte à côte -->
+    <div class="panel grad">
+      <div class="g2">
+        <div>
+          <div class="panel-title">Répartition des professionnels sollicitant le DAC (2025)</div>
+          <div class="img-box">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image17.png" alt="Répartition des types de professionnels sollicitant le DAC — travailleurs sociaux 33.1%, paramédicaux 36.7%…" style="max-height:260px;object-fit:contain;width:100%">
+            <div class="img-cap">Répartition des professionnels adresseurs — 2025</div>
+          </div>
+        </div>
+        <div>
+          <div class="panel-title">Répartition des actions menées par le DAC (2025)</div>
+          <div class="img-box">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image22.png" alt="Répartition des actions menées par le DAC — travailleurs sociaux 26.1%, CCAS chef de service 11.8%…" style="max-height:260px;object-fit:contain;width:100%">
+            <div class="img-cap">Répartition des types d'actions menées — 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- image12 = Connaissance du DAC Var Est — graphique camembert -->
+    <div class="panel grad">
+      <div class="panel-title">Par quel canal les utilisateurs ont-ils connu le DAC ? (enquête satisfaction S1 2025 — 68 répondants)</div>
+      <div class="g21">
+        <div class="img-box" style="max-width:85%;margin:0 auto">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image12.png" alt="Connaissance du DAC Var Est — graphique camembert" style="width:100%">
+          <div class="img-cap">Comment les professionnels ont-ils connu le DAC ? — Enquête de satisfaction S1 2025</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="callout green"><strong>58 %</strong> ont eu connaissance du DAC VE suite à une action directe du DAC (rencontres individuelles, animations territoriales), dont 4 % via LinkedIn et le site web (mis à jour fin oct. 2025)</div>
+          <div class="callout teal"><strong>42 %</strong> ont eu connaissance du DAC par un autre professionnel de santé — preuve de la recommandation par un pair</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 6. PROBLÉMATIQUES ── -->
+<div class="section reveal" id="problematiques" data-section>
+  <div class="section-head">
+    <span class="eyebrow teal">Section 6</span>
+    <h3>Répartition par type de problématique</h3>
+    <p class="section-desc">Les trois classes majeures restent inchangées entre 2023 et 2025.</p>
+  </div>
+  <div class="section-body">
+    <!-- image9 = Répartitions par type de problématique graphique -->
+    <div class="img-box" style="max-width:85%;margin:0 auto">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image9.png" alt="Répartition des personnes accompagnées par type de problématique — comparatif 2023–2024–2025" style="width:100%">
+      <div class="img-cap">Répartition des personnes accompagnées par type de problématique — comparatif 2023–2024–2025</div>
+    </div>
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Top 3 des problématiques (2025)</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:600">Aides à la vie quotidienne insuffisantes</span>
+              <span class="tag">43 %</span>
+            </div>
+            <div class="bar-track" data-pct="86"><div class="fill"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:600">Problématiques psychiques / psychiatriques / cognitives</span>
+              <span class="tag teal">37,5 %</span>
+            </div>
+            <div class="bar-track" data-pct="75"><div class="fill"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:600">Problématiques liées à l'aidant / absence d'aidant</span>
+              <span class="tag orange">22 %</span>
+            </div>
+            <div class="bar-track" data-pct="44"><div class="fill orange"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout orange" style="align-self:start">
+        <strong>Analyse :</strong> Les trois classes majeures restent inchangées vs 2023–2024. File active principalement composée de situations gérontologiques mixtes avec besoins cumulés d'aide, de soins et de suivi psychiatrique / cognitif.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 7. TRANCHES D'ÂGE ── -->
+<div class="section reveal" id="ages" data-section>
+  <div class="section-head">
+    <span class="eyebrow amber">Section 7</span>
+    <h3>Répartition des patients accompagnés par tranche d'âge</h3>
+  </div>
+  <div class="section-body">
+    <!-- image10 = Repartitions patients tranche d'age graphique -->
+    <div class="img-box" style="max-width:85%;margin:0 auto">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image10.png" alt="Répartition des patients accompagnés par tranche d'âge — comparatif 2023–2024–2025" style="width:100%">
+      <div class="img-cap">Répartition des patients accompagnés par tranche d'âge — comparatif 2023–2024–2025</div>
+    </div>
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Répartition 2025</div>
+        <div class="bars">
+          <div class="bar-row"><div class="bar-lbl">75 ans et plus</div><div class="bar-track" data-pct="83"><div class="fill"></div></div><div class="bar-val">83 %</div></div>
+          <div class="bar-row"><div class="bar-lbl">60 – 74 ans</div><div class="bar-track" data-pct="17"><div class="fill orange"></div></div><div class="bar-val">~17 %</div></div>
+          <div class="bar-row"><div class="bar-lbl">Moins de 60 ans</div><div class="bar-track" data-pct="8"><div class="fill orange"></div></div><div class="bar-val">↑ +73 %</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="callout green"><strong>+73 %</strong> d'augmentation depuis 2023 sur la tranche des moins de 60 ans</div>
+        <div class="callout teal">Ouverture aux <strong>mineurs et jeunes adultes en situation complexe</strong> actée — <strong>~10 situations</strong> en 2025</div>
+        <div class="callout amber"><strong>83 %</strong> des situations accompagnées concernent un public de plus de 75 ans — cohérent avec la part des 65+ sur le territoire (28 % vs 20,8 % national)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 8. INTENSITÉS ── -->
+<div class="section reveal" id="intensites" data-section>
+  <div class="section-head">
+    <span class="eyebrow green">Section 8</span>
+    <h3>Intensités de prise en charge</h3>
+    <p class="section-desc">Le DAC intervient de manière graduée selon trois niveaux d'intensité en fonction des besoins.</p>
+  </div>
+  <div class="section-body">
+    <div class="g4">
+      <div class="metric"><div class="v">36 %</div><div class="l"><strong>Niveau 1</strong> — Info / orientation (34,4 % en 2024)</div></div>
+      <div class="metric teal"><div class="v">61,3 %</div><div class="l"><strong>Niveau 2</strong> — Coordination soutenue</div></div>
+      <div class="metric orange"><div class="v">0,2 %</div><div class="l"><strong>Niveau 3</strong> — Coordination intensive</div></div>
+      <div class="metric amber"><div class="v">2,5 %</div><div class="l"><strong>Service spécialisé</strong> (Covid Long)</div></div>
+    </div>
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Coordination intensive — chiffres clés 2025</div>
+        <div class="g2">
+          <div class="metric green"><div class="v countup" data-to="258">0</div><div class="l">Personnes en CI (163 en 2023)</div></div>
+          <div class="metric teal"><div class="v countup" data-to="124">0</div><div class="l">Nouvelles inclusions CI (+138,5 % vs 2023)</div></div>
+          <div class="metric"><div class="v countup" data-to="104">0</div><div class="l">Sorties CI (+153,6 % vs 2023)</div></div>
+          <div class="metric amber"><div class="v">84,1 %</div><div class="l">Ont bénéficié d'au moins une évaluation</div></div>
+        </div>
+        <div class="callout green" style="margin-top:10px">
+          <strong>+58,3 %</strong> de personnes en CI depuis 2023 — forte dynamisation de la file active grâce aux revues d'indicateurs et de dossiers.
+        </div>
+      </div>
+      <div class="panel orange">
+        <div class="panel-title">Visites à domicile 2025</div>
+        <div style="text-align:center;padding:16px 0">
+          <div class="big-num countup" data-to="1002" style="justify-content:center">0</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px">visites à domicile réalisées</div>
+          <span class="tag amber" style="margin-top:8px;display:inline-flex">-7 % vs 2024 (optimisation)</span>
+        </div>
+        <div class="callout" style="margin-top:8px">
+          <strong>15,7 %</strong> des situations accompagnées ont bénéficié d'une VAD (13,4 % en 2023) — <strong>84,1 %</strong> des CI ont bénéficié de VAD (83 % en 2024)
+        </div>
+        <div class="callout teal" style="margin-top:8px">
+          <strong>PPCS systématisé en 2025 :</strong> groupe de travail, référent désigné + appui du chargé de mission numérique
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 9. ÉQUIPE ── -->
+<div class="section reveal" id="equipe" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 9</span>
+    <h3>Organisation — Équipe pluriprofessionnelle</h3>
+    <p class="section-desc">19,8 ETP organisés autour d'un pôle de coordination, d'un pôle projet et d'un pôle support.</p>
+  </div>
+  <div class="section-body">
+    <!-- image13 = Organigramme DAC Var Est -->
+    <div class="img-box">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image13.png" alt="Organigramme DAC Var Est — 19,8 ETP">
+      <div class="img-cap">Organigramme de l'équipe DAC Var Est — 19,8 ETP</div>
+    </div>
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Particularités de l'équipe</div>
+        <div class="rich">
+          <ul>
+            <li>Deux types de ressources médicales : <strong>médecin coordonnateur</strong> + <strong>experts gériatrie et psychiatrie</strong></li>
+            <li>Cellule Coordination Covid Long : coordinatrice IDEC référente (0,5 ETP)</li>
+            <li>Expertises individuelles : santé mentale, soins palliatifs, oncologie…</li>
+            <li>Notion de <strong>référents thématiques</strong> — pair-aidance au sein du pôle</li>
+            <li>Réorganisation 2025 : <strong>poste de Chef de service</strong> créé pour le pôle de coordination</li>
+            <li>Formation santé mentale dispensée en <strong>novembre 2025</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="g2" style="align-content:start">
+        <div class="panel orange">
+          <div style="text-align:center;padding:8px 0">
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--orange)">6,7 %</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">Taux d'absentéisme</div>
+            <span class="tag red" style="margin-top:6px;display:inline-flex">Supérieur au taux national</span>
+          </div>
+        </div>
+        <div class="panel amber">
+          <div style="text-align:center;padding:8px 0">
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--amber)">7,50 %</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">Taux de turn-over</div>
+            <span class="tag amber" style="margin-top:6px;display:inline-flex">2 départs, 1 arrivée</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 10. PARCOURS PATIENT ── -->
+<div class="section reveal" id="parcours" data-section>
+  <div class="section-head">
+    <span class="eyebrow teal">Section 10</span>
+    <h3>Modalités opérationnelles — Parcours patient</h3>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Canaux de saisine</div>
+        <div class="rich">
+          <ul>
+            <li>📞 Téléphone (numéro unique)</li>
+            <li>📧 Mail générique + MSSanté</li>
+            <li>📋 Formulaire Azurezo « Solliciter une Équipe Ressource »</li>
+            <li>📄 Fiche d'orientation départementale (identique Ouest-Est)</li>
+          </ul>
+        </div>
+        <div class="hr" style="margin:12px 0"></div>
+        <div style="text-align:center;padding:12px 0">
+          <div class="big-num countup" data-to="6591">0</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px">appels entrants traités en 2025</div>
+        </div>
+        <div class="callout" style="margin-top:8px">Service ouvert <strong>lun–ven 9h–18h</strong> — réponse sous <strong>48h ouvrées</strong></div>
+        <div class="callout green" style="margin-top:8px"><strong>95,6 %</strong> des sollicitations information/orientation traitées en 48h ou moins</div>
+      </div>
+
+      <!-- image14 = Vignette clinique DAC Var Est -->
+      <div class="panel grad">
+        <div class="panel-title">Exemple de parcours — Vignette clinique</div>
+        <div class="img-box">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image14.png" alt="Vignette clinique DAC Var Est — exemple parcours complexe">
+          <div class="img-cap">Vignette clinique — Exemple de gestion d'un parcours complexe au DAC Var Est</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- image23 = Exemple de gestion d'un parcours usager en perspective avec la stratégie territoriale -->
+    <div class="panel grad">
+      <div class="panel-title">Exemple de gestion d'un parcours usager en perspective avec la stratégie territoriale</div>
+      <div class="img-box" style="max-width:480px;margin:0 auto">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image23.png" alt="Exemple de gestion d'un parcours usager en perspective avec la stratégie territoriale" style="max-height:320px;object-fit:contain;width:100%">
+        <div class="img-cap">Parcours usager — Perspective stratégie territoriale DAC Var Est</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="panel">
+        <div class="panel-title" style="color:var(--teal)">Coordination soutenue (CS) — Niveau 2</div>
+        <div class="rich">
+          <ul>
+            <li>Nomination d'une <strong>coordinatrice soutenue</strong> pour la durée du plan de coordination</li>
+            <li>Alimentation du dossier Azurezo des actions mises en œuvre</li>
+            <li>Appui au cercle de soins <strong>à distance</strong></li>
+            <li>Intervention interrompue à la sortie ou lors du passage en CI</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel orange">
+        <div class="panel-title" style="color:var(--orange)">Coordination intensive (CI) — Niveau 3</div>
+        <div class="rich">
+          <ul>
+            <li>Accompagnement <strong>de proximité et au long cours</strong></li>
+            <li>Coordinateur nommé en staff hebdomadaire</li>
+            <li>Visite d'évaluation réalisée <strong>sous 10 jours</strong></li>
+            <li>Réalisation d'un <strong>PPCS</strong></li>
+            <li>Visites à domicile (seul ou en binôme)</li>
+            <li>Participation aux commissions cas complexes partenaires</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel blue">
+      <div class="panel-title">Montée en compétence des équipes</div>
+      <div class="g2">
+        <div class="rich">
+          <ul>
+            <li>Identifier les ressources et acteurs du territoire</li>
+            <li>Réaliser des rencontres partenariales et identifier les articulations</li>
+            <li>Réaliser des commissions cas complexes autour de nouvelles situations partagées</li>
+            <li>Cartographie des compétences internes au DAC</li>
+          </ul>
+        </div>
+        <div class="rich">
+          <p>Filière PA : les <strong>équipes mobiles de gériatrie et de psychiatrie du sujet âgé</strong> participent aux staffs internes. Cette proximité favorise des <strong>accompagnements conjoints et des VAD en binôme</strong> sur les situations complexes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-foot">Procédures centralisées dans le guide des pratiques interne (Azurezo). Audits de dossiers réguliers pour ajuster les usages.</div>
+</div>
+
+<!-- ── 11. GOUVERNANCE ── -->
+<div class="section reveal" id="gouvernance" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 11</span>
+    <h3>Gouvernance — Commission Stratégique Territoriale (CST)</h3>
+    <p class="section-desc">2 à 3 réunions par an — 30 membres représentant l'ensemble du territoire Est Var.</p>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Composition de la CST — 6 collèges</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>#</th><th>Représentation</th></tr>
+            <tr><td><strong>1</strong></td><td>Professionnels de Santé Libéraux</td></tr>
+            <tr><td><strong>2</strong></td><td>Établissements de santé publics et privés</td></tr>
+            <tr><td><strong>3</strong></td><td>Établissements Médico-sociaux et Sociaux</td></tr>
+            <tr><td><strong>4</strong></td><td>Services au public et au Maintien à domicile</td></tr>
+            <tr><td><strong>5</strong></td><td>Collectivités Territoriales</td></tr>
+            <tr><td><strong>6</strong></td><td>Associations d'Usagers et de patients</td></tr>
+          </table>
+        </div>
+        <div class="callout" style="margin-top:10px">CD et Délégation Départementale de l'ARS : <strong>membres de droit</strong></div>
+      </div>
+      <div class="panel grad">
+        <div class="panel-title">Objectifs de la CST</div>
+        <div class="rich">
+          <ul>
+            <li>Analyser les besoins de la population et des professionnels</li>
+            <li>Identifier les ressources, expertises et initiatives territoriales</li>
+            <li>Donner son avis sur la <strong>feuille de route annuelle</strong> du DAC</li>
+            <li>Proposer une stratégie de <strong>montée en compétences</strong> vers la polyvalence</li>
+            <li>Suivre l'<strong>observatoire territorial des ruptures de parcours</strong></li>
+          </ul>
+        </div>
+        <div class="callout amber" style="margin-top:10px">
+          Questionnaire déployé à chaque CST pour recueil de satisfaction et préconisations.
+          <br><span class="tag" style="margin-top:6px;display:inline-flex">Cf. Annexe 5</span> Questionnaire CST NOV 2024 — Résultats et plan d'action
+        </div>
+      </div>
+    </div>
+    <div class="bq">
+      « La mobilisation de la gouvernance du DAC a été un fait marquant dans sa construction, les dispositifs pré existants n'étant pas dotés de gouvernance propre mais rattachés aux porteurs. Les membres fondateurs font ainsi partie intégrante de cette nouvelle commission. »
+      <cite>— Directrice du DAC</cite>
+    </div>
+  </div>
+</div>
+
+<!-- ── 12. ANIMATION TERRITORIALE ── -->
+<div class="section reveal" id="animation" data-section>
+  <div class="section-head">
+    <span class="eyebrow teal">Section 12</span>
+    <h3>Animation territoriale — 2025</h3>
+    <p class="section-desc">Structurée en transversalité pour répondre aux missions d'appui aux pratiques professionnelles via le recensement des ruptures de parcours.</p>
+  </div>
+  <div class="section-body">
+
+    <!-- Commissions cas complexes -->
+    <div class="panel blue">
+      <div class="panel-title">42 Commissions cas complexes — 2025</div>
+      <div class="g2">
+        <div class="rich">
+          <ul>
+            <li>3 COTECH ARS Compagnons Bâtisseurs (Diogène-Incurie)</li>
+            <li>15 Visio pluri partenaires ARS-DAC</li>
+            <li>8 Commissions complexes DTPJJ</li>
+            <li>9 Commissions complexes PFTA SIAO zone ECCA</li>
+          </ul>
+        </div>
+        <div class="rich">
+          <ul>
+            <li>1 Commission complexe PFTA SIAO zone Dracénoise</li>
+            <li>1 Copil Inter PASS + 1 rencontre PASS Hôpital CHI FSR</li>
+            <li>5 Commissions complexes partenariales (visio/présentiel) pilotées par le DAC</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Focus thématiques -->
+    <div class="panel grad">
+      <div class="panel-title">Focus thématiques — 350 participants en 2025</div>
+      <div class="g2">
+        <!-- image15 = Focus Thématique Le Syndrome de Diogène -->
+        <div class="panel orange">
+          <span class="tag amber">28 janv. 2025 — Secteur ECAA</span>
+          <div style="font-family:var(--font-display);font-size:17px;font-weight:700;margin:10px 0 8px;line-height:1.2">Le Syndrome de Diogène</div>
+          <div class="img-box" style="max-width:200px;margin:0 auto">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image15.png" alt="Focus Thématique — Le Syndrome de Diogène — 28 janvier 2025" style="max-height:220px;object-fit:contain;width:100%">
+            <div class="img-cap">Animé par le Pr JC MONFORT</div>
+          </div>
+          <p style="font-size:13px;margin-top:10px">Apporter de la connaissance sur ce syndrome, favoriser l'interconnaissance des acteurs et proposer des pistes de réflexion collective.</p>
+        </div>
+        <!-- image16 = 6ème Focus Thématique Les Pouvoirs de la Communication -->
+        <div class="panel blue">
+          <span class="tag">03 nov. 2025 — Secteur DPV</span>
+          <div style="font-family:var(--font-display);font-size:17px;font-weight:700;margin:10px 0 8px;line-height:1.2">Les Pouvoirs de la Communication</div>
+          <div class="img-box" style="max-width:200px;margin:0 auto">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image16.png" alt="6ème Focus Thématique — Les Pouvoirs de la Communication — 3 novembre 2025" style="max-height:220px;object-fit:contain;width:100%">
+            <div class="img-cap">avec Mme LANGE</div>
+          </div>
+          <p style="font-size:13px;margin-top:10px">Explorer les causes des difficultés de communication entre professionnels et patients, apporter des outils pratiques.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Livrables -->
+    <div class="g2">
+      <!-- image18 = EPADE 2 (recto) / image19 = EPADE (verso) -->
+      <div class="panel orange">
+        <div class="panel-title">Livrable — L'échelle EPADE</div>
+        <div class="g2">
+          <div class="img-box">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image18.png" alt="Échelle EPADE — recto">
+            <div class="img-cap">Échelle EPADE — recto</div>
+          </div>
+          <div class="img-box">
+            <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image19.png" alt="Échelle EPADE — verso">
+            <div class="img-cap">Échelle EPADE — verso</div>
+          </div>
+        </div>
+        <div class="rich" style="margin-top:10px">
+          <p><strong>16 items</strong> en 4 sous-échelles. Format A4, pliable en 4, cotation en moins d'1 minute. Évalue la capacité des personnes âgées à épuiser les professionnels.</p>
+        </div>
+      </div>
+
+      <!-- image20 = Cartes EEAP PCPE, poser une question etc. (outil CAA) -->
+      <div class="panel teal">
+        <div class="panel-title" style="color:var(--teal)">Livrable — Outil CAA : Porte-clés pictogrammes</div>
+        <div class="img-box">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image20.png" alt="Outil CAA — cartes EEAP PCPE, poser une question — porte-clés pictogrammes">
+          <div class="img-cap">Outil CAA — cartes pictogrammes EEAP/PCPE co-créées avec médecins, IDEL et travailleurs sociaux</div>
+        </div>
+        <div class="rich" style="margin-top:10px">
+          <p>Co-création avec médecins, IDEL et travailleurs sociaux pour une <strong>communication améliorée avec les personnes accompagnées</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formations -->
+    <div class="panel blue">
+      <div class="panel-title">Formations thématiques — 120 professionnels formés en 2025</div>
+      <!-- image21 = Livret d'accueil Formation RPIB -->
+      <div class="img-box" style="max-width:320px;margin-bottom:12px">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image21.png" alt="Livret d'accueil Formation RPIB — DAC Var Est">
+        <div class="img-cap">Livret d'accueil — Formation RPIB (Repérage précoce et Intervention Brève)</div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Thématique</th><th>Journées</th></tr>
+          <tr><td>Ateliers juridiques (secret partagé, personnes vulnérables)</td><td><strong>2 j</strong></td></tr>
+          <tr><td>Gestion des conflits</td><td><strong>2 j</strong></td></tr>
+          <tr><td>Parcours Addiction — ARCA SUD (RPIB, RDR, sevrage ambulatoire)</td><td><strong>4 j</strong></td></tr>
+          <tr><td>Parcours Santé Mentale — Syndrome de Diogène (Compagnons Bâtisseurs)</td><td><strong>2 j</strong></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Observatoire des ruptures -->
+    <!-- image24 = Observatoire des ruptures de parcours (ORP) — mieux comprendre pour mieux agir -->
+    <div class="panel amber">
+      <div class="panel-title" style="color:var(--amber)">Observatoire des ruptures de parcours (ORP)</div>
+      <div class="img-box" style="max-width:85%;margin:0 auto 14px">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image24.png" alt="Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir" style="width:100%">
+        <div class="img-cap">Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir</div>
+      </div>
+      <div class="g2">
+        <div class="rich">
+          <ul>
+            <li><strong>Désagrégation des FEI</strong> : 8 grandes catégories de ruptures — fiche de déclaration accessible aux partenaires dans le SI qualité</li>
+            <li><strong>Groupe de travail Parcours Lien Ville-Hôpital</strong> : premier GT fixé en mars 2026</li>
+          </ul>
+        </div>
+        <div class="rich">
+          <ul>
+            <li><strong>Repérage via les événements indésirables</strong> — gestion des EI ouverte aux partenaires clés</li>
+            <li><strong>Analyse des écarts du PPCS</strong> à fréquence régulière pour identifier les ruptures</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication -->
+    <div class="panel grad">
+      <div class="panel-title">Communication — Actions 2025</div>
+      <div class="g2">
+        <div>
+          <div class="g2">
+            <div class="metric"><div class="v countup" data-to="16">0</div><div class="l">Événements organisés</div></div>
+            <div class="metric teal"><div class="v countup" data-to="2">0</div><div class="l">Newsletters / infographies</div></div>
+            <div class="metric orange"><div class="v countup" data-to="3">0</div><div class="l">Vidéos événementielles</div></div>
+            <div class="metric amber"><div class="v countup" data-to="6">0</div><div class="l">Interventions formation initiale</div></div>
+          </div>
+        </div>
+        <div class="panel blue" style="text-align:center;padding:24px">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:800;color:var(--blue);line-height:1">1 270</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Abonnés LinkedIn DAC Var Est</div>
+          <span class="tag green" style="margin-top:8px;display:inline-flex">+130 vs valeur initiale 1 140</span>
+        </div>
+      </div>
+      <!-- image26 = LinkedIn graphique secteur géographique abonnés -->
+      <!-- image27 = LinkedIn graphique secteur activités abonnés -->
+      <div class="g2" style="margin-top:12px">
+        <div class="img-box" style="max-width:260px;margin:0 auto">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image26.png" alt="LinkedIn — données démographiques abonnés par secteur géographique" style="max-height:200px;object-fit:contain;width:100%">
+          <div class="img-cap">LinkedIn — Abonnés par lieu géographique</div>
+        </div>
+        <div class="img-box" style="max-width:260px;margin:0 auto">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image27.png" alt="LinkedIn — données démographiques abonnés par secteur d'activité" style="max-height:200px;object-fit:contain;width:100%">
+          <div class="img-cap">LinkedIn — Abonnés par secteur d'activité</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:12px">Refonte du site web initiée en 2024. <span class="tag" style="margin-left:4px">Cf. Annexe 9</span> Stratégie de communication complète</div>
+    </div>
+
+  </div>
+  <div class="section-foot">Cf. Annexe 6 — Tableau de bord Stratégie partenariale</div>
+</div>
+
+<!-- ── 13. PARTENARIATS ── -->
+<div class="section reveal" id="partenaires" data-section>
+  <div class="section-head">
+    <span class="eyebrow orange">Section 13</span>
+    <h3>Articulation avec d'autres dispositifs de coordination</h3>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">CPTS</div>
+        <div class="rich">
+          <ul>
+            <li>2 CPTS sur 5 impliquées dans la gouvernance : <strong>CPTS Dracénie Verdon</strong> et <strong>CPTS Var Esterel Méditerranée</strong></li>
+            <li>Protocole commun pour la recherche de PS validé au niveau départemental</li>
+            <li>Articulation via <strong>Azurezo Discussion</strong></li>
+            <li>Instance interCPTS en cours de réflexion</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel grad">
+        <div class="panel-title">Conseil Départemental</div>
+        <div class="rich">
+          <ul>
+            <li>Convention cadre <strong>quadripartite CD 83 / MDPH / ARS DT83 / GCS DAC VAR EST</strong> — à la signature</li>
+            <li>Participation aux travaux du <strong>SPDA Var</strong> en 2025</li>
+            <li>Partenariat opérationnel filière gériatrique : accompagnement conjoint, VAD en binôme</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="panel orange">
+        <div class="panel-title">Centres de Ressources Territoriaux (CRT)</div>
+        <div class="rich">
+          <ul>
+            <li>CRT <strong>Jean Lachenaud</strong> (membre fondateur) : articulations opérationnelles définies</li>
+            <li>Projets des CRT de <strong>Cogolin</strong>, <strong>Bargemon</strong>, <strong>Salernes</strong></li>
+            <li>Instance <strong>interCRT</strong> en cours de réflexion</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel teal">
+        <div class="panel-title" style="color:var(--teal)">Communauté 360 (C360) — UGECAM</div>
+        <div class="rich">
+          <ul>
+            <li>Dispositif départemental — situations en commun</li>
+            <li>Rencontres direction et inter-équipes réalisées</li>
+            <li>Modalités opérationnelles sur la circulation d'information à préciser</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="panel amber">
+        <div class="panel-title" style="color:var(--amber)">SAMU — SAS 83</div>
+        <div class="rich">
+          <ul>
+            <li>Var inclus dans l'<strong>expérimentation SAS DAC</strong></li>
+            <li>Les deux DAC font partie du <strong>COSTRAT du SAS</strong></li>
+            <li>Modalités de sollicitations fixées en 2024</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">DSR — DER ARCA SUD</div>
+        <div class="rich">
+          <ul>
+            <li>Travaux sur les modalités d'articulation</li>
+            <li>Formations : RPIB, sevrage en ambulatoire</li>
+            <li><strong>Participation FACs Nationale à Albi</strong> avec présentation retenue (AAC synergie DAC / DER DSR)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="panel blue">
+      <div class="panel-title">Autres dispositifs — Centres Hospitaliers</div>
+      <div class="g2">
+        <div class="rich">
+          <ul>
+            <li>Participation aux groupes <strong>tensions estivales et hivernales</strong> et <strong>réunions par bassins hospitaliers</strong></li>
+            <li>Appui en amont et aval des hospitalisations</li>
+            <li>Fourniture d'un <strong>suivi hebdomadaire des places disponibles</strong> (HTU)</li>
+          </ul>
+        </div>
+        <div class="rich">
+          <ul>
+            <li>Services sociaux et IGU des CH : partenaires clés — <strong>groupe de travail CHI FSR / DAC / CPTS depuis 2022</strong></li>
+            <li>Formations partagées — sensibilisation récurrente à Azurezo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 14. SATISFACTION ── -->
+<div class="section reveal" id="satisfaction" data-section>
+  <div class="section-head">
+    <span class="eyebrow green">Section 14</span>
+    <h3>Attentes et perception du service rendu — Satisfaction</h3>
+    <p class="section-desc">Deux enquêtes menées en 2025 : Q. interne (S1 2025, 68 répondants) + enquête nationale SRP pilotée par la DGOS (43 répondants). Conclusions convergentes sur l'essentiel.</p>
+  </div>
+  <div class="section-body">
+
+    <div class="callout teal">
+      Le DAC Var Est est identifié comme <strong>accessible, à l'écoute, utile sur le plan clinique</strong> et recommandé par ses partenaires. L'axe de progrès identifié de manière convergente — <strong>l'information en retour aux professionnels orienteurs</strong> — est le plus actionnable à court terme.
+    </div>
+
+    <!-- MOTIFS DE CONTACT -->
+    <div class="panel blue">
+      <div class="panel-title">Motifs de contact — les deux missions identifiées</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Motif</th><th>Q. interne</th><th>SRP (DGOS)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Appui situation complexe individuelle</strong></td><td>55,9 %</td><td><span class="tag green">81,4 %</span></td></tr>
+            <tr><td><strong>Formation / animation territoriale</strong></td><td><span class="tag amber">50,0 %</span></td><td>non applicable</td></tr>
+            <tr><td><strong>Partenariat institutionnel</strong></td><td>44,1 %</td><td>non catégorisé</td></tr>
+            <tr><td><strong>Signalement problématique de parcours</strong></td><td>42,6 %</td><td>inclus dans appui complexe</td></tr>
+            <tr><td><strong>Information / orientation</strong></td><td>non catégorisé</td><td>14,0 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:10px">Le Q. interne capte le contact partenarial non-clinique (formations, animations) représentant <strong>50 % des citations</strong>. Le SRP isole l'usage clinique. <strong>Les deux outils se complètent</strong> pour rendre compte de l'étendue réelle des activités du DAC.</div>
+    </div>
+
+    <!-- ACCESSIBILITÉ -->
+    <div class="panel grad">
+      <div class="panel-title">Accessibilité — résultat unanime des deux outils</div>
+      <div class="g2">
+        <div>
+          <div class="sat-row">
+            <div class="sat-head"><span class="sat-lbl">Q. interne — Très satisfait</span><span class="sat-pct">82,4 %</span></div>
+            <div class="sat-track"><div class="sat-fill" data-pct="82"></div></div>
+            <div class="sat-sub">98,5 % positif total</div>
+          </div>
+          <div class="sat-row" style="margin-top:8px">
+            <div class="sat-head"><span class="sat-lbl">SRP — Note ≥ 8/10</span><span class="sat-pct">93,0 %</span></div>
+            <div class="sat-track"><div class="sat-fill" data-pct="93"></div></div>
+            <div class="sat-sub">Moyenne 9,40/10 — Médiane 10/10 — 74,4 % attribuent 10/10</div>
+          </div>
+        </div>
+        <div class="callout green" style="align-self:center"><strong>74,4 % des répondants SRP attribuent la note maximale (10/10)</strong>. L'accessibilité ne constitue aucune barrière à l'utilisation du dispositif.</div>
+      </div>
+    </div>
+
+    <!-- SATISFACTION GLOBALE SRP -->
+    <div class="panel green">
+      <div class="panel-title">Satisfaction globale — SRP (43 répondants)</div>
+      <div class="g4">
+        <div class="metric green"><div class="v">8,84</div><div class="l">Moyenne /10</div></div>
+        <div class="metric teal"><div class="v">9,0</div><div class="l">Médiane /10</div></div>
+        <div class="metric"><div class="v countup" data-to="74.4" data-dec="1">0</div><div class="l">% notent ≥ 9/10</div></div>
+        <div class="metric amber"><div class="v countup" data-to="46.5" data-dec="1">0</div><div class="l">% note maximale 10/10</div></div>
+      </div>
+    </div>
+
+    <!-- SATISFACTION PAR DIMENSION -->
+    <div class="panel blue">
+      <div class="panel-title">Satisfaction par dimension qualitative — résultats croisés Q. interne × SRP</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Dimension</th><th>% positif Q.</th><th>Moy. SRP /10</th><th>≥8 SRP</th><th>Analyse</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Écoute et compréhension</strong></td><td><span class="tag green">98,4 %</span></td><td><strong>9,14</strong></td><td>86,0 %</td><td>Meilleur score Q. — convergence forte sur la qualité relationnelle</td></tr>
+            <tr><td><strong>Délai de prise en compte</strong></td><td><span class="tag green">96,7 %</span></td><td><strong>8,98</strong></td><td>86,0 %</td><td>Très bon niveau — 60,7 % très satisfaits (Q.)</td></tr>
+            <tr><td><strong>Pertinence des réponses</strong></td><td><span class="tag">96,7 %</span></td><td><strong>8,74</strong></td><td>88,4 %</td><td>Seul item où Satisfait ≥ Très satisfait — satisfaction solide</td></tr>
+            <tr style="background:rgba(217,119,6,.07)"><td><strong>Plus-value / Info retour ⚠️</strong></td><td><span class="tag amber">93,5 %</span></td><td><strong>8,74</strong></td><td><strong style="color:var(--orange)">83,7 %</strong></td><td>Score le plus bas du SRP — signal convergent sur les 2 outils</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VALEUR AJOUTÉE -->
+    <div class="panel orange">
+      <div class="panel-title">Valeur ajoutée perçue — convergence forte, écarts interprétables</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Proposition</th><th>% positif Q.</th><th>% positif SRP</th><th>Écart</th></tr></thead>
+          <tbody>
+            <tr><td>Adapte réponse aux besoins</td><td>98,5 %</td><td>90,7 %</td><td>+7,8 pts</td></tr>
+            <tr><td>Facilite les prises en charge</td><td>96,9 %</td><td>90,7 %</td><td>+6,2 pts</td></tr>
+            <tr><td>Fait gagner du temps</td><td>95,3 %</td><td>88,4 %</td><td>+6,9 pts</td></tr>
+            <tr style="background:rgba(217,119,6,.08)"><td><strong>Coordonne / facilite échanges ⚠️</strong></td><td>93,8 %</td><td><strong>83,7 %</strong></td><td><strong>+10,1 pts</strong></td></tr>
+            <tr><td>Aide à se sentir moins isolé</td><td>92,2 %</td><td>88,4 %</td><td>+3,8 pts</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout amber" style="margin-top:10px">Écart +10,1 pts sur « coordonne / facilite les échanges » — mérite attention dans les situations à multi-intervenants. Les écarts s'expliquent par le profil différent des répondants.</div>
+    </div>
+
+    <!-- IMPACT CLINIQUE SRP -->
+    <div class="panel teal">
+      <div class="panel-title">Impact clinique — données exclusives au SRP</div>
+      <div class="g2">
+        <div>
+          <div class="sat-row"><div class="sat-head"><span class="sat-lbl">Interventions utiles</span><span class="sat-pct">90,7 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
+          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Rôle du DAC clair et compris</span><span class="sat-pct">90,7 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
+          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl"><strong>Amélioration situation du patient</strong></span><span class="sat-pct">88,4 %</span></div><div class="sat-track"><div class="sat-fill green" data-pct="88"></div></div></div>
+          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Mieux connaître les acteurs locaux</span><span class="sat-pct">90,5 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
+        </div>
+        <div class="callout green" style="align-self:center"><strong>88,4 %</strong> confirment une amélioration de la situation du patient — validation de l'utilité clinique au-delà de la seule satisfaction processuelle.</div>
+      </div>
+    </div>
+
+    <!-- SIGNAL CONVERGENT -->
+    <div class="panel orange">
+      <div class="panel-title">⚠️ Signal convergent d'amélioration — l'information en retour</div>
+      <div class="g2">
+        <div class="callout amber"><strong>Q. interne :</strong> 6,5 % de désaccord — taux le plus élevé de toute l'enquête. POS : 93,5 % (vs 92 à 98,5 % pour les autres items).</div>
+        <div class="callout amber"><strong>SRP :</strong> score 8,74/10 — le plus bas de l'évaluation (vs 8,98 à 9,40 pour les autres items). ≥8 : 83,7 % seulement.</div>
+      </div>
+      <div class="callout" style="margin-top:10px">Un <strong>compte-rendu synthétique transmis dans les jours suivant la clôture du dossier</strong> répondrait directement à ce besoin de continuité partenariale.</div>
+    </div>
+
+    <!-- RECOMMANDATION -->
+    <div class="panel green">
+      <div class="g21" style="align-items:center;gap:20px">
+        <div style="text-align:center;padding:20px">
+          <div style="font-family:var(--font-display);font-size:76px;font-weight:700;color:var(--green);line-height:1">98 <span style="font-size:40px">%</span></div>
+          <div style="font-size:15px;font-weight:700;margin-top:10px">prêts à recommander le DAC (Q. interne)</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">83,7 % « Certainement » au SRP — 90,7 % resolliciteraient le DAC</div>
+        </div>
+        <div class="img-box">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image36.png" alt="Seriez-vous prêt à recommander le DAC ? — 98% oui">
+          <div class="img-cap">Seriez-vous prêt à recommander le DAC ? — 98 % oui</div>
+        </div>
+      </div>
+      <div class="callout green" style="margin-top:12px">Le taux de resollicitation certaine (90,7 %) dépasse le taux de recommandation — <strong>intention de recours très forte</strong>. Non-recommandants marginaux (1/68 Q., 2/43 SRP).</div>
+    </div>
+
+    <!-- MONTÉE EN COMPÉTENCES -->
+    <div class="panel blue">
+      <div class="panel-title">Montée en compétences et autonomie — SRP uniquement</div>
+      <div class="g2">
+        <div>
+          <div class="sat-row"><div class="sat-head"><span class="sat-lbl">Mieux compris les démarches à suivre</span><span class="sat-pct">58,1 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="58"></div></div><div class="sat-sub">Oui / Certainement</div></div>
+          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Capable de gérer seul une situation similaire</span><span class="sat-pct">11,6 %</span></div><div class="sat-track"><div class="sat-fill orange" data-pct="12"></div></div><div class="sat-sub">53,5 % ne pourraient pas gérer seuls</div></div>
+        </div>
+        <div class="callout" style="align-self:center">53,5 % ne pourraient pas gérer seuls — le DAC est sollicité sur des situations suffisamment complexes. Il <strong>produit un effet formateur réel</strong> tout en justifiant un recours continu.</div>
+      </div>
+    </div>
+
+    <!-- POINTS FORTS / POINTS D'ATTENTION -->
+    <div class="g2">
+      <div class="panel green">
+        <div class="panel-title">✓ Points forts confirmés par les 2 sources</div>
+        <div class="rich"><ul>
+          <li><strong>Accessibilité</strong> : 98,5 % / 9,40/10</li>
+          <li><strong>Écoute</strong> : meilleur résultat dans les 2 outils (98,4 % / 9,14/10)</li>
+          <li><strong>Adaptation de la réponse</strong> : 98,5 % / 90,7 %</li>
+          <li><strong>Gain de temps</strong> : 96,9 % (Q.) / 88,4 % (SRP)</li>
+          <li><strong>Moins d'isolement professionnel</strong> : 92 % / 88 %</li>
+          <li><strong>Recommandation ferme</strong> : 89,7 % (Q.) / 83,7 % (SRP)</li>
+          <li><strong>Utilité clinique</strong> (SRP) : 88,4 % constatent une amélioration patient</li>
+        </ul></div>
+      </div>
+      <div class="panel orange">
+        <div class="panel-title">▶ Points d'attention / axes de progrès</div>
+        <div class="rich"><ul>
+          <li><strong>Information en retour</strong> : dernier rang dans les 2 outils</li>
+          <li><strong>Coordination multi-intervenants</strong> : écart Q./SRP +10,1 pts</li>
+          <li>20,6 % des répondants Q. n'ont jamais participé à une action d'animation territoriale</li>
+          <li>18,6 % des répondants SRP ne comprennent pas mieux les démarches après intervention</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- GRAPHIQUES -->
+    <div class="panel blue">
+      <div class="panel-title">Résultats graphiques — Enquête de satisfaction 2025</div>
+      <div class="g2">
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image28.png" alt=""><div class="img-cap">Canaux de communication et délais</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image29.png" alt=""><div class="img-cap">Écoute et réponse adaptée</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image30.png" alt=""><div class="img-cap">Retour d'information et réactivité</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image31.png" alt=""><div class="img-cap">Suivi du patient en coordination</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image32.png" alt=""><div class="img-cap">Intervention bénéfique au patient</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image33.png" alt=""><div class="img-cap">Impact sur la pratique professionnelle</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image34.png" alt=""><div class="img-cap">Perception globale du service</div></div>
+        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image35.png" alt=""><div class="img-cap">Satisfaction globale</div></div>
+      </div>
+    </div>
+
+    <!-- CARTE EMBARQUEMENT -->
+    <div class="panel teal">
+      <div class="panel-title">Livrable Focus — Carte d'embarquement « Les pouvoirs de la communication »</div>
+      <div class="img-box" style="max-width:85%;margin:0 auto">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image25.png" alt="Carte d'embarquement" style="width:100%">
+        <div class="img-cap">Carte d'embarquement remise aux participants du Focus Thématique « Les Pouvoirs de la Communication »</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── 15. QUALITÉ ── -->
+<div class="section reveal" id="qualite" data-section>
+  <div class="section-head">
+    <span class="eyebrow amber">Section 15</span>
+    <h3>Modalités de suivi du service rendu — Démarche qualité</h3>
+    <p class="section-desc">Démarche qualité mise en place et renforcée tout au long de 2024–2025. Méthodologie d'amélioration continue.</p>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Cycle d'amélioration continue</div>
+        <div class="tl">
+          <div class="tl-item"><div class="tl-num">1</div><div class="tl-content"><strong>Planification</strong><p>Actions via CPOM, stratégies élaborées, analyses d'impact.</p></div></div>
+          <div class="tl-item"><div class="tl-num">2</div><div class="tl-content"><strong>Réalisation</strong><p>Mise en œuvre des planifications — suivi des plans d'action.</p></div></div>
+          <div class="tl-item"><div class="tl-num">3</div><div class="tl-content"><strong>Vérification</strong><p>Revue des indicateurs, revues de processus, questionnaire de satisfaction, audit blanc, RETEX.</p></div></div>
+          <div class="tl-item"><div class="tl-num">4</div><div class="tl-content"><strong>Rectification</strong><p>Ajustement, identification des axes forts et d'amélioration, procédures, logigrammes.</p></div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="callout green">Déploiement d'un <strong>logiciel qualité</strong> début 2025 : centralisation, sécurisation des accès documentaires, automatisation des plans d'action.</div>
+        <div class="callout teal"><strong>Audit blanc</strong> réalisé : renforcement de l'identification des points forts et axes d'amélioration.</div>
+        <div class="g2">
+          <div class="metric green"><div class="v countup" data-to="4">0</div><div class="l">Plans d'action suivis</div></div>
+          <div class="metric teal"><div class="v countup" data-to="7">0</div><div class="l">Revues de processus</div></div>
+          <div class="metric"><div class="v countup" data-to="13">0</div><div class="l">Logigrammes réalisés</div></div>
+          <div class="metric orange"><div class="v countup" data-to="5">0</div><div class="l">RETEX réalisés</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Axe</th><th>Suivi</th><th>Éléments clés</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Efficacité</strong></td><td><span class="tag green">✓</span></td><td>4 plans d'action, 4 stratégies, préparation audit externe, revue de direction</td></tr>
+          <tr><td><strong>Efficience</strong></td><td><span class="tag green">✓</span></td><td>7 revues de processus, 4 procédures, 13 logigrammes</td></tr>
+          <tr><td><strong>Cohérence & Pertinence</strong></td><td><span class="tag green">✓</span></td><td>Revues indicateurs 1×/semaine, 12 revues EI, circuit plainte/réclamation</td></tr>
+          <tr><td><strong>Impact</strong></td><td><span class="tag green">✓</span></td><td>5 RETEX, 1 questionnaire de satisfaction, revue de direction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="g2">
+      <div class="callout teal"><span class="tag">Cf. Annexe 15</span> Stratégie Démarche Qualité 2025</div>
+      <div class="callout amber"><span class="tag">Cf. Annexe 8</span> Analyse et Synthèse des Événements Indésirables 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 16. CPOM ── -->
+<div class="section reveal" id="cpom" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 16</span>
+    <h3>Suivi via le CPOM et le dialogue de gestion</h3>
+  </div>
+  <div class="section-body">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Indicateurs de suivi</th><th>Non</th><th>Oui</th><th>Détails</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CPOM</strong></td><td></td><td><span class="tag green">✓</span></td><td>CPOM + Avenants Covid Long — CPOM Numérique</td></tr>
+          <tr><td><strong>Revue annuelle de contrat / Dialogue de gestion</strong></td><td></td><td><span class="tag green">✓</span></td><td>Avril 2025 — Décembre 2025</td></tr>
+          <tr><td><strong>Autres échanges</strong></td><td></td><td><span class="tag green">✓</span></td><td>Échanges à la demande auprès de la mission SACO — Rencontres trimestrielles en INTERDAC PACA avec référents régionaux ARS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel grad">
+      <div class="panel-title">Axes d'évolution et objectifs envisagés par le DAC</div>
+      <div class="g2">
+        <div class="rich">
+          <ul>
+            <li>Garantir l'<strong>opérationnalité des services</strong> du DAC pour répondre aux besoins du territoire</li>
+            <li>Offrir des services d'appui <strong>polyvalents et adaptés</strong></li>
+            <li>Déployer les services d'appui à la coordination des parcours complexes</li>
+            <li>Apporter un soutien aux organisations et aux pratiques professionnelles</li>
+            <li>Déployer un <strong>Observatoire des ruptures de parcours</strong></li>
+          </ul>
+        </div>
+        <div class="rich">
+          <ul>
+            <li>Mesurer et analyser le <strong>service rendu</strong> du DAC</li>
+            <li>Déployer Azurezo et ses usages auprès des professionnels</li>
+            <li>Favoriser les usages des outils <strong>SEGUR</strong> et les bonnes pratiques numériques</li>
+            <li>Déployer la <strong>Cellule de coordination Covid Long</strong> sur le Var</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout teal"><span class="tag">Cf. Annexe 1</span> Tableau de bord activité et pilotage — Indicateurs ANAP et pilotage</div>
+  </div>
+  <div class="section-foot">
+    Rapport d'activité 2025 — DAC Var Est — GCS de droit privé — Draguignan / Fréjus<br>
+    Données issues de l'outil SAS AZUREZO volet ANAP et pilotage (migration octobre 2022).
+  </div>
+</div>
+
+</main>
+</div><!-- /.layout -->
+
+<script>
+(() => {
+  const btnDark = document.getElementById('btnDark');
+  const btnTop  = document.getElementById('btnTop');
+  let dark = false;
+  btnDark.addEventListener('click', () => {
+    dark = !dark;
+    document.body.classList.toggle('dark', dark);
+    btnDark.textContent = dark ? '☀️ Mode clair' : '🌙 Mode sombre';
+  });
+  btnTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const pref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt = (v, d = 0) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }).format(v);
+
+  function animateCountup(el) {
+    const to  = parseFloat(el.dataset.to || '0');
+    const dec = parseInt(el.dataset.dec || '0', 10);
+    if (pref) { el.textContent = fmt(to, dec); return; }
+    const dur = 900, start = performance.now();
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const tick = now => {
+      const p = Math.min(1, (now - start) / dur);
+      el.textContent = fmt(to * ease(p), dec);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  const seen = new WeakSet();
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('on');
+      e.target.querySelectorAll('.countup').forEach(el => {
+        if (!seen.has(el)) { seen.add(el); animateCountup(el); }
+      });
+      e.target.querySelectorAll('.sat-fill[data-pct]').forEach(el => {
+        if (!seen.has(el)) { seen.add(el); el.style.width = el.dataset.pct + '%'; }
+      });
+      e.target.querySelectorAll('.bar-track[data-pct]').forEach(track => {
+        const fill = track.querySelector('.fill');
+        if (fill && !seen.has(fill)) { seen.add(fill); fill.style.width = track.dataset.pct + '%'; }
+      });
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const sections = [...document.querySelectorAll('[data-section]')];
+  const navLinks = [...document.querySelectorAll('#mainNav a')];
+
+  // Scrollspy : active nav link based on which section occupies most of the viewport
+  function updateActiveNav() {
+    let best = null, bestScore = -Infinity;
+    sections.forEach(s => {
+      const r = s.getBoundingClientRect();
+      const visible = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+      if (visible > bestScore) { bestScore = visible; best = s; }
+    });
+    if (best) {
+      const id = '#' + best.id;
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+    }
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // Keyboard arrow navigation between sections
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    let current = -1;
+    sections.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const visible = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+      if (visible > 0) current = i;
+    });
+    const next = e.key === 'ArrowDown'
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+    if (sections[next]) sections[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
+</body>
+</html>
