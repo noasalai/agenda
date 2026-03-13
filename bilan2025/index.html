@@ -291,6 +291,61 @@ tr:hover td{background:rgba(27,79,168,.025)}
 
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:rgba(27,79,168,.18);border-radius:999px}
+
+/* ══ LIGHTBOX ══ */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+
+#lightbox img {
+  max-width: min(92vw, 1300px);
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 32px 80px rgba(0,0,0,.65);
+  cursor: default;
+  animation: _lbIn .2s ease;
+}
+@keyframes _lbIn {
+  from { transform: scale(.93); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+#lbClose {
+  position: fixed;
+  top: 18px; right: 22px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .15s;
+  z-index: 10000;
+}
+#lbClose:hover { background: rgba(255,255,255,.28); }
+
+/* Images cliquables */
+img.zoomable {
+  cursor: zoom-in !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+img.zoomable:hover {
+  transform: scale(1.015);
+  box-shadow: 0 8px 32px rgba(14,42,92,.20);
+}
 </style>
 </head>
 <body>
@@ -2410,5 +2465,67 @@ tr:hover td{background:rgba(27,79,168,.025)}
 })();
 
 </script>
+
+<!-- ══ LIGHTBOX ══ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Image agrandie">
+  <button id="lbClose" title="Fermer (Échap)">&#x2715;</button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const lb    = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbBtn = document.getElementById('lbClose');
+
+  function open(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  // Close button
+  lbBtn.addEventListener('click', close);
+  // Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lb.classList.contains('open')) close();
+  });
+
+  // Make all content images zoomable (skip logo/icons)
+  function makeZoomable() {
+    document.querySelectorAll('img:not(.zoomable):not([data-nozoom])').forEach(img => {
+      // Skip topbar logo and very small icons
+      if (img.closest('.topbar')) return;
+      if (img.closest('.sidebar')) return;
+      img.classList.add('zoomable');
+      img.addEventListener('click', e => {
+        e.stopPropagation();
+        open(img.src, img.alt);
+      });
+    });
+  }
+
+  // Run once DOM ready + after any dynamic content
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', makeZoomable);
+  } else {
+    makeZoomable();
+  }
+  // Also run after a small delay for dynamically rendered content
+  setTimeout(makeZoomable, 800);
+  setTimeout(makeZoomable, 2500);
+})();
+</script>
+
 </body>
 </html>
