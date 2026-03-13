@@ -291,6 +291,273 @@ tr:hover td{background:rgba(27,79,168,.025)}
 
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:rgba(27,79,168,.18);border-radius:999px}
+
+/* ════════════════════════════════════════
+   PRESENTATION MODE — overrides
+   ════════════════════════════════════════ */
+
+/* ── LAYOUT: one slide = full viewport ── */
+body {
+  overflow: hidden;
+  height: 100vh;
+  background: var(--bg);
+}
+
+/* Hide the old layout shell */
+.layout, .sidebar, aside { display: none !important; }
+
+/* ── TOPBAR slim ── */
+.topbar { z-index: 300; }
+.topbar-inner { padding: 8px 20px; }
+.topbar-brand img { height: 32px; }
+.topbar-title strong { font-size: 12px; }
+
+/* ── SLIDE VIEWPORT ── */
+.slides-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ── SLIDES TRACK: all slides stacked ── */
+.slides-track {
+  position: absolute;
+  inset: 0;
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Each slide ── */
+.slide-wrapper {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slide-inner {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 56px 40px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  scroll-behavior: smooth;
+}
+.slide-inner::-webkit-scrollbar { width: 4px; }
+.slide-inner::-webkit-scrollbar-thumb { background: rgba(27,79,168,.18); border-radius: 4px; }
+
+/* ── SLIDE CONTENT (reuse .main layout) ── */
+.slide-inner .hero,
+.slide-inner .section {
+  flex-shrink: 0;
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+}
+
+/* ── SLIDE # badge ── */
+.slide-badge {
+  position: absolute;
+  top: 14px; right: 18px;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ── BOTTOM NAV BAR ── */
+#slideNav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 52px;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 400;
+  gap: 12px;
+}
+body.dark #slideNav {
+  background: rgba(10,22,40,.95);
+}
+
+.nav-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--ink);
+  transition: .15s;
+  flex-shrink: 0;
+  user-select: none;
+}
+.nav-btn:hover:not(:disabled) {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(27,79,168,.07);
+}
+.nav-btn:disabled { opacity: .28; cursor: not-allowed; }
+
+/* ── PROGRESS DOTS ── */
+#slideDotsWrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+#slideDotsWrap::-webkit-scrollbar { display: none; }
+
+.slide-dot {
+  width: 7px; height: 7px;
+  border-radius: 999px;
+  background: rgba(27,79,168,.18);
+  border: none;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+  padding: 0;
+}
+.slide-dot.active {
+  width: 22px;
+  background: var(--blue);
+}
+
+/* ── PROGRESS BAR ── */
+#progressBar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--teal2));
+  z-index: 500;
+  transition: width .4s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── SLIDE COUNTER ── */
+#slideCounter {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 52px;
+  text-align: center;
+}
+
+/* ── SECTION TITLE IN NAV ── */
+#slideTitle {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink2);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  flex-shrink: 1;
+}
+
+/* ── FULLSCREEN BTN ── */
+#btnFullscreen {
+  flex-shrink: 0;
+}
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.88);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+#lightbox.open {
+  display: flex;
+}
+#lightbox img {
+  max-width: min(92vw, 1200px);
+  max-height: 88vh;
+  border-radius: 10px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  object-fit: contain;
+  cursor: default;
+  animation: lbIn .2s ease;
+}
+@keyframes lbIn {
+  from { transform: scale(.94); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+#lbClose {
+  position: absolute;
+  top: 18px; right: 22px;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff;
+  font-size: 22px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: .15s;
+  z-index: 1001;
+}
+#lbClose:hover { background: rgba(255,255,255,.25); }
+
+/* ── CLICKABLE IMAGES ── */
+.zoomable {
+  cursor: zoom-in !important;
+  transition: transform .18s, box-shadow .18s;
+}
+.zoomable:hover {
+  transform: scale(1.012);
+  box-shadow: 0 8px 32px rgba(14,42,92,.18);
+}
+
+/* ── KEYBOARD HINT ── */
+#kbHint {
+  position: fixed;
+  bottom: 62px; right: 18px;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s;
+  z-index: 399;
+}
+#kbHint.show { opacity: 1; }
+
+/* ── REVEAL: instant in slides ── */
+.slide-inner .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ── TOPBAR: ensure not obscuring ── */
+header.topbar { height: 50px; }
+
 </style>
 </head>
 <body>
@@ -323,6 +590,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
     <div class="nav-group-title">Présentation</div>
     <a href="#intro">Chiffres clés <small>p.1</small></a>
     <a href="#identite">Fiche d'identité <small>p.2</small></a>
+    <a href="#axe-strategique">Axes stratégiques <small>p.3</small></a>
     <a href="#historique">Historique <small>p.3</small></a>
     <a href="#territoire">Territoire <small>p.4</small></a>
     <div class="nav-group-title">Activité</div>
@@ -330,7 +598,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
     <a href="#adresseurs">Adresseurs <small>p.6</small></a>
     <a href="#problematiques">Problématiques <small>p.7</small></a>
     <a href="#ages">Tranches d'âge <small>p.8</small></a>
-    <a href="#intensites">Intensités PEC <small>p.9</small></a>
+    <a href="#intensites">Graduations des réponses <small>p.9</small></a>
     <div class="nav-group-title">Organisation</div>
     <a href="#equipe">Équipe pluriprofessionnelle <small>p.10</small></a>
     <a href="#parcours">Parcours patient <small>p.11</small></a>
@@ -338,9 +606,9 @@ tr:hover td{background:rgba(27,79,168,.025)}
     <a href="#animation">Animation territoriale <small>p.13</small></a>
     <a href="#partenaires">Partenariats <small>p.14</small></a>
     <div class="nav-group-title">Service rendu</div>
-    <a href="#satisfaction">Satisfaction <small>p.15</small></a>
-    <a href="#qualite">Qualité & pilotage <small>p.16</small></a>
-    <a href="#cpom">CPOM <small>p.17</small></a>
+    <a href="#service-rendu">Satisfaction &amp; perception <small>p.14</small></a>
+    <a href="#qualite">Démarche qualité <small>p.15</small></a>
+    <a href="#cpom">CPOM <small>p.16</small></a>
   </nav>
 </aside>
 
@@ -365,7 +633,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
       <div class="kpi green"><div class="n countup" data-to="2402">0</div><div class="t">Sollicitations reçues en 2025</div></div>
       <div class="kpi amber"><div class="n"><span class="countup" data-to="34.57" data-dec="2">0</span><sup>%</sup></div><div class="t">Augmentation 2023–2025</div></div>
       <div class="kpi teal"><div class="n countup" data-to="2023">0</div><div class="t">Dossiers traités en coordination</div></div>
-      <div class="kpi brand"><div class="n">98<sup>%</sup></div><div class="t">Recommanderaient le DAC</div></div>
+      <div class="kpi brand"><div class="n">98<sup>%</sup></div><div class="t">Des adresseurs recommanderaient le DAC</div></div>
     </div>
   </div>
 </div>
@@ -417,11 +685,41 @@ tr:hover td{background:rgba(27,79,168,.025)}
   </div>
 </div>
 
+<!-- ── AXE STRATEGIQUE ── -->
+<div class="section reveal" id="axe-strategique" data-section>
+  <div class="section-head">
+    <span class="eyebrow green">Axe stratégique</span>
+    <h3>Axes stratégiques et objectifs du DAC</h3>
+    <p class="section-desc">Orientations et objectifs définis pour le développement et le renforcement du service rendu du DAC Var Est.</p>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="rich">
+        <ul>
+          <li>Garantir l'<strong>opérationnalité des services</strong> du DAC pour répondre aux besoins du territoire</li>
+          <li>Offrir des services d'appui <strong>polyvalents et adaptés</strong></li>
+          <li>Déployer les services d'appui à la coordination des parcours complexes</li>
+          <li>Apporter un soutien aux organisations et aux pratiques professionnelles</li>
+          <li>Déployer un <strong>Observatoire des ruptures de parcours</strong></li>
+        </ul>
+      </div>
+      <div class="rich">
+        <ul>
+          <li>Mesurer et analyser le <strong>service rendu</strong> du DAC</li>
+          <li>Déployer Azurezo et ses usages auprès des professionnels</li>
+          <li>Favoriser les usages des outils <strong>SEGUR</strong> et les bonnes pratiques numériques</li>
+          <li>Déployer la <strong>Cellule de coordination Covid Long</strong> sur le Var</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── 2. HISTORIQUE ── -->
 <div class="section reveal" id="historique" data-section>
   <div class="section-head">
     <span class="eyebrow amber">Section 2</span>
-    <h3>Contexte et historique d'unification des dispositifs</h3>
+    <h3>Groupement de coopération sanitaire</h3>
   </div>
   <div class="section-body">
     <div class="bq">
@@ -457,6 +755,54 @@ tr:hover td{background:rgba(27,79,168,.025)}
   </div>
 </div>
 
+<!-- ── 11. GOUVERNANCE ── -->
+<div class="section reveal" id="gouvernance" data-section>
+  <div class="section-head">
+    <span class="eyebrow">Section 11</span>
+    <h3>Gouvernance — Commission Stratégique Territoriale (CST)</h3>
+    <p class="section-desc">2 à 3 réunions par an — 30 membres représentant l'ensemble du territoire Est Var.</p>
+  </div>
+  <div class="section-body">
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">Composition de la CST — 6 collèges</div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>#</th><th>Représentation</th></tr>
+            <tr><td><strong>1</strong></td><td>Professionnels de Santé Libéraux</td></tr>
+            <tr><td><strong>2</strong></td><td>Établissements de santé publics et privés</td></tr>
+            <tr><td><strong>3</strong></td><td>Établissements Médico-sociaux et Sociaux</td></tr>
+            <tr><td><strong>4</strong></td><td>Services au public et au Maintien à domicile</td></tr>
+            <tr><td><strong>5</strong></td><td>Collectivités Territoriales</td></tr>
+            <tr><td><strong>6</strong></td><td>Associations d'Usagers et de patients</td></tr>
+          </table>
+        </div>
+        <div class="callout" style="margin-top:10px">CD et Délégation Départementale de l'ARS : <strong>membres de droit</strong></div>
+      </div>
+      <div class="panel grad">
+        <div class="panel-title">Objectifs de la CST</div>
+        <div class="rich">
+          <ul>
+            <li>Analyser les besoins de la population et des professionnels</li>
+            <li>Identifier les ressources, expertises et initiatives territoriales</li>
+            <li>Donner son avis sur la <strong>feuille de route annuelle</strong> du DAC</li>
+            <li>Proposer une stratégie de <strong>montée en compétences</strong> vers la polyvalence</li>
+            <li>Suivre l'<strong>observatoire territorial des ruptures de parcours</strong></li>
+          </ul>
+        </div>
+        <div class="callout amber" style="margin-top:10px">
+          Questionnaire déployé à chaque CST pour recueil de satisfaction et préconisations.
+          <br><span class="tag" style="margin-top:6px;display:inline-flex">Cf. Annexe 5</span> Questionnaire CST NOV 2024 — Résultats et plan d'action
+        </div>
+      </div>
+    </div>
+    <div class="bq">
+      « La mobilisation de la gouvernance du DAC a été un fait marquant dans sa construction, les dispositifs pré existants n'étant pas dotés de gouvernance propre mais rattachés aux porteurs. Les membres fondateurs font ainsi partie intégrante de cette nouvelle commission. »
+      <cite>— Directrice du DAC</cite>
+    </div>
+  </div>
+</div>
+
 <!-- ── 3. TERRITOIRE ── -->
 <div class="section reveal" id="territoire" data-section>
   <div class="section-head">
@@ -486,14 +832,14 @@ tr:hover td{background:rgba(27,79,168,.025)}
     <div class="panel blue">
       <div class="panel-title">Densité de spécialistes / 100 000 pers. — Var (2024)</div>
       <div class="bars">
-        <div class="bar-row"><div class="bar-lbl">Cardiologues</div><div class="bar-track" data-pct="50"><div class="fill"></div></div><div class="bar-val">11,2 <span style="font-size:10px;color:var(--green)">✓ (8,6)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Psychiatres</div><div class="bar-track" data-pct="59"><div class="fill orange"></div></div><div class="bar-val">13,6 <span style="font-size:10px;color:var(--red)">✗ (23,1)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Pédiatres</div><div class="bar-track" data-pct="94"><div class="fill"></div></div><div class="bar-val">28,7 <span style="font-size:10px;color:var(--amber)">(30,6 rég.)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Dermatologues</div><div class="bar-track" data-pct="48"><div class="fill orange"></div></div><div class="bar-val">2,1 <span style="font-size:10px;color:var(--red)">✗ (4,4)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Endocrinologues</div><div class="bar-track" data-pct="61"><div class="fill orange"></div></div><div class="bar-val">1,9 <span style="font-size:10px;color:var(--red)">✗ (3,1)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Neurologues</div><div class="bar-track" data-pct="88"><div class="fill"></div></div><div class="bar-val">1,4 <span style="font-size:10px;color:var(--amber)">(1,6)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Pneumologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val">2,7 <span style="font-size:10px;color:var(--green)">✓ (2,1)</span></div></div>
-        <div class="bar-row"><div class="bar-lbl">Néphrologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val">1,2 <span style="font-size:10px;color:var(--green)">✓ (0,8)</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Cardiologues</div><div class="bar-track" data-pct="50"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">11,2 <span style="font-size:10px;color:var(--green)">✓ moy. rég. 8,6</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Psychiatres</div><div class="bar-track" data-pct="59"><div class="fill" style="background:linear-gradient(90deg,var(--red),var(--orange))"></div></div><div class="bar-val" style="color:var(--red)">13,6 <span style="font-size:10px;color:var(--red)">✗ moy. rég. 23,1</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Pédiatres</div><div class="bar-track" data-pct="94"><div class="fill orange"></div></div><div class="bar-val" style="color:var(--amber)">28,7 <span style="font-size:10px;color:var(--amber)">~ moy. rég. 30,6</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Dermatologues</div><div class="bar-track" data-pct="48"><div class="fill" style="background:linear-gradient(90deg,var(--red),var(--orange))"></div></div><div class="bar-val" style="color:var(--red)">2,1 <span style="font-size:10px;color:var(--red)">✗ moy. rég. 4,4</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Endocrinologues</div><div class="bar-track" data-pct="61"><div class="fill" style="background:linear-gradient(90deg,var(--red),var(--orange))"></div></div><div class="bar-val" style="color:var(--red)">1,9 <span style="font-size:10px;color:var(--red)">✗ moy. rég. 3,1</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Neurologues</div><div class="bar-track" data-pct="88"><div class="fill orange"></div></div><div class="bar-val" style="color:var(--amber)">1,4 <span style="font-size:10px;color:var(--amber)">~ moy. rég. 1,6</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Pneumologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">2,7 <span style="font-size:10px;color:var(--green)">✓ moy. rég. 2,1</span></div></div>
+        <div class="bar-row"><div class="bar-lbl">Néphrologues</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">1,2 <span style="font-size:10px;color:var(--green)">✓ moy. rég. 0,8</span></div></div>
       </div>
     </div>
     <!-- Densité MG libéraux + infirmières / Taux d'équipements -->
@@ -610,8 +956,8 @@ tr:hover td{background:rgba(27,79,168,.025)}
         <div class="panel-title">Résultats clés 2025</div>
         <div class="rich">
           <ul>
-            <li><strong>90 %</strong> des situations complexes accompagnées clôturées en coordination soutenue</li>
-            <li><strong>60 %</strong> clôturées en coordination intensive</li>
+            <li><strong>90 %</strong> des situations complexes accompagnées clôturées en coordination</li>
+            
             <li><strong>1 981 sorties</strong> en coordination dont <strong>79 décès</strong> et <strong>102 entrées en institution</strong></li>
           </ul>
         </div>
@@ -649,7 +995,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
   <div class="section-head">
     <span class="eyebrow">Section 5</span>
     <h3>Répartition des sollicitations par type d'adresseur</h3>
-    <p class="section-desc">Forte prédominance des établissements de santé et augmentation constante des demandes du grand public depuis 2023.</p>
+    <p class="section-desc">Forte prédominance des établissements de santé et maintien des demandes du grand public depuis 2023.</p>
   </div>
   <div class="section-body">
     <!-- GRAPHIQUES ADRESSEURS HTML reproduced from images -->
@@ -698,7 +1044,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
           <div style="position:relative;display:inline-block">
             <canvas id="donut2025" width="220" height="220"></canvas>
             <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
-              <div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--ink);line-height:1">2,2 k</div>
+              <div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--ink);line-height:1">2,4 k</div>
             </div>
           </div>
         </div>
@@ -730,7 +1076,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
         <div class="rich">
           <ul>
             <li><strong>Forte prédominance</strong> des ES du territoire (CH Dracénie et CHI FSR Golfe de St Tropez)</li>
-            <li><strong>Augmentation constante depuis 2023</strong> des demandes du grand public, orienté par un PS ou par ses propres moyens</li>
+            <li><strong>Maintien des sollicitations du grand public depuis 2023</strong>, orienté par un PS ou par ses propres moyens</li>
             <li>Réponses apportées : <strong>appui en coordination des situations complexes à plus de 60 %</strong></li>
             <li>Le niveau de coordination est <strong>systématiquement soutenu</strong> avant un relais en intensif</li>
           </ul>
@@ -842,14 +1188,13 @@ tr:hover td{background:rgba(27,79,168,.025)}
 <div class="section reveal" id="intensites" data-section>
   <div class="section-head">
     <span class="eyebrow green">Section 8</span>
-    <h3>Intensités de prise en charge</h3>
-    <p class="section-desc">Le DAC intervient de manière graduée selon trois niveaux d'intensité en fonction des besoins.</p>
+    <h3>Graduations des réponses apportées</h3>
+    <p class="section-desc">Le DAC intervient de manière graduée selon les besoins identifiés.</p>
   </div>
   <div class="section-body">
     <div class="g4">
-      <div class="metric"><div class="v">36 %</div><div class="l"><strong>Niveau 1</strong> — Info / orientation (34,4 % en 2024)</div></div>
-      <div class="metric teal"><div class="v">61,3 %</div><div class="l"><strong>Niveau 2</strong> — Coordination soutenue</div></div>
-      <div class="metric orange"><div class="v">0,2 %</div><div class="l"><strong>Niveau 3</strong> — Coordination intensive</div></div>
+      <div class="metric"><div class="v">36 %</div><div class="l">Info / orientation (34,4 % en 2024)</div></div>
+      <div class="metric teal"><div class="v">61,5 %</div><div class="l">Coordination</div></div>
       <div class="metric amber"><div class="v">2,5 %</div><div class="l"><strong>Service spécialisé</strong> (Covid Long)</div></div>
     </div>
     <div class="g2">
@@ -969,7 +1314,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
 
     <div class="g2">
       <div class="panel">
-        <div class="panel-title" style="color:var(--teal)">Coordination soutenue (CS) — Niveau 2</div>
+        <div class="panel-title" style="color:var(--teal)">Coordination soutenue (CS)</div>
         <div class="rich">
           <ul>
             <li>Nomination d'une <strong>coordinatrice soutenue</strong> pour la durée du plan de coordination</li>
@@ -980,7 +1325,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
         </div>
       </div>
       <div class="panel orange">
-        <div class="panel-title" style="color:var(--orange)">Coordination intensive (CI) — Niveau 3</div>
+        <div class="panel-title" style="color:var(--orange)">Coordination intensive (CI)</div>
         <div class="rich">
           <ul>
             <li>Accompagnement <strong>de proximité et au long cours</strong></li>
@@ -1012,54 +1357,6 @@ tr:hover td{background:rgba(27,79,168,.025)}
     </div>
   </div>
   <div class="section-foot">Procédures centralisées dans le guide des pratiques interne (Azurezo). Audits de dossiers réguliers pour ajuster les usages.</div>
-</div>
-
-<!-- ── 11. GOUVERNANCE ── -->
-<div class="section reveal" id="gouvernance" data-section>
-  <div class="section-head">
-    <span class="eyebrow">Section 11</span>
-    <h3>Gouvernance — Commission Stratégique Territoriale (CST)</h3>
-    <p class="section-desc">2 à 3 réunions par an — 30 membres représentant l'ensemble du territoire Est Var.</p>
-  </div>
-  <div class="section-body">
-    <div class="g2">
-      <div class="panel blue">
-        <div class="panel-title">Composition de la CST — 6 collèges</div>
-        <div class="tbl-wrap">
-          <table>
-            <tr><th>#</th><th>Représentation</th></tr>
-            <tr><td><strong>1</strong></td><td>Professionnels de Santé Libéraux</td></tr>
-            <tr><td><strong>2</strong></td><td>Établissements de santé publics et privés</td></tr>
-            <tr><td><strong>3</strong></td><td>Établissements Médico-sociaux et Sociaux</td></tr>
-            <tr><td><strong>4</strong></td><td>Services au public et au Maintien à domicile</td></tr>
-            <tr><td><strong>5</strong></td><td>Collectivités Territoriales</td></tr>
-            <tr><td><strong>6</strong></td><td>Associations d'Usagers et de patients</td></tr>
-          </table>
-        </div>
-        <div class="callout" style="margin-top:10px">CD et Délégation Départementale de l'ARS : <strong>membres de droit</strong></div>
-      </div>
-      <div class="panel grad">
-        <div class="panel-title">Objectifs de la CST</div>
-        <div class="rich">
-          <ul>
-            <li>Analyser les besoins de la population et des professionnels</li>
-            <li>Identifier les ressources, expertises et initiatives territoriales</li>
-            <li>Donner son avis sur la <strong>feuille de route annuelle</strong> du DAC</li>
-            <li>Proposer une stratégie de <strong>montée en compétences</strong> vers la polyvalence</li>
-            <li>Suivre l'<strong>observatoire territorial des ruptures de parcours</strong></li>
-          </ul>
-        </div>
-        <div class="callout amber" style="margin-top:10px">
-          Questionnaire déployé à chaque CST pour recueil de satisfaction et préconisations.
-          <br><span class="tag" style="margin-top:6px;display:inline-flex">Cf. Annexe 5</span> Questionnaire CST NOV 2024 — Résultats et plan d'action
-        </div>
-      </div>
-    </div>
-    <div class="bq">
-      « La mobilisation de la gouvernance du DAC a été un fait marquant dans sa construction, les dispositifs pré existants n'étant pas dotés de gouvernance propre mais rattachés aux porteurs. Les membres fondateurs font ainsi partie intégrante de cette nouvelle commission. »
-      <cite>— Directrice du DAC</cite>
-    </div>
-  </div>
 </div>
 
 <!-- ── 12. ANIMATION TERRITORIALE ── -->
@@ -1120,6 +1417,15 @@ tr:hover td{background:rgba(27,79,168,.025)}
       </div>
     </div>
 
+    <!-- CARTE EMBARQUEMENT -->
+    <div class="panel teal">
+      <div class="panel-title">Livrable Focus — Carte d'embarquement « Les pouvoirs de la communication »</div>
+      <div class="img-box" style="max-width:65%;margin:0 auto">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image25.png" alt="Carte d'embarquement" style="width:100%">
+        <div class="img-cap">Carte d'embarquement remise aux participants du Focus Thématique « Les Pouvoirs de la Communication »</div>
+      </div>
+    </div>
+
     <!-- Livrables -->
     <div class="g2">
       <!-- image18 = EPADE 2 (recto) / image19 = EPADE (verso) -->
@@ -1155,7 +1461,13 @@ tr:hover td{background:rgba(27,79,168,.025)}
 
     <!-- Formations -->
     <div class="panel blue">
-      <div class="panel-title">Formations thématiques — 120 professionnels formés en 2025</div>
+      <div style="display:flex;align-items:center;gap:18px;margin-bottom:8px">
+        <div style="font-family:var(--font-display);font-size:52px;font-weight:800;color:var(--blue);line-height:1">120</div>
+        <div>
+          <div class="panel-title" style="margin-bottom:2px">Professionnels formés en 2025</div>
+          <div style="font-size:12px;color:var(--muted)">Formations thématiques — Animation territoriale</div>
+        </div>
+      </div>
       <!-- image21 = Livret d'accueil Formation RPIB -->
       <div class="img-box" style="max-width:320px;margin-bottom:12px">
         <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image21.png" alt="Livret d'accueil Formation RPIB — DAC Var Est">
@@ -1196,10 +1508,44 @@ tr:hover td{background:rgba(27,79,168,.025)}
     <!-- image24 = Observatoire des ruptures de parcours (ORP) — mieux comprendre pour mieux agir -->
     <div class="panel amber">
       <div class="panel-title" style="color:var(--amber)">Observatoire des ruptures de parcours (ORP)</div>
-      <div class="img-box" style="max-width:85%;margin:0 auto 14px">
-        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image24.png" alt="Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir" style="width:100%">
-        <div class="img-cap">Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir</div>
+      <div class="g2" style="margin-bottom:14px">
+        <div class="img-box">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image24.png" alt="Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir" style="width:100%">
+          <div class="img-cap">Observatoire des Ruptures de Parcours (ORP) — Mieux comprendre pour mieux agir</div>
+        </div>
+        <div class="img-box" style="align-self:start;max-width:85%;margin:0 auto">
+          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/gestion-des-ei-2025-bilan-et-procedure.png" alt="Gestion des EI 2025 — Bilan et procédure" style="width:100%">
+          <div class="img-cap">Gestion des EI 2025 — Bilan et procédure</div>
+        </div>
       </div>
+      <!-- ── Graphique FEI ── -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px 14px;margin-bottom:12px">
+        <div style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;background:rgba(8,145,178,.13);border:1px solid rgba(8,145,178,.22);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--teal);margin-bottom:12px">Tableau de bord — Événements indésirables</div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:4px">Courbe de tendance des déclarations</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px">Évolution mensuelle du nombre de FEI déclarés · Mars 2025 – Mars 2026</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+          <div style="padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--teal)">
+            <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px">Pic de déclarations</div>
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);line-height:1">20</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">Février 2026</div>
+          </div>
+          <div style="padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--teal)">
+            <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px">Moyenne mensuelle</div>
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);line-height:1">10,4</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">Sur la période</div>
+          </div>
+          <div style="padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--teal)">
+            <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px">Mois analysés</div>
+            <div style="font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);line-height:1">13</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">Mar 2025 → Mar 2026</div>
+          </div>
+        </div>
+        <div style="position:relative">
+          <canvas id="feiBird" style="width:100%;display:block" height="220"></canvas>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px;text-align:center">Observatoire : Parcours Lien Ville Hôpital planifié en mars 2026.</div>
+      </div>
+
       <div class="g2" style="margin-bottom:12px">
         <div style="text-align:center;padding:12px;border-radius:var(--r-sm);background:var(--card);border:1px solid var(--border)">
           <div style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--amber);line-height:1">33</div>
@@ -1243,7 +1589,6 @@ tr:hover td{background:rgba(27,79,168,.025)}
         <div class="panel blue" style="text-align:center;padding:24px">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:800;color:var(--blue);line-height:1">1 270</div>
           <div style="font-size:13px;color:var(--muted);margin-top:6px">Abonnés LinkedIn DAC Var Est</div>
-          <span class="tag green" style="margin-top:8px;display:inline-flex">+130 vs valeur initiale 1 140</span>
         </div>
       </div>
       <!-- image26 = LinkedIn graphique secteur géographique abonnés -->
@@ -1258,9 +1603,38 @@ tr:hover td{background:rgba(27,79,168,.025)}
           <div class="img-cap">LinkedIn — Abonnés par secteur d'activité</div>
         </div>
       </div>
-      <div class="callout" style="margin-top:12px">
-        <strong>Refonte du site web :</strong> Mis en ligne le 31 octobre 2025 — <strong>227 visites uniques</strong> depuis la mise en ligne (31/10 au 31/12/2025). Republication automatique des posts LinkedIn sur le site.<br>
-        <span class="tag" style="margin-left:0;margin-top:6px;display:inline-flex">Cf. Annexe 9 — Stratégie de communication complète</span>
+      <!-- Site web KPIs -->
+      <div style="margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px">🌐 Refonte du site web — Récapitulatif des visites · 31/10 au 31/12/2025</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">
+            <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--blue);line-height:1">505</div>
+            <div style="font-size:10.5px;color:var(--ink2);margin-top:3px">Visites</div>
+            <div style="font-size:10px;color:var(--green);font-weight:600;margin-top:2px">+100 %</div>
+          </div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">
+            <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--teal);line-height:1">226</div>
+            <div style="font-size:10.5px;color:var(--ink2);margin-top:3px">Visiteurs uniques</div>
+            <div style="font-size:10px;color:var(--green);font-weight:600;margin-top:2px">+100 %</div>
+          </div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">
+            <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--blue);line-height:1">1 440</div>
+            <div style="font-size:10.5px;color:var(--ink2);margin-top:3px">Pages vues</div>
+            <div style="font-size:10px;color:var(--green);font-weight:600;margin-top:2px">+100 %</div>
+          </div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">
+            <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--teal);line-height:1">1 028</div>
+            <div style="font-size:10.5px;color:var(--ink2);margin-top:3px">Pages vues uniques</div>
+            <div style="font-size:10px;color:var(--green);font-weight:600;margin-top:2px">+100 %</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--ink2)">Mis en ligne le 31 octobre 2025. Republication automatique des posts LinkedIn sur le site.</div>
+        <span class="tag" style="margin:8px 0 0;display:inline-flex">Cf. Annexe 9 — Stratégie de communication complète</span>
+      </div>
+      <div style="margin-top:14px">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image4-1.png"
+             alt="Stratégie de communication DAC Var Est — Annexe 9"
+             style="width:100%;border-radius:var(--r-sm);display:block" />
       </div>
     </div>
 
@@ -1462,255 +1836,272 @@ tr:hover td{background:rgba(27,79,168,.025)}
       </div>
     </div>
 
-<!-- ── 14. SATISFACTION ── -->
-<div class="section reveal" id="satisfaction" data-section>
+
+<!-- ── 14. SERVICE RENDU ── -->
+<div class="section reveal" id="service-rendu" data-section>
   <div class="section-head">
     <span class="eyebrow green">Section 14</span>
-    <h3>Attentes et perception du service rendu — Satisfaction</h3>
-    <p class="section-desc">Deux enquêtes menées en 2025 : Q. interne (S1 2025, 68 répondants) + enquête nationale SRP pilotée par la DGOS (43 répondants). Conclusions convergentes sur l'essentiel.</p>
+    <h3>Attentes et perception du service rendu</h3>
+    <p class="section-desc">Deux enquêtes menées en 2025 — une enquête interne (Q. interne, S1) et l'enquête nationale DGOS (SRP, septembre 2025) — convergent : le DAC Var Est est accessible, à l'écoute, utile cliniquement et recommandé par ses partenaires.</p>
   </div>
   <div class="section-body">
 
-    <div class="callout teal">
-      Le DAC Var Est est identifié comme <strong>accessible, à l'écoute, utile sur le plan clinique</strong> et recommandé par ses partenaires. L'axe de progrès identifié de manière convergente — <strong>l'information en retour aux professionnels orienteurs</strong> — est le plus actionnable à court terme.
+    <div class="callout teal" style="font-size:13px;line-height:1.6">
+      <strong>Point de progrès identifié de façon convergente :</strong> l'information en retour aux professionnels orienteurs sur les suites données. Cela ne remet pas en cause la qualité du service rendu, mais ouvre un levier de renforcement de la relation partenariale dans la durée.
     </div>
 
-    <!-- MOTIFS DE CONTACT -->
+    <!-- MOTIFS DE CONTACT — graphique barres horizontales groupées -->
     <div class="panel blue">
-      <div class="panel-title">Motifs de contact — les deux missions identifiées</div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Motif</th><th>Q. interne</th><th>SRP (DGOS)</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Appui situation complexe individuelle</strong></td><td>55,9 %</td><td><span class="tag green">81,4 %</span></td></tr>
-            <tr><td><strong>Formation / animation territoriale</strong></td><td><span class="tag amber">50,0 %</span></td><td>non applicable</td></tr>
-            <tr><td><strong>Partenariat institutionnel</strong></td><td>44,1 %</td><td>non catégorisé</td></tr>
-            <tr><td><strong>Signalement problématique de parcours</strong></td><td>42,6 %</td><td>inclus dans appui complexe</td></tr>
-            <tr><td><strong>Information / orientation</strong></td><td>non catégorisé</td><td>14,0 %</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout" style="margin-top:10px">Le Q. interne capte le contact partenarial non-clinique (formations, animations) représentant <strong>50 % des citations</strong>. Le SRP isole l'usage clinique. <strong>Les deux outils se complètent</strong> pour rendre compte de l'étendue réelle des activités du DAC.</div>
+      <div class="panel-title">Motifs de contact du DAC Var Est</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:14px">Les deux enquêtes confirment que l'appui aux situations complexes est le premier motif de contact. L'enquête interne met en évidence d'autres types de contact (formation, animation territoriale, partenariat, signalement). Les deux outils se complètent pour rendre compte de l'étendue réelle des activités du DAC.</p>
+      <canvas id="motifChart" style="width:100%;display:block" height="180"></canvas>
+      <p style="font-size:10.5px;color:var(--muted);margin-top:8px;font-style:italic">Les motifs en bleu clair sont issus uniquement de l'enquête interne — le SRP ne les mesure pas car il cible exclusivement les contacts cliniques.</p>
     </div>
 
     <!-- ACCESSIBILITÉ -->
-    <div class="panel grad">
-      <div class="panel-title">Accessibilité — résultat unanime des deux outils</div>
-      <div class="g2">
-        <div>
-          <div class="sat-row">
-            <div class="sat-head"><span class="sat-lbl">Q. interne — Très satisfait</span><span class="sat-pct">82,4 %</span></div>
-            <div class="sat-track"><div class="sat-fill" data-pct="82"></div></div>
-            <div class="sat-sub">98,5 % positif total</div>
+    <div class="g2">
+      <div class="panel green">
+        <div class="panel-title" style="color:var(--green)">Accessibilité — Facilité à joindre le DAC</div>
+        <p style="font-size:12px;color:var(--ink2);margin-bottom:10px">Le DAC est perçu comme accessible sur les deux populations interrogées.</p>
+        <div class="g2" style="gap:8px">
+          <div style="background:var(--card);border-radius:var(--r-sm);border:1px solid var(--border);padding:14px;text-align:center">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.5px;margin-bottom:6px">Q. interne</div>
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--green);line-height:1">98,5%</div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:5px">déclarent le joindre facilement</div>
           </div>
-          <div class="sat-row" style="margin-top:8px">
-            <div class="sat-head"><span class="sat-lbl">SRP — Note ≥ 8/10</span><span class="sat-pct">93,0 %</span></div>
-            <div class="sat-track"><div class="sat-fill" data-pct="93"></div></div>
-            <div class="sat-sub">Moyenne 9,40/10 — Médiane 10/10 — 74,4 % attribuent 10/10</div>
+          <div style="background:var(--card);border-radius:var(--r-sm);border:1px solid var(--border);padding:14px;text-align:center">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.5px;margin-bottom:6px">SRP national</div>
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--green);line-height:1">93%</div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:5px">des professionnels interrogés</div>
           </div>
         </div>
-        <div class="callout green" style="align-self:center"><strong>74,4 % des répondants SRP attribuent la note maximale (10/10)</strong>. L'accessibilité ne constitue aucune barrière à l'utilisation du dispositif.</div>
       </div>
-    </div>
 
-    <!-- SATISFACTION GLOBALE SRP -->
-    <div class="panel green">
-      <div class="panel-title">Satisfaction globale — SRP (43 répondants)</div>
-      <div class="g4">
-        <div class="metric green"><div class="v">8,84</div><div class="l">Moyenne /10</div></div>
-        <div class="metric teal"><div class="v">9,0</div><div class="l">Médiane /10</div></div>
-        <div class="metric"><div class="v countup" data-to="74.4" data-dec="1">0</div><div class="l">% notent ≥ 9/10</div></div>
-        <div class="metric amber"><div class="v countup" data-to="46.5" data-dec="1">0</div><div class="l">% note maximale 10/10</div></div>
-      </div>
-    </div>
-
-    <!-- SATISFACTION PAR DIMENSION -->
-    <div class="panel blue">
-      <div class="panel-title">Satisfaction par dimension qualitative — résultats croisés Q. interne × SRP</div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Dimension</th><th>% positif Q.</th><th>Moy. SRP /10</th><th>≥8 SRP</th><th>Analyse</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Écoute et compréhension</strong></td><td><span class="tag green">98,4 %</span></td><td><strong>9,14</strong></td><td>86,0 %</td><td>Meilleur score Q. — convergence forte sur la qualité relationnelle</td></tr>
-            <tr><td><strong>Délai de prise en compte</strong></td><td><span class="tag green">96,7 %</span></td><td><strong>8,98</strong></td><td>86,0 %</td><td>Très bon niveau — 60,7 % très satisfaits (Q.)</td></tr>
-            <tr><td><strong>Pertinence des réponses</strong></td><td><span class="tag">96,7 %</span></td><td><strong>8,74</strong></td><td>88,4 %</td><td>Seul item où Satisfait ≥ Très satisfait — satisfaction solide</td></tr>
-            <tr style="background:rgba(217,119,6,.07)"><td><strong>Plus-value / Info retour ⚠️</strong></td><td><span class="tag amber">93,5 %</span></td><td><strong>8,74</strong></td><td><strong style="color:var(--orange)">83,7 %</strong></td><td>Score le plus bas du SRP — signal convergent sur les 2 outils</td></tr>
-          </tbody>
-        </table>
+      <!-- SATISFACTION QUALITÉ DE SERVICE -->
+      <div class="panel teal">
+        <div class="panel-title" style="color:var(--teal)">Taux de satisfaction des partenaires</div>
+        <p style="font-size:12px;color:var(--ink2);margin-bottom:12px">Q. interne — satisfaction par dimension qualitative.</p>
+        <canvas id="satChart" style="width:100%;display:block" height="140"></canvas>
       </div>
     </div>
 
     <!-- VALEUR AJOUTÉE -->
-    <div class="panel orange">
-      <div class="panel-title">Valeur ajoutée perçue — convergence forte, écarts interprétables</div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Proposition</th><th>% positif Q.</th><th>% positif SRP</th><th>Écart</th></tr></thead>
-          <tbody>
-            <tr><td>Adapte réponse aux besoins</td><td>98,5 %</td><td>90,7 %</td><td>+7,8 pts</td></tr>
-            <tr><td>Facilite les prises en charge</td><td>96,9 %</td><td>90,7 %</td><td>+6,2 pts</td></tr>
-            <tr><td>Fait gagner du temps</td><td>95,3 %</td><td>88,4 %</td><td>+6,9 pts</td></tr>
-            <tr style="background:rgba(217,119,6,.08)"><td><strong>Coordonne / facilite échanges ⚠️</strong></td><td>93,8 %</td><td><strong>83,7 %</strong></td><td><strong>+10,1 pts</strong></td></tr>
-            <tr><td>Aide à se sentir moins isolé</td><td>92,2 %</td><td>88,4 %</td><td>+3,8 pts</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout amber" style="margin-top:10px">Écart +10,1 pts sur « coordonne / facilite les échanges » — mérite attention dans les situations à multi-intervenants. Les écarts s'expliquent par le profil différent des répondants.</div>
+    <div class="panel grad">
+      <div class="panel-title">Ce que le DAC apporte concrètement</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:14px">Pour les partenaires, le DAC n'est pas un intermédiaire administratif mais un levier opérationnel : il adapte la réponse aux besoins terrain et améliore la prise en charge des patients.</p>
+      <canvas id="valeurChart" style="width:100%;display:block" height="160"></canvas>
     </div>
 
-    <!-- IMPACT CLINIQUE SRP -->
-    <div class="panel teal">
-      <div class="panel-title">Impact clinique — données exclusives au SRP</div>
-      <div class="g2">
-        <div>
-          <div class="sat-row"><div class="sat-head"><span class="sat-lbl">Interventions utiles</span><span class="sat-pct">90,7 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
-          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Rôle du DAC clair et compris</span><span class="sat-pct">90,7 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
-          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl"><strong>Amélioration situation du patient</strong></span><span class="sat-pct">88,4 %</span></div><div class="sat-track"><div class="sat-fill green" data-pct="88"></div></div></div>
-          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Mieux connaître les acteurs locaux</span><span class="sat-pct">90,5 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="91"></div></div></div>
-        </div>
-        <div class="callout green" style="align-self:center"><strong>88,4 %</strong> confirment une amélioration de la situation du patient — validation de l'utilité clinique au-delà de la seule satisfaction processuelle.</div>
-      </div>
-    </div>
-
-    <!-- SIGNAL CONVERGENT -->
-    <div class="panel orange">
-      <div class="panel-title">⚠️ Signal convergent d'amélioration — l'information en retour</div>
-      <div class="g2">
-        <div class="callout amber"><strong>Q. interne :</strong> 6,5 % de désaccord — taux le plus élevé de toute l'enquête. POS : 93,5 % (vs 92 à 98,5 % pour les autres items).</div>
-        <div class="callout amber"><strong>SRP :</strong> score 8,74/10 — le plus bas de l'évaluation (vs 8,98 à 9,40 pour les autres items). ≥8 : 83,7 % seulement.</div>
-      </div>
-      <div class="callout" style="margin-top:10px">Un <strong>compte-rendu synthétique transmis dans les jours suivant la clôture du dossier</strong> répondrait directement à ce besoin de continuité partenariale.</div>
-    </div>
-
-    <!-- RECOMMANDATION -->
+    <!-- RECOMMANDATION ET FIDÉLITÉ -->
     <div class="panel green">
-      <div class="g21" style="align-items:center;gap:20px">
-        <div style="text-align:center;padding:20px">
-          <div style="font-family:var(--font-display);font-size:76px;font-weight:700;color:var(--green);line-height:1">98 <span style="font-size:40px">%</span></div>
-          <div style="font-size:15px;font-weight:700;margin-top:10px">prêts à recommander le DAC (Q. interne)</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:6px">83,7 % « Certainement » au SRP — 90,7 % resolliciteraient le DAC</div>
-        </div>
-        <div class="img-box">
-          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image36.png" alt="Seriez-vous prêt à recommander le DAC ? — 98% oui">
-          <div class="img-cap">Seriez-vous prêt à recommander le DAC ? — 98 % oui</div>
-        </div>
-      </div>
-      <div class="callout green" style="margin-top:12px">Le taux de resollicitation certaine (90,7 %) dépasse le taux de recommandation — <strong>intention de recours très forte</strong>. Non-recommandants marginaux (1/68 Q., 2/43 SRP).</div>
-    </div>
-
-    <!-- MONTÉE EN COMPÉTENCES -->
-    <div class="panel blue">
-      <div class="panel-title">Montée en compétences et autonomie — SRP uniquement</div>
-      <div class="g2">
-        <div>
-          <div class="sat-row"><div class="sat-head"><span class="sat-lbl">Mieux compris les démarches à suivre</span><span class="sat-pct">58,1 %</span></div><div class="sat-track"><div class="sat-fill" data-pct="58"></div></div><div class="sat-sub">Oui / Certainement</div></div>
-          <div class="sat-row" style="margin-top:8px"><div class="sat-head"><span class="sat-lbl">Capable de gérer seul une situation similaire</span><span class="sat-pct">11,6 %</span></div><div class="sat-track"><div class="sat-fill orange" data-pct="12"></div></div><div class="sat-sub">53,5 % ne pourraient pas gérer seuls</div></div>
-        </div>
-        <div class="callout" style="align-self:center">53,5 % ne pourraient pas gérer seuls — le DAC est sollicité sur des situations suffisamment complexes. Il <strong>produit un effet formateur réel</strong> tout en justifiant un recours continu.</div>
-      </div>
+      <div class="panel-title" style="color:var(--green)">Le DAC est recommandé par ses partenaires</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:14px">Près de 9 professionnels sur 10 recommanderaient le DAC à un confrère et déclarent qu'ils le recontacteraient pour une prochaine situation.</p>
+      <canvas id="recoChart" style="width:100%;display:block" height="110"></canvas>
     </div>
 
     <!-- POINTS FORTS / POINTS D'ATTENTION -->
     <div class="g2">
       <div class="panel green">
         <div class="panel-title">✓ Points forts confirmés par les 2 sources</div>
-        <div class="rich"><ul>
-          <li><strong>Accessibilité</strong> : 98,5 % / 9,40/10</li>
-          <li><strong>Écoute</strong> : meilleur résultat dans les 2 outils (98,4 % / 9,14/10)</li>
-          <li><strong>Adaptation de la réponse</strong> : 98,5 % / 90,7 %</li>
-          <li><strong>Gain de temps</strong> : 96,9 % (Q.) / 88,4 % (SRP)</li>
-          <li><strong>Moins d'isolement professionnel</strong> : 92 % / 88 %</li>
-          <li><strong>Recommandation ferme</strong> : 89,7 % (Q.) / 83,7 % (SRP)</li>
-          <li><strong>Utilité clinique</strong> (SRP) : 88,4 % constatent une amélioration patient</li>
-        </ul></div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Accessibilité</strong> — 98,5 % / 9,40/10</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Écoute et compréhension</strong> — 98,4 % / 9,14/10</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Adaptation de la réponse aux besoins</strong> — 98,5 % / 90,7 %</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Gain de temps</strong> — 96,9 % (Q. int.) / 88,4 % (SRP)</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Sentiment de moins d'isolement</strong> — 92 % / 88 %</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Recommandation</strong> — 89,7 % (Q. int.) / 83,7 % (SRP)</div></div>
+          <div style="display:flex;align-items:baseline;gap:8px;font-size:13px"><span style="color:var(--green);font-weight:700;flex-shrink:0">✓</span><div><strong>Utilité clinique</strong> (SRP) — 88,4 % améliorent la situation du patient</div></div>
+        </div>
       </div>
-      <div class="panel orange">
-        <div class="panel-title">▶ Points d'attention / axes de progrès</div>
-        <div class="rich"><ul>
-          <li><strong>Information en retour</strong> : dernier rang dans les 2 outils</li>
-          <li><strong>Coordination multi-intervenants</strong> : écart Q./SRP +10,1 pts</li>
-          <li>20,6 % des répondants Q. n'ont jamais participé à une action d'animation territoriale</li>
-          <li>18,6 % des répondants SRP ne comprennent pas mieux les démarches après intervention</li>
-        </ul></div>
-      </div>
-    </div>
-
-    <!-- GRAPHIQUES -->
-    <div class="panel blue">
-      <div class="panel-title">Résultats graphiques — Enquête de satisfaction 2025</div>
-      <div class="g2">
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image28.png" alt=""><div class="img-cap">Canaux de communication et délais</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image29.png" alt=""><div class="img-cap">Écoute et réponse adaptée</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image30.png" alt=""><div class="img-cap">Retour d'information et réactivité</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image31.png" alt=""><div class="img-cap">Suivi du patient en coordination</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image32.png" alt=""><div class="img-cap">Intervention bénéfique au patient</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image33.png" alt=""><div class="img-cap">Impact sur la pratique professionnelle</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image34.png" alt=""><div class="img-cap">Perception globale du service</div></div>
-        <div class="img-box"><img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image35.png" alt=""><div class="img-cap">Satisfaction globale</div></div>
+      <div class="panel amber">
+        <div class="panel-title" style="color:var(--amber)">▶ Points d'attention</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+          <div style="background:var(--card);border-radius:var(--r-sm);padding:12px;border:1px solid var(--border)">
+            <div style="font-size:12.5px;font-weight:700;margin-bottom:4px;color:var(--orange)">▶ Information en retour</div>
+            <div style="font-size:12px;color:var(--ink2)">Dernier rang dans les 2 outils (93,5 % / 83,7 %). Signal convergent et fiable — axe le plus actionnable à court terme.</div>
+          </div>
+          <div style="background:var(--card);border-radius:var(--r-sm);padding:12px;border:1px solid var(--border)">
+            <div style="font-size:12.5px;font-weight:700;margin-bottom:4px">▶ Animation territoriale</div>
+            <div style="font-size:12px;color:var(--ink2)"><strong>20,6 %</strong> des répondants Q. interne (14/68) n'ont encore jamais participé à une action d'animation territoriale — potentiel non exploité.</div>
+          </div>
+          <div style="background:var(--card);border-radius:var(--r-sm);padding:12px;border:1px solid var(--border)">
+            <div style="font-size:12.5px;font-weight:700;margin-bottom:4px">▶ Compréhension post-intervention</div>
+            <div style="font-size:12px;color:var(--ink2)"><strong>18,6 %</strong> des répondants SRP (8/43) déclarent ne pas mieux comprendre les démarches à suivre après l'intervention du DAC.</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- CARTE EMBARQUEMENT -->
-    <div class="panel teal">
-      <div class="panel-title">Livrable Focus — Carte d'embarquement « Les pouvoirs de la communication »</div>
-      <div class="img-box" style="max-width:85%;margin:0 auto">
-        <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image25.png" alt="Carte d'embarquement" style="width:100%">
-        <div class="img-cap">Carte d'embarquement remise aux participants du Focus Thématique « Les Pouvoirs de la Communication »</div>
+    <!-- PERCEPTION PAR TYPOLOGIES D'ATTENTES -->
+    <div class="panel">
+      <div class="panel-title">Service rendu perçu — typologies d'attentes et verbatims</div>
+      <p style="font-size:12px;color:var(--ink2);margin-bottom:14px">Analyse croisée des retours professionnels et partenaires (Q. interne n=68 + SRP n=43).</p>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-bottom:none;border-radius:var(--r-sm) var(--r-sm) 0 0;overflow:hidden">
+          <div style="background:rgba(27,79,168,.06);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--blue)">Utilité de l'appui</span></div>
+          <div style="padding:10px 14px">
+            <p style="font-size:12px;margin:0 0 5px">L'appui du DAC est reconnu comme concret et bénéfique pour les patients, en facilitant la gestion des situations complexes et en réduisant l'isolement. <strong>Jugé très utile ou utile par les partenaires (n=43).</strong></p>
+            <p style="font-size:11.5px;color:var(--muted);font-style:italic;margin:0">« Grâce au DAC, j'ai pu identifier rapidement les bons interlocuteurs et trouver une solution adaptée pour mon patient. C'est un vrai gain de temps au quotidien. » — Enquête SRP 2025</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-bottom:none;overflow:hidden">
+          <div style="background:rgba(8,145,178,.06);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--teal)">Réactivité de la réponse</span></div>
+          <div style="padding:10px 14px">
+            <p style="font-size:12px;margin:0 0 5px">Accessibilité et écoute particulièrement bien perçues. <strong>Le DAC est perçu comme très réactif.</strong> L'information en retour constitue le principal point d'amélioration identifié.</p>
+            <p style="font-size:11.5px;color:var(--muted);font-style:italic;margin:0">« J'ai obtenu une réponse le jour même, avec une orientation claire et adaptée. C'est ce qui fait la valeur du DAC au quotidien. » — Enquête SRP 2025</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-bottom:none;overflow:hidden">
+          <div style="background:rgba(5,150,105,.06);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--green)">Impact sur les parcours</span></div>
+          <div style="padding:10px 14px">
+            <p style="font-size:12px;margin:0 0 5px">Contribution concrète à la fluidification des parcours de santé. La coordination entre professionnels reste un axe à consolider.</p>
+            <p style="font-size:11.5px;color:var(--muted);font-style:italic;margin:0">« Grâce au DAC, la coordination entre les différents intervenants a été facilitée et la prise en charge organisée rapidement et efficacement. » — Enquête SRP 2025</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-bottom:none;overflow:hidden">
+          <div style="background:rgba(217,119,6,.06);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--amber)">Pertinence de la réponse</span></div>
+          <div style="padding:10px 14px">
+            <p style="font-size:12px;margin:0 0 5px"><strong>Le DAC est jugé pertinent dans sa réponse (n=43).</strong> La grande majorité estime que la réponse correspondait pleinement à leur situation.</p>
+            <p style="font-size:11.5px;color:var(--muted);font-style:italic;margin:0">« Le DAC a su proposer une réponse précise et adaptée à ma demande. Je n'aurais pas trouvé seul cette solution aussi rapidement. » — Enquête SRP 2025</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-bottom:none;overflow:hidden">
+          <div style="background:rgba(100,116,139,.06);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--muted)">Lisibilité du dispositif</span></div>
+          <div style="padding:10px 14px">
+            <p style="font-size:12px;margin:0 0 5px">Le DAC est bien identifié par les professionnels. Le recours améliore la connaissance des acteurs locaux, mais la compréhension des suites à donner reste à améliorer.</p>
+            <p style="font-size:11.5px;color:var(--muted);font-style:italic;margin:0">« Depuis que je sollicite le DAC, je connais mieux les ressources disponibles et je sais vers qui m'orienter en cas de difficulté. » — Enquête SRP 2025</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:140px 1fr;border:1px solid var(--border);border-radius:0 0 var(--r-sm) var(--r-sm);overflow:hidden">
+          <div style="background:rgba(5,150,105,.08);padding:12px;border-right:1px solid var(--border);display:flex;align-items:center"><span style="font-size:12px;font-weight:700;color:var(--green)">Satisfaction générale</span></div>
+          <div style="padding:10px 14px;display:flex;align-items:center"><p style="font-size:12px;margin:0">Satisfaction globale élevée : <strong>moyenne 8,84/10</strong>, et <strong>91 % envisagent de resolliciter le DAC</strong>.</p></div>
+        </div>
       </div>
     </div>
 
   </div>
 </div>
-
 
 <!-- ── 15. QUALITÉ ── -->
 <div class="section reveal" id="qualite" data-section>
   <div class="section-head">
     <span class="eyebrow amber">Section 15</span>
     <h3>Modalités de suivi du service rendu — Démarche qualité</h3>
-    <p class="section-desc">Démarche qualité mise en place et renforcée tout au long de 2024–2025. Méthodologie d'amélioration continue.</p>
+    <p class="section-desc">Une démarche qualité structurée selon un cycle d'amélioration continue (PDCA), renforcée tout au long de l'année 2024–2025.</p>
   </div>
   <div class="section-body">
-    <div class="g2">
-      <div class="panel blue">
-        <div class="panel-title">Cycle d'amélioration continue</div>
-        <div class="tl">
-          <div class="tl-item"><div class="tl-num">1</div><div class="tl-content"><strong>Planification</strong><p>Actions via CPOM, stratégies élaborées, analyses d'impact.</p></div></div>
-          <div class="tl-item"><div class="tl-num">2</div><div class="tl-content"><strong>Réalisation</strong><p>Mise en œuvre des planifications — suivi des plans d'action.</p></div></div>
-          <div class="tl-item"><div class="tl-num">3</div><div class="tl-content"><strong>Vérification</strong><p>Revue des indicateurs, revues de processus, questionnaire de satisfaction, audit blanc, RETEX.</p></div></div>
-          <div class="tl-item"><div class="tl-num">4</div><div class="tl-content"><strong>Rectification</strong><p>Ajustement, identification des axes forts et d'amélioration, procédures, logigrammes.</p></div></div>
-        </div>
+
+    <div class="g4">
+      <div class="panel blue" style="text-align:center">
+        <div style="font-size:26px;margin-bottom:6px">📋</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--blue)">1</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px">Planification</div>
+        <div style="font-size:11.5px;color:var(--ink2)">Actions via CPOM, stratégies, analyses d'impact</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="callout green">Déploiement d'un <strong>logiciel qualité</strong> début 2025 : centralisation, sécurisation des accès documentaires, automatisation des plans d'action.</div>
-        <div class="callout teal"><strong>Audit blanc</strong> réalisé : renforcement de l'identification des points forts et axes d'amélioration.</div>
-        <div class="g2">
-          <div class="metric green"><div class="v countup" data-to="4">0</div><div class="l">Plans d'action suivis</div></div>
-          <div class="metric teal"><div class="v countup" data-to="7">0</div><div class="l">Revues de processus</div></div>
-          <div class="metric"><div class="v countup" data-to="13">0</div><div class="l">Logigrammes réalisés</div></div>
-          <div class="metric orange"><div class="v countup" data-to="5">0</div><div class="l">RETEX réalisés</div></div>
-        </div>
+      <div class="panel teal" style="text-align:center">
+        <div style="font-size:26px;margin-bottom:6px">⚙️</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--teal)">2</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px">Réalisation</div>
+        <div style="font-size:11.5px;color:var(--ink2)">Suivi des plans d'action planifiés</div>
+      </div>
+      <div class="panel green" style="text-align:center">
+        <div style="font-size:26px;margin-bottom:6px">🔍</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--green)">3</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px">Vérification</div>
+        <div style="font-size:11.5px;color:var(--ink2)">Revue indicateurs, audit, questionnaire satisfaction</div>
+      </div>
+      <div class="panel amber" style="text-align:center">
+        <div style="font-size:26px;margin-bottom:6px">🔄</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--amber)">4</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px">Rectification</div>
+        <div style="font-size:11.5px;color:var(--ink2)">Actions d'amélioration, revues de direction</div>
       </div>
     </div>
 
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>Axe</th><th>Suivi</th><th>Éléments clés</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Efficacité</strong></td><td><span class="tag green">✓</span></td><td>4 plans d'action, 4 stratégies, préparation audit externe, revue de direction</td></tr>
-          <tr><td><strong>Efficience</strong></td><td><span class="tag green">✓</span></td><td>7 revues de processus, 4 procédures, 13 logigrammes</td></tr>
-          <tr><td><strong>Cohérence & Pertinence</strong></td><td><span class="tag green">✓</span></td><td>Revues indicateurs 1×/semaine, 12 revues EI, circuit plainte/réclamation</td></tr>
-          <tr><td><strong>Impact</strong></td><td><span class="tag green">✓</span></td><td>5 RETEX, 1 questionnaire de satisfaction, revue de direction</td></tr>
-        </tbody>
-      </table>
+    <div class="panel grad">
+      <div class="panel-title">Audit interne — Janvier 2025</div>
+      <p style="font-size:13px;color:var(--ink2);margin-bottom:14px">Analyse transversale de la qualité de service rendu (organisation, activité de coordination, structuration des parcours, appréciation usagers et partenaires).</p>
+      <div class="g4">
+        <div class="metric blue"><div class="v">3</div><div class="l">Méthodes : Patient traceur · Traceur ciblé · Audit système</div></div>
+        <div class="metric teal"><div class="v">16</div><div class="l">Partenaires invités à participer (traceur ciblé)</div></div>
+        <div class="metric green"><div class="v">3</div><div class="l">Usagers participants (patient traceur)</div></div>
+        <div class="metric amber"><div class="v">180</div><div class="l">Questions évaluatives ajustées à l'activité du DAC</div></div>
+      </div>
     </div>
 
-    <div class="g2">
-      <div class="callout teal"><span class="tag">Cf. Annexe 15</span> Stratégie Démarche Qualité 2025</div>
-      <div class="callout amber"><span class="tag">Cf. Annexe 8</span> Analyse et Synthèse des Événements Indésirables 2025</div>
+    <div class="panel">
+      <div class="panel-title">Actions d'amélioration — planification intégrée au SI Qualité</div>
+      <div style="overflow-x:auto;margin-top:10px">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead>
+            <tr style="background:rgba(27,79,168,.06)">
+              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.15);width:110px">Axe</th>
+              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.15)">Réalisations</th>
+              <th style="padding:8px 12px;text-align:center;border-bottom:2px solid rgba(27,79,168,.15);width:80px">Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 12px;font-weight:700;color:var(--blue)">Efficacité</td>
+              <td style="padding:8px 12px;color:var(--ink2)">Déploiement logiciel qualité — <strong>4 plans d'action</strong> suivis (amélioration / sécurité / RGPD / QVCT) — <strong>4 stratégies</strong> (communication, polyvalence, observatoire ruptures, démarche qualité) — Préparation audit externe — Revue de direction</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓ Suivi</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:8px 12px;font-weight:700;color:var(--teal)">Efficience</td>
+              <td style="padding:8px 12px;color:var(--ink2)"><strong>7 revues</strong> de processus — <strong>4 procédures</strong> réalisées — <strong>13 logigrammes</strong> réalisés</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓ Suivi</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 12px;font-weight:700;color:var(--green)">Cohérence &amp; Pertinence</td>
+              <td style="padding:8px 12px;color:var(--ink2)">Revues des indicateurs <strong>1×/semaine</strong> — <strong>12 revues</strong> « Analyse des événements indésirables » — Suivi circuit plainte et réclamation</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓ Suivi</span></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;font-weight:700;color:var(--amber)">Impact</td>
+              <td style="padding:8px 12px;color:var(--ink2)"><strong>5 RETEX</strong> (PPCS ×2, parcours d'intégration, Cellule de crise évacuation EHPAD, Répertoire documentaire) — <strong>1 questionnaire de satisfaction</strong> — Revue de direction</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓ Suivi</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.6">Un logiciel qualité a été déployé début 2025 pour centraliser les données, sécuriser les accès documentaires et automatiser les plans d'action. L'audit de janvier 2025 a permis d'ajuster les actions d'amélioration et de sensibiliser les personnels aux démarches qualité.</div>
     </div>
+
+    <div class="panel blue">
+      <div class="panel-title">Modalités de suivi à travers le CPOM et le dialogue de gestion</div>
+      <div style="overflow-x:auto;margin-top:10px">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead>
+            <tr style="background:rgba(27,79,168,.08)">
+              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.2)">Indicateur de suivi</th>
+              <th style="padding:8px 12px;text-align:center;border-bottom:2px solid rgba(27,79,168,.2);width:70px">Statut</th>
+              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.2)">Détails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 12px;font-weight:700">Contrats pluriannuels d'objectifs et de moyens (CPOM)</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
+              <td style="padding:8px 12px;color:var(--ink2)">CPOM + Avenants Covid Long — CPOM Numérique</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:8px 12px;font-weight:700">Revue annuelle de contrat (RAC) / Dialogue de gestion</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
+              <td style="padding:8px 12px;color:var(--ink2)">Avril 2025 — Décembre 2025</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;font-weight:700">Autres</td>
+              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
+              <td style="padding:8px 12px;color:var(--ink2)">Échanges à la demande auprès de la mission SACO — Rencontres trimestrielles INTERDAC PACA avec référents régionaux ARS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>
+
 
 <!-- ── 16. CPOM ── -->
 <div class="section reveal" id="cpom" data-section>
@@ -1730,28 +2121,6 @@ tr:hover td{background:rgba(27,79,168,.025)}
       </table>
     </div>
 
-    <div class="panel grad">
-      <div class="panel-title">Axes d'évolution et objectifs envisagés par le DAC</div>
-      <div class="g2">
-        <div class="rich">
-          <ul>
-            <li>Garantir l'<strong>opérationnalité des services</strong> du DAC pour répondre aux besoins du territoire</li>
-            <li>Offrir des services d'appui <strong>polyvalents et adaptés</strong></li>
-            <li>Déployer les services d'appui à la coordination des parcours complexes</li>
-            <li>Apporter un soutien aux organisations et aux pratiques professionnelles</li>
-            <li>Déployer un <strong>Observatoire des ruptures de parcours</strong></li>
-          </ul>
-        </div>
-        <div class="rich">
-          <ul>
-            <li>Mesurer et analyser le <strong>service rendu</strong> du DAC</li>
-            <li>Déployer Azurezo et ses usages auprès des professionnels</li>
-            <li>Favoriser les usages des outils <strong>SEGUR</strong> et les bonnes pratiques numériques</li>
-            <li>Déployer la <strong>Cellule de coordination Covid Long</strong> sur le Var</li>
-          </ul>
-        </div>
-      </div>
-    </div>
 
     <div class="callout teal"><span class="tag">Cf. Annexe 1</span> Tableau de bord activité et pilotage — Indicateurs ANAP et pilotage</div>
   </div>
@@ -1935,6 +2304,606 @@ tr:hover td{background:rgba(27,79,168,.025)}
   } else {
     initDonuts();
   }
+})();
+
+// ── FEI TREND CHART ──
+(function() {
+  function drawFEI() {
+    const canvas = document.getElementById('feiBird');
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = canvas.parentElement.offsetWidth || 600;
+    const cssH = 220;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const W = cssW, H = cssH;
+
+    const labels = ['Mar 25','Avr 25','Mai 25','Juin 25','Juil 25','Août 25','Sep 25','Oct 25','Nov 25','Déc 25','Jan 26','Fév 26','Mar 26'];
+    const data   = [2, 1, 9, 10, 13, 16, 16, 15, 14, 9, 9, 21, 4];
+
+    const padL = 38, padR = 12, padT = 10, padB = 32;
+    const chartW = W - padL - padR;
+    const chartH = H - padT - padB;
+    const maxVal = 24;
+
+    // grid lines + y labels
+    ctx.lineWidth = 1;
+    [0, 4, 8, 12, 16, 20].forEach(v => {
+      const y = padT + chartH - (v / maxVal) * chartH;
+      ctx.strokeStyle = 'rgba(14,42,92,.07)';
+      ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px Nunito,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(v, padL - 5, y + 3.5);
+    });
+
+    // x labels
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9px Nunito,sans-serif';
+    ctx.textAlign = 'center';
+    data.forEach((_, i) => {
+      const x = padL + (i / (data.length - 1)) * chartW;
+      ctx.fillText(labels[i], x, H - 4);
+    });
+
+    // compute points
+    const pts = data.map((v, i) => ({
+      x: padL + (i / (data.length - 1)) * chartW,
+      y: padT + chartH - (v / maxVal) * chartH
+    }));
+
+    // filled area gradient
+    const grad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+    grad.addColorStop(0, 'rgba(8,145,178,.28)');
+    grad.addColorStop(1, 'rgba(8,145,178,.02)');
+
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      const cpx = (pts[i-1].x + pts[i].x) / 2;
+      ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y);
+    }
+    ctx.lineTo(pts[pts.length-1].x, padT + chartH);
+    ctx.lineTo(pts[0].x, padT + chartH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // line
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      const cpx = (pts[i-1].x + pts[i].x) / 2;
+      ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y);
+    }
+    ctx.strokeStyle = '#0891b2';
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    // dots
+    pts.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.strokeStyle = '#0891b2';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  }
+
+  // Draw immediately + on resize
+  function tryDraw() {
+    const canvas = document.getElementById('feiBird');
+    if (canvas && canvas.parentElement.offsetWidth > 0) {
+      drawFEI();
+    } else {
+      requestAnimationFrame(tryDraw);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryDraw);
+  } else {
+    // Small delay to ensure layout is computed
+    setTimeout(tryDraw, 100);
+  }
+  window.addEventListener('resize', drawFEI);
+})();
+
+
+
+// ── SERVICE RENDU CHARTS ──
+(function() {
+
+  // ── 1. MOTIFS DE CONTACT (grouped horizontal bars) ──
+  function drawMotifs() {
+    var canvas = document.getElementById('motifChart');
+    if (!canvas) return;
+    var dpr = window.devicePixelRatio || 1;
+    var cssW = canvas.parentElement.offsetWidth || 600;
+    var cssH = 180;
+    canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    var W = cssW, H = cssH;
+
+    var rows = [
+      { label: 'Appui situation complexe', qi: 55.9, srp: 81.4, bothSrp: true },
+      { label: 'Signalement problématique', qi: 42.6, srp: null, bothSrp: false },
+      { label: 'Partenariat institutionnel', qi: 44.1, srp: null, bothSrp: false },
+      { label: 'Formation / animation', qi: 50.0, srp: null, bothSrp: false },
+    ];
+
+    var padL = 168, padR = 20, padT = 28, padB = 20;
+    var chartW = W - padL - padR;
+    var chartH = H - padT - padB;
+    var rowH = chartH / rows.length;
+    var barH = 11, gap = 4;
+    var maxVal = 100;
+
+    // Legend
+    ctx.font = 'bold 10px Nunito,sans-serif';
+    ctx.fillStyle = '#1b4fa8'; ctx.fillRect(padL, 6, 12, 9);
+    ctx.fillStyle = '#0d1f3c'; ctx.fillText('Enquête interne', padL + 15, 15);
+    ctx.fillStyle = '#93c5fd'; ctx.fillRect(padL + 120, 6, 12, 9);
+    ctx.fillStyle = '#0d1f3c'; ctx.fillText('Enquête interne uniquement', padL + 135, 15);
+
+    rows.forEach(function(row, i) {
+      var y = padT + i * rowH + (rowH - (row.srp ? barH*2+gap : barH)) / 2;
+
+      // Row label
+      ctx.fillStyle = '#0d1f3c';
+      ctx.font = '11px Nunito,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(row.label, padL - 8, y + (row.srp ? barH*2+gap : barH)/2 + 4);
+
+      // SRP bar (dark blue, top)
+      if (row.srp) {
+        var w = (row.srp / maxVal) * chartW;
+        ctx.fillStyle = '#1b4fa8';
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(padL, y, w, barH, 3); else ctx.rect(padL, y, w, barH);
+        ctx.fill();
+        ctx.fillStyle = '#1b4fa8';
+        ctx.font = 'bold 10px Nunito,sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(row.srp + '%', padL + w + 5, y + barH - 1);
+        y += barH + gap;
+      }
+
+      // Q interne bar (light blue or dark blue if no SRP)
+      var wq = (row.qi / maxVal) * chartW;
+      ctx.fillStyle = row.srp ? '#93c5fd' : '#1b4fa8';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, wq, barH, 3); else ctx.rect(padL, y, wq, barH);
+      ctx.fill();
+      ctx.fillStyle = row.srp ? '#1e40af' : '#1b4fa8';
+      ctx.font = 'bold 10px Nunito,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(row.qi + '%', padL + wq + 5, y + barH - 1);
+    });
+  }
+
+  // ── 2. SATISFACTION (horizontal bars single) ──
+  function drawSat() {
+    var canvas = document.getElementById('satChart');
+    if (!canvas) return;
+    var dpr = window.devicePixelRatio || 1;
+    var cssW = canvas.parentElement.offsetWidth || 400;
+    var cssH = 140;
+    canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    var W = cssW, H = cssH;
+
+    var items = [
+      { label: 'Pertinence des réponses', val: 96.7 },
+      { label: 'Délais', val: 96.7 },
+      { label: 'Écoute', val: 98.4 },
+      { label: 'Accessibilité', val: 98.5 },
+    ];
+
+    var padL = 140, padR = 50, padT = 10, padB = 10;
+    var chartW = W - padL - padR;
+    var barH = 16;
+    var rowH = (H - padT - padB) / items.length;
+
+    items.forEach(function(item, i) {
+      var y = padT + i * rowH + (rowH - barH) / 2;
+      var w = (item.val / 100) * chartW;
+
+      // Background track
+      ctx.fillStyle = 'rgba(27,79,168,.08)';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, chartW, barH, 4); else ctx.rect(padL, y, chartW, barH);
+      ctx.fill();
+
+      // Bar gradient
+      var grad = ctx.createLinearGradient(padL, 0, padL + w, 0);
+      grad.addColorStop(0, '#1b4fa8'); grad.addColorStop(1, '#2d6be4');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, w, barH, 4); else ctx.rect(padL, y, w, barH);
+      ctx.fill();
+
+      // Label
+      ctx.fillStyle = '#0d1f3c';
+      ctx.font = '11.5px Nunito,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(item.label, padL - 8, y + barH/2 + 4);
+
+      // Value
+      ctx.fillStyle = '#1b4fa8';
+      ctx.font = 'bold 11px Nunito,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(item.val + '%', padL + w + 6, y + barH/2 + 4);
+    });
+  }
+
+  // ── 3. VALEUR AJOUTÉE (horizontal bars single, dark blue + light blue) ──
+  function drawValeur() {
+    var canvas = document.getElementById('valeurChart');
+    if (!canvas) return;
+    var dpr = window.devicePixelRatio || 1;
+    var cssW = canvas.parentElement.offsetWidth || 600;
+    var cssH = 160;
+    canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    var W = cssW, H = cssH;
+
+    var items = [
+      { label: 'Adapte la réponse aux besoins', val: 98.5, light: false },
+      { label: 'Facilite les prises en charge', val: 96.9, light: false },
+      { label: 'Fait gagner du temps', val: 95.3, light: false },
+      { label: 'Facilite les échanges entre pros', val: 93.8, light: true },
+      { label: 'Aide à se sentir moins isolé', val: 92.2, light: true },
+    ];
+
+    var padL = 190, padR = 55, padT = 10, padB = 10;
+    var chartW = W - padL - padR;
+    var barH = 16;
+    var rowH = (H - padT - padB) / items.length;
+
+    items.forEach(function(item, i) {
+      var y = padT + i * rowH + (rowH - barH) / 2;
+      var w = (item.val / 100) * chartW;
+      var color = item.light ? '#93c5fd' : '#1b4fa8';
+      var textColor = item.light ? '#1e40af' : '#1b4fa8';
+
+      ctx.fillStyle = item.light ? 'rgba(147,197,253,.2)' : 'rgba(27,79,168,.08)';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, chartW, barH, 4); else ctx.rect(padL, y, chartW, barH);
+      ctx.fill();
+
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, w, barH, 4); else ctx.rect(padL, y, w, barH);
+      ctx.fill();
+
+      ctx.fillStyle = '#0d1f3c';
+      ctx.font = '11.5px Nunito,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(item.label, padL - 8, y + barH/2 + 4);
+
+      ctx.fillStyle = textColor;
+      ctx.font = 'bold 11px Nunito,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(item.val + '%', padL + w + 6, y + barH/2 + 4);
+    });
+  }
+
+  // ── 4. RECOMMANDATION (2 big bars, green) ──
+  function drawReco() {
+    var canvas = document.getElementById('recoChart');
+    if (!canvas) return;
+    var dpr = window.devicePixelRatio || 1;
+    var cssW = canvas.parentElement.offsetWidth || 600;
+    var cssH = 110;
+    canvas.width = cssW * dpr; canvas.height = cssH * dpr;
+    canvas.style.height = cssH + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    var W = cssW, H = cssH;
+
+    var items = [
+      { label: 'Recommanderaient le DAC', val: 89.7 },
+      { label: 'Recontacteraient le DAC', val: 90.7 },
+    ];
+
+    var padL = 200, padR = 60, padT = 15, padB = 15;
+    var chartW = W - padL - padR;
+    var barH = 24;
+    var rowH = (H - padT - padB) / items.length;
+
+    items.forEach(function(item, i) {
+      var y = padT + i * rowH + (rowH - barH) / 2;
+      var w = (item.val / 100) * chartW;
+
+      ctx.fillStyle = 'rgba(5,150,105,.1)';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, chartW, barH, 5); else ctx.rect(padL, y, chartW, barH);
+      ctx.fill();
+
+      var grad = ctx.createLinearGradient(padL, 0, padL + w, 0);
+      grad.addColorStop(0, '#059669'); grad.addColorStop(1, '#10b981');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(padL, y, w, barH, 5); else ctx.rect(padL, y, w, barH);
+      ctx.fill();
+
+      ctx.fillStyle = '#0d1f3c';
+      ctx.font = '12px Nunito,sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(item.label, padL - 10, y + barH/2 + 4);
+
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 13px Nunito,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(item.val + '%', padL + w + 8, y + barH/2 + 5);
+      // green value outside bar
+      ctx.fillStyle = '#059669';
+      ctx.font = 'bold 13px Nunito,sans-serif';
+      ctx.fillText(item.val + '%', padL + w + 8, y + barH/2 + 5);
+    });
+  }
+
+  function tryDrawAll() {
+    var mc = document.getElementById('motifChart');
+    if (mc && mc.parentElement && mc.parentElement.offsetWidth > 0) {
+      drawMotifs(); drawSat(); drawValeur(); drawReco();
+    } else {
+      requestAnimationFrame(tryDrawAll);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryDrawAll);
+  } else {
+    setTimeout(tryDrawAll, 150);
+  }
+  window.addEventListener('resize', function() {
+    drawMotifs(); drawSat(); drawValeur(); drawReco();
+  });
+})();
+
+
+
+// ══════════════════════════════════════════
+// PRESENTATION ENGINE
+// ══════════════════════════════════════════
+(function() {
+
+  // ── 1. Collect all slides from data-section ──
+  const allSections = [...document.querySelectorAll('[data-section]')];
+  const total = allSections.length;
+  let current = 0;
+
+  // Section titles from nav
+  const navTitles = {};
+  document.querySelectorAll('#mainNav a').forEach(a => {
+    const id = (a.getAttribute('href') || '').replace('#', '');
+    navTitles[id] = a.textContent.replace(/\s+/g,' ').trim().split(' ').slice(0,-1).join(' ') || a.textContent.trim();
+  });
+
+  // ── 2. Build the slide layout ──
+
+  // Create viewport
+  const viewport = document.createElement('div');
+  viewport.id = 'slidesViewport';
+  viewport.className = 'slides-viewport';
+
+  const track = document.createElement('div');
+  track.className = 'slides-track';
+  viewport.appendChild(track);
+
+  // Wrap each section in a slide-wrapper
+  allSections.forEach((section, i) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'slide-wrapper';
+    wrapper.style.top = (i * 100) + 'vh';
+
+    const inner = document.createElement('div');
+    inner.className = 'slide-inner';
+
+    // Slide badge
+    const badge = document.createElement('div');
+    badge.className = 'slide-badge';
+    badge.textContent = `${i+1} / ${total}`;
+
+    // Move section into inner
+    section.classList.add('on'); // ensure visible
+    inner.appendChild(section);
+    wrapper.appendChild(badge);
+    wrapper.appendChild(inner);
+    track.appendChild(wrapper);
+  });
+
+  document.querySelector('.layout').replaceWith(viewport);
+
+  // ── 3. Build bottom nav bar ──
+  const navBar = document.createElement('div');
+  navBar.id = 'slideNav';
+  navBar.innerHTML = `
+    <button class="nav-btn" id="btnPrev" title="Précédent (←)">&#8592;</button>
+    <div id="slideDotsWrap"></div>
+    <span id="slideTitle"></span>
+    <span id="slideCounter">1 / ${total}</span>
+    <button class="btn-sm" id="btnFullscreen" title="Plein écran">⛶</button>
+    <button class="nav-btn" id="btnNext" title="Suivant (→)">&#8594;</button>
+  `;
+  document.body.appendChild(navBar);
+
+  // Build dots
+  const dotsWrap = document.getElementById('slideDotsWrap');
+  allSections.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    dot.title = navTitles[allSections[i].id] || `Slide ${i+1}`;
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  // Progress bar
+  const progressBar = document.createElement('div');
+  progressBar.id = 'progressBar';
+  document.body.appendChild(progressBar);
+
+  // ── 4. Navigation ──
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    current = idx;
+    track.style.transform = `translateY(-${idx * 100}vh)`;
+    // Update UI
+    updateUI();
+    // Reset scroll of new slide inner
+    const wrapper = track.querySelectorAll('.slide-wrapper')[idx];
+    if (wrapper) {
+      const inner = wrapper.querySelector('.slide-inner');
+      if (inner) inner.scrollTop = 0;
+    }
+  }
+
+  function updateUI() {
+    // dots
+    document.querySelectorAll('.slide-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    // center active dot
+    const activeDot = dotsWrap.querySelectorAll('.slide-dot')[current];
+    if (activeDot) activeDot.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+
+    // counter
+    document.getElementById('slideCounter').textContent = `${current+1} / ${total}`;
+
+    // title
+    const sec = allSections[current];
+    const titleEl = sec.querySelector('h3') || sec.querySelector('h1');
+    document.getElementById('slideTitle').textContent = titleEl ? titleEl.textContent.trim() : '';
+
+    // progress bar
+    progressBar.style.width = ((current / (total - 1)) * 100) + '%';
+
+    // buttons
+    document.getElementById('btnPrev').disabled = current === 0;
+    document.getElementById('btnNext').disabled = current === total - 1;
+  }
+
+  document.getElementById('btnPrev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('btnNext').addEventListener('click', () => goTo(current + 1));
+
+  // ── 5. Keyboard navigation ──
+  document.addEventListener('keydown', e => {
+    if (lbOpen) {
+      if (e.key === 'Escape') closeLightbox();
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End')  { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // ── 6. Touch/swipe navigation ──
+  let touchStartX = 0, touchStartY = 0;
+  viewport.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  viewport.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 50) {
+      if (dy < 0) goTo(current + 1);
+      else goTo(current - 1);
+    }
+  }, { passive: true });
+
+  // ── 7. Fullscreen ──
+  document.getElementById('btnFullscreen').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen();
+    }
+  });
+  document.addEventListener('fullscreenchange', () => {
+    document.getElementById('btnFullscreen').textContent =
+      document.fullscreenElement ? '✕FS' : '⛶';
+  });
+
+  // ── 8. Lightbox for all images ──
+  const lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.innerHTML = `<button id="lbClose" title="Fermer (Échap)">✕</button><img id="lbImg" src="" alt="">`;
+  document.body.appendChild(lb);
+  let lbOpen = false;
+
+  function openLightbox(src, alt) {
+    document.getElementById('lbImg').src = src;
+    document.getElementById('lbImg').alt = alt || '';
+    lb.classList.add('open');
+    lbOpen = true;
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    lbOpen = false;
+  }
+
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+
+  // Make all img elements zoomable
+  function makeZoomable() {
+    document.querySelectorAll('.slide-inner img').forEach(img => {
+      if (img.classList.contains('zoomable')) return;
+      img.classList.add('zoomable');
+      img.addEventListener('click', e => {
+        e.stopPropagation();
+        openLightbox(img.src, img.alt);
+      });
+    });
+  }
+
+  // ── 9. Nav links: sync ──
+  document.querySelectorAll('#mainNav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').replace('#', '');
+      const idx = allSections.findIndex(s => s.id === id);
+      if (idx >= 0) goTo(idx);
+    });
+  });
+
+  // ── 10. Keyboard hint ──
+  const kbHint = document.createElement('div');
+  kbHint.id = 'kbHint';
+  kbHint.innerHTML = '← → pour naviguer &nbsp;|&nbsp; clic sur image = zoom';
+  document.body.appendChild(kbHint);
+  setTimeout(() => { kbHint.classList.add('show'); }, 800);
+  setTimeout(() => { kbHint.classList.remove('show'); }, 5000);
+
+  // ── 11. Init ──
+  goTo(0);
+  setTimeout(() => {
+    makeZoomable();
+    // Also observe mutations for canvases loaded later
+    new MutationObserver(makeZoomable).observe(document.body, { childList: true, subtree: true });
+  }, 300);
+
+  // Re-apply makeZoomable after charts draw
+  setTimeout(makeZoomable, 1000);
+  setTimeout(makeZoomable, 3000);
+
 })();
 
 </script>
