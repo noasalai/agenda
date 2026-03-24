@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAC Var Est – Tableau de Bord Coordinatrices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#1a6e8a; --primary-light:#2596be; --primary-dark:#0e4d63;
+  --accent:#e8703a; --ok:#27ae60; --warn:#f39c12; --alert:#e74c3c; --crisis:#8e44ad;
+  --draguignan:#1a6e8a; --frejus:#e8703a;
+  --bg:#f4f7fb; --card:#fff; --border:#dde4ef;
+  --text:#1a2540; --text-muted:#6b7a99;
+  --shadow:0 2px 16px rgba(26,110,138,.10); --shadow-lg:0 8px 40px rgba(26,110,138,.14);
+  --radius:14px; --radius-sm:8px; --t:.22s cubic-bezier(.4,0,.2,1);
+}
+body.dark {
+  --bg:#0f1624; --card:#162032; --border:#223044;
+  --text:#e8edf5; --text-muted:#7a93b0;
+  --shadow:0 2px 16px rgba(0,0,0,.40); --shadow-lg:0 8px 40px rgba(0,0,0,.50);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);transition:background var(--t),color var(--t);min-height:100vh}
+
+/* ── HEADER ── */
+header{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);transition:background var(--t),border-color var(--t)}
+.header-inner{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.logo-area{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.logo-area img{height:44px;width:auto;object-fit:contain}
+.header-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:var(--primary);line-height:1.2}
+.header-title span{display:block;font-size:.68rem;font-weight:400;color:var(--text-muted);letter-spacing:.07em;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:8px}
+.live-badge{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:.73rem;font-weight:600;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);white-space:nowrap;transition:all var(--t)}
+.live-badge.ok{border-color:var(--ok);color:var(--ok);background:#e8f8ee}
+.live-badge.loading{border-color:var(--warn);color:#7d5a00;background:#fff8e1}
+.live-badge.error{border-color:var(--alert);color:#7a1515;background:#ffeaea}
+body.dark .live-badge.ok{background:#0a2015} body.dark .live-badge.loading{background:#2a2000} body.dark .live-badge.error{background:#2a0a0a}
+.pulse{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.btn-theme{display:flex;align-items:center;gap:7px;background:var(--bg);border:1.5px solid var(--border);border-radius:24px;padding:5px 14px 5px 9px;cursor:pointer;font-size:.8rem;font-weight:500;color:var(--text-muted);font-family:'DM Sans',sans-serif;transition:all var(--t)}
+.btn-theme:hover{border-color:var(--primary);color:var(--primary)}
+
+/* ── MAIN ── */
+.main-wrap{max-width:1440px;margin:0 auto;padding:26px 24px 60px}
+
+/* ── FILTRE ANTENNE ── */
+.antenne-bar{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.antenne-label{font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.antenne-filters{display:flex;gap:6px;flex-wrap:wrap}
+.af-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:24px;border:2px solid var(--border);background:var(--card);cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:.83rem;color:var(--text-muted);transition:all var(--t);box-shadow:var(--shadow)}
+.af-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.af-btn.active{color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+.af-btn .af-dot{width:9px;height:9px;border-radius:50%}
+.af-all.active{background:var(--primary)}
+.af-all .af-dot{background:var(--primary)}
+.af-drag.active{background:var(--draguignan)}
+.af-drag .af-dot{background:var(--draguignan)}
+.af-frej.active{background:var(--frejus)}
+.af-frej .af-dot{background:var(--frejus)}
+.af-count{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background:rgba(0,0,0,.1);font-size:.68rem;font-weight:800;padding:0 5px}
+.af-btn.active .af-count{background:rgba(255,255,255,.25);color:#fff}
+
+/* ── KPIs ── */
+.kpi-row{display:flex;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+.kpi-section{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px}
+.kpi-section-label{font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:0 4px}
+.kpi-section-label.all{color:var(--primary)}
+.kpi-section-label.drag{color:var(--draguignan)}
+.kpi-section-label.frej{color:var(--frejus)}
+.kpi-cards{display:flex;gap:8px;flex-wrap:wrap}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);text-align:center;transition:box-shadow var(--t),transform var(--t);flex:1;min-width:90px}
+.kpi-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.kpi-icon{font-size:1.3rem;margin-bottom:4px}
+.kpi-value{font-family:'Outfit',sans-serif;font-size:1.7rem;font-weight:800;color:var(--primary);line-height:1}
+.kpi-label{font-size:.68rem;color:var(--text-muted);margin-top:3px;font-weight:500;line-height:1.3}
+.kpi-top-accent{border-top:3px solid var(--accent)}
+.kpi-top-warn{border-top:3px solid var(--warn)}
+.kpi-top-alert{border-top:3px solid var(--alert)}
+.kpi-top-ok{border-top:3px solid var(--ok)}
+.kpi-top-info{border-top:3px solid var(--primary-light)}
+.kpi-top-drag{border-top:3px solid var(--draguignan)}
+.kpi-top-frej{border-top:3px solid var(--frejus)}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:5px;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:5px;box-shadow:var(--shadow);margin-bottom:22px}
+.tab-btn{flex:1;min-width:110px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:.82rem;color:var(--text-muted);background:transparent;transition:all var(--t);white-space:nowrap}
+.tab-btn:hover{color:var(--primary);background:var(--bg)}
+.tab-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(26,110,138,.28)}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.section-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:1.15rem;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--border),transparent);border-radius:2px}
+
+/* ── COORD CARDS ── */
+.coord-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:16px}
+.coord-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow var(--t),opacity var(--t),transform var(--t)}
+.coord-card:hover{box-shadow:var(--shadow-lg)}
+.coord-card.hidden{display:none}
+.coord-header{padding:13px 17px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--border);color:#fff}
+.coord-header.drag{background:linear-gradient(135deg,#0e4d63,#1a6e8a)}
+.coord-header.frej{background:linear-gradient(135deg,#b84e1a,#e8703a)}
+.coord-avatar{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:.95rem;color:#fff;flex-shrink:0}
+.coord-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.98rem}
+.coord-antenne{font-size:.68rem;opacity:.8;margin-top:1px;display:flex;align-items:center;gap:4px}
+.coord-antenne::before{content:'📍';font-size:.7rem}
+.coord-badge{margin-left:auto;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:700;background:rgba(255,255,255,.15);color:#fff;white-space:nowrap}
+.badge-ok{background:rgba(39,174,96,.6)} .badge-warn{background:rgba(243,156,18,.7)} .badge-alert{background:rgba(231,76,60,.75)} .badge-empty{background:rgba(180,180,180,.3)}
+.coord-body{padding:13px 17px}
+.mini-stats{display:flex;gap:5px;margin-bottom:11px;flex-wrap:wrap}
+.mini-stat{display:flex;align-items:center;gap:4px;background:var(--bg);border-radius:20px;padding:3px 9px;font-size:.73rem;font-weight:600;border:1.5px solid transparent}
+.mini-stat .dot{width:7px;height:7px;border-radius:50%}
+.ms-1{border-color:#27ae60;color:#27ae60}.ms-1 .dot{background:#27ae60}
+.ms-2{border-color:#3498db;color:#3498db}.ms-2 .dot{background:#3498db}
+.ms-3{border-color:#f39c12;color:#f39c12}.ms-3 .dot{background:#f39c12}
+.ms-4{border-color:#e74c3c;color:#e74c3c}.ms-4 .dot{background:#e74c3c}
+.ms-5{border-color:#8e44ad;color:#8e44ad}.ms-5 .dot{background:#8e44ad}
+.ms-s{border-color:#95a5a6;color:#95a5a6}.ms-s .dot{background:#95a5a6}
+.charge-wrap{margin-bottom:11px}
+.charge-lbl{font-size:.7rem;color:var(--text-muted);margin-bottom:4px;display:flex;justify-content:space-between}
+.charge-bar{height:7px;border-radius:5px;background:var(--border);overflow:hidden}
+.charge-fill{height:100%;border-radius:5px;transition:width 1s ease}
+.alerts-list{display:flex;flex-direction:column;gap:5px}
+.alert-item{display:flex;align-items:flex-start;gap:6px;padding:6px 9px;border-radius:var(--radius-sm);font-size:.75rem;line-height:1.4}
+.alert-icon{font-size:.85rem;flex-shrink:0;margin-top:1px}
+.a-warn{background:#fff8e1;color:#7d5a00;border-left:3px solid var(--warn)}
+.a-alert{background:#ffeaea;color:#7a1515;border-left:3px solid var(--alert)}
+.a-info{background:#e8f4fd;color:#0c4a6e;border-left:3px solid var(--primary-light)}
+.a-ok{background:#e8f8ee;color:#145a32;border-left:3px solid var(--ok)}
+body.dark .a-warn{background:#2a2000;color:#f8d07a} body.dark .a-alert{background:#2a0a0a;color:#f1929a}
+body.dark .a-info{background:#0a1d2e;color:#7ec8f0} body.dark .a-ok{background:#0a2015;color:#7ad9a0}
+.evo-wrap{margin-top:11px;overflow-x:auto;max-height:185px;overflow-y:auto}
+.evo-table{width:100%;border-collapse:collapse;font-size:.75rem}
+.evo-table th{padding:5px 7px;text-align:center;font-family:'Outfit',sans-serif;font-weight:600;color:var(--text-muted);font-size:.67rem;border-bottom:2px solid var(--border);background:var(--bg);position:sticky;top:0}
+.evo-table th:first-child{text-align:left}
+.evo-table td{padding:4px 7px;text-align:center;border-bottom:1px solid var(--border)}
+.evo-table td:first-child{text-align:left;font-weight:500;font-size:.72rem}
+.evo-table tr:hover td{background:var(--bg)}
+.lvl{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-weight:700;font-size:.72rem}
+.l1{background:#d5f5e3;color:#1e8449}.l2{background:#d6eaf8;color:#1a5276}.l3{background:#fef9e7;color:#7d6608}
+.l4{background:#fde8e8;color:#922b21}.l5{background:#f5eef8;color:#6c3483}.ls{background:#eaecee;color:#717d7e}.lh{background:#fdf2e9;color:#784212}
+body.dark .l1{background:#1a3d28;color:#7dcea0} body.dark .l2{background:#1a2d44;color:#7fb3d3}
+body.dark .l3{background:#3d3510;color:#f9e27d} body.dark .l4{background:#3d1010;color:#f1948a}
+body.dark .l5{background:#2d1a3d;color:#c39bd3} body.dark .ls{background:#2a2c30;color:#aab7c4} body.dark .lh{background:#3d2010;color:#f0b27a}
+
+/* ── COMPARE ── */
+.compare-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.cmp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow);transition:box-shadow var(--t)}
+.cmp-card:hover{box-shadow:var(--shadow-lg)}
+.cmp-card.hidden{display:none}
+.cmp-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:.9rem;color:var(--primary);margin-bottom:4px}
+.cmp-antenne{font-size:.68rem;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cmp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:.77rem}
+.cmp-row .cl{color:var(--text-muted)} .cmp-row .cv{font-weight:700}
+.stacked{height:13px;border-radius:6px;overflow:hidden;display:flex;margin:9px 0 3px}
+.stacked-seg{height:100%}
+.sleg-row{display:flex;gap:5px;flex-wrap:wrap}
+.sleg{display:flex;align-items:center;gap:3px;font-size:.63rem;color:var(--text-muted)}
+.sleg-dot{width:6px;height:6px;border-radius:2px}
+
+/* ── VIGILANCE ── */
+.vig-wrap{overflow-x:auto}
+.vig-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.vig-table th{padding:8px 11px;text-align:left;font-family:'Outfit',sans-serif;font-weight:600;font-size:.7rem;color:var(--text-muted);border-bottom:2px solid var(--border);background:var(--bg);white-space:nowrap}
+.vig-table td{padding:7px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+.vig-table tr.hidden{display:none}
+.vig-table tr:hover td{background:var(--bg)}
+.vtag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.68rem;font-weight:700;letter-spacing:.03em}
+.vt-ok{background:#d5f5e3;color:#1e8449} .vt-warn{background:#fef9e7;color:#7d6608}
+.vt-alert{background:#fde8e8;color:#922b21} .vt-empty{background:#eaecee;color:#717d7e}
+.vt-drag{background:#d6eaf8;color:#0e4d63} .vt-frej{background:#fdebd0;color:#784212}
+body.dark .vt-ok{background:#1a3d28;color:#7dcea0} body.dark .vt-warn{background:#3d3510;color:#f9e27d}
+body.dark .vt-alert{background:#3d1010;color:#f1948a} body.dark .vt-empty{background:#2a2c30;color:#aab7c4}
+body.dark .vt-drag{background:#1a2d44;color:#7fb3d3} body.dark .vt-frej{background:#3d2010;color:#f0b27a}
+
+/* ── CRITERES ── */
+.crit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.crit-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.crit-hdr{padding:9px 15px;display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.88rem}
+.crit-num{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:800;flex-shrink:0}
+.crit-body{padding:9px 15px;font-size:.75rem;line-height:1.6;color:var(--text-muted)}
+.crit-body strong{color:var(--text);display:block;margin-bottom:2px;font-size:.77rem}
+.crit-act{padding:7px 15px;background:var(--bg);font-size:.72rem;color:var(--text-muted);border-top:1px solid var(--border)}
+
+/* ── LOADING ── */
+#loadingOverlay{position:fixed;inset:0;background:rgba(244,247,251,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px;transition:opacity .3s}
+body.dark #loadingOverlay{background:rgba(15,22,36,.94)}
+#loadingOverlay.hidden{opacity:0;pointer-events:none}
+.spinner{width:42px;height:42px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:var(--primary)}
+.ld-sub{font-size:.78rem;color:var(--text-muted)}
+.ld-dots{display:flex;gap:7px}
+.ld-dot{width:9px;height:9px;border-radius:50%;background:var(--border);transition:background .3s}
+.ld-dot.done{background:var(--ok)} .ld-dot.active{background:var(--primary);animation:pulse 1s infinite}
+
+footer{text-align:center;padding:18px;font-size:.7rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:32px}
+code{background:var(--border);color:var(--primary);padding:1px 5px;border-radius:3px;font-size:.75rem;font-family:monospace}
+@media(max-width:720px){.main-wrap{padding:14px 10px 40px}.coord-grid{grid-template-columns:1fr}.compare-grid{grid-template-columns:1fr 1fr}.kpi-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="ld-title">Chargement des données…</div>
+  <div class="ld-sub" id="ldSub">Connexion aux feuilles Google Sheets</div>
+  <div class="ld-dots" id="ldDots"></div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC Var Est" onerror="this.style.display='none'">
+      <div class="header-title">
+        Tableau de Bord Live
+        <span>Coordinatrices de Parcours · DAC Var Est</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="live-badge loading" id="liveBadge"><span class="pulse"></span><span id="liveText">Chargement…</span></div>
+      <button class="btn-theme" onclick="toggleTheme()" id="themeBtn"><span>☀️</span> Fond clair</button>
+    </div>
+  </div>
+</header>
+
+<div class="main-wrap">
+
+  <!-- ── FILTRE ANTENNE ── -->
+  <div class="antenne-bar">
+    <span class="antenne-label">Filtrer par antenne :</span>
+    <div class="antenne-filters">
+      <button class="af-btn af-all active" onclick="setFilter('all',this)">
+        <span class="af-dot" style="background:var(--primary)"></span>
+        Toutes les CI
+        <span class="af-count" id="cnt-all">6</span>
+      </button>
+      <button class="af-btn af-drag" onclick="setFilter('Draguignan',this)">
+        <span class="af-dot" style="background:var(--draguignan)"></span>
+        Siège Draguignan
+        <span class="af-count" id="cnt-drag">3</span>
+      </button>
+      <button class="af-btn af-frej" onclick="setFilter('Fréjus',this)">
+        <span class="af-dot" style="background:var(--frejus)"></span>
+        Antenne Fréjus
+        <span class="af-count" id="cnt-frej">3</span>
+      </button>
+    </div>
+    <span style="margin-left:auto;font-size:.72rem;color:var(--text-muted)" id="lastUpdateBadge">—</span>
+  </div>
+
+  <!-- ── KPIs ── -->
+  <div id="kpiArea"></div>
+
+  <!-- ── TABS ── -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('t-coord',this)">👥 Par Coordinatrice</button>
+    <button class="tab-btn" onclick="switchTab('t-compare',this)">📊 Vue Comparative</button>
+    <button class="tab-btn" onclick="switchTab('t-vig',this)">⚠️ Vigilance & Alertes</button>
+    <button class="tab-btn" onclick="switchTab('t-crit',this)">📋 Référentiel Niveaux</button>
+  </div>
+
+  <div class="tab-content active" id="t-coord">
+    <div class="section-title">🧑‍⚕️ Analyse par Coordinatrice</div>
+    <!-- Ligne Draguignan -->
+    <div id="rowDrag" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--draguignan);flex-shrink:0"></div>
+        <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;color:var(--draguignan);text-transform:uppercase;letter-spacing:.07em">Siège Draguignan</span>
+        <div style="flex:1;height:1.5px;background:linear-gradient(90deg,#2596be33,transparent)"></div>
+      </div>
+      <div class="coord-grid" id="coordGridDrag"></div>
+    </div>
+    <!-- Ligne Fréjus -->
+    <div id="rowFrej">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--frejus);flex-shrink:0"></div>
+        <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;color:var(--frejus);text-transform:uppercase;letter-spacing:.07em">Antenne Fréjus</span>
+        <div style="flex:1;height:1.5px;background:linear-gradient(90deg,#e8703a33,transparent)"></div>
+      </div>
+      <div class="coord-grid" id="coordGridFrej"></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t-compare">
+    <div class="section-title">📊 Comparaison inter-coordinatrices</div>
+    <div class="compare-grid" id="compareGrid"></div>
+  </div>
+
+  <div class="tab-content" id="t-vig">
+    <div class="section-title">⚠️ Points de Vigilance & Analyse Critique</div>
+    <div class="vig-wrap">
+      <table class="vig-table">
+        <thead><tr>
+          <th>Coordinatrice</th><th>Antenne</th><th>Patients</th>
+          <th>Niv.4–5</th><th>% haute charge</th><th>Mois couverts</th>
+          <th>Spéciaux</th><th>Tendance</th><th>Évaluation</th><th>Points clés</th>
+        </tr></thead>
+        <tbody id="vigBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-content" id="t-crit">
+    <div class="section-title">📋 Référentiel des Niveaux de Charge</div>
+    <div class="crit-grid" id="critGrid"></div>
+  </div>
+
+</div>
+
+<footer>
+  DAC Var Est · Tableau de bord coordinatrices de parcours ·
+  Données chargées depuis Google Sheets · <span id="footerDate"></span>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+//  CONFIG — URLs CSV publiées Google Sheets
+// ═══════════════════════════════════════════════════════════════════════════
+const COORD_CONFIG = [
+  {
+    name: 'Kimberley',
+    antenne: 'Draguignan',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=1649850208&single=true&output=csv'
+  },
+  {
+    name: 'Zahia',
+    antenne: 'Fréjus',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=1532758763&single=true&output=csv'
+  },
+  {
+    name: 'Mireille',
+    antenne: 'Fréjus',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=1453801293&single=true&output=csv'
+  },
+  {
+    name: 'Stéphanie',
+    antenne: 'Fréjus',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=612947055&single=true&output=csv'
+  },
+  {
+    name: 'Clarisse',
+    antenne: 'Draguignan',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=352994170&single=true&output=csv'
+  },
+  {
+    name: 'Mélanie',
+    antenne: 'Draguignan',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR38LxklFqTZ9u1yiynI5-F8k4WwQG5rRJxtgeOz9xryKOlUjwFjM5nzNnyYa_jMvTsBiS3GHD4_h32/pub?gid=2030942812&single=true&output=csv'
+  }
+];
+
+const MONTHS = ['janvier','février','mars','avril','mai','juin',
+                'juillet','août','septembre','octobre','novembre','décembre'];
+
+let DATA = {}; // { name: { patients: [], antenne: '' } }
+let currentFilter = 'all';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  CSV PARSER
+// ═══════════════════════════════════════════════════════════════════════════
+function parseCSV(text) {
+  const lines = [];
+  for (const row of text.split('\n')) {
+    const cols = []; let cur = '', inQ = false;
+    for (let i = 0; i < row.length; i++) {
+      const ch = row[i];
+      if (ch === '"') inQ = !inQ;
+      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur.trim());
+    lines.push(cols);
+  }
+  return lines;
+}
+
+function parseCoordCSV(text) {
+  const rows = parseCSV(text);
+  if (!rows || rows.length < 3) return [];
+
+  // Detect month offset
+  const row0 = rows[0] || [];
+  let monthOffset = 2;
+  for (let ci = 0; ci < row0.length; ci++) {
+    const v = row0[ci].replace(/"/g,'').trim().toLowerCase();
+    if (v === 'janvier') { monthOffset = ci; break; }
+  }
+
+  const patients = [];
+  for (let ri = 2; ri < rows.length; ri++) {
+    const row = rows[ri];
+    if (!row || !row[0]) continue;
+    const id = row[0].replace(/"/g,'').trim();
+    if (!id) continue;
+    if (/^(total|charge|coordinatrice)/i.test(id)) continue;
+
+    const monthly = {};
+    for (let mi = 0; mi < 12; mi++) {
+      const ci = monthOffset + mi;
+      const raw = (row[ci] || '').replace(/"/g,'').trim().toUpperCase();
+      if (['1','2','3','4','5','S','H'].includes(raw)) monthly[MONTHS[mi]] = raw;
+    }
+    if (id.length >= 3) patients.push({ id, monthly });
+  }
+  return patients;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  FETCH
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchCoord(cfg) {
+  try {
+    const resp = await fetch(cfg.url, { cache: 'no-cache' });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const text = await resp.text();
+    if (text.trim().startsWith('<')) throw new Error('Réponse HTML — vérifier publication');
+    const patients = parseCoordCSV(text);
+    return { ok: true, patients };
+  } catch(e) {
+    console.warn(`❌ ${cfg.name}:`, e.message);
+    return { ok: false, error: e.message, patients: [] };
+  }
+}
+
+async function loadAll() {
+  document.getElementById('loadingOverlay').classList.remove('hidden');
+  setBadge('loading', 'Chargement…');
+
+  // Build progress dots
+  document.getElementById('ldDots').innerHTML =
+    COORD_CONFIG.map((_,i) => `<div class="ld-dot" id="ldd${i}"></div>`).join('');
+
+  let loaded = 0, errors = 0;
+  for (let i = 0; i < COORD_CONFIG.length; i++) {
+    const cfg = COORD_CONFIG[i];
+    document.getElementById('ldSub').textContent = `Chargement : ${cfg.name} (${cfg.antenne})…`;
+    document.getElementById(`ldd${i}`).className = 'ld-dot active';
+    const result = await fetchCoord(cfg);
+    DATA[cfg.name] = { patients: result.patients, antenne: cfg.antenne };
+    document.getElementById(`ldd${i}`).className = 'ld-dot done';
+    if (result.ok) loaded++; else errors++;
+  }
+
+  document.getElementById('loadingOverlay').classList.add('hidden');
+  const now = new Date().toLocaleString('fr-FR');
+  document.getElementById('lastUpdateBadge').textContent = `🕐 Mis à jour : ${now}`;
+  document.getElementById('footerDate').textContent = now;
+
+  renderAll();
+
+  if (errors === 0) setBadge('ok', `✅ ${loaded} feuilles chargées`);
+  else setBadge('error', `⚠️ ${loaded} ok · ${errors} erreur(s)`);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+function visibleCoords() {
+  if (currentFilter === 'all') return COORD_CONFIG;
+  return COORD_CONFIG.filter(c => c.antenne === currentFilter);
+}
+
+function getLastLevel(p) {
+  for (let i = MONTHS.length-1; i >= 0; i--)
+    if (p.monthly[MONTHS[i]]) return p.monthly[MONTHS[i]];
+  return null;
+}
+function lvlClass(l) { return {1:'l1',2:'l2',3:'l3',4:'l4',5:'l5',S:'ls',H:'lh'}[l]||''; }
+function lvlColor(l) { return {1:'#27ae60',2:'#3498db',3:'#f39c12',4:'#e74c3c',5:'#8e44ad',S:'#95a5a6',H:'#e67e22'}[l]||'#aaa'; }
+
+function computeStats(patients) {
+  const active = patients.filter(p => { const l=getLastLevel(p); return l && !['S','H'].includes(l); });
+  const cl = {1:0,2:0,3:0,4:0,5:0}; const sp = {S:0,H:0};
+  active.forEach(p => { const n=parseInt(getLastLevel(p)); if(!isNaN(n)) cl[n]=(cl[n]||0)+1; });
+  patients.forEach(p => { const l=getLastLevel(p); if(l==='S') sp.S++; if(l==='H') sp.H++; });
+  const high=(cl[4]||0)+(cl[5]||0);
+  let ws=0,wc=0;
+  active.forEach(p => { const n=parseInt(getLastLevel(p)); if(!isNaN(n)){ws+=n;wc++;} });
+  return { total:patients.length, activePats:active.length, cl, sp, high, avg:wc>0?ws/wc:0 };
+}
+
+function getTrend(patients) {
+  const mwd = MONTHS.filter(m => patients.some(p => p.monthly[m]));
+  if (mwd.length < 2) return null;
+  const last=mwd[mwd.length-1], prev=mwd[mwd.length-2];
+  const sc = m => patients.map(p=>parseInt(p.monthly[m])).filter(n=>!isNaN(n));
+  const pa=sc(prev), la=sc(last);
+  if (!pa.length||!la.length) return null;
+  const avg = a => a.reduce((x,y)=>x+y,0)/a.length;
+  const d = avg(la)-avg(pa);
+  return Math.abs(d)<0.1?'stable':d>0?'hausse':'baisse';
+}
+
+function getAlerts(name, patients, s) {
+  const a = [];
+  if (s.total===0) { a.push({t:'alert',i:'🚫',m:'Aucune donnée saisie — feuille vide.'}); return a; }
+  if (s.high>0) a.push({t:'alert',i:'🔴',m:`${s.high} patient(s) en niveau 4–5 (tension/crise).`});
+  if (s.cl[5]>0) a.push({t:'alert',i:'🆘',m:`${s.cl[5]} crise(s) niv.5 — impact sur autres accompagnements.`});
+  if (s.sp.H>0) a.push({t:'warn',i:'🏥',m:`${s.sp.H} patient(s) hospitalisé(s) — coordination sortie à anticiper.`});
+  if (s.sp.S>0) a.push({t:'info',i:'📁',m:`${s.sp.S} dossier(s) sorti(s) — à valider en staff.`});
+  if (s.avg>=3.5) a.push({t:'alert',i:'📈',m:`Charge moyenne élevée (${s.avg.toFixed(1)}/5) — risque d'épuisement.`});
+  else if (s.avg>=2.8) a.push({t:'warn',i:'📊',m:`Charge soutenue (${s.avg.toFixed(1)}/5) — à surveiller.`});
+  if (getTrend(patients)==='hausse') a.push({t:'warn',i:'📉',m:'Tendance à la hausse — réévaluation recommandée.'});
+  const mc = MONTHS.filter(m=>patients.some(p=>p.monthly[m])).length;
+  if (mc<=1) a.push({t:'info',i:'📅',m:'Données sur 1 seul mois — tendance non calculable.'});
+  if (s.total>=35) a.push({t:'alert',i:'👥',m:`Portefeuille très chargé (${s.total} patients).`});
+  if (s.activePats>0 && s.high/s.activePats>0.25) a.push({t:'alert',i:'⚡',m:`+25% des patients actifs en haute charge (niv.4–5).`});
+  if (a.length===0) a.push({t:'ok',i:'✅',m:'Situation globalement équilibrée.'});
+  return a;
+}
+
+function getBadgeInfo(s, name) {
+  if (s.total===0) return {cls:'badge-empty',lbl:'Non renseigné'};
+  if (s.avg>=3.5||s.cl[5]>0) return {cls:'badge-alert',lbl:'Charge élevée'};
+  if (s.avg>=2.5||s.high>2)  return {cls:'badge-warn', lbl:'À surveiller'};
+  return {cls:'badge-ok',lbl:'Charge normale'};
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  FILTER
+// ═══════════════════════════════════════════════════════════════════════════
+function setFilter(val, btn) {
+  currentFilter = val;
+  document.querySelectorAll('.af-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+  renderKPIs();
+}
+
+function applyFilter() {
+  // Coord rows by antenne
+  const showDrag2 = currentFilter === 'all' || currentFilter === 'Draguignan';
+  const showFrej2 = currentFilter === 'all' || currentFilter === 'Fréjus';
+  const rowDrag = document.getElementById('rowDrag');
+  const rowFrej = document.getElementById('rowFrej');
+  if (rowDrag) rowDrag.style.display = showDrag2 ? '' : 'none';
+  if (rowFrej) rowFrej.style.display = showFrej2 ? '' : 'none';
+  // Compare cards
+  document.querySelectorAll('.cmp-card').forEach(el => {
+    const ant = el.dataset.antenne;
+    el.classList.toggle('hidden', currentFilter !== 'all' && ant !== currentFilter);
+  });
+  // Vigilance rows
+  document.querySelectorAll('.vig-table tr[data-antenne]').forEach(el => {
+    const ant = el.dataset.antenne;
+    el.classList.toggle('hidden', currentFilter !== 'all' && ant !== currentFilter);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════════════════════════
+function renderAll() { renderKPIs(); renderCoordCards(); renderCompare(); renderVigilance(); renderCriteria(); }
+
+function kpiGroup(coords, label, colorCls, topCls) {
+  const allPats = coords.flatMap(c => (DATA[c.name]?.patients)||[]);
+  let tp=0,th=0,tc=0,td=0;
+  coords.forEach(c => {
+    const s = computeStats(DATA[c.name]?.patients||[]);
+    tp+=s.total; th+=s.high; tc+=s.cl[5]||0; if(s.total>0) td++;
+  });
+  return `
+    <div class="kpi-section">
+      <div class="kpi-section-label ${colorCls}">${label}</div>
+      <div class="kpi-cards">
+        <div class="kpi-card ${topCls}"><div class="kpi-icon">📋</div><div class="kpi-value">${tp}</div><div class="kpi-label">Patients suivis</div></div>
+        <div class="kpi-card kpi-top-alert"><div class="kpi-icon">🔴</div><div class="kpi-value" style="color:var(--alert)">${th}</div><div class="kpi-label">Niv. 4–5</div></div>
+        <div class="kpi-card kpi-top-warn"><div class="kpi-icon">🆘</div><div class="kpi-value" style="color:var(--crisis)">${tc}</div><div class="kpi-label">Crises niv.5</div></div>
+        <div class="kpi-card kpi-top-ok"><div class="kpi-icon">📊</div><div class="kpi-value">${td}</div><div class="kpi-label">Fiches renseignées</div></div>
+      </div>
+    </div>`;
+}
+
+function renderKPIs() {
+  const drag = COORD_CONFIG.filter(c=>c.antenne==='Draguignan');
+  const frej = COORD_CONFIG.filter(c=>c.antenne==='Fréjus');
+  const all  = COORD_CONFIG;
+
+  let html = '<div class="kpi-row">';
+  if (currentFilter === 'all' || currentFilter === 'Draguignan')
+    html += kpiGroup(drag, '📍 Siège Draguignan (3 CI)', 'drag', 'kpi-top-drag');
+  if (currentFilter === 'all' || currentFilter === 'Fréjus')
+    html += kpiGroup(frej, '📍 Antenne Fréjus (3 CI)', 'frej', 'kpi-top-frej');
+  if (currentFilter === 'all') {
+    // Global total card
+    const allPats = all.flatMap(c=>DATA[c.name]?.patients||[]);
+    let tp=0,th=0;
+    all.forEach(c=>{const s=computeStats(DATA[c.name]?.patients||[]);tp+=s.total;th+=s.high;});
+    html += `<div class="kpi-section">
+      <div class="kpi-section-label all">🌐 Total DAC Var Est</div>
+      <div class="kpi-cards">
+        <div class="kpi-card kpi-top-info"><div class="kpi-icon">👥</div><div class="kpi-value">6</div><div class="kpi-label">Coordinatrices</div></div>
+        <div class="kpi-card kpi-top-accent"><div class="kpi-icon">📋</div><div class="kpi-value">${tp}</div><div class="kpi-label">Patients total</div></div>
+        <div class="kpi-card kpi-top-alert"><div class="kpi-icon">🔴</div><div class="kpi-value" style="color:var(--alert)">${th}</div><div class="kpi-label">Haute charge</div></div>
+      </div>
+    </div>`;
+  }
+  html += '</div>';
+  document.getElementById('kpiArea').innerHTML = html;
+}
+
+function renderCoordCards() {
+  const dragCoords = COORD_CONFIG.filter(c => c.antenne === 'Draguignan');
+  const frejCoords = COORD_CONFIG.filter(c => c.antenne === 'Fréjus');
+
+  // Show/hide antenne rows based on filter
+  const showDrag = currentFilter === 'all' || currentFilter === 'Draguignan';
+  const showFrej = currentFilter === 'all' || currentFilter === 'Fréjus';
+  document.getElementById('rowDrag').style.display = showDrag ? '' : 'none';
+  document.getElementById('rowFrej').style.display = showFrej ? '' : 'none';
+
+  const buildCard = cfg => {
+    const d = DATA[cfg.name] || { patients: [] };
+    const s = computeStats(d.patients);
+    const alerts = getAlerts(cfg.name, d.patients, s);
+    const badge = getBadgeInfo(s, cfg.name);
+    const antenneClass = cfg.antenne === 'Draguignan' ? 'drag' : 'frej';
+    const ini = cfg.name.slice(0,2).toUpperCase();
+    const isHidden = currentFilter !== 'all' && cfg.antenne !== currentFilter;
+
+    const msHtml = [1,2,3,4,5].map(l =>
+      s.cl[l]>0 ? `<span class="mini-stat ms-${l}"><span class="dot"></span>N${l}:${s.cl[l]}</span>` : ''
+    ).join('') +
+    (s.sp.S>0 ? `<span class="mini-stat ms-s"><span class="dot"></span>S:${s.sp.S}</span>` : '') +
+    (s.sp.H>0 ? `<span class="mini-stat ms-s"><span class="dot"></span>H:${s.sp.H}</span>` : '');
+
+    const pct = Math.min(100, s.avg/5*100);
+    const bc = s.avg>=3.5?'#e74c3c':s.avg>=2.5?'#f39c12':'#27ae60';
+
+    const alertsHtml = alerts.map(a =>
+      `<div class="alert-item a-${a.t}"><span class="alert-icon">${a.i}</span><span>${a.m}</span></div>`
+    ).join('');
+
+    const activePats = d.patients.filter(p => Object.keys(p.monthly).length > 0);
+    const usedMonths = MONTHS.filter(m => d.patients.some(p => p.monthly[m]));
+    const tableHtml = activePats.length > 0 ? `
+      <div class="evo-wrap">
+        <div style="font-size:.68rem;font-weight:600;color:var(--text-muted);margin-bottom:4px">Évolution mensuelle</div>
+        <table class="evo-table">
+          <thead><tr><th>Patient</th>${usedMonths.map(m=>`<th>${m.slice(0,3)}</th>`).join('')}</tr></thead>
+          <tbody>${activePats.map(p =>
+            `<tr><td>${p.id}</td>${usedMonths.map(m => {
+              const v=p.monthly[m];
+              return v ? `<td><span class="lvl ${lvlClass(v)}">${v}</span></td>` : '<td></td>';
+            }).join('')}</tr>`
+          ).join('')}</tbody>
+        </table>
+      </div>` : '';
+
+    return `
+    <div class="coord-card${isHidden?' hidden':''}" data-antenne="${cfg.antenne}">
+      <div class="coord-header ${antenneClass}">
+        <div class="coord-avatar">${ini}</div>
+        <div>
+          <div class="coord-name">${cfg.name}</div>
+          <div class="coord-antenne">${cfg.antenne} · ${s.total} patient(s) · charge moy. ${s.avg.toFixed(1)}/5</div>
+        </div>
+        <span class="coord-badge ${badge.cls}">${badge.lbl}</span>
+      </div>
+      <div class="coord-body">
+        <div class="mini-stats">${msHtml || '<span style="font-size:.72rem;color:var(--text-muted)">Aucun patient actif</span>'}</div>
+        ${s.total > 0 ? `
+        <div class="charge-wrap">
+          <div class="charge-lbl"><span>Charge moyenne</span><span style="font-weight:700;color:${bc}">${s.avg.toFixed(1)}/5</span></div>
+          <div class="charge-bar"><div class="charge-fill" style="width:${pct}%;background:${bc}"></div></div>
+        </div>` : ''}
+        <div class="alerts-list">${alertsHtml}</div>
+        ${tableHtml}
+      </div>
+    </div>`;
+  };
+
+  document.getElementById('coordGridDrag').innerHTML = dragCoords.map(buildCard).join('');
+  document.getElementById('coordGridFrej').innerHTML = frejCoords.map(buildCard).join('');
+}
+
+function renderCompare() {
+  document.getElementById('compareGrid').innerHTML = COORD_CONFIG.map(cfg => {
+    const s = computeStats(DATA[cfg.name]?.patients||[]);
+    const t = getTrend(DATA[cfg.name]?.patients||[]);
+    const tI = t==='hausse'?'📈':t==='baisse'?'📉':t==='stable'?'➡️':'—';
+    const tot = s.total||1;
+    const segs = [1,2,3,4,5].map(l =>
+      `<div class="stacked-seg" style="width:${Math.round((s.cl[l]||0)/tot*100)}%;background:${lvlColor(String(l))}"></div>`
+    ).join('');
+    const antenneColor = cfg.antenne==='Draguignan'?'vt-drag':'vt-frej';
+    const isHidden = currentFilter!=='all' && cfg.antenne!==currentFilter;
+    return `
+    <div class="cmp-card${isHidden?' hidden':''}" data-antenne="${cfg.antenne}">
+      <div class="cmp-name">${cfg.name}</div>
+      <div class="cmp-antenne"><span class="vtag ${antenneColor}">📍 ${cfg.antenne}</span></div>
+      <div class="cmp-row"><span class="cl">Patients</span><span class="cv">${s.total}</span></div>
+      <div class="cmp-row"><span class="cl">Actifs</span><span class="cv">${s.activePats}</span></div>
+      <div class="cmp-row"><span class="cl">Niv.4–5</span><span class="cv" style="color:#e74c3c">${s.high}</span></div>
+      <div class="cmp-row"><span class="cl">Charge moy.</span><span class="cv">${s.avg.toFixed(1)}/5</span></div>
+      <div class="cmp-row"><span class="cl">Tendance</span><span class="cv">${tI}</span></div>
+      <div class="stacked">${segs}</div>
+      <div class="sleg-row">${[1,2,3,4,5].map(l=>
+        `<div class="sleg"><div class="sleg-dot" style="background:${lvlColor(String(l))}"></div>N${l}</div>`
+      ).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderVigilance() {
+  document.getElementById('vigBody').innerHTML = COORD_CONFIG.map(cfg => {
+    const patients = DATA[cfg.name]?.patients||[];
+    const s = computeStats(patients);
+    const t = getTrend(patients);
+    const tL = t==='hausse'?'<span style="color:#e74c3c">↗ Hausse</span>':
+               t==='baisse'?'<span style="color:#27ae60">↘ Baisse</span>':
+               t==='stable'?'<span style="color:#3498db">→ Stable</span>':'—';
+    const hp = s.activePats>0 ? Math.round(s.high/s.activePats*100) : 0;
+    const badge = getBadgeInfo(s,cfg.name);
+    const tc = badge.cls==='badge-alert'?'vt-alert':badge.cls==='badge-warn'?'vt-warn':badge.cls==='badge-ok'?'vt-ok':'vt-empty';
+    const mc = MONTHS.filter(m=>patients.some(p=>p.monthly[m])).length;
+    const sp = []; if(s.sp.S>0) sp.push(`S:${s.sp.S}`); if(s.sp.H>0) sp.push(`H:${s.sp.H}`);
+    const notes = [];
+    if(s.total===0) notes.push('⛔ Aucune donnée');
+    if(s.cl[5]>0) notes.push(`🆘 ${s.cl[5]} crise(s)`);
+    if(hp>30) notes.push(`🔴 ${hp}% haute charge`);
+    if(s.total>=35) notes.push('👥 Portefeuille surchargé');
+    if(mc<=1) notes.push('📅 1 mois seulement');
+    if(notes.length===0) notes.push('✅ RAS');
+    const antenneTag = cfg.antenne==='Draguignan'?'vt-drag':'vt-frej';
+    const isHidden = currentFilter!=='all' && cfg.antenne!==currentFilter;
+    return `
+    <tr data-antenne="${cfg.antenne}"${isHidden?' class="hidden"':''}>
+      <td><strong>${cfg.name}</strong></td>
+      <td><span class="vtag ${antenneTag}">📍 ${cfg.antenne}</span></td>
+      <td style="text-align:center">${s.total}</td>
+      <td style="text-align:center"><strong style="color:#e74c3c">${s.high}</strong></td>
+      <td style="text-align:center">${s.activePats>0?hp+'%':'—'}</td>
+      <td style="text-align:center"><span class="vtag ${mc<=1?'vt-warn':'vt-ok'}">${mc} mois</span></td>
+      <td style="text-align:center">${sp.length?sp.join('/'):'—'}</td>
+      <td style="text-align:center">${tL}</td>
+      <td><span class="vtag ${tc}">${badge.lbl}</span></td>
+      <td style="font-size:.72rem">${notes.join(' · ')}</td>
+    </tr>`;
+  }).join('');
+}
+
+const CRITERIA = [
+  {l:'1',c:'#27ae60',bg:'#d5f5e3',n:'Situation en Veille',cr:'Problématiques résolues ou stabilisées. Absence d\'action depuis 2 mois. Professionnels en place stable.',ac:'Planifier appel. Évaluation à domicile à 2 mois. Validation sortie en staff.'},
+  {l:'2',c:'#3498db',bg:'#d6eaf8',n:'Situation Stable',cr:'Interpellations mineures mensuelles. Actions sans impact significatif sur la PEC.',ac:'VAD tous les mois. PPCS Synthèse à jour. Lien avec les professionnels.'},
+  {l:'3',c:'#f39c12',bg:'#fef9e7',n:'Situation Fragile',cr:'Interpellations régulières des professionnels, de l\'entourage ou de la personne.',ac:'Coordination téléphonique min 1×/semaine. VAD +1×/mois. RCP à programmer.'},
+  {l:'4',c:'#e74c3c',bg:'#fde8e8',n:'Situation Intensive / en tension',cr:'Contact journalier avec cercle de soin. Accompagnements médicaux nombreux.',ac:'VAD 1×/semaine. RCP régulière. Staffée régulièrement. Réorganisation des aides.'},
+  {l:'5',c:'#8e44ad',bg:'#f5eef8',n:'Situation de Crise',cr:'Intervention urgente. Maintien à domicile potentiellement impossible.',ac:'Actions immédiates. Aménagement du temps de travail. Perturbation des autres accompagnements.'},
+  {l:'S',c:'#7f8c8d',bg:'#eaecee',n:'Sortie / Clôture',cr:'Dossier sorti du suivi actif (transfert, décès, refus).',ac:'Clôture administrative. Archivage.'},
+  {l:'H',c:'#e67e22',bg:'#fdf2e9',n:'Hospitalisation',cr:'Patient hospitalisé au moment de la saisie.',ac:'Suivi de sortie à organiser. Coordination avec l\'équipe hospitalière.'},
+];
+function renderCriteria() {
+  document.getElementById('critGrid').innerHTML = CRITERIA.map(c =>
+    `<div class="crit-card">
+      <div class="crit-hdr" style="background:${c.bg};color:${c.c}">
+        <div class="crit-num" style="background:${c.c};color:#fff">${c.l}</div>${c.n}
+      </div>
+      <div class="crit-body"><strong>Critères :</strong>${c.cr}</div>
+      <div class="crit-act"><strong>Actions :</strong> ${c.ac}</div>
+    </div>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  UI
+// ═══════════════════════════════════════════════════════════════════════════
+function setBadge(type, text) {
+  const b=document.getElementById('liveBadge'), t=document.getElementById('liveText');
+  b.className='live-badge '+type; t.textContent=text;
+}
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+let dark=false;
+function toggleTheme() {
+  dark=!dark; document.body.classList.toggle('dark',dark);
+  document.getElementById('themeBtn').innerHTML=dark?'<span>🌙</span> Fond sombre':'<span>☀️</span> Fond clair';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════════
+loadAll();
+</script>
+</body>
+</html>
