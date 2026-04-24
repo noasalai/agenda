@@ -985,13 +985,16 @@ img.zoomable:hover {
       </div>
     </div>
 
-    <!-- image12 = Connaissance du DAC Var Est — graphique camembert -->
+    <!-- Connaissance DAC — graphique canvas -->
     <div class="panel grad">
       <div class="panel-title">Par quel canal les utilisateurs ont-ils connu le DAC ? (enquête satisfaction S1 2025 — 68 répondants)</div>
       <div class="g21">
-        <div class="img-box" style="max-width:85%;margin:0 auto">
-          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image12.png" alt="Connaissance du DAC Var Est — graphique camembert" style="width:100%">
-          <div class="img-cap">Comment les professionnels ont-ils connu le DAC ? — Enquête de satisfaction S1 2025</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="position:relative;display:inline-block">
+            <canvas id="connaissanceChart"></canvas>
+          </div>
+          <div id="connaissanceLegend" style="width:100%;display:flex;flex-direction:column;gap:3px"></div>
+          <div style="font-size:10.5px;color:var(--muted);font-style:italic;text-align:center">Comment les professionnels ont-ils connu le DAC ? — Enquête S1 2025</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div class="callout green"><strong>58 %</strong> ont eu connaissance du DAC VE suite à une action directe du DAC (rencontres individuelles, animations territoriales), dont 4 % via LinkedIn et le site web (mis à jour fin oct. 2025)</div>
@@ -1516,16 +1519,47 @@ img.zoomable:hover {
           <div style="font-size:13px;color:var(--muted);margin-top:6px">Abonnés LinkedIn DAC Var Est</div>
         </div>
       </div>
-      <!-- image26 = LinkedIn graphique secteur géographique abonnés -->
-      <!-- image27 = LinkedIn graphique secteur activités abonnés -->
+      <!-- Graphiques LinkedIn — données démographiques abonnés -->
       <div class="g2" style="margin-top:12px">
-        <div class="img-box" style="max-width:260px;margin:0 auto">
-          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image26.png" alt="LinkedIn — données démographiques abonnés par secteur géographique" style="max-height:200px;object-fit:contain;width:100%">
-          <div class="img-cap">LinkedIn — Abonnés par lieu géographique</div>
+
+        <!-- Lieu géographique -->
+        <div class="panel blue">
+          <div class="panel-title">Abonnés par lieu géographique</div>
+          <div style="font-size:10.5px;color:var(--muted);margin-bottom:10px">1 270 abonnés au 31/12/2025 · LinkedIn DAC Var Est</div>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Toulon et périphérie</div><div class="bar-track" data-pct="100"><div class="fill"></div></div><div class="bar-val">335</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Marseille et périphérie</div><div class="bar-track" data-pct="28"><div class="fill"></div></div><div class="bar-val">95</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Nice et périphérie</div><div class="bar-track" data-pct="25"><div class="fill"></div></div><div class="bar-val">83</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Paris et périphérie</div><div class="bar-track" data-pct="21"><div class="fill"></div></div><div class="bar-val">70</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Fréjus</div><div class="bar-track" data-pct="17"><div class="fill"></div></div><div class="bar-val">57</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Draguignan</div><div class="bar-track" data-pct="16"><div class="fill"></div></div><div class="bar-val">55</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Saint-Raphaël</div><div class="bar-track" data-pct="13"><div class="fill"></div></div><div class="bar-val">42</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">La Seyne-sur-Mer</div><div class="bar-track" data-pct="6"><div class="fill"></div></div><div class="bar-val">19</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Lyon et périphérie</div><div class="bar-track" data-pct="6"><div class="fill"></div></div><div class="bar-val">19</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Avignon et périphérie</div><div class="bar-track" data-pct="5"><div class="fill"></div></div><div class="bar-val">16</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Roquebrune-sur-Argens</div><div class="bar-track" data-pct="4"><div class="fill"></div></div><div class="bar-val">14</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Montpellier et périphérie</div><div class="bar-track" data-pct="4"><div class="fill"></div></div><div class="bar-val">14</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Brignoles</div><div class="bar-track" data-pct="3"><div class="fill"></div></div><div class="bar-val">11</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Cannes</div><div class="bar-track" data-pct="3"><div class="fill"></div></div><div class="bar-val">11</div></div>
+          </div>
         </div>
-        <div class="img-box" style="max-width:260px;margin:0 auto">
-          <img src="https://www.dacvarest.fr/wp-content/uploads/2026/03/image27.png" alt="LinkedIn — données démographiques abonnés par secteur d'activité" style="max-height:200px;object-fit:contain;width:100%">
-          <div class="img-cap">LinkedIn — Abonnés par secteur d'activité</div>
+
+        <!-- Secteur d'activité -->
+        <div class="panel teal">
+          <div class="panel-title">Abonnés par secteur d'activité</div>
+          <div style="font-size:10.5px;color:var(--muted);margin-bottom:10px">1 270 abonnés au 31/12/2025 · LinkedIn DAC Var Est</div>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Hôpitaux et services de santé</div><div class="bar-track" data-pct="100"><div class="fill green"></div></div><div class="bar-val">221 <span style="font-size:10px;color:var(--muted)">17,4 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Organisations civiques et sociales</div><div class="bar-track" data-pct="61"><div class="fill green"></div></div><div class="bar-val">134 <span style="font-size:10px;color:var(--muted)">10,6 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Services à la personne</div><div class="bar-track" data-pct="60"><div class="fill green"></div></div><div class="bar-val">133 <span style="font-size:10px;color:var(--muted)">10,5 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Administration publique</div><div class="bar-track" data-pct="52"><div class="fill green"></div></div><div class="bar-val">116 <span style="font-size:10px;color:var(--muted)">9,1 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Organisations à but non lucratif</div><div class="bar-track" data-pct="31"><div class="fill green"></div></div><div class="bar-val">69 <span style="font-size:10px;color:var(--muted)">5,4 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Bien-être et install. sportives</div><div class="bar-track" data-pct="24"><div class="fill green"></div></div><div class="bar-val">52 <span style="font-size:10px;color:var(--muted)">4,1 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Cabinets médicaux</div><div class="bar-track" data-pct="22"><div class="fill green"></div></div><div class="bar-val">48 <span style="font-size:10px;color:var(--muted)">3,8 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Soins de santé mentale</div><div class="bar-track" data-pct="20"><div class="fill green"></div></div><div class="bar-val">45 <span style="font-size:10px;color:var(--muted)">3,5 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Santé publique</div><div class="bar-track" data-pct="14"><div class="fill green"></div></div><div class="bar-val">32 <span style="font-size:10px;color:var(--muted)">2,5 %</span></div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Santé et services sociaux</div><div class="bar-track" data-pct="12"><div class="fill green"></div></div><div class="bar-val">27 <span style="font-size:10px;color:var(--muted)">2,1 %</span></div></div>
+          </div>
         </div>
       </div>
       <!-- Site web KPIs -->
@@ -2032,16 +2066,16 @@ img.zoomable:hover {
             <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
           </div>
           <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Satisfaction globale intervention</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
+          </div>
+          <div>
             <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Informations et conseils</span><span style="font-weight:700;color:var(--green)">90 %</span></div>
             <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:90%"></div></div>
           </div>
           <div>
             <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Prise en compte de l'avis</span><span style="font-weight:700;color:var(--green)">90 %</span></div>
             <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:90%"></div></div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Satisfaction globale intervention</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
-            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
           </div>
         </div>
       </div>
@@ -2510,24 +2544,42 @@ img.zoomable:hover {
   }
 
   const seen = new WeakSet();
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add('on');
-      e.target.querySelectorAll('.countup').forEach(el => {
-        if (!seen.has(el)) { seen.add(el); animateCountup(el); }
-      });
-      e.target.querySelectorAll('.sat-fill[data-pct]').forEach(el => {
-        if (!seen.has(el)) { seen.add(el); el.style.width = el.dataset.pct + '%'; }
-      });
-      e.target.querySelectorAll('.bar-track[data-pct]').forEach(track => {
-        const fill = track.querySelector('.fill');
-        if (fill && !seen.has(fill)) { seen.add(fill); fill.style.width = track.dataset.pct + '%'; }
-      });
-    });
-  }, { threshold: 0.1 });
 
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  function activateReveal(el) {
+    if (el.classList.contains('on')) return;
+    el.classList.add('on');
+    el.querySelectorAll('.countup').forEach(cu => {
+      if (!seen.has(cu)) { seen.add(cu); animateCountup(cu); }
+    });
+    el.querySelectorAll('.sat-fill[data-pct]').forEach(sf => {
+      if (!seen.has(sf)) { seen.add(sf); sf.style.width = sf.dataset.pct + '%'; }
+    });
+    el.querySelectorAll('.bar-track[data-pct]').forEach(track => {
+      const fill = track.querySelector('.fill');
+      if (fill && !seen.has(fill)) { seen.add(fill); fill.style.width = track.dataset.pct + '%'; }
+    });
+  }
+
+  // threshold:0 = dès qu'un seul pixel est visible → robuste aux sections très longues et aux zooms élevés
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) activateReveal(e.target); });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+
+  const revealEls = [...document.querySelectorAll('.reveal')];
+  revealEls.forEach(el => io.observe(el));
+
+  // Fallback scroll/resize : couvre les cas où IntersectionObserver ne se déclenche pas (zoom élevé, redimensionnement)
+  function revealFallback() {
+    const vh = window.innerHeight;
+    revealEls.forEach(el => {
+      if (el.classList.contains('on')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh - 40 && r.bottom > 0) activateReveal(el);
+    });
+  }
+  window.addEventListener('scroll', revealFallback, { passive: true });
+  window.addEventListener('resize', revealFallback);
+  revealFallback();
 
   const sections = [...document.querySelectorAll('[data-section]')];
   const navLinks = [...document.querySelectorAll('#mainNav a')];
@@ -2604,15 +2656,25 @@ img.zoomable:hover {
   function drawDonut(canvasId, legendId, percents, colors, labels) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
+    // Taille adaptative : on remonte au conteneur padding pour lire la largeur disponible
+    const container = canvas.parentElement && canvas.parentElement.parentElement;
+    const available = (container && container.offsetWidth > 0) ? container.offsetWidth - 28 : 220;
+    const dpr = window.devicePixelRatio || 1;
+    const cssSize = Math.min(Math.max(available, 120), 220);
+    canvas.width  = cssSize * dpr;
+    canvas.height = cssSize * dpr;
+    canvas.style.width  = cssSize + 'px';
+    canvas.style.height = cssSize + 'px';
     const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
+    ctx.scale(dpr, dpr);
+    const W = cssSize, H = cssSize;
     const cx = W / 2, cy = H / 2;
     const R = Math.min(W, H) / 2 - 6;
     const r = R * 0.56;
     const total = percents.reduce((a, b) => a + b, 0);
 
     let angle = -Math.PI / 2;
-    const gaps = 0.012; // small gap between slices
+    const gaps = 0.012;
 
     percents.forEach((pct, i) => {
       if (pct <= 0) return;
@@ -2646,11 +2708,121 @@ img.zoomable:hover {
     drawDonut('donut2025', 'legend2025', DATA[2025], COLORS, LABELS);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDonuts);
-  } else {
-    initDonuts();
+  function tryInitDonuts() {
+    const c = document.getElementById('donut2023');
+    if (c && c.parentElement && c.parentElement.parentElement &&
+        c.parentElement.parentElement.offsetWidth > 0) {
+      initDonuts();
+    } else {
+      requestAnimationFrame(tryInitDonuts);
+    }
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryInitDonuts);
+  } else {
+    tryInitDonuts();
+  }
+  window.addEventListener('resize', initDonuts);
+})();
+
+// ── CONNAISSANCE DAC — Camembert enquête S1 2025 ──
+(function() {
+  const SLICES = [
+    { pct: 54, label: 'Rencontre avec un professionnel du DAC (colloque, partenariat, webconf.)', color: '#3766AE' },
+    { pct: 15, label: 'Par un salarié d\'établissement (santé, médico-social, social)',            color: '#4199bb' },
+    { pct: 12, label: 'Par une autre structure (PRADO, CCAS, CPAM…)',                              color: '#F9B42D' },
+    { pct:  9, label: 'Par une structure d\'exercice coordonnée (CPTS, MSP…)',                     color: '#2a8a60' },
+    { pct:  4, label: 'Sur nos réseaux sociaux (site web, LinkedIn…)',                             color: '#EB5D45' },
+    { pct:  4, label: 'Par un service à domicile (SSIAD, SAAD, portage…)',                        color: '#a855f7' },
+    { pct:  2, label: 'Par un autre professionnel de santé de ville (IDE, kiné, ortho…)',          color: '#94a3b8' },
+  ];
+
+  function drawConnaissance() {
+    const canvas = document.getElementById('connaissanceChart');
+    if (!canvas) return;
+    const container = canvas.parentElement;
+    const parentW   = (container && container.parentElement && container.parentElement.offsetWidth > 0)
+                      ? container.parentElement.offsetWidth : 280;
+    const dpr  = window.devicePixelRatio || 1;
+    const size = Math.min(Math.max(parentW - 20, 140), 260);
+    canvas.width  = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width  = size + 'px';
+    canvas.style.height = size + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const cx = size / 2, cy = size / 2;
+    const R  = size / 2 - 8;
+    const r  = R * 0.52;  // trou intérieur
+    const total = SLICES.reduce((s, sl) => s + sl.pct, 0);
+    const gap   = 0.013;
+
+    let angle = -Math.PI / 2;
+    SLICES.forEach(sl => {
+      const sweep = (sl.pct / total) * Math.PI * 2 - gap;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle + gap / 2) * r, cy + Math.sin(angle + gap / 2) * r);
+      ctx.arc(cx, cy, R, angle + gap / 2, angle + gap / 2 + sweep);
+      ctx.arc(cx, cy, r, angle + gap / 2 + sweep, angle + gap / 2, true);
+      ctx.closePath();
+      ctx.fillStyle = sl.color;
+      ctx.fill();
+
+      // Label % sur les grandes tranches
+      if (sl.pct >= 9) {
+        const mid = angle + gap / 2 + sweep / 2;
+        const lr  = (R + r) / 2;
+        ctx.fillStyle = sl.pct >= 20 ? '#fff' : '#fff';
+        ctx.font = `bold ${Math.round(size * 0.052)}px 'Barlow Semi Condensed',sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(sl.pct + ' %', cx + Math.cos(mid) * lr, cy + Math.sin(mid) * lr);
+      }
+      angle += sweep + gap;
+    });
+
+    // Centre : total répondants
+    ctx.fillStyle = 'var(--ink, #0f1f3a)';
+    ctx.font = `800 ${Math.round(size * 0.11)}px 'Barlow Semi Condensed',sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('68', cx, cy - size * 0.05);
+    ctx.font = `${Math.round(size * 0.065)}px 'Source Sans 3',sans-serif`;
+    ctx.fillStyle = 'var(--muted, #5e748a)';
+    ctx.fillText('répondants', cx, cy + size * 0.07);
+
+    // Légende
+    const legend = document.getElementById('connaissanceLegend');
+    if (!legend || legend.dataset.built) return;
+    legend.dataset.built = '1';
+    SLICES.forEach(sl => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:11px;line-height:1.35';
+      row.innerHTML = `<span style="width:10px;height:10px;border-radius:2px;background:${sl.color};flex-shrink:0;display:inline-block"></span>`
+        + `<span style="color:var(--ink2)">${sl.label}</span>`
+        + `<span style="font-weight:700;color:var(--ink);margin-left:auto;flex-shrink:0">${sl.pct} %</span>`;
+      legend.appendChild(row);
+    });
+  }
+
+  function tryDrawConnaissance() {
+    const c = document.getElementById('connaissanceChart');
+    if (c && c.parentElement && c.parentElement.parentElement &&
+        c.parentElement.parentElement.offsetWidth > 0) {
+      drawConnaissance();
+    } else {
+      requestAnimationFrame(tryDrawConnaissance);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryDrawConnaissance);
+  } else {
+    tryDrawConnaissance();
+  }
+  window.addEventListener('resize', drawConnaissance);
 })();
 
 // ── FEI TREND CHART ──
