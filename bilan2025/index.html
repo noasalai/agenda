@@ -6,33 +6,39 @@
 <title>DAC Var Est — Rapport d'activité 2025</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0e2a5c;--blue:#1b4fa8;--blue2:#2563c0;--blue3:#3b82f6;
-  --teal:#0891b2;--teal2:#06b6d4;
-  --orange:#c2410c;--orangeL:#fff4ee;
-  --green:#059669;--greenL:#f0fdf4;
-  --amber:#d97706;--amberL:#fffbeb;
-  --red:#dc2626;--redL:#fef2f2;
-  --ink:#0d1f3c;--ink2:#2c3e5d;--muted:#64748b;
-  --border:rgba(14,42,92,.09);
-  --card:#ffffff;--bg:#f5f7fb;--bg2:#eef2ff;
-  --shadow:0 4px 24px rgba(14,42,92,.07);
-  --shadow-md:0 8px 40px rgba(14,42,92,.10);
-  --shadow-lg:0 20px 60px rgba(14,42,92,.13);
-  --r:18px;--r-sm:10px;
-  --font-display:'Nunito',sans-serif;
-  --font-body:'Nunito',sans-serif;
+  /* ── DAC Brand Colors ── */
+  --dac-blue:#3766AE;
+  --dac-teal:#73BFD8;
+  --dac-red:#EB5D45;
+  --dac-amber:#F9B42D;
+
+  --navy:#1d3461;--blue:#3766AE;--blue2:#4a78be;--blue3:#73BFD8;
+  --teal:#4199bb;--teal2:#73BFD8;
+  --orange:#EB5D45;--orangeL:rgba(235,93,69,.07);
+  --green:#2a8a60;--greenL:rgba(42,138,96,.07);
+  --amber:#F9B42D;--amberL:rgba(249,180,45,.08);
+  --red:#d9402a;--redL:rgba(217,64,42,.07);
+  --ink:#0f1f3a;--ink2:#2a3d5c;--muted:#5e748a;
+  --border:rgba(55,102,174,.09);
+  --card:#ffffff;--bg:#f4f7fb;--bg2:#edf2f9;
+  --shadow:0 4px 24px rgba(29,52,97,.06);
+  --shadow-md:0 8px 40px rgba(29,52,97,.10);
+  --shadow-lg:0 20px 60px rgba(29,52,97,.13);
+  --r:16px;--r-sm:10px;
+  --font-display:'Barlow Semi Condensed',sans-serif;
+  --font-body:'Source Sans 3',sans-serif;
 }
 body.dark{
   --ink:#e8edf5;--ink2:#b8c5d6;--muted:#8899aa;
-  --card:#131f35;--bg:#0a1628;--bg2:#131f35;
+  --card:#111e33;--bg:#090f1e;--bg2:#111e33;
   --border:rgba(232,237,245,.08);
   --shadow:0 4px 24px rgba(0,0,0,.3);
   --shadow-md:0 8px 40px rgba(0,0,0,.4);
-  --orangeL:rgba(194,65,12,.13);--greenL:rgba(5,150,105,.10);
-  --amberL:rgba(217,119,6,.10);--redL:rgba(220,38,38,.10);
+  --orangeL:rgba(235,93,69,.13);--greenL:rgba(42,138,96,.10);
+  --amberL:rgba(249,180,45,.10);--redL:rgba(217,64,42,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -42,104 +48,168 @@ img{max-width:100%;display:block}
 
 /* ── TOPBAR ── */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:200;
-  background:rgba(245,247,251,.94);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);transition:.3s}
-body.dark .topbar{background:rgba(10,22,40,.94)}
-.topbar-inner{max-width:1520px;margin:0 auto;padding:10px 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.topbar-brand{display:flex;align-items:center;gap:10px}
-.topbar-brand img{height:38px}
-.topbar-title strong{font-family:var(--font-display);font-size:13px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.4px;color:var(--blue)}
-.topbar-title span{display:block;font-size:11px;color:var(--muted);font-weight:500}
+  background:rgba(255,255,255,.96);backdrop-filter:blur(16px);
+  border-bottom:3px solid var(--dac-blue);
+  box-shadow:0 2px 16px rgba(55,102,174,.10);
+  transition:.3s}
+body.dark .topbar{background:rgba(9,15,30,.96);border-bottom-color:var(--dac-teal)}
+.topbar-inner{max-width:1520px;margin:0 auto;padding:8px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar-brand{display:flex;align-items:center;gap:12px}
+.topbar-brand img{height:40px}
+.topbar-title strong{font-family:var(--font-display);font-size:14px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;color:var(--dac-blue)}
+.topbar-title span{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+.topbar-divider{width:1px;height:32px;background:var(--border);flex-shrink:0}
 .topbar-actions{display:flex;align-items:center;gap:8px}
 .btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;
-  border-radius:999px;border:1.5px solid var(--border);background:var(--card);
+  border-radius:6px;border:1.5px solid var(--border);background:var(--card);
   font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;
-  color:var(--ink);transition:.18s ease}
-.btn-sm:hover{border-color:var(--blue);color:var(--blue)}
+  color:var(--ink2);transition:.18s ease}
+.btn-sm:hover{border-color:var(--dac-blue);color:var(--dac-blue);background:rgba(55,102,174,.05)}
+.btn-menu{display:none;width:38px;height:38px;border-radius:8px;
+  border:1.5px solid var(--border);background:var(--card);
+  cursor:pointer;align-items:center;justify-content:center;
+  flex-direction:column;gap:5px;padding:0}
+.btn-menu span{display:block;width:18px;height:2px;background:var(--ink2);
+  border-radius:2px;transition:.2s}
+@media(max-width:1100px){
+  .btn-menu{display:flex}
+  .topbar-title span{display:none}
+}
 
 /* ── LAYOUT ── */
-.layout{max-width:1520px;margin:0 auto;padding:76px 24px 60px;
-  display:grid;grid-template-columns:272px 1fr;gap:20px;align-items:start}
-@media(max-width:1100px){.layout{grid-template-columns:1fr;padding-top:70px}}
+.layout{max-width:1520px;margin:0 auto;padding:76px 20px 60px;
+  display:grid;grid-template-columns:268px 1fr;gap:20px;align-items:start}
+@media(max-width:1100px){
+  .layout{grid-template-columns:1fr;padding-top:68px;padding-left:16px;padding-right:16px}
+}
 
 /* ── SIDEBAR ── */
 .sidebar{position:sticky;top:76px;background:var(--card);
   border:1px solid var(--border);border-radius:var(--r);
-  box-shadow:var(--shadow);padding:18px;
+  box-shadow:var(--shadow);padding:16px;
   max-height:calc(100vh - 96px);overflow-y:auto}
 .sidebar::-webkit-scrollbar{width:3px}
-.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.sidebar-label{font-family:var(--font-display);font-size:10px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.8px;color:var(--blue);
-  padding:4px 8px;border-radius:6px;background:rgba(27,79,168,.08);
-  display:inline-block}
-.sidebar h2{font-family:var(--font-display);font-size:26px;font-weight:700;
-  color:var(--ink);margin-top:10px;line-height:1;text-transform:uppercase}
-.sidebar-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
-.nav-section{margin-top:14px;display:flex;flex-direction:column;gap:2px}
-.nav-group-title{font-size:10px;text-transform:uppercase;color:var(--muted);
-  font-weight:700;letter-spacing:.7px;padding:8px 8px 3px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(55,102,174,.2);border-radius:4px}
+
+/* Mobile sidebar overlay */
+@media(max-width:1100px){
+  .sidebar{
+    position:fixed;top:0;left:-100%;bottom:0;z-index:190;
+    width:min(300px, 85vw);max-height:100vh;
+    border-radius:0;border-left:none;border-top:none;border-bottom:none;
+    border-right:1px solid var(--border);
+    padding:70px 16px 24px;
+    transition:left .3s cubic-bezier(.4,0,.2,1);
+    box-shadow:4px 0 32px rgba(29,52,97,.15)
+  }
+  .sidebar.open{left:0}
+  .sidebar-overlay{
+    display:none;position:fixed;inset:0;z-index:180;
+    background:rgba(15,31,58,.45);backdrop-filter:blur(3px)
+  }
+  .sidebar-overlay.open{display:block}
+}
+
+.sidebar-badge{display:inline-flex;align-items:center;gap:6px;
+  padding:3px 10px 3px 6px;border-radius:6px;
+  background:linear-gradient(135deg,var(--dac-blue),var(--dac-teal));
+  font-family:var(--font-display);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px;color:#fff}
+.sidebar-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6)}
+.sidebar h2{font-family:var(--font-display);font-size:28px;font-weight:800;
+  color:var(--dac-blue);margin-top:8px;line-height:1;text-transform:uppercase;letter-spacing:-.5px}
+.sidebar-sub{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+.nav-section{margin-top:12px;display:flex;flex-direction:column;gap:1px}
+.nav-group-title{font-size:10px;text-transform:uppercase;color:var(--dac-teal);
+  font-weight:800;letter-spacing:.9px;padding:10px 8px 3px;
+  border-top:1px solid var(--border);margin-top:4px}
+.nav-group-title:first-child{border-top:none;margin-top:0}
 .nav-section a{display:flex;align-items:center;justify-content:space-between;
-  padding:7px 8px;border-radius:8px;border:1px solid transparent;
-  font-size:12px;font-weight:500;color:var(--ink2);transition:.15s ease}
-.nav-section a:hover,.nav-section a.active{background:rgba(27,79,168,.08);
-  border-color:rgba(27,79,168,.14);color:var(--blue)}
+  padding:8px 10px;border-radius:8px;border:1px solid transparent;
+  font-size:12.5px;font-weight:500;color:var(--ink2);transition:.15s ease;
+  min-height:38px}
+.nav-section a:hover,.nav-section a.active{
+  background:rgba(55,102,174,.07);
+  border-color:rgba(55,102,174,.15);color:var(--dac-blue)}
+.nav-section a.active{font-weight:600;border-left:3px solid var(--dac-blue);padding-left:7px}
 .nav-section a small{color:var(--muted);font-size:11px;flex-shrink:0}
 
 /* ── MAIN ── */
 .main{display:flex;flex-direction:column;gap:18px}
 
 /* ── HERO ── */
-.hero{border-radius:24px;overflow:hidden;
-  background:linear-gradient(140deg,var(--navy) 0%,var(--blue) 55%,var(--teal) 100%);
+.hero{border-radius:20px;overflow:hidden;
+  background:linear-gradient(140deg,var(--navy) 0%,var(--dac-blue) 60%,var(--dac-teal) 100%);
   color:#fff;position:relative;box-shadow:var(--shadow-lg)}
 .hero::before{content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 700px 500px at 100% -10%,rgba(255,255,255,.10),transparent),
-             radial-gradient(ellipse 400px 600px at -5% 110%,rgba(8,145,178,.22),transparent);
+  background:
+    radial-gradient(ellipse 600px 400px at 100% -5%,rgba(115,191,216,.18),transparent),
+    radial-gradient(ellipse 300px 500px at -5% 110%,rgba(55,102,174,.30),transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,.04)'/%3E%3C/svg%3E");
   pointer-events:none}
-.hero-inner{padding:36px;display:grid;grid-template-columns:1.3fr .9fr;gap:28px;
+.hero-inner{padding:36px 36px 32px;display:grid;grid-template-columns:1.35fr .9fr;gap:28px;
   align-items:center;position:relative}
-@media(max-width:860px){.hero-inner{grid-template-columns:1fr}}
-.hero-tag{display:inline-flex;align-items:center;padding:4px 12px;margin-right:6px;
-  border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
-  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.hero h1{font-family:var(--font-display);font-size:clamp(30px,4.5vw,54px);
-  font-weight:700;line-height:1;text-transform:uppercase;margin-top:14px}
-.hero h1 span{display:block;font-size:clamp(16px,2.5vw,28px);font-weight:400;
-  color:rgba(255,255,255,.78);margin-top:8px;text-transform:none}
-.hero-desc{margin-top:16px;font-size:14px;line-height:1.75;
-  color:rgba(255,255,255,.85);max-width:60ch}
-.hero-note{margin-top:14px;font-size:11px;color:rgba(255,255,255,.55);font-style:italic}
+@media(max-width:860px){
+  .hero-inner{grid-template-columns:1fr;padding:24px}
+  .hero-kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .hero-inner{padding:20px 16px}
+}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hero-tag{display:inline-flex;align-items:center;padding:4px 12px;
+  border-radius:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  font-family:var(--font-display);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px}
+.hero-tag.accent{background:rgba(249,180,45,.25);border-color:rgba(249,180,45,.45);color:#fff}
+.hero h1{font-family:var(--font-display);font-size:clamp(32px,4.5vw,58px);
+  font-weight:800;line-height:.95;text-transform:uppercase;letter-spacing:-.5px}
+.hero h1 span{display:block;font-size:clamp(15px,2vw,24px);font-weight:400;
+  color:rgba(255,255,255,.80);margin-top:10px;text-transform:none;letter-spacing:0;line-height:1.4}
+.hero-desc{margin-top:14px;font-size:14px;line-height:1.75;
+  color:rgba(255,255,255,.82);max-width:58ch}
+.hero-note{margin-top:12px;display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;color:rgba(255,255,255,.50);font-style:italic;
+  padding:4px 10px;border-radius:4px;background:rgba(255,255,255,.06)}
 .hero-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.kpi{padding:16px;border-radius:16px;background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
-.kpi.green{background:linear-gradient(135deg,rgba(5,150,105,.85),rgba(4,120,87,.80))}
-.kpi.amber{background:linear-gradient(135deg,rgba(217,119,6,.85),rgba(245,158,11,.75))}
-.kpi.teal{background:linear-gradient(135deg,rgba(8,145,178,.85),rgba(6,182,212,.75))}
-.kpi.brand{background:linear-gradient(135deg,rgba(27,79,168,.85),rgba(37,99,192,.75))}
-.kpi .n{font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1}
-.kpi .n sup{font-size:18px}
-.kpi .t{font-size:12px;color:rgba(255,255,255,.82);margin-top:7px;line-height:1.35;font-weight:400}
+.kpi{padding:16px;border-radius:12px;background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);
+  transition:.2s ease}
+.kpi:hover{background:rgba(255,255,255,.17)}
+.kpi.green{background:linear-gradient(135deg,rgba(42,138,96,.85),rgba(31,110,77,.80))}
+.kpi.amber{background:linear-gradient(135deg,rgba(249,180,45,.85),rgba(230,155,20,.80))}
+.kpi.teal{background:linear-gradient(135deg,rgba(65,153,187,.85),rgba(115,191,216,.75))}
+.kpi.brand{background:linear-gradient(135deg,rgba(55,102,174,.85),rgba(74,120,190,.75))}
+.kpi .n{font-family:var(--font-display);font-size:40px;font-weight:800;line-height:1}
+.kpi .n sup{font-size:20px}
+.kpi .t{font-size:12px;color:rgba(255,255,255,.82);margin-top:6px;line-height:1.35;font-weight:400}
 
 /* ── SECTION ── */
 .section{background:var(--card);border:1px solid var(--border);
   border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
-.section-head{padding:24px 24px 0}
-.eyebrow{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;
-  background:rgba(27,79,168,.09);border:1px solid rgba(27,79,168,.16);
-  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue)}
-.eyebrow.teal{background:rgba(8,145,178,.09);border-color:rgba(8,145,178,.18);color:var(--teal)}
-.eyebrow.orange{background:rgba(194,65,12,.09);border-color:rgba(194,65,12,.18);color:var(--orange)}
-.eyebrow.green{background:rgba(5,150,105,.09);border-color:rgba(5,150,105,.18);color:var(--green)}
-.eyebrow.amber{background:rgba(217,119,6,.09);border-color:rgba(217,119,6,.18);color:var(--amber)}
-.section h3{font-family:var(--font-display);font-size:clamp(19px,2.8vw,28px);
-  font-weight:700;text-transform:uppercase;line-height:1.05;margin-top:10px}
-.section-desc{margin-top:8px;font-size:13.5px;line-height:1.7;color:var(--muted);max-width:90ch}
-.section-body{padding:18px 24px 24px;display:flex;flex-direction:column;gap:14px}
-.section-foot{padding:8px 24px 14px;font-size:11px;color:var(--muted);
-  font-style:italic;border-top:1px solid var(--border)}
+.section-head{padding:22px 22px 0;border-bottom:1px solid var(--border);padding-bottom:16px}
+.eyebrow{display:inline-flex;align-items:center;padding:3px 10px;border-radius:5px;
+  background:rgba(55,102,174,.08);border:1px solid rgba(55,102,174,.18);
+  font-family:var(--font-display);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px;color:var(--dac-blue)}
+.eyebrow.teal{background:rgba(65,153,187,.08);border-color:rgba(65,153,187,.20);color:var(--teal)}
+.eyebrow.orange{background:rgba(235,93,69,.08);border-color:rgba(235,93,69,.20);color:var(--orange)}
+.eyebrow.green{background:rgba(42,138,96,.08);border-color:rgba(42,138,96,.20);color:var(--green)}
+.eyebrow.amber{background:rgba(249,180,45,.12);border-color:rgba(249,180,45,.30);color:#b8880a}
+.section h3{font-family:var(--font-display);font-size:clamp(20px,2.8vw,30px);
+  font-weight:800;text-transform:uppercase;line-height:1;margin-top:8px;
+  letter-spacing:-.3px;color:var(--ink)}
+.section-desc{margin-top:6px;font-size:13.5px;line-height:1.7;color:var(--muted);max-width:90ch}
+.section-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.section-foot{padding:8px 22px 12px;font-size:11px;color:var(--muted);
+  font-style:italic;border-top:1px solid var(--border);background:var(--bg)}
+
+@media(max-width:580px){
+  .section-head,.section-body{padding-left:14px;padding-right:14px}
+  .section h3{font-size:20px}
+}
 
 /* ── GRIDS ── */
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -149,47 +219,49 @@ body.dark .topbar{background:rgba(10,22,40,.94)}
 @media(max-width:860px){.g2,.g21{grid-template-columns:1fr}}
 @media(max-width:960px){.g3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:580px){.g3,.g4{grid-template-columns:1fr}}
+@media(max-width:640px){.g4{grid-template-columns:repeat(2,1fr)}}
 
 /* ── PANEL ── */
 .panel{border-radius:var(--r-sm);background:var(--bg);border:1px solid var(--border);padding:14px}
-.panel.blue{background:rgba(27,79,168,.06);border-color:rgba(27,79,168,.13)}
-.panel.teal{background:rgba(8,145,178,.06);border-color:rgba(8,145,178,.13)}
-.panel.green{background:var(--greenL);border-color:rgba(5,150,105,.17)}
-.panel.orange{background:var(--orangeL);border-color:rgba(194,65,12,.17)}
-.panel.amber{background:var(--amberL);border-color:rgba(217,119,6,.17)}
-.panel.red{background:var(--redL);border-color:rgba(220,38,38,.17)}
-.panel.grad{background:linear-gradient(135deg,rgba(27,79,168,.06),rgba(8,145,178,.06));
-  border-color:rgba(27,79,168,.11)}
-.panel-title{font-size:10.5px;text-transform:uppercase;font-weight:700;
-  color:var(--blue);letter-spacing:.6px;margin-bottom:10px;
+.panel.blue{background:rgba(55,102,174,.05);border-color:rgba(55,102,174,.15)}
+.panel.teal{background:rgba(65,153,187,.05);border-color:rgba(65,153,187,.15)}
+.panel.green{background:var(--greenL);border-color:rgba(42,138,96,.17)}
+.panel.orange{background:var(--orangeL);border-color:rgba(235,93,69,.17)}
+.panel.amber{background:var(--amberL);border-color:rgba(249,180,45,.20)}
+.panel.red{background:var(--redL);border-color:rgba(217,64,42,.17)}
+.panel.grad{background:linear-gradient(135deg,rgba(55,102,174,.05),rgba(115,191,216,.07));
+  border-color:rgba(55,102,174,.12)}
+.panel-title{font-family:var(--font-display);font-size:11px;text-transform:uppercase;font-weight:700;
+  color:var(--dac-blue);letter-spacing:.7px;margin-bottom:10px;
   display:flex;align-items:center;gap:6px}
-.panel-title::before{content:'';width:7px;height:7px;border-radius:50%;
-  background:var(--teal2);flex-shrink:0}
+.panel-title::before{content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--dac-teal);flex-shrink:0}
 
 /* ── METRIC ── */
-.metric{padding:12px 14px;border-radius:var(--r-sm);
-  background:var(--card);border:1px solid var(--border)}
-.metric .v{font-family:var(--font-display);font-size:30px;font-weight:700;
-  line-height:1;color:var(--blue)}
+.metric{padding:14px;border-radius:var(--r-sm);
+  background:var(--card);border:1px solid var(--border);
+  border-top:3px solid var(--dac-blue)}
+.metric .v{font-family:var(--font-display);font-size:32px;font-weight:800;
+  line-height:1;color:var(--dac-blue)}
 .metric .l{margin-top:5px;font-size:12px;color:var(--muted);line-height:1.4}
-.metric.green .v{color:var(--green)}
-.metric.teal .v{color:var(--teal)}
-.metric.orange .v{color:var(--orange)}
-.metric.amber .v{color:var(--amber)}
+.metric.green{border-top-color:var(--green)}.metric.green .v{color:var(--green)}
+.metric.teal{border-top-color:var(--dac-teal)}.metric.teal .v{color:var(--teal)}
+.metric.orange{border-top-color:var(--orange)}.metric.orange .v{color:var(--orange)}
+.metric.amber{border-top-color:var(--amber)}.metric.amber .v{color:#b8880a}
 
 /* ── CALLOUT ── */
 .callout{padding:11px 14px;border-radius:var(--r-sm);
-  background:rgba(27,79,168,.07);border-left:3px solid var(--blue);
+  background:rgba(55,102,174,.06);border-left:3px solid var(--dac-blue);
   font-size:13px;font-weight:400;line-height:1.65;color:var(--ink2)}
 .callout.green{background:var(--greenL);border-color:var(--green)}
 .callout.orange{background:var(--orangeL);border-color:var(--orange)}
 .callout.amber{background:var(--amberL);border-color:var(--amber)}
-.callout.teal{background:rgba(8,145,178,.07);border-color:var(--teal)}
+.callout.teal{background:rgba(65,153,187,.07);border-color:var(--teal)}
 .callout.red{background:var(--redL);border-color:var(--red)}
-.callout strong{color:var(--blue);font-weight:700}
+.callout strong{color:var(--dac-blue);font-weight:700}
 .callout.green strong{color:var(--green)}
 .callout.orange strong{color:var(--orange)}
-.callout.amber strong{color:var(--amber)}
+.callout.amber strong{color:#b8880a}
 .callout.teal strong{color:var(--teal)}
 
 /* ── RICH TEXT ── */
@@ -223,12 +295,12 @@ tr:hover td{background:rgba(27,79,168,.025)}
 @media(max-width:640px){.bar-row{grid-template-columns:1fr;gap:3px}}
 .bar-lbl{font-size:12px;font-weight:600;color:var(--ink2)}
 .bar-track{height:9px;border-radius:999px;overflow:hidden;
-  background:rgba(27,79,168,.08);border:1px solid rgba(27,79,168,.09)}
+  background:rgba(55,102,174,.08);border:1px solid rgba(55,102,174,.09)}
 .bar-track .fill{height:100%;width:0;border-radius:999px;
-  background:linear-gradient(90deg,var(--blue),var(--teal2));
+  background:linear-gradient(90deg,var(--dac-blue),var(--dac-teal));
   transition:width 1s cubic-bezier(.4,0,.2,1)}
 .bar-track .fill.orange{background:linear-gradient(90deg,var(--orange),var(--amber))}
-.bar-track .fill.green{background:linear-gradient(90deg,var(--green),var(--teal2))}
+.bar-track .fill.green{background:linear-gradient(90deg,var(--green),var(--dac-teal))}
 .bar-val{font-size:12px;font-weight:700;text-align:right;color:var(--ink)}
 
 /* ── SAT BARS ── */
@@ -236,28 +308,30 @@ tr:hover td{background:rgba(27,79,168,.025)}
 .sat-row:last-child{border-bottom:none}
 .sat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 .sat-lbl{font-size:12.5px;font-weight:500;color:var(--ink2)}
-.sat-pct{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--blue)}
-.sat-track{height:7px;border-radius:999px;background:rgba(27,79,168,.08);overflow:hidden}
+.sat-pct{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--dac-blue)}
+.sat-track{height:7px;border-radius:999px;background:rgba(55,102,174,.08);overflow:hidden}
 .sat-fill{height:100%;border-radius:999px;
-  background:linear-gradient(90deg,var(--blue),var(--teal2));
+  background:linear-gradient(90deg,var(--dac-blue),var(--dac-teal));
   width:0;transition:width 1s ease}
 .sat-sub{font-size:11px;color:var(--muted);margin-top:4px}
 
 /* ── TAG ── */
-.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;
   font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
-  background:rgba(27,79,168,.09);color:var(--blue);border:1px solid rgba(27,79,168,.14)}
-.tag.green{background:var(--greenL);color:var(--green);border-color:rgba(5,150,105,.15)}
-.tag.orange{background:var(--orangeL);color:var(--orange);border-color:rgba(194,65,12,.15)}
-.tag.amber{background:var(--amberL);color:var(--amber);border-color:rgba(217,119,6,.15)}
-.tag.red{background:var(--redL);color:var(--red);border-color:rgba(220,38,38,.15)}
-.tag.teal{background:rgba(8,145,178,.09);color:var(--teal);border-color:rgba(8,145,178,.14)}
+  background:rgba(55,102,174,.08);color:var(--dac-blue);border:1px solid rgba(55,102,174,.16)}
+.tag.green{background:var(--greenL);color:var(--green);border-color:rgba(42,138,96,.15)}
+.tag.orange{background:var(--orangeL);color:var(--orange);border-color:rgba(235,93,69,.15)}
+.tag.amber{background:var(--amberL);color:#b8880a;border-color:rgba(249,180,45,.25)}
+.tag.red{background:var(--redL);color:var(--red);border-color:rgba(217,64,42,.15)}
+.tag.teal{background:rgba(65,153,187,.08);color:var(--teal);border-color:rgba(65,153,187,.16)}
 
 /* ── BLOCKQUOTE ── */
-.bq{border-left:4px solid var(--blue);padding:10px 0 10px 16px;
-  font-size:14.5px;font-style:italic;line-height:1.7;color:var(--ink2)}
+.bq{border-left:4px solid var(--dac-blue);padding:10px 0 10px 16px;
+  font-size:14.5px;font-style:italic;line-height:1.7;color:var(--ink2);
+  background:rgba(55,102,174,.03);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding-right:12px}
 .bq cite{display:block;margin-top:8px;font-size:12px;
-  font-style:normal;font-weight:600;color:var(--muted)}
+  font-style:normal;font-weight:600;color:var(--dac-blue)}
 
 /* ── TIMELINE ── */
 .tl{display:flex;flex-direction:column;gap:0}
@@ -267,11 +341,10 @@ tr:hover td{background:rgba(27,79,168,.025)}
 .tl-item::before{content:'';position:absolute;left:20px;top:42px;
   bottom:0;width:2px;background:var(--border)}
 .tl-item:last-child::before{display:none}
-.tl-num{width:42px;height:42px;border-radius:12px;display:flex;
+.tl-num{width:42px;height:42px;border-radius:10px;display:flex;
   align-items:center;justify-content:center;flex-shrink:0;
-  background:rgba(27,79,168,.11);color:var(--blue);
-  font-family:var(--font-display);font-size:15px;font-weight:700;
-  border:1px solid rgba(27,79,168,.17)}
+  background:linear-gradient(135deg,var(--dac-blue),var(--dac-teal));
+  color:#fff;font-family:var(--font-display);font-size:15px;font-weight:800}
 .tl-content{padding-top:10px}
 .tl-content strong{font-size:13px;font-weight:700;display:block;margin-bottom:3px}
 .tl-content p{font-size:13px;color:var(--muted);line-height:1.55}
@@ -281,7 +354,7 @@ tr:hover td{background:rgba(27,79,168,.025)}
 
 /* ── BIG NUMBER ── */
 .big-num{font-family:var(--font-display);font-size:clamp(44px,7vw,76px);
-  font-weight:700;color:var(--blue);line-height:1}
+  font-weight:800;color:var(--dac-blue);line-height:1}
 
 /* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(12px);
@@ -290,7 +363,23 @@ tr:hover td{background:rgba(27,79,168,.025)}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-thumb{background:rgba(27,79,168,.18);border-radius:999px}
+::-webkit-scrollbar-thumb{background:rgba(55,102,174,.20);border-radius:999px}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--navy);color:rgba(255,255,255,.7);
+  padding:28px 20px;margin-top:20px;border-radius:var(--r)}
+.footer-inner{max-width:900px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:center;gap:10px}
+.footer-brand img{height:32px;filter:brightness(0) invert(1);opacity:.8}
+.footer-info{font-size:12px;line-height:1.6}
+.footer-info strong{color:#fff;font-family:var(--font-display);font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.3px}
+.footer-bar{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.footer-chip{padding:2px 8px;border-radius:4px;font-size:11px;
+  background:rgba(115,191,216,.15);border:1px solid rgba(115,191,216,.25);
+  color:rgba(255,255,255,.65)}
+@media(max-width:580px){.footer-inner{flex-direction:column;align-items:flex-start}}
 
 /* ══ LIGHTBOX ══ */
 #lightbox {
@@ -353,25 +442,30 @@ img.zoomable:hover {
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-brand">
+      <button class="btn-menu" id="btnMenu" type="button" aria-label="Menu navigation">
+        <span></span><span></span><span></span>
+      </button>
       <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC Var Est" onerror="this.style.display='none'">
+      <div class="topbar-divider"></div>
       <div class="topbar-title">
-        <strong>DAC Var Est — Rapport d'activité 2025</strong>
-        <span>Monographie sur le service rendu — Parcours complexes</span>
+        <strong>Rapport d'activité 2025</strong>
+        <span>Monographie — Parcours complexes · DAC Var Est</span>
       </div>
     </div>
     <div class="topbar-actions">
       <button class="btn-sm" id="btnDark" type="button">🌙 Mode sombre</button>
       <button class="btn-sm" id="btnTop" type="button">↑ Haut</button>
-      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/ars_r_publiquefrancaise.png" alt="ARS" style="height:30px" onerror="this.style.display='none'">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/ars_r_publiquefrancaise.png" alt="ARS" style="height:28px" onerror="this.style.display='none'">
     </div>
   </div>
 </header>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
 
 <!-- ══════════════════════════════════════════════ SIDEBAR -->
-<aside class="sidebar">
-  <span class="sidebar-label">Rapport 2025</span>
+<aside class="sidebar" id="sidebar">
+  <span class="sidebar-badge">Rapport 2025</span>
   <h2>DAC<br>Var Est</h2>
   <p class="sidebar-sub">Dispositif d'Appui à la Coordination — Parcours complexes — GCS Est Var</p>
   <nav class="nav-section" id="mainNav">
@@ -380,6 +474,7 @@ img.zoomable:hover {
     <a href="#identite">Fiche d'identité <small>p.2</small></a>
     <a href="#axe-strategique">Axes stratégiques <small>p.3</small></a>
     <a href="#historique">Historique <small>p.3</small></a>
+    <a href="#gouvernance">Gouvernance <small>p.3</small></a>
     <a href="#territoire">Territoire <small>p.4</small></a>
     <div class="nav-group-title">Activité</div>
     <a href="#dynamique">Dynamique d'activité <small>p.5</small></a>
@@ -390,13 +485,15 @@ img.zoomable:hover {
     <div class="nav-group-title">Organisation</div>
     <a href="#equipe">Équipe pluriprofessionnelle <small>p.10</small></a>
     <a href="#parcours">Parcours patient <small>p.11</small></a>
-    <a href="#gouvernance">Gouvernance <small>p.12</small></a>
-    <a href="#animation">Animation territoriale <small>p.13</small></a>
-    <a href="#partenaires">Partenariats <small>p.14</small></a>
+    <a href="#animation">Animation territoriale <small>p.12</small></a>
+    <a href="#partenaires">Partenariats <small>p.13</small></a>
     <div class="nav-group-title">Service rendu</div>
     <a href="#service-rendu">Satisfaction &amp; perception <small>p.14</small></a>
-    <a href="#qualite">Démarche qualité <small>p.15</small></a>
-    <a href="#cpom">CPOM <small>p.16</small></a>
+    <a href="#satisfaction-usagers">Satisfaction usagers <small>p.15</small></a>
+    <a href="#qualite">Démarche qualité <small>p.16</small></a>
+    <a href="#cpom">CPOM <small>p.17</small></a>
+    <div class="nav-group-title">Numérique</div>
+    <a href="#numerique">Bilan numérique 2025 <small>p.18</small></a>
   </nav>
 </aside>
 
@@ -407,15 +504,15 @@ img.zoomable:hover {
 <div class="hero reveal" id="intro" data-section>
   <div class="hero-inner">
     <div>
-      <div>
+      <div class="hero-eyebrow">
         <span class="hero-tag">Rapport d'activité</span>
-        <span class="hero-tag">2025</span>
+        <span class="hero-tag accent">2025</span>
       </div>
       <h1>DAC Var Est
         <span>Dispositif d'Appui à la Coordination des parcours complexes</span>
       </h1>
       <p class="hero-desc">Monographie sur le service rendu du DAC VAR EST 2025 — Groupement de Coopération Sanitaire couvrant 69 communes de l'Est Var, soit 350 874 habitants. Ce rapport présente l'activité 2025, l'organisation, les missions et les résultats du service rendu aux professionnels et aux usagers du territoire.</p>
-      <p class="hero-note">Données issues de l'outil régional SAS AZUREZO volet ANAP et pilotage (migration octobre 2022)</p>
+      <p class="hero-note">📊 Données issues de l'outil régional SAS AZUREZO volet ANAP et pilotage (migration octobre 2022)</p>
     </div>
     <div class="hero-kpis">
       <div class="kpi green"><div class="n countup" data-to="2402">0</div><div class="t">Sollicitations reçues en 2025</div></div>
@@ -980,9 +1077,9 @@ img.zoomable:hover {
     <p class="section-desc">Le DAC intervient de manière graduée selon les besoins identifiés.</p>
   </div>
   <div class="section-body">
-    <div class="g4">
-      <div class="metric"><div class="v">36 %</div><div class="l">Info / orientation (34,4 % en 2024)</div></div>
-      <div class="metric teal"><div class="v">61,5 %</div><div class="l">Coordination</div></div>
+    <div class="g3">
+      <div class="metric"><div class="v">36 %</div><div class="l">Niveau 1 — Info / orientation (34,4 % en 2024)</div></div>
+      <div class="metric teal"><div class="v">61,5 %</div><div class="l">Niveau 2+3 — Coordination soutenue &amp; intensive</div></div>
       <div class="metric amber"><div class="v">2,5 %</div><div class="l"><strong>Service spécialisé</strong> (Covid Long)</div></div>
     </div>
     <div class="g2">
@@ -1290,6 +1387,46 @@ img.zoomable:hover {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Analyse questionnaire satisfaction S1 2025 — Animation territoriale -->
+    <div class="panel blue">
+      <div class="panel-title">Analyse du questionnaire de satisfaction interne — S1 2025 · Animation territoriale</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:14px">Basée sur <strong>68 répondants</strong>. L'animation territoriale est une dimension exclusive au questionnaire interne — le questionnaire national DGOS (SRP) cible uniquement l'intervention clinique.</p>
+
+      <div class="g2">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.6px;margin-bottom:8px">Participation aux actions de comitologie AT</div>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Focus thématiques</div><div class="bar-track" data-pct="66"><div class="fill"></div></div><div class="bar-val">66,2 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Formations</div><div class="bar-track" data-pct="37"><div class="fill teal" style="background:linear-gradient(90deg,var(--dac-blue),var(--dac-teal))"></div></div><div class="bar-val">36,8 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Groupes de travail</div><div class="bar-track" data-pct="21"><div class="fill orange"></div></div><div class="bar-val">20,6 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Commission cas complexes</div><div class="bar-track" data-pct="13"><div class="fill orange"></div></div><div class="bar-val">13,2 %</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.6px;margin-bottom:8px">Utilité déclarée des interventions</div>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Faciliter la coordination</div><div class="bar-track" data-pct="56"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">55,9 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Développer le réseau</div><div class="bar-track" data-pct="56"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">55,9 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Connaître les acteurs locaux</div><div class="bar-track" data-pct="52"><div class="fill"></div></div><div class="bar-val">51,5 %</div></div>
+            <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Faciliter les prises en charge</div><div class="bar-track" data-pct="41"><div class="fill orange"></div></div><div class="bar-val">41,2 %</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel grad" style="margin-top:12px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.6px;margin-bottom:10px">Satisfaction des Focus thématiques — 4 dimensions à 100 %</div>
+        <div class="g4">
+          <div class="metric green"><div class="v">100 %</div><div class="l">Qualité des intervenants (94,3 % très satisfait)</div></div>
+          <div class="metric green"><div class="v">100 %</div><div class="l">Organisation horaires / lieux (88,7 % très satisfait)</div></div>
+          <div class="metric green"><div class="v">100 %</div><div class="l">Ressources présentées (86,8 % très satisfait)</div></div>
+          <div class="metric green"><div class="v">100 %</div><div class="l">Thèmes abordés (85,2 % très satisfait)</div></div>
+        </div>
+        <div class="callout green" style="margin-top:12px">Aucune réponse négative sur les 53–54 participants aux Focus — unanimité sur les 4 dimensions évaluées.</div>
+      </div>
+
+      <div class="callout amber" style="margin-top:12px"><strong>Thème prioritaire souhaité :</strong> Santé mentale / psychiatrie — cité <strong>16 fois sur 31 répondants</strong> ayant exprimé un souhait. Cette demande forte appelle une réponse programmatique pour le cycle 2026.</div>
     </div>
 
     <!-- Observatoire des ruptures -->
@@ -1623,7 +1760,8 @@ img.zoomable:hover {
         </ul>
       </div>
     </div>
-
+  </div>
+</div>
 
 <!-- ── 14. SERVICE RENDU ── -->
 <div class="section reveal" id="service-rendu" data-section>
@@ -1770,10 +1908,202 @@ img.zoomable:hover {
   </div>
 </div>
 
-<!-- ── 15. QUALITÉ ── -->
+<!-- ── 15. SATISFACTION USAGERS ── -->
+<div class="section reveal" id="satisfaction-usagers" data-section>
+  <div class="section-head">
+    <span class="eyebrow teal">Section 15</span>
+    <h3>Satisfaction et perception — Usagers &amp; proches aidants</h3>
+    <p class="section-desc">Enquête nationale pilotée par la DGOS (depuis le 08/09/2025) et démarche patient traceur — vision intégrée de la qualité du service rendu côté usagers.</p>
+  </div>
+  <div class="section-body">
+
+    <!-- PATIENT TRACEUR -->
+    <div class="panel blue">
+      <div class="panel-title">Démarche patient traceur</div>
+      <p style="font-size:13px;color:var(--ink2);margin-bottom:14px;line-height:1.6">Le DAC a initié une démarche d'analyse du service rendu via la méthode du <strong>patient traceur</strong>. Ce choix pluridisciplinaire et pluriprofessionnel compare la pratique réelle aux pratiques de référence, en se concentrant sur la qualité et la perception du service rendu auprès des usagers. La démarche débute au T3 2024 avec trois personnes accompagnées, se poursuit au T1 2025 par la réalisation des entretiens. L'analyse des résultats au T2 2025 alimentera le plan d'action et la planification de la démarche d'amélioration continue.</p>
+      <div class="g2">
+        <div style="border:1px solid rgba(27,79,168,.18);border-radius:var(--r-sm);padding:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">Forces</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--blue);flex-shrink:0">▸</span><div>Approche centrée sur le patient</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--blue);flex-shrink:0">▸</span><div>Démarche très appréciée des usagers et des aidants</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--blue);flex-shrink:0">▸</span><div>Analyse croisée : professionnels de la coordination et usagers</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--blue);flex-shrink:0">▸</span><div>Évaluation en temps réel : identification des axes d'amélioration immédiate</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--blue);flex-shrink:0">▸</span><div>Entretien réalisé par une consultante externe : optimiser et objectiver le résultat</div></div>
+          </div>
+        </div>
+        <div style="border:1px solid rgba(8,145,178,.18);border-radius:var(--r-sm);padding:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">Perspectives</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--teal);flex-shrink:0">▸</span><div>Identification d'actions d'amélioration répondant fidèlement aux besoins des usagers</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--teal);flex-shrink:0">▸</span><div>Amélioration de la méthodologie d'accompagnement en coordination</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--teal);flex-shrink:0">▸</span><div>Accompagner les équipes opérationnelles dans leur activité de coordination</div></div>
+            <div style="display:flex;align-items:baseline;gap:8px;font-size:12.5px"><span style="color:var(--teal);flex-shrink:0">▸</span><div>Renforcement de la culture qualité</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENQUÊTE DGOS — KPIs -->
+    <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Enquête de satisfaction DGOS — depuis le 08/09/2025</div>
+    <div class="g4">
+      <div class="metric blue"><div class="v countup" data-to="14">14</div><div class="l">Répondants — Tous DAC Var Est</div></div>
+      <div class="metric teal"><div class="v countup" data-to="10">10</div><div class="l">Proches aidants (71 % des réponses)</div></div>
+      <div class="metric green"><div class="v countup" data-to="2">2</div><div class="l">Personnes accompagnées — répondent elles-mêmes</div></div>
+      <div class="metric amber"><div class="v">92<span style="font-size:18px;font-weight:600">%</span></div><div class="l">Taux de satisfaction globale — très satisfait ou satisfait</div></div>
+    </div>
+
+    <div class="callout teal" style="font-size:13px">
+      2 répondants ont choisi le formulaire simplifié et n'ont pas renseigné les questions de satisfaction, ce qui réduit légèrement la base d'analyse qualitative.
+    </div>
+
+    <!-- MOTIFS + SATISFACTION DÉTAILLÉE -->
+    <div class="g2">
+      <div class="panel">
+        <div class="panel-title">Motifs d'accompagnement (mentions)</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+          <!-- bar-track items -->
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Démarches administratives</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-blue);border-radius:4px;width:100%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">6</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Accès aux soins</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-blue);border-radius:4px;width:100%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">6</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Aide à la vie quotidienne</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-blue);border-radius:4px;width:83%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">5</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Accès accueil de jour</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-blue);border-radius:4px;width:67%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">4</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Accès hébergement / logement</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-blue);border-radius:4px;width:50%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">3</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Protection juridique</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-sky,#73BFD8);border-radius:4px;width:33%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">2</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Isolement</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-sky,#73BFD8);border-radius:4px;width:33%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">2</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Démarches financières</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-sky,#73BFD8);border-radius:4px;width:33%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">2</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+            <div style="width:180px;flex-shrink:0;color:var(--ink2)">Difficultés proches / conflits</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:8px;overflow:hidden"><div style="height:100%;background:var(--dac-sky,#73BFD8);border-radius:4px;width:33%"></div></div>
+            <div style="width:16px;text-align:right;font-weight:700;color:var(--ink)">2</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel green">
+        <div class="panel-title">Satisfaction détaillée (répondants ayant noté)</div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+          <div style="font-size:11px;color:var(--muted);display:flex;gap:12px;margin-bottom:2px">
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--green);display:inline-block"></span>Très satisfait</span>
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#93c5fd;display:inline-block"></span>Satisfait</span>
+          </div>
+          <!-- Critères 100% -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Délai de réponse du DAC</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Disponibilité et écoute</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Écoute et soutien</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Informations et conseils</span><span style="font-weight:700;color:var(--green)">90 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:90%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Prise en compte de l'avis</span><span style="font-weight:700;color:var(--green)">90 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:90%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--ink2)">Satisfaction globale intervention</span><span style="font-weight:700;color:var(--green)">100 %</span></div>
+            <div style="background:var(--border);border-radius:4px;height:7px"><div style="height:100%;background:var(--green);border-radius:4px;width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMÉLIORATION DE SITUATION -->
+    <div class="g2">
+      <div class="panel teal">
+        <div class="panel-title">Amélioration de la situation après intervention</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:12px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+            <div style="width:110px;flex-shrink:0;font-weight:700;color:var(--green)">Oui</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:9px;overflow:hidden"><div style="height:100%;background:var(--green);border-radius:4px;width:54%"></div></div>
+            <div style="font-weight:700;color:var(--ink);width:20px;text-align:right">7</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+            <div style="width:110px;flex-shrink:0;color:var(--ink2)">Je ne sais pas</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:9px;overflow:hidden"><div style="height:100%;background:var(--amber);border-radius:4px;width:31%"></div></div>
+            <div style="font-weight:700;color:var(--ink);width:20px;text-align:right">4</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+            <div style="width:110px;flex-shrink:0;color:var(--ink2)">Partiellement</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:9px;overflow:hidden"><div style="height:100%;background:var(--orange,#f97316);border-radius:4px;width:8%"></div></div>
+            <div style="font-weight:700;color:var(--ink);width:20px;text-align:right">1</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+            <div style="width:110px;flex-shrink:0;color:var(--ink2)">Non</div>
+            <div style="flex:1;background:var(--border);border-radius:4px;height:9px;overflow:hidden"><div style="height:100%;background:var(--dac-red,#EB5D45);border-radius:4px;width:8%"></div></div>
+            <div style="font-weight:700;color:var(--ink);width:20px;text-align:right">1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel amber">
+        <div class="panel-title" style="color:var(--amber)">⚠ Point de vigilance</div>
+        <p style="font-size:13px;color:var(--ink2);margin-top:10px;line-height:1.7"><strong>4 répondants</strong> répondent « je ne sais pas » sur la question de l'amélioration de la situation. Cela peut indiquer soit des situations complexes sans évolution claire à court terme, soit une difficulté à mesurer l'impact de l'intervention du DAC.</p>
+      </div>
+    </div>
+
+    <!-- VERBATIMS USAGERS -->
+    <div class="panel grad">
+      <div class="panel-title">Verbatims remarquables — usagers &amp; proches aidants</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+        <div style="background:var(--card);border-left:3px solid var(--teal);padding:12px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0">
+          <p style="font-size:12.5px;font-style:italic;color:var(--ink);margin:0 0 6px;line-height:1.6">« Quand j'explique que ma maman est suivie par le DAC, personne ne connaît cet organisme. Dommage que cela ne soit pas plus connu car c'est un grand soutien… J'en suis si contente que j'ai fait un signalement au DAC d'un autre département. »</p>
+          <div style="font-size:11px;color:var(--muted)">CP 83480 — Proche aidant, sept. 2025</div>
+        </div>
+        <div style="background:var(--card);border-left:3px solid var(--green);padding:12px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0">
+          <p style="font-size:12.5px;font-style:italic;color:var(--ink);margin:0 0 6px;line-height:1.6">« Très bon travail de la conseillère, merci pour son grand professionnalisme. À l'écoute, avec de bonnes explications, suivi de bons conseils. Une grande aide précieuse ! »</p>
+          <div style="font-size:11px;color:var(--muted)">CP 83600 — Proche aidant, sept. 2025</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.6">Les taux sont très élevés sur tous les critères (délai de réponse, écoute, soutien, conseils), corroborant les verbatims recueillis. Satisfaction élevée confirmée par l'ensemble des sources.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── 16. QUALITÉ ── -->
 <div class="section reveal" id="qualite" data-section>
   <div class="section-head">
-    <span class="eyebrow amber">Section 15</span>
+    <span class="eyebrow amber">Section 16</span>
     <h3>Modalités de suivi du service rendu — Démarche qualité</h3>
     <p class="section-desc">Une démarche qualité structurée selon un cycle d'amélioration continue (PDCA), renforcée tout au long de l'année 2024–2025.</p>
   </div>
@@ -1855,35 +2185,22 @@ img.zoomable:hover {
       <div style="font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.6">Un logiciel qualité a été déployé début 2025 pour centraliser les données, sécuriser les accès documentaires et automatiser les plans d'action. L'audit de janvier 2025 a permis d'ajuster les actions d'amélioration et de sensibiliser les personnels aux démarches qualité.</div>
     </div>
 
-    <div class="panel blue">
-      <div class="panel-title">Modalités de suivi à travers le CPOM et le dialogue de gestion</div>
-      <div style="overflow-x:auto;margin-top:10px">
-        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
-          <thead>
-            <tr style="background:rgba(27,79,168,.08)">
-              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.2)">Indicateur de suivi</th>
-              <th style="padding:8px 12px;text-align:center;border-bottom:2px solid rgba(27,79,168,.2);width:70px">Statut</th>
-              <th style="padding:8px 12px;text-align:left;border-bottom:2px solid rgba(27,79,168,.2)">Détails</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:8px 12px;font-weight:700">Contrats pluriannuels d'objectifs et de moyens (CPOM)</td>
-              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
-              <td style="padding:8px 12px;color:var(--ink2)">CPOM + Avenants Covid Long — CPOM Numérique</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
-              <td style="padding:8px 12px;font-weight:700">Revue annuelle de contrat (RAC) / Dialogue de gestion</td>
-              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
-              <td style="padding:8px 12px;color:var(--ink2)">Avril 2025 — Décembre 2025</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;font-weight:700">Autres</td>
-              <td style="padding:8px 12px;text-align:center"><span class="tag green">✓</span></td>
-              <td style="padding:8px 12px;color:var(--ink2)">Échanges à la demande auprès de la mission SACO — Rencontres trimestrielles INTERDAC PACA avec référents régionaux ARS</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="panel grad">
+      <div class="panel-title">Scores thématiques — Audit janvier 2025</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:14px">Résultats par thématique évaluée (score général en %). Les axes les plus solides : Politique RH (97,22 %) et Animation territoriale (94,44 %). Les axes d'amélioration prioritaires : Information de la personne (77,59 %) et Démarche qualité (78,57 %).</p>
+      <div class="bars">
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Politique RH</div><div class="bar-track" data-pct="97"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">97,22 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Animation territoriale</div><div class="bar-track" data-pct="94"><div class="fill green"></div></div><div class="bar-val" style="color:var(--green)">94,44 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Système d'information</div><div class="bar-track" data-pct="90"><div class="fill"></div></div><div class="bar-val">90,00 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Équité &amp; impartialité</div><div class="bar-track" data-pct="90"><div class="fill"></div></div><div class="bar-val">90,00 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Accompagnement social</div><div class="bar-track" data-pct="89"><div class="fill"></div></div><div class="bar-val">89,29 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Continuité du parcours</div><div class="bar-track" data-pct="89"><div class="fill"></div></div><div class="bar-val">88,97 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Accompagnement santé</div><div class="bar-track" data-pct="88"><div class="fill"></div></div><div class="bar-val">87,50 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Efficacité &amp; réactivité</div><div class="bar-track" data-pct="86"><div class="fill orange"></div></div><div class="bar-val">85,87 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Expression &amp; participation</div><div class="bar-track" data-pct="83"><div class="fill orange"></div></div><div class="bar-val">83,33 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Co-construction parcours</div><div class="bar-track" data-pct="79"><div class="fill orange"></div></div><div class="bar-val">79,17 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Démarche qualité</div><div class="bar-track" data-pct="79"><div class="fill" style="background:linear-gradient(90deg,var(--red),var(--orange))"></div></div><div class="bar-val" style="color:var(--red)">78,57 %</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="font-size:11px">Information de la personne</div><div class="bar-track" data-pct="78"><div class="fill" style="background:linear-gradient(90deg,var(--red),var(--orange))"></div></div><div class="bar-val" style="color:var(--red)">77,59 %</div></div>
       </div>
     </div>
 
@@ -1894,7 +2211,7 @@ img.zoomable:hover {
 <!-- ── 16. CPOM ── -->
 <div class="section reveal" id="cpom" data-section>
   <div class="section-head">
-    <span class="eyebrow">Section 16</span>
+    <span class="eyebrow">Section 17</span>
     <h3>Suivi via le CPOM et le dialogue de gestion</h3>
   </div>
   <div class="section-body">
@@ -1915,6 +2232,248 @@ img.zoomable:hover {
   <div class="section-foot">
     Rapport d'activité 2025 — DAC Var Est — GCS de droit privé — Draguignan / Fréjus<br>
     Données issues de l'outil SAS AZUREZO volet ANAP et pilotage (migration octobre 2022).
+  </div>
+</div>
+
+<!-- ── 18. BILAN NUMÉRIQUE 2025 ── -->
+<div class="section reveal" id="numerique" data-section>
+  <div class="section-head">
+    <span class="eyebrow blue">Section 18</span>
+    <h3>Bilan numérique 2025</h3>
+    <p class="section-desc">Alignement Feuille de Route SI régionale DAC 2024–2028 (cosignée le 08/07/2025 — ARS PACA / GRADeS IeSS / FACS Sud) + Feuille de Route DAC Var Est 2023–2025. Indicateurs alignés sur la Convention déploiement numérique en santé 2025.</p>
+  </div>
+  <div class="section-body">
+
+    <!-- AXE 1 -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--blue);padding:6px 0 4px;border-bottom:2px solid rgba(27,79,168,.15);margin-bottom:2px">Axe 1 — Socle commun &amp; continuité de service</div>
+
+    <!-- PCA / PRA -->
+    <div class="panel blue">
+      <div class="panel-title">Projet PCA / PRA — Rôle pilote</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px;line-height:1.6">Objectif FDR : 4.1 Procédures communes — Assurer la continuité de service / assurer une interface.</p>
+      <div class="g2">
+        <div style="background:rgba(27,79,168,.05);border:1px solid rgba(27,79,168,.12);border-radius:var(--r-sm);padding:14px;display:flex;gap:12px;align-items:center">
+          <span class="tag blue" style="flex-shrink:0">Pilote</span>
+          <div style="font-size:12.5px;color:var(--ink2)">Désignation en tant que <strong>structure pilote</strong> du groupe de travail régional PCA/PRA DAC</div>
+        </div>
+        <div style="background:rgba(5,150,105,.05);border:1px solid rgba(5,150,105,.12);border-radius:var(--r-sm);padding:14px;display:flex;gap:12px;align-items:center">
+          <span class="tag green" style="flex-shrink:0">✓ Réalisé</span>
+          <div style="font-size:12.5px;color:var(--ink2)"><strong>Modélisation des procédures métiers critiques</strong> liées à Azurezo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AZUREZO -->
+    <div class="panel teal">
+      <div class="panel-title">Azurezo — Usage et participation</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px;line-height:1.6">Objectif FDR : 4.1 Procédures communes — Assurer la continuité de service / assurer une interface.</p>
+      <div style="overflow-x:auto;margin-bottom:14px">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:rgba(8,145,178,.08)">
+              <th style="padding:7px 12px;text-align:left;border-bottom:2px solid rgba(8,145,178,.2)">Indicateur</th>
+              <th style="padding:7px 12px;text-align:center;border-bottom:2px solid rgba(8,145,178,.2);width:130px">Attendu (convention)</th>
+              <th style="padding:7px 12px;text-align:center;border-bottom:2px solid rgba(8,145,178,.2);width:130px">Résultat 2025</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Taux de dossiers de coordination tracés dans Azurezo</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">100 %</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Participation coordinatrice à au moins une campagne de recettage Azurezo</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">1 campagne</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Participation au recettage des indicateurs de pilotage</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Participation aux sessions de priorisation / validation des spécifications fonctionnelles</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;color:var(--ink2)">Audit hebdomadaire qualité des données Azurezo, indicateurs de pilotage et identitovigilance</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">Hebdomadaire</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">0 donnée manquante ANAP / pilotage 2025</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">Participation qualitative — instances 2025</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span class="tag teal">Comité régional bimensuel (DAC + GRADeS IeSS)</span>
+        <span class="tag">Suivi anomalies (revue de backlog) — remontée, qualification, priorisation</span>
+        <span class="tag">Point CMN — validation collégiale des évolutions fonctionnelles</span>
+        <span class="tag">Ateliers de recettage — tests sur nouvelles versions</span>
+        <span class="tag">COSTRAT SI + COPIL AZ</span>
+      </div>
+    </div>
+
+    <!-- OUTILS SEGUR -->
+    <div class="panel grad">
+      <div class="panel-title">Outils SEGUR — Déploiement interne</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px">Objectif FDR : 2.4 Renforcer les compétences des DAC sur le socle numérique — Montée en connaissance des acteurs.</p>
+      <div class="g4">
+        <div class="metric blue">
+          <div class="v">100<span style="font-size:14px;font-weight:600">%</span></div>
+          <div class="l">RPPS+ / e-CPS déployés — 100 % de l'effectif</div>
+        </div>
+        <div class="metric teal">
+          <div class="v">100<span style="font-size:14px;font-weight:600">%</span></div>
+          <div class="l">MSSanté déployé — 100 % de l'effectif</div>
+        </div>
+        <div class="metric green">
+          <div class="v countup" data-to="2">2</div>
+          <div class="l">Référents CASSI internes désignés</div>
+        </div>
+        <div class="metric amber">
+          <div class="v">100<span style="font-size:14px;font-weight:600">%</span></div>
+          <div class="l">CASSI déployé — 100 % de l'effectif</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASSI + ViaTrajectoire -->
+    <div class="g2">
+      <div class="panel blue">
+        <div class="panel-title">CASSI — Déploiement &amp; contribution territoriale</div>
+        <p style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">Objectif FDR : 2.1 Outiller les DAC dans la mission d'appui à la coordination.</p>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 10px;background:rgba(27,79,168,.04);border-radius:var(--r-sm)">
+            <span style="color:var(--ink2)">Référents CASSI internes désignés</span><span class="tag blue">2 référents</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 10px;background:rgba(27,79,168,.04);border-radius:var(--r-sm)">
+            <span style="color:var(--ink2)">Référente métier désignée (coordinatrice)</span><span class="tag blue">1 référente</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 10px;background:rgba(27,79,168,.04);border-radius:var(--r-sm)">
+            <span style="color:var(--ink2)">Participation ateliers CASSI régionaux</span><span class="tag green">100 %</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 10px;background:rgba(27,79,168,.04);border-radius:var(--r-sm)">
+            <span style="color:var(--ink2)">Tests et remontées d'anomalies</span><span class="tag green">✓ 1 atelier</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 10px;background:rgba(27,79,168,.04);border-radius:var(--r-sm)">
+            <span style="color:var(--ink2)">Déploiement effectif auprès de l'effectif</span><span class="tag green">100 %</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel teal">
+        <div class="panel-title">ViaTrajectoire — Formation &amp; appropriation</div>
+        <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px">Objectif FDR : 2.1 — Montée en connaissance des acteurs du DAC.</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:10px 14px;background:rgba(8,145,178,.05);border:1px solid rgba(8,145,178,.15);border-radius:var(--r-sm)">
+          <span style="color:var(--ink2)">Participation à au moins une formation ViaTrajectoire (GRADeS IeSS)</span>
+          <span class="tag green">✓ Réalisé</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AXE 2 -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--teal);padding:6px 0 4px;border-bottom:2px solid rgba(8,145,178,.15);margin-bottom:2px">Axe 2 — Promouvoir les usages des services numériques</div>
+
+    <div class="panel teal">
+      <div class="panel-title">Promotion des outils numériques régionaux</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px">Objectif FDR : 3.2 Rendre visible l'apport des DAC dans la promotion de la e-santé régionale.</p>
+      <div style="overflow-x:auto;margin-bottom:14px">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:rgba(8,145,178,.08)">
+              <th style="padding:7px 12px;text-align:left;border-bottom:2px solid rgba(8,145,178,.2)">Indicateur</th>
+              <th style="padding:7px 12px;text-align:center;border-bottom:2px solid rgba(8,145,178,.2);width:130px">Attendu</th>
+              <th style="padding:7px 12px;text-align:left;border-bottom:2px solid rgba(8,145,178,.2)">Résultat 2025</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Événements organisés valorisant les outils numériques e-santé PACA (avec invitation équipe numérique régionale)</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">1 événement</td>
+              <td style="padding:7px 12px"><strong>2 Focus Thématiques</strong> — 28/01 et 03/11/2025 — <span class="tag teal">350 professionnels participants</span> (présence GRADeS IeSS)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Participation sessions sensibilisation PS/usagers aux outils Ségur et MeS</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">1 atelier</td>
+              <td style="padding:7px 12px"><strong>Continue</strong> — COSTRAT SI + COPIL AZ — MSSanté messagerie sécurisée</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Signature mail systématique + page contact site web</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px"><span class="tag green">100 % effectif</span> — dacvarest.fr</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;color:var(--ink2)">Enrôlement systématique des professionnels de santé manquants dans le ROR</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px"><span class="tag green">✓ Systématique</span> — détectés et signalés via activités de coordination DAC et déploiement CASSI régional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AXE 3 -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--orange,#f97316);padding:6px 0 4px;border-bottom:2px solid rgba(249,115,22,.15);margin-bottom:2px">Axe 3 — Cybersécurité &amp; RGPD</div>
+
+    <div class="panel amber">
+      <div class="panel-title">Cybersécurité, RGPD &amp; Identitovigilance</div>
+      <p style="font-size:12.5px;color:var(--ink2);margin-bottom:12px">Objectif FDR : 2.4 Renforcer les compétences des DAC sur le socle numérique — Renforcer la culture cyber et RGPD, assurer la montée en compétence.</p>
+      <div style="overflow-x:auto;margin-bottom:14px">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:rgba(217,119,6,.08)">
+              <th style="padding:7px 12px;text-align:left;border-bottom:2px solid rgba(217,119,6,.2)">Indicateur</th>
+              <th style="padding:7px 12px;text-align:center;border-bottom:2px solid rgba(217,119,6,.2);width:130px">Attendu (convention)</th>
+              <th style="padding:7px 12px;text-align:center;border-bottom:2px solid rgba(217,119,6,.2);width:160px">Résultat 2025</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Taux de participation à une formation/sensibilisation CYBER/RGPD (CAPSI)</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">100 % effectif</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Taux de participation à une formation Identitovigilance (Grives)</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">100 % effectif</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">100 %</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Référent identitovigilance désigné</td>
+              <td style="padding:7px 12px;text-align:center;font-weight:700">Oui</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">1 référent (CMN)</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Diagnostic cybersécurité CAPSI</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">✓ Réalisé</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:7px 12px;color:var(--ink2)">Taux de maturité cybersécurité</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag amber">2.10 / 4</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(0,0,0,.015)">
+              <td style="padding:7px 12px;color:var(--ink2)">Gestionnaire de mots de passe</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">LOCKSELF déployé</span></td>
+            </tr>
+            <tr>
+              <td style="padding:7px 12px;color:var(--ink2)">Extension assurance cyber</td>
+              <td style="padding:7px 12px;text-align:center">—</td>
+              <td style="padding:7px 12px;text-align:center"><span class="tag green">✓ Réalisé</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Synthèse numérique -->
+    <div class="callout teal" style="font-size:13px;line-height:1.6">
+      <strong>Synthèse :</strong> Le DAC Var Est atteint 100 % des indicateurs quantitatifs de la convention numérique 2025. Il joue un rôle actif dans les instances régionales (COSTRAT, COPIL AZ, CMN PACA) et se positionne comme structure pilote pour le PCA/PRA. Le taux de maturité cybersécurité (2.10/4) constitue le principal axe de progression pour 2026.
+    </div>
+
   </div>
 </div>
 
@@ -2524,6 +3083,60 @@ img.zoomable:hover {
   // Also run after a small delay for dynamically rendered content
   setTimeout(makeZoomable, 800);
   setTimeout(makeZoomable, 2500);
+})();
+</script>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC Var Est" onerror="this.style.display='none'">
+      <div class="footer-info">
+        <strong>DAC Var Est</strong>
+        <div style="font-size:11px;margin-top:2px">GCS Est Var · Rapport d'activité 2025</div>
+        <div class="footer-bar">
+          <span class="footer-chip">Fréjus · Draguignan</span>
+          <span class="footer-chip">69 communes</span>
+          <span class="footer-chip">350 874 hab.</span>
+          <span class="footer-chip">www.dacvarest.fr</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;text-align:right;color:rgba(255,255,255,.4)">
+      Données AZUREZO · ANAP 2025<br>
+      © DAC Var Est — Tous droits réservés
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Hamburger / sidebar mobile ──
+(function(){
+  var btn = document.getElementById('btnMenu');
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  if(!btn || !sidebar) return;
+
+  function open(){
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+  }
+  btn.addEventListener('click', function(){
+    sidebar.classList.contains('open') ? close() : open();
+  });
+  overlay.addEventListener('click', close);
+  // Close on nav link click
+  sidebar.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      if(window.innerWidth <= 1100) close();
+    });
+  });
 })();
 </script>
 
