@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
 <title>DACmission — Admission EHPAD Var Est</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -344,6 +345,26 @@ select.inp{padding-right:32px;appearance:none;background-image:url("data:image/s
 #s2{display:block!important}
 .bot-nav{display:none!important}
 .wrap{padding-bottom:24px!important}
+
+/* ── Verrouillage des outils (mode prod avant activation) ── */
+body.tools-locked .tool-btn{opacity:.5;cursor:not-allowed}
+body.tools-locked .tool-btn:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.12)}
+body.tools-locked .tool-btn::after{
+  content:"Bientôt";font-size:.6rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  background:rgba(255,255,255,.15);padding:2px 7px;border-radius:999px;margin-left:6px;color:rgba(255,255,255,.85);
+}
+
+/* ── Toast « bientôt disponible » ── */
+.cs-toast{
+  position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(180%);
+  background:var(--navy);color:#fff;padding:16px 22px;border-radius:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.28);
+  display:flex;align-items:center;gap:14px;max-width:540px;z-index:2000;
+  transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none;
+}
+.cs-toast.show{transform:translateX(-50%) translateY(0);pointer-events:auto}
+.cs-toast .cs-title{font-weight:700;font-size:.95rem;margin-bottom:3px}
+.cs-toast .cs-sub{font-size:.82rem;color:rgba(255,255,255,.72);line-height:1.45}
 </style>
 </head>
 <body>
@@ -364,7 +385,7 @@ select.inp{padding-right:32px;appearance:none;background-image:url("data:image/s
     </div>
     
     <div class="hmeta">
-      <div class="chip"><span class="dot"></span> Données en direct · <strong id="lastUpdate">—</strong></div>
+      <div class="chip"><span class="dot"></span> Dernière mise à jour · <strong id="lastUpdate">—</strong></div>
       <a href="https://usager.viatrajectoire.fr" target="_blank" class="btn-hdr">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         ViaTrajectoire
@@ -381,10 +402,10 @@ select.inp{padding-right:32px;appearance:none;background-image:url("data:image/s
   <div class="tools-inner">
     <span class="tools-lbl">Outils</span>
     <div class="tools-sep"></div>
-    <button class="tool-btn" id="tbGir" onclick="openTool('gir')">📊 Évaluation GIR</button>
-    <button class="tool-btn" id="tbChecklist" onclick="openTool('checklist')">✅ Checklist admission</button>
-    <button class="tool-btn" id="tbFinancement" onclick="openTool('financement')">💶 Simulateur financier</button>
-    <button class="tool-btn" id="tbSynthese" onclick="openTool('synthese')">📋 Synthèse dossier</button>
+    <button class="tool-btn" id="tbGir" onclick="openTool('gir')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="9"/><line x1="18" y1="20" x2="18" y2="5"/></svg> Évaluation GIR</button>
+    <button class="tool-btn" id="tbChecklist" onclick="openTool('checklist')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg> Checklist admission</button>
+    <button class="tool-btn" id="tbFinancement" onclick="openTool('financement')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg> Simulateur financier</button>
+    <button class="tool-btn" id="tbSynthese" onclick="openTool('synthese')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg> Synthèse dossier</button>
   </div>
 </div>
 
@@ -494,6 +515,11 @@ select.inp{padding-right:32px;appearance:none;background-image:url("data:image/s
             <label class="toggle-lbl"><input type="checkbox" id="fAJ"><div class="chk"></div>Accueil de jour</label>
             <label class="toggle-lbl"><input type="checkbox" id="fChambreInd"><div class="chk"></div>Ch. individuelles</label>
             <label class="toggle-lbl"><input type="checkbox" id="fChambreDouble"><div class="chk"></div>Ch. doubles</label>
+            <label class="toggle-lbl"><input type="checkbox" id="fChambreCouple"><div class="chk"></div>Ch. couple</label>
+            <label class="toggle-lbl"><input type="checkbox" id="fChambreFemme"><div class="chk"></div>Ch. femme</label>
+            <label class="toggle-lbl"><input type="checkbox" id="fCRT"><div class="chk"></div>CRT</label>
+            <label class="toggle-lbl"><input type="checkbox" id="fRepit"><div class="chk"></div>Plateforme répit</label>
+            <label class="toggle-lbl"><input type="checkbox" id="fPASA"><div class="chk"></div>PASA</label>
           </div>
         </div>
 
@@ -760,26 +786,28 @@ select.inp{padding-right:32px;appearance:none;background-image:url("data:image/s
 // ════════════════════════════════
 // CONFIG — remplacez par votre URL Google Sheets publiée en CSV
 // Feuille → Fichier → Partager → Publier sur le web → CSV
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAbPB6xHPl_-q1pFLSEh4Es02xpvDSE_wZDUQDY6as5HosSgInEn296zPA8nN9B3Z-GawD5wqFvFaf/pub?gid=1329612563&single=true&output=csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAbPB6xHPl_-q1pFLSEh4Es02xpvDSE_wZDUQDY6as5HosSgInEn296zPA8nN9B3Z-GawD5wqFvFaf/pub?output=csv";
+// Bascule des 4 outils (GIR, checklist, simulateur, synthèse). false = verrouille + affiche "bientôt disponible"
+const TOOLS_ENABLED = false;
 // ════════════════════════════════
 
-// ── CPTS ZONES (identique à l'original) ──
+// ── CPTS ZONES (5 CPTS officielles du Var Est) ──
 const CPTS_ZONES={
-  fr:{label:"CPTS Fréjus – St-Raphaël",color:"#2060b0"},
-  dr:{label:"CPTS Dracénie",color:"#7c3aed"},
-  hv:{label:"CPTS Haut-Var",color:"#059669"},
-  vg:{label:"CPTS Var Vert",color:"#d97706"},
+  fr:{label:"CPTS VEM",color:"#2060b0"},
+  dr:{label:"CPTS DPV",color:"#7c3aed"},
   sm:{label:"CPTS Golfe de St-Tropez",color:"#db2777"},
+  cv:{label:"CPTS Cœur du Var",color:"#0891b2"},
+  pf:{label:"CPTS Pays de Fayence",color:"#d97706"},
   zb:{label:"Zone hors Var Est",color:"rgba(160,160,160,.65)"}
 };
 const CPTS_INDEX=[
-  {key:"fr",norms:["frejus","saint-raphael","st-raphael","puget-sur-argens","roquebrune-sur-argens","les arcs","trans-en-provence","draguignan"]},
-  {key:"dr",norms:["draguignan","lorgues","flayosc","salernes","aups","villecroze","tourtour","fox-amphoux","sillans","entrecasteaux"]},
-  {key:"hv",norms:["brignoles","saint-maximin","barjols","montmeyan","varages","ginasservis","tavernes","correns"]},
-  {key:"vg",norms:["brignoles","la roquebrussanne","mazaugues","neoules","tourves","rougiers","brue-auriac"]},
-  {key:"sm",norms:["sainte-maxime","saint-tropez","grimaud","cogolin","la croix-valmer","gassin","ramatuelle","cavalaire","la garde-freinet"]}
+  {key:"fr",norms:["frejus","saint raphael","puget sur argens","roquebrune sur argens","les adrets de l esterel"]},
+  {key:"dr",norms:["draguignan","lorgues","salernes","aups","figanieres","bargemon","le muy","les arcs","vidauban"]},
+  {key:"sm",norms:["sainte maxime","grimaud","cogolin","saint tropez","la croix valmer","cavalaire"]},
+  {key:"pf",norms:["bagnols en foret","callian","montauroux","seillans","saint paul en foret","tourrettes"]}
 ];
-const EHPAD_CPTS_OVERRIDES={};
+// Cœur du Var : aucune commune des 44 EHPAD ne s'y rattache directement (CHI BLL via override)
+const EHPAD_CPTS_OVERRIDES={"chi bll":"cv"};
 
 // ── GIR CONFIG ──
 const GIR_QUESTIONS=[
@@ -836,7 +864,7 @@ const CHECKLIST=[
 // ── STATE ──
 let step=0, girAnswers=[null,null,null,null,null,null], girScore=null;
 let DATA2=[], focusMode="communes", clItems=[], lastRac=0;
-const state={q:"",commune:"",cpts:"",statut:"",sort:"places_desc",onlyAvail:false,fAS:false,fSF:false,fHT:false,fHTU:false,fAJ:false,fChambreInd:false,fChambreDouble:false};
+const state={q:"",commune:"",cpts:"",statut:"",sort:"places_desc",onlyAvail:false,fAS:false,fSF:false,fHT:false,fHTU:false,fAJ:false,fChambreInd:false,fChambreDouble:false,fChambreCouple:false,fChambreFemme:false,fCRT:false,fRepit:false,fPASA:false};
 
 // ── HELPERS ──
 const el=id=>document.getElementById(id);
@@ -985,7 +1013,7 @@ function resolveCpts(commune){
   const c=normalize(commune);
   if(!c)return{key:"",label:"—",color:"rgba(160,160,160,.4)"};
   for(const z of CPTS_INDEX){
-    for(const n of z.norms){if(n&&(n===c||n.startsWith(c)||c.startsWith(n)))return{key:z.key,label:CPTS_ZONES[z.key].label,color:CPTS_ZONES[z.key].color}}
+    for(const raw of z.norms){const n=normalize(raw);if(n&&(n===c||n.startsWith(c)||c.startsWith(n)))return{key:z.key,label:CPTS_ZONES[z.key].label,color:CPTS_ZONES[z.key].color}}
   }
   return{key:"zb",label:CPTS_ZONES.zb.label,color:CPTS_ZONES.zb.color};
 }
@@ -1057,6 +1085,11 @@ function filtered(){
     if(state.fAJ&&!isOui(r.Accueil_jour))return false;
     if(state.fChambreInd&&toNum(r.Chambres_individuelles)<=0)return false;
     if(state.fChambreDouble&&toNum(r.Chambres_doubles)<=0)return false;
+    if(state.fChambreCouple&&toNum(r.Chambres_couple)<=0)return false;
+    if(state.fChambreFemme&&toNum(r.Chambres_femme)<=0)return false;
+    if(state.fCRT&&!isOui(r.CRT))return false;
+    if(state.fRepit&&!isOui(r.Plateforme_repit))return false;
+    if(state.fPASA&&!isOui(r.PASA))return false;
     if(!q)return true;
     const hay=normalize([r.Date_maj,r.Commune,r.EHPAD,r.Telephone,r.Disponibilites_details,r.CPTS_label].join(" | "));
     return hay.includes(q);
@@ -1084,6 +1117,9 @@ function featureBadges(r){
   if(isOui(r.HT_capacite))b.push('<span class="badge badge-blue">HT</span>');
   if(isOui(r.HTU))b.push('<span class="badge badge-blue">HTU</span>');
   if(isOui(r.Accueil_jour))b.push('<span class="badge badge-blue">Accueil jour</span>');
+  if(isOui(r.CRT))b.push('<span class="badge badge-blue">CRT</span>');
+  if(isOui(r.Plateforme_repit))b.push('<span class="badge badge-blue">Plateforme répit</span>');
+  if(isOui(r.PASA))b.push('<span class="badge badge-blue">PASA</span>');
   return b.join("");
 }
 function renderCards(){
@@ -1105,8 +1141,8 @@ function renderCards(){
     const tel=(r.Telephone||"").toString().trim();
     const telLine=tel?`<span class="badge badge-default">📞 ${escapeHtml(tel)}</span>`:"";
     const cptsDot=r.CPTS_label?`<span class="badge badge-default"><span class="legendDot" style="background:${r.CPTS_color};margin-right:4px"></span>${escapeHtml(r.CPTS_label)}</span>`:"";
-    const chInd=toNum(r.Chambres_individuelles),chDouble=toNum(r.Chambres_doubles);
-    const roomBadges=[chInd>0?`<span class="badge badge-default">🛏 ${chInd} indiv.</span>`:"",chDouble>0?`<span class="badge badge-default">🛏🛏 ${chDouble} double${chDouble>1?"s":""}</span>`:""].filter(Boolean).join("");
+    const chInd=toNum(r.Chambres_individuelles),chDouble=toNum(r.Chambres_doubles),chCouple=toNum(r.Chambres_couple),chFemme=toNum(r.Chambres_femme);
+    const roomBadges=[chInd>0?`<span class="badge badge-default">🛏 ${chInd} indiv.</span>`:"",chDouble>0?`<span class="badge badge-default">🛏🛏 ${chDouble} double${chDouble>1?"s":""}</span>`:"",chCouple>0?`<span class="badge badge-default">💑 ${chCouple} couple${chCouple>1?"s":""}</span>`:"",chFemme>0?`<span class="badge badge-default">♀ ${chFemme} femme${chFemme>1?"s":""}</span>`:""].filter(Boolean).join("");
     const site=(r.Site_internet||"").toString().trim();
     const siteUrl=site&&!/^https?:\/\//i.test(site)?"https://"+site:site;
     return`<article class="card" data-idx="${idx}">
@@ -1274,7 +1310,14 @@ const TOOL_META={
   synthese:{id:'s4',title:'Synthèse du dossier',sub:'Récapitulatif complet et exports',btnId:'tbSynthese',onOpen(){updateSynth()}}
 };
 let _activeTool=null;
+function showComingSoon(){
+  const t=el("comingSoonToast");if(!t)return;
+  t.classList.add("show");
+  clearTimeout(window._csTimer);
+  window._csTimer=setTimeout(()=>t.classList.remove("show"),4500);
+}
 function openTool(name){
+  if(!TOOLS_ENABLED){showComingSoon();return}
   const meta=TOOL_META[name];if(!meta)return;
   if(_activeTool===name){closeTool();return}
   if(_activeTool)_poolScreen(_activeTool);
@@ -1311,6 +1354,7 @@ function _poolScreen(name){
 // ── INIT ──
 function init(){
   ['s0','s1','s3','s4'].forEach(id=>{const s=el(id);s.style.display='none';el('toolsPool').appendChild(s)});
+  if(!TOOLS_ENABLED)document.body.classList.add('tools-locked');
   el("q").addEventListener("input",e=>{state.q=e.target.value;renderCards()});
   el("commune").addEventListener("change",e=>{state.commune=e.target.value;renderCards()});
   el("cpts").addEventListener("change",e=>{state.cpts=e.target.value;renderCards()});
@@ -1324,14 +1368,21 @@ function init(){
   el("fAJ").addEventListener("change",e=>{state.fAJ=e.target.checked;renderCards()});
   el("fChambreInd").addEventListener("change",e=>{state.fChambreInd=e.target.checked;renderCards()});
   el("fChambreDouble").addEventListener("change",e=>{state.fChambreDouble=e.target.checked;renderCards()});
+  el("fChambreCouple").addEventListener("change",e=>{state.fChambreCouple=e.target.checked;renderCards()});
+  el("fChambreFemme").addEventListener("change",e=>{state.fChambreFemme=e.target.checked;renderCards()});
+  el("fCRT").addEventListener("change",e=>{state.fCRT=e.target.checked;renderCards()});
+  el("fRepit").addEventListener("change",e=>{state.fRepit=e.target.checked;renderCards()});
+  el("fPASA").addEventListener("change",e=>{state.fPASA=e.target.checked;renderCards()});
   el("resetBtn").addEventListener("click",()=>{
     state.q="";state.commune="";state.cpts="";state.statut="";
-    state.onlyAvail=false;state.fAS=false;state.fSF=false;state.fHT=false;state.fHTU=false;state.fAJ=false;state.fChambreInd=false;state.fChambreDouble=false;
+    state.onlyAvail=false;state.fAS=false;state.fSF=false;state.fHT=false;state.fHTU=false;state.fAJ=false;state.fChambreInd=false;state.fChambreDouble=false;state.fChambreCouple=false;state.fChambreFemme=false;state.fCRT=false;state.fRepit=false;state.fPASA=false;
     state.sort="places_desc";
     el("q").value="";el("commune").value="";el("cpts").value="";el("statut").value="";
     el("onlyAvail").checked=false;el("fAS").checked=false;el("fSF").checked=false;
     el("fHT").checked=false;el("fHTU").checked=false;el("fAJ").checked=false;
     el("fChambreInd").checked=false;el("fChambreDouble").checked=false;
+    el("fChambreCouple").checked=false;el("fChambreFemme").checked=false;
+    el("fCRT").checked=false;el("fRepit").checked=false;el("fPASA").checked=false;
     el("sort").value="places_desc";renderCards();
   });
   el("mClose").addEventListener("click",closeModal);
@@ -1347,5 +1398,13 @@ function init(){
 }
 init();
 </script>
+
+<!-- Toast : notifie « bientôt disponible » quand TOOLS_ENABLED = false -->
+<div id="comingSoonToast" class="cs-toast" role="status" aria-live="polite">
+  <div>
+    <div class="cs-title">Fonctionnalité disponible prochainement</div>
+    <div class="cs-sub">Ces outils sont encore en cours de finalisation. Pour l'instant, l'annuaire des places disponibles reste pleinement actif.</div>
+  </div>
+</div>
 </body>
 </html>
