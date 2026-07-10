@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <link rel="icon" type="image/png" href="favicon.png">
-<title>DACmission EHPAD - Var Est</title>
+<title>DACmission — Admission EHPAD Var Est</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -817,8 +817,11 @@ const CPTS_INDEX=[
   {key:"sm",norms:["sainte maxime","grimaud","cogolin","saint tropez","la croix valmer","cavalaire"]},
   {key:"pf",norms:["bagnols en foret","callian","montauroux","seillans","saint paul en foret","tourrettes"]}
 ];
-// Cœur du Var : aucune commune des 44 EHPAD ne s'y rattache directement (CHI BLL via override)
-const EHPAD_CPTS_OVERRIDES={"chi bll":"cv"};
+// Overrides EHPAD → CPTS (contourne la résolution par commune, matche par sous-chaîne du nom)
+//  · CHI BLL (Le Luc / Brignoles) → Cœur du Var
+//  · LES PLATANES (commune "ST TROPEZ" non normalisée) → Golfe de St-Tropez
+//  · LES JONQUIERS (commune "SAINT PAUL EN FORET" avec newline embarquée) → Pays de Fayence
+const EHPAD_CPTS_OVERRIDES={"chi bll":"cv","les platanes":"sm","les jonquiers":"pf"};
 
 // ── GIR CONFIG ──
 const GIR_QUESTIONS=[
