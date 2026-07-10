@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="favicon.png">
 <title>DACmission — Admission EHPAD Var Est</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -354,6 +355,14 @@ body.tools-locked .tool-btn::after{
   background:rgba(255,255,255,.15);padding:2px 7px;border-radius:999px;margin-left:6px;color:rgba(255,255,255,.85);
 }
 
+/* ── Verrouillage des 5 nouveaux filtres (colonnes Sheet non encore saisies) ── */
+body.filters-locked .toggle-lbl.new-filter{opacity:.5;cursor:not-allowed}
+body.filters-locked .toggle-lbl.new-filter:hover{background:var(--bg);border-color:var(--line);color:var(--ink60)}
+body.filters-locked .toggle-lbl.new-filter::after{
+  content:"Bientôt";font-size:.58rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  background:rgba(13,46,82,.1);padding:1px 6px;border-radius:999px;margin-left:2px;color:var(--ink60);
+}
+
 /* ── Toast « bientôt disponible » ── */
 .cs-toast{
   position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(180%);
@@ -515,11 +524,11 @@ body.tools-locked .tool-btn::after{
             <label class="toggle-lbl"><input type="checkbox" id="fAJ"><div class="chk"></div>Accueil de jour</label>
             <label class="toggle-lbl"><input type="checkbox" id="fChambreInd"><div class="chk"></div>Ch. individuelles</label>
             <label class="toggle-lbl"><input type="checkbox" id="fChambreDouble"><div class="chk"></div>Ch. doubles</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fChambreCouple"><div class="chk"></div>Ch. couple</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fChambreFemme"><div class="chk"></div>Ch. femme</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fCRT"><div class="chk"></div>CRT</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fRepit"><div class="chk"></div>Plateforme répit</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fPASA"><div class="chk"></div>PASA</label>
+            <label class="toggle-lbl new-filter"><input type="checkbox" id="fChambreCouple"><div class="chk"></div>Ch. couple</label>
+            <label class="toggle-lbl new-filter"><input type="checkbox" id="fChambreFemme"><div class="chk"></div>Ch. femme</label>
+            <label class="toggle-lbl new-filter"><input type="checkbox" id="fCRT"><div class="chk"></div>CRT</label>
+            <label class="toggle-lbl new-filter"><input type="checkbox" id="fRepit"><div class="chk"></div>Plateforme répit</label>
+            <label class="toggle-lbl new-filter"><input type="checkbox" id="fPASA"><div class="chk"></div>PASA</label>
           </div>
         </div>
 
@@ -789,6 +798,8 @@ body.tools-locked .tool-btn::after{
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAbPB6xHPl_-q1pFLSEh4Es02xpvDSE_wZDUQDY6as5HosSgInEn296zPA8nN9B3Z-GawD5wqFvFaf/pub?output=csv";
 // Bascule des 4 outils (GIR, checklist, simulateur, synthèse). false = verrouille + affiche "bientôt disponible"
 const TOOLS_ENABLED = false;
+// Bascule des 5 nouveaux filtres (CRT, Plateforme répit, PASA, Ch. couple, Ch. femme). false = grisés + toast "bientôt disponible"
+const NEW_FILTERS_ENABLED = false;
 // ════════════════════════════════
 
 // ── CPTS ZONES (5 CPTS officielles du Var Est) ──
@@ -1128,8 +1139,10 @@ function renderCards(){
   el("empty").style.display=out.length?"none":"block";
   el("kpiTotal").textContent=out.length;
   el("kpiPlaces").textContent=out.reduce((s,r)=>s+toNum(r.Places_disponibles),0);
-  const capSum=out.reduce((s,r)=>s+toNum(r.Capacite_total),0);
-  const weighted=out.reduce((s,r)=>s+toNum(r.Taux_remplissage)*toNum(r.Capacite_total),0);
+  // Taux moyen pondéré : uniquement sur les EHPAD du Var Est (exclut la zone "zb" hors territoire)
+  const inVarEst=out.filter(r=>r.CPTS_key&&r.CPTS_key!=="zb");
+  const capSum=inVarEst.reduce((s,r)=>s+toNum(r.Capacite_total),0);
+  const weighted=inVarEst.reduce((s,r)=>s+toNum(r.Taux_remplissage)*toNum(r.Capacite_total),0);
   el("kpiTaux").textContent=capSum?pct(weighted/capSum):"—";
   el("kpiCommunes").textContent=(new Set(out.map(r=>r.Commune).filter(Boolean))).size;
   const container=el("cards");
@@ -1355,6 +1368,12 @@ function _poolScreen(name){
 function init(){
   ['s0','s1','s3','s4'].forEach(id=>{const s=el(id);s.style.display='none';el('toolsPool').appendChild(s)});
   if(!TOOLS_ENABLED)document.body.classList.add('tools-locked');
+  if(!NEW_FILTERS_ENABLED){
+    document.body.classList.add('filters-locked');
+    document.querySelectorAll('.toggle-lbl.new-filter').forEach(lbl=>{
+      lbl.addEventListener('click',e=>{e.preventDefault();showComingSoon()});
+    });
+  }
   el("q").addEventListener("input",e=>{state.q=e.target.value;renderCards()});
   el("commune").addEventListener("change",e=>{state.commune=e.target.value;renderCards()});
   el("cpts").addEventListener("change",e=>{state.cpts=e.target.value;renderCards()});
