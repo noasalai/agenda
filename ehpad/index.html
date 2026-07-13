@@ -6,6 +6,19 @@
 <meta name="robots" content="noindex, nofollow, noarchive">
 <link rel="icon" type="image/png" href="favicon.png">
 <title>DACmission — Admission EHPAD Var Est</title>
+
+<!-- ── Google Analytics 4 ── -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XGKPXELL4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9XGKPXELL4', {
+    anonymize_ip: true,
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false
+  });
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -363,6 +376,11 @@ body.filters-locked .toggle-lbl.new-filter::after{
   background:rgba(13,46,82,.1);padding:1px 6px;border-radius:999px;margin-left:2px;color:var(--ink60);
 }
 
+/* ── Mention RGPD (Google Analytics) — pied de page discret ── */
+.rgpd-mention{max-width:1280px;margin:0 auto;padding:18px 24px 10px;font-size:.72rem;color:var(--ink30);text-align:center;line-height:1.55}
+.rgpd-mention a{color:var(--ink30);text-decoration:underline}
+.rgpd-mention a:hover{color:var(--brand)}
+
 /* ── Toast « bientôt disponible » ── */
 .cs-toast{
   position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(180%);
@@ -395,7 +413,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
     
     <div class="hmeta">
       <div class="chip"><span class="dot"></span> Dernière mise à jour · <strong id="lastUpdate">—</strong></div>
-      <a href="https://usager.viatrajectoire.fr" target="_blank" class="btn-hdr">
+      <a href="https://usager.viatrajectoire.fr" target="_blank" class="btn-hdr" onclick="trackEvent('viatrajectoire_click',{source:'header'})">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         ViaTrajectoire
       </a>
@@ -621,7 +639,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
     <h2>Dossier prêt pour ViaTrajectoire</h2>
     <p>La demande d'admission en EHPAD est obligatoirement transmise via ViaTrajectoire.<br>Ouvrez le portail, créez ou connectez-vous au dossier du patient.</p>
     <div class="syn-btns">
-      <button class="btn-via" onclick="window.open('https://usager.viatrajectoire.fr','_blank')">
+      <button class="btn-via" onclick="trackEvent('viatrajectoire_click',{source:'synthese'});window.open('https://usager.viatrajectoire.fr','_blank')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ouvrir ViaTrajectoire →
       </button>
@@ -648,6 +666,11 @@ body.filters-locked .toggle-lbl.new-filter::after{
 </div>
 
 </div><!-- /wrap -->
+
+<!-- ── Mention RGPD (mesure d'usage anonymisée) ── -->
+<div class="rgpd-mention">
+  Ce site utilise <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Analytics</a> avec IP anonymisée pour mesurer l'usage de l'outil et améliorer le service. Aucune donnée personnelle n'est collectée.
+</div>
 
 <!-- ── TOOLS POOL (conteneur caché) ── -->
 <div id="toolsPool" hidden></div>
@@ -735,7 +758,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
         Copier
       </button>
-      <button class="btn-via" style="margin-left:auto;font-size:.82rem;padding:8px 14px" onclick="window.open('https://usager.viatrajectoire.fr','_blank')">
+      <button class="btn-via" style="margin-left:auto;font-size:.82rem;padding:8px 14px" onclick="trackEvent('viatrajectoire_click',{source:'fiche_ehpad'});window.open('https://usager.viatrajectoire.fr','_blank')">
         Demander via ViaTrajectoire →
       </button>
     </div>
@@ -886,6 +909,8 @@ function escapeHtml(s){return (s??"").toString().replace(/&/g,"&amp;").replace(/
 function normalize(s){return (s??"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
 function toNum(v){const n=Number((v??"").toString().replace(",","."));return Number.isFinite(n)?n:0}
 function pct(n){if(!Number.isFinite(n))return "—";return (Math.round(n*10)/10).toString().replace(".",",")+"%"}
+// ── Analytics helper (safe : ne casse rien si gtag est bloqué / undefined) ──
+function trackEvent(name,params){try{if(typeof gtag==='function')gtag('event',name,params||{})}catch(e){}}
 
 // ── NAVIGATION ──
 function navigate(d){const ns=step+d;if(ns<0||ns>4)return;goTo(ns)}
@@ -1180,7 +1205,7 @@ function renderCards(){
     </article>`;
   }).join("");
   container.querySelectorAll(".card").forEach(card=>{
-    card.addEventListener("click",()=>{const idx=+card.getAttribute("data-idx");const rec=filtered()[idx];if(rec)openModal(rec)});
+    card.addEventListener("click",()=>{const idx=+card.getAttribute("data-idx");const rec=filtered()[idx];if(rec){trackEvent('ehpad_card_click',{ehpad:rec.EHPAD,commune:rec.Commune,cpts:rec.CPTS_key,places:toNum(rec.Places_disponibles)});openModal(rec)}});
   });
   renderFocus(out);
 }
@@ -1288,6 +1313,7 @@ let _pendingMailHref="#";
 function openMailPopup(mailHref,allEmails){
   _pendingMailHref=mailHref;
   const mssEmail=allEmails.find(e=>/@[a-z0-9.-]*mssante\.fr$/i.test(e));
+  trackEvent('mail_intent',{has_mssante:!!mssEmail});
   if(mssEmail){
     el("mssAddrBlock").style.display="block";
     el("mssAddrVal").textContent=mssEmail;
@@ -1309,6 +1335,7 @@ function closeMssPopup(){el("mssBackdrop").style.display="none"}
 // ── EXPORT CSV ──
 function exportCsv(){
   const rows=filtered();
+  trackEvent('csv_export',{row_count:rows.length});
   const headers=["Date_maj","Commune","CPTS_label","Statut","EHPAD","Telephone","Site_internet","Capacite_total","Places_disponibles","Taux_remplissage","Disponibilites_details","Chambres_individuelles","Chambres_doubles","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour","Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec"];
   const esc=v=>'"'+(v??"").toString().replaceAll('"','""').replace(/\r?\n/g," ")+'"';
   const csv=[headers.join(";")].concat(rows.map(r=>headers.map(h=>esc(r[h]??"")).join(";"))).join("\n");
@@ -1333,7 +1360,8 @@ function showComingSoon(){
   window._csTimer=setTimeout(()=>t.classList.remove("show"),4500);
 }
 function openTool(name){
-  if(!TOOLS_ENABLED){showComingSoon();return}
+  if(!TOOLS_ENABLED){trackEvent('tool_click_locked',{tool:name});showComingSoon();return}
+  trackEvent('tool_opened',{tool:name});
   const meta=TOOL_META[name];if(!meta)return;
   if(_activeTool===name){closeTool();return}
   if(_activeTool)_poolScreen(_activeTool);
