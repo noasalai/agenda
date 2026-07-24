@@ -376,10 +376,61 @@ body.filters-locked .toggle-lbl.new-filter::after{
   background:rgba(13,46,82,.1);padding:1px 6px;border-radius:999px;margin-left:2px;color:var(--ink60);
 }
 
+/* ── Groupes de filtres (Dispo par typo vs Caractéristiques) ── */
+.filter-group{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.filter-group:first-of-type{border-top:none;padding-top:6px;margin-top:12px}
+.filter-group-head{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.filter-group-head .fg-ico{display:inline-flex;align-items:center;justify-content:center;color:var(--brand)}
+.filter-group-head .fg-sub{color:var(--ink30);font-weight:500;letter-spacing:.15px;text-transform:none;font-size:.72rem;margin-left:6px}
+.filter-group .frow{margin-top:0}
+.toggle-lbl.dispo:has(input:checked){background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+
+/* ── Icônes SVG inline (Feather/Lucide style) ── */
+.ico-inline{width:1em;height:1em;flex-shrink:0;vertical-align:-.14em}
+.filter-group-head .ico-inline{width:16px;height:16px}
+.panel-title .ico-inline{width:14px;height:14px;margin-right:6px;vertical-align:-.2em}
+.badge .ico-inline{width:11px;height:11px;margin-right:4px}
+.alert-icon .ico-inline{width:18px;height:18px}
+.sc-icon .ico-inline{width:28px;height:28px;color:var(--brand)}
+.mss-head .mss-icon .ico-inline{width:34px;height:34px}
+.btn .ico-inline,.btn-hdr .ico-inline,.btn-ghost .ico-inline,.tool-btn .ico-inline{width:14px;height:14px;margin-right:2px}
+.cl-hdr .ico-inline{width:16px;height:16px;margin-right:8px;color:var(--brand);vertical-align:-.2em}
+h4 .ico-inline{width:16px;height:16px;margin-right:6px;vertical-align:-.2em;color:var(--brand)}
+
+/* ── Fiche : tableau des places dispo par typologie ── */
+.typo-list{display:grid;grid-template-columns:1fr auto;gap:6px 12px;padding:2px 0}
+.typo-row{display:contents}
+.typo-row .tr-lbl{padding:8px 0;color:var(--ink60);font-size:.85rem;font-weight:500;border-bottom:1px solid var(--line)}
+.typo-row .tr-val{padding:8px 0;font-size:.85rem;font-weight:700;color:var(--ink);text-align:right;border-bottom:1px solid var(--line);font-family:var(--mono)}
+.typo-row:last-child .tr-lbl,.typo-row:last-child .tr-val{border-bottom:none}
+.typo-row .tr-val.na{color:var(--ink30);font-weight:500}
+.typo-row .tr-val.zero{color:var(--red)}
+.typo-row .tr-val.pos{color:var(--green)}
+.typo-row .tr-sub{font-size:.72rem;color:var(--ink30);font-weight:500;font-family:var(--font);margin-left:6px}
+
 /* ── Mention RGPD (Google Analytics) — pied de page discret ── */
 .rgpd-mention{max-width:1280px;margin:0 auto;padding:18px 24px 10px;font-size:.72rem;color:var(--ink30);text-align:center;line-height:1.55}
 .rgpd-mention a{color:var(--ink30);text-decoration:underline}
 .rgpd-mention a:hover{color:var(--brand)}
+
+/* ══ ANNONCE TEMPORAIRE — Nouveau filtrage par typologie (auto-expire le 30/09/2026) ══ */
+.announce{background:var(--brand-xs);border:1px solid rgba(32,96,176,.22);border-left:4px solid var(--brand);border-radius:var(--rl);padding:14px 18px 14px 16px;display:flex;align-items:flex-start;gap:14px;margin:16px auto 4px;max-width:1280px;position:relative;box-sizing:border-box}
+.announce-wrap{padding:0 24px}
+.announce-ico{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center}
+.announce-ico svg{width:18px;height:18px}
+.announce-content{flex:1;min-width:0}
+.announce-title{font-size:.88rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.announce-tag{font-size:.62rem;font-weight:800;letter-spacing:.8px;background:var(--brand);color:#fff;padding:2px 8px;border-radius:999px;text-transform:uppercase}
+.announce-text{font-size:.82rem;color:var(--ink60);margin-top:4px;line-height:1.55}
+.announce-text strong{color:var(--navy);font-weight:600}
+.announce-close{flex-shrink:0;background:transparent;border:1px solid rgba(32,96,176,.35);color:var(--brand);padding:6px 12px;border-radius:var(--r);font-size:.75rem;font-weight:600;cursor:pointer;font-family:var(--font);display:inline-flex;align-items:center;gap:6px;transition:all .12s;height:34px;align-self:center}
+.announce-close:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.announce.hidden{display:none}
+/* Badge NOUVEAU sur le titre du groupe de filtres */
+.new-tag{font-size:.6rem;font-weight:800;letter-spacing:.8px;background:var(--green);color:#fff;padding:2px 7px;border-radius:999px;margin-left:6px;text-transform:uppercase;animation:pulse-new 2.5s ease-in-out infinite;box-shadow:0 0 0 0 rgba(26,156,106,.5)}
+.new-tag.hidden{display:none}
+@keyframes pulse-new{0%,100%{box-shadow:0 0 0 0 rgba(26,156,106,.45)}50%{box-shadow:0 0 0 6px rgba(26,156,106,0)}}
+/* ══ FIN ANNONCE TEMPORAIRE ══ */
 
 /* ── Toast « bientôt disponible » ── */
 .cs-toast{
@@ -438,6 +489,28 @@ body.filters-locked .toggle-lbl.new-filter::after{
 
 <div class="banner-wrap"><div class="banner" id="cfgBanner"></div></div>
 
+<!-- ══ ANNONCE TEMPORAIRE — Nouveau filtrage par typologie (auto-expire le 30/09/2026) ══ -->
+<div class="announce-wrap">
+  <div class="announce hidden" id="announceTypo" role="status">
+    <div class="announce-ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/><path d="M18 14l.75 2.25L21 17l-2.25.75L18 20l-.75-2.25L15 17l2.25-.75z"/><path d="M5 15l.75 2.25L8 18l-2.25.75L5 21l-.75-2.25L2 18l2.25-.75z"/></svg>
+    </div>
+    <div class="announce-content">
+      <div class="announce-title">
+        <span>Nouveau système de filtrage des places</span>
+        <span class="announce-tag">Nouveauté</span>
+      </div>
+      <div class="announce-text">
+        Les filtres du groupe <strong>« Places disponibles par typologie »</strong> ne cherchent plus si l'EHPAD <em>propose</em> ce type de chambre, mais s'il reste <strong>réellement une place libre</strong> de ce type. Nouveau : filtre « Chambre homme » et détail complet par typologie dans la fiche EHPAD.
+      </div>
+    </div>
+    <button class="announce-close" id="announceCloseBtn" type="button">
+      <svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Compris
+    </button>
+  </div>
+</div>
+
 <div class="wrap">
 
 <!-- ════════════ STEP 0 : GIR ════════════ -->
@@ -449,7 +522,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
   </div>
   <div class="gir-grid" id="girContainer"></div>
   <div class="alert alert-info" style="margin-top:14px">
-    <div class="alert-icon">ℹ️</div>
+    <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
     <div>Le GIR estimé adaptera automatiquement la checklist d'admission et calculera le plafond APA à l'étape Financement. Il ne remplace pas l'évaluation officielle par l'équipe médico-sociale.</div>
   </div>
 </div>
@@ -533,20 +606,42 @@ body.filters-locked .toggle-lbl.new-filter::after{
             </div>
             <button class="btn" id="resetBtn" style="align-self:flex-end">↺ Réinitialiser</button>
           </div>
-          <div class="frow" style="margin-top:10px">
+          <div class="frow" style="margin-top:12px">
             <label class="toggle-lbl"><input type="checkbox" id="onlyAvail"><div class="chk"></div>Places disponibles uniquement</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fAS"><div class="chk"></div>Aide sociale</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fSF"><div class="chk"></div>Secteur protégé</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fHT"><div class="chk"></div>HT</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fHTU"><div class="chk"></div>HTU</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fAJ"><div class="chk"></div>Accueil de jour</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fChambreInd"><div class="chk"></div>Ch. individuelles</label>
-            <label class="toggle-lbl"><input type="checkbox" id="fChambreDouble"><div class="chk"></div>Ch. doubles</label>
-            <label class="toggle-lbl new-filter"><input type="checkbox" id="fChambreCouple"><div class="chk"></div>Ch. couple</label>
-            <label class="toggle-lbl new-filter"><input type="checkbox" id="fChambreFemme"><div class="chk"></div>Ch. femme</label>
-            <label class="toggle-lbl new-filter"><input type="checkbox" id="fCRT"><div class="chk"></div>CRT</label>
-            <label class="toggle-lbl new-filter"><input type="checkbox" id="fRepit"><div class="chk"></div>Plateforme répit</label>
-            <label class="toggle-lbl new-filter"><input type="checkbox" id="fPASA"><div class="chk"></div>PASA</label>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-head">
+              <span class="fg-ico"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg></span>
+              <span>Places disponibles par typologie</span>
+              <span class="new-tag hidden" id="newTagTypo">Nouveau</span>
+              <span class="fg-sub">— au moins 1 place libre de ce type</span>
+            </div>
+            <div class="frow">
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fChambreInd"><div class="chk"></div>Chambre individuelle</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fChambreDouble"><div class="chk"></div>Chambre double</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fChambreFemme"><div class="chk"></div>Chambre femme</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fChambreHomme"><div class="chk"></div>Chambre homme</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fSO"><div class="chk"></div>Secteur ouvert</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fSF"><div class="chk"></div>Secteur protégé</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fHT"><div class="chk"></div>Hébergement temporaire</label>
+              <label class="toggle-lbl dispo"><input type="checkbox" id="fHTU"><div class="chk"></div>Hébergement d'urgence (HTU)</label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-head">
+              <span class="fg-ico"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v4M10 8h4"/><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4"/></svg></span>
+              <span>Caractéristiques de l'établissement</span>
+              <span class="fg-sub">— service proposé par l'EHPAD</span>
+            </div>
+            <div class="frow">
+              <label class="toggle-lbl"><input type="checkbox" id="fAS"><div class="chk"></div>Habilité aide sociale</label>
+              <label class="toggle-lbl"><input type="checkbox" id="fAJ"><div class="chk"></div>Accueil de jour</label>
+              <label class="toggle-lbl new-filter"><input type="checkbox" id="fCRT"><div class="chk"></div>CRT</label>
+              <label class="toggle-lbl new-filter"><input type="checkbox" id="fRepit"><div class="chk"></div>Plateforme répit</label>
+              <label class="toggle-lbl new-filter"><input type="checkbox" id="fPASA"><div class="chk"></div>PASA</label>
+            </div>
           </div>
         </div>
 
@@ -588,7 +683,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
 
   <div class="calc-layout">
     <div class="calc-card">
-      <h4>🎛️ Paramètres</h4>
+      <h4><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>Paramètres</h4>
       <div class="sl-wrap">
         <label>Revenus mensuels du résident</label>
         <input type="range" min="0" max="5000" step="50" value="1200" id="slRev" oninput="calcFin()">
@@ -611,17 +706,17 @@ body.filters-locked .toggle-lbl.new-filter::after{
       </div>
     </div>
     <div class="calc-card">
-      <h4>📊 Estimation mensuelle</h4>
+      <h4><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>Estimation mensuelle</h4>
       <div id="finResults"></div>
     </div>
   </div>
 
   <div class="alert alert-warn">
-    <div class="alert-icon">⚠️</div>
+    <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
     <div>Simulation indicative uniquement. Les montants APA réels sont déterminés par l'équipe médico-sociale du Conseil Départemental du Var après évaluation officielle du GIR et des ressources déclarées.</div>
   </div>
   <div class="alert alert-info">
-    <div class="alert-icon">ℹ️</div>
+    <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
     <div><strong>Aide Sociale à l'Hébergement (ASH) :</strong> si le reste à charge dépasse les revenus, une demande ASH peut être déposée auprès du CCAS de la commune de résidence du patient. Délai de traitement estimé : environ 1 mois.</div>
   </div>
 </div>
@@ -635,7 +730,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
   </div>
 
   <div class="syn-hero">
-    <div style="font-size:40px;margin-bottom:10px">📋</div>
+    <div style="margin-bottom:10px;color:var(--brand)"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
     <h2>Dossier prêt pour ViaTrajectoire</h2>
     <p>La demande d'admission en EHPAD est obligatoirement transmise via ViaTrajectoire.<br>Ouvrez le portail, créez ou connectez-vous au dossier du patient.</p>
     <div class="syn-btns">
@@ -643,24 +738,24 @@ body.filters-locked .toggle-lbl.new-filter::after{
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ouvrir ViaTrajectoire →
       </button>
-      <button class="btn-ghost" onclick="window.print()">🖨️ Imprimer la fiche</button>
-      <button class="btn-ghost" onclick="exportCsv()">📥 Export CSV</button>
+      <button class="btn-ghost" onclick="window.print()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimer la fiche</button>
+      <button class="btn-ghost" onclick="exportCsv()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export CSV</button>
     </div>
   </div>
 
   <div class="syn-grid">
-    <div class="syn-card"><div class="sc-icon">📊</div><div class="sc-label">GIR estimé</div><div class="sc-val">GIR <span id="synGir">—</span></div><div class="sc-sub" id="synGirSub">—</div></div>
-    <div class="syn-card"><div class="sc-icon">✅</div><div class="sc-label">Checklist</div><div class="sc-val"><span id="synPct">0</span>%</div><div class="sc-sub" id="synItems">0 / 0 démarches</div></div>
-    <div class="syn-card"><div class="sc-icon">🏥</div><div class="sc-label">EHPAD disponibles</div><div class="sc-val" id="synDispo">—</div><div class="sc-sub">dans le Var Est</div></div>
-    <div class="syn-card"><div class="sc-icon">💶</div><div class="sc-label">Reste à charge est.</div><div class="sc-val" id="synRac">—</div><div class="sc-sub">après APA estimée</div></div>
+    <div class="syn-card"><div class="sc-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><div class="sc-label">GIR estimé</div><div class="sc-val">GIR <span id="synGir">—</span></div><div class="sc-sub" id="synGirSub">—</div></div>
+    <div class="syn-card"><div class="sc-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="sc-label">Checklist</div><div class="sc-val"><span id="synPct">0</span>%</div><div class="sc-sub" id="synItems">0 / 0 démarches</div></div>
+    <div class="syn-card"><div class="sc-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v4M10 8h4"/><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4"/></svg></div><div class="sc-label">EHPAD disponibles</div><div class="sc-val" id="synDispo">—</div><div class="sc-sub">dans le Var Est</div></div>
+    <div class="syn-card"><div class="sc-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.5 7.5 0 1 0 0 12"/></svg></div><div class="sc-label">Reste à charge est.</div><div class="sc-val" id="synRac">—</div><div class="sc-sub">après APA estimée</div></div>
   </div>
 
   <div class="alert alert-navy">
-    <div class="alert-icon">🔗</div>
+    <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
     <div><strong>DAC Var Est :</strong> pour toute situation médico-sociale complexe nécessitant une coordination pluriprofessionnelle, signalez le dossier au DAC Var Est.</div>
   </div>
   <div class="alert alert-success">
-    <div class="alert-icon">✅</div>
+    <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
     <div><strong>Rappel ViaTrajectoire :</strong> aller sur <strong>usager.viatrajectoire.fr</strong> → "Site particuliers et aidants" → Créer ou gérer votre dossier. La demande doit cibler plusieurs EHPAD simultanément pour optimiser les délais.</div>
   </div>
 </div>
@@ -714,14 +809,27 @@ body.filters-locked .toggle-lbl.new-filter::after{
       </div>
 
       <div>
-        <div class="panel-title" style="margin-bottom:10px;font-size:.75rem">Caractéristiques</div>
-        <div class="detail-row"><span class="dr-lbl">Aide sociale</span><span class="dr-val" id="mAS">—</span></div>
-        <div class="detail-row"><span class="dr-lbl">Secteur protégé</span><span class="dr-val" id="mSF">—</span></div>
-        <div class="detail-row"><span class="dr-lbl">Hébergement temporaire</span><span class="dr-val" id="mHT">—</span></div>
-        <div class="detail-row"><span class="dr-lbl">HTU (urgences)</span><span class="dr-val" id="mHTU">—</span></div>
+        <div class="panel-title" style="margin-bottom:10px;font-size:.75rem"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>Places disponibles par typologie</div>
+        <div class="typo-list">
+          <div class="typo-row"><div class="tr-lbl">Chambre individuelle</div><div class="tr-val na" id="mDispoInd">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Chambre double</div><div class="tr-val na" id="mDispoDouble">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Chambre femme</div><div class="tr-val na" id="mDispoFemme">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Chambre homme</div><div class="tr-val na" id="mDispoHomme">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Secteur ouvert</div><div class="tr-val na" id="mDispoSO">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Secteur protégé (Alzheimer)</div><div class="tr-val na" id="mDispoSF">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Hébergement temporaire</div><div class="tr-val na" id="mDispoHT">—</div></div>
+          <div class="typo-row"><div class="tr-lbl">Hébergement d'urgence (HTU)</div><div class="tr-val na" id="mDispoHTU">—</div></div>
+        </div>
+        <div style="font-size:.72rem;color:var(--ink30);margin-top:8px;font-style:italic">« — » = information non renseignée par l'établissement</div>
+      </div>
+
+      <div>
+        <div class="panel-title" style="margin-bottom:10px;font-size:.75rem"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v4M10 8h4"/><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4"/></svg>Caractéristiques de l'établissement</div>
+        <div class="detail-row"><span class="dr-lbl">Habilité aide sociale</span><span class="dr-val" id="mAS">—</span></div>
         <div class="detail-row"><span class="dr-lbl">Accueil de jour</span><span class="dr-val" id="mAJ">—</span></div>
-        <div class="detail-row"><span class="dr-lbl">Chambres individuelles</span><span class="dr-val" id="mChambreInd">—</span></div>
-        <div class="detail-row"><span class="dr-lbl">Chambres doubles</span><span class="dr-val" id="mChambreDouble">—</span></div>
+        <div class="detail-row"><span class="dr-lbl">CRT (Centre Ressources Territorial)</span><span class="dr-val" id="mCRT">—</span></div>
+        <div class="detail-row"><span class="dr-lbl">Plateforme de répit</span><span class="dr-val" id="mRepit">—</span></div>
+        <div class="detail-row"><span class="dr-lbl">PASA</span><span class="dr-val" id="mPASA">—</span></div>
       </div>
 
       <div>
@@ -732,7 +840,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
       <div>
         <div class="panel-title" style="margin-bottom:10px;font-size:.75rem">Contacts</div>
         <div class="alert alert-navy" style="margin-bottom:10px;font-size:.78rem;padding:9px 13px">
-          <div class="alert-icon" style="font-size:14px">🔒</div>
+          <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
           <div><strong>MSSanté obligatoire</strong> pour toute transmission de données de santé à caractère personnel — RGPD &amp; Espace Numérique de Santé. Utilisez <strong>Medimail</strong> ou l'adresse MSSanté de l'établissement.</div>
         </div>
         <div class="contact-grid">
@@ -746,14 +854,14 @@ body.filters-locked .toggle-lbl.new-filter::after{
       </div>
 
       <div class="alert alert-info" id="mComment" style="display:none">
-        <div class="alert-icon">💬</div>
+        <div class="alert-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <div id="mCommentText"></div>
       </div>
     </div>
     <div class="modal-actions">
-      <a href="#" id="callBtn" class="btn success">📞 Appeler</a>
-      <a href="#" id="mailBtn" class="btn primary">✉️ Envoyer un mail</a>
-      <a href="#" id="siteBtn" class="btn" target="_blank" rel="noopener">🌐 Site web</a>
+      <a href="#" id="callBtn" class="btn success"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+      <a href="#" id="mailBtn" class="btn primary"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>Envoyer un mail</a>
+      <a href="#" id="siteBtn" class="btn" target="_blank" rel="noopener"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Site web</a>
       <button id="copyBtn" class="btn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
         Copier
@@ -769,21 +877,21 @@ body.filters-locked .toggle-lbl.new-filter::after{
 <div class="mss-backdrop" id="mssBackdrop">
   <div class="mss-popup">
     <div class="mss-head">
-      <div class="mss-icon">🔒</div>
+      <div class="mss-icon"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
       <h4>Messagerie sécurisée de santé (MSSanté)</h4>
       <p>Vous vous apprêtez à transmettre des données de santé à caractère personnel.</p>
     </div>
     <div class="mss-body">
       <div class="mss-law">
-        ⚖️ <strong>RGPD &amp; Espace Numérique de Santé :</strong> la transmission d'informations médicales doit impérativement passer par une <strong>messagerie sécurisée de santé (MSSanté)</strong>. L'envoi par email standard n'est pas conforme pour des données de santé.
+        <svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 8L3 14h6l-3-6z"/><path d="M18 8l-3 6h6l-3-6z"/><path d="M4 21h16"/></svg> <strong>RGPD &amp; Espace Numérique de Santé :</strong> la transmission d'informations médicales doit impérativement passer par une <strong>messagerie sécurisée de santé (MSSanté)</strong>. L'envoi par email standard n'est pas conforme pour des données de santé.
       </div>
       <div class="mss-addr" id="mssAddrBlock" style="display:none">
-        <div class="mss-addr-lbl">✅ Adresse MSSanté détectée pour cet établissement</div>
+        <div class="mss-addr-lbl"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Adresse MSSanté détectée pour cet établissement</div>
         <div class="mss-addr-val" id="mssAddrVal">—</div>
       </div>
       <div class="mss-actions">
         <a id="mssBtnMss" href="https://medimail.mipih.fr" target="_blank" rel="noopener" class="btn primary" style="justify-content:center;height:42px;font-size:.9rem;border-radius:var(--r)">
-          📨 Ouvrir Medimail →
+          <svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Ouvrir Medimail →
         </a>
         <div class="mss-divider">ou (non sécurisé)</div>
         <div class="mss-provider-row">
@@ -792,8 +900,8 @@ body.filters-locked .toggle-lbl.new-filter::after{
             Outlook
           </div>
           <div class="mss-provider-btns">
-            <a id="mssBtnOutlookWeb" href="#" target="_blank" rel="noopener" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()">🌐 Web</a>
-            <a id="mssBtnOutlookLocal" href="#" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()">💻 Application</a>
+            <a id="mssBtnOutlookWeb" href="#" target="_blank" rel="noopener" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Web</a>
+            <a id="mssBtnOutlookLocal" href="#" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Application</a>
           </div>
         </div>
         <div class="mss-provider-row">
@@ -802,12 +910,12 @@ body.filters-locked .toggle-lbl.new-filter::after{
             Gmail
           </div>
           <div class="mss-provider-btns">
-            <a id="mssBtnGmailWeb" href="#" target="_blank" rel="noopener" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()">🌐 Web</a>
-            <a id="mssBtnGmailLocal" href="#" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()">💻 Application</a>
+            <a id="mssBtnGmailWeb" href="#" target="_blank" rel="noopener" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Web</a>
+            <a id="mssBtnGmailLocal" href="#" class="btn" style="font-size:.78rem;gap:5px;padding:6px 12px" onclick="closeMssPopup()"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Application</a>
           </div>
         </div>
         <button onclick="closeMssPopup()" class="btn" style="justify-content:center;font-size:.82rem">
-          ✕ Annuler
+          <svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Annuler
         </button>
       </div>
     </div>
@@ -821,7 +929,7 @@ body.filters-locked .toggle-lbl.new-filter::after{
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAbPB6xHPl_-q1pFLSEh4Es02xpvDSE_wZDUQDY6as5HosSgInEn296zPA8nN9B3Z-GawD5wqFvFaf/pub?output=csv";
 // Bascule des 4 outils (GIR, checklist, simulateur, synthèse). false = verrouille + affiche "bientôt disponible"
 const TOOLS_ENABLED = false;
-// Bascule des 5 nouveaux filtres (CRT, Plateforme répit, PASA, Ch. couple, Ch. femme). false = grisés + toast "bientôt disponible"
+// Bascule des 3 filtres CRT / Plateforme répit / PASA (.new-filter). false = grisés + toast "bientôt disponible"
 const NEW_FILTERS_ENABLED = false;
 // ════════════════════════════════
 
@@ -868,31 +976,31 @@ const APA_PLAFONDS=[1873,1499,1124,749,0,0];
 
 // ── CHECKLIST ──
 const CHECKLIST=[
-  {g:"🔍 Évaluation & orientation médicale",items:[
+  {g:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Évaluation & orientation médicale',items:[
     {l:"Évaluation médicale de l'autonomie réalisée (GIR officiel)",n:"Médecin traitant ou équipe hospitalière — grille AGGIR complète",u:true},
     {l:"Type de secteur défini (ouvert ou protégé)",n:"Secteur protégé si troubles cognitifs sévères ou déambulation non maîtrisée"},
     {l:"Diagnostic(s) principal(aux) documenté(s)",n:"Pour la fiche de renseignements de l'EHPAD"},
     {l:"Médecin traitant informé et dossier transmis",n:"CR d'hospitalisation ou lettre de liaison via MSSanté"}
   ]},
-  {g:"💻 Dossier ViaTrajectoire",items:[
+  {g:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Dossier ViaTrajectoire',items:[
     {l:"Compte créé sur usager.viatrajectoire.fr",n:"Site particuliers et aidants → Créer ou gérer votre dossier",u:true},
     {l:"Volet médical complété",n:"Antécédents, GIR, traitements, ordonnances"},
     {l:"Volet social et administratif rempli",n:"Situation familiale, ressources, aidants"},
     {l:"Demandes envoyées à minimum 3 EHPAD",n:"Plusieurs demandes simultanées pour optimiser les délais d'admission",u:true}
   ]},
-  {g:"💶 Volet financier & aides",items:[
+  {g:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.5 7.5 0 1 0 0 12"/></svg> Volet financier & aides',items:[
     {l:"Ressources mensuelles du patient évaluées",n:"Retraite, revenus fonciers, pensions — base du calcul APA"},
     {l:"Demande APA en établissement initiée",n:"Auprès du Conseil Départemental du Var — financement des frais de dépendance"},
     {l:"Dossier ASH déposé au CCAS si ressources insuffisantes",n:"Aide Sociale à l'Hébergement — CCAS commune de résidence — délai ~1 mois"},
     {l:"Aides au logement vérifiées (APL/ALS)",n:"Certains EHPAD ouvrent droit aux aides de la CAF"}
   ]},
-  {g:"📦 Préparation de l'entrée",items:[
+  {g:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Préparation de l\'entrée',items:[
     {l:"Date d'entrée confirmée avec l'EHPAD",n:"Contrat de séjour à signer — règlement intérieur remis à la famille"},
     {l:"Dossier médical complet transmis à l'EHPAD",n:"Ordonnance de transfert, CR, directives anticipées si existantes"},
     {l:"Personne de confiance désignée et documentée",n:"Formulaire légal à remplir et annexer au dossier"},
     {l:"Famille informée et préparée",n:"Affaires personnelles prévues, référent familial identifié"}
   ]},
-  {g:"🔗 Coordination si situation complexe",items:[
+  {g:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Coordination si situation complexe',items:[
     {l:"Signalement DAC Var Est effectué si besoin",n:"Situations médico-sociales complexes, multi-professionnelles",k:true},
     {l:"Lien avec CPTS ou médecin coordonnateur",n:"Pour la continuité des soins après l'admission",k:true}
   ]}
@@ -901,13 +1009,14 @@ const CHECKLIST=[
 // ── STATE ──
 let step=0, girAnswers=[null,null,null,null,null,null], girScore=null;
 let DATA2=[], focusMode="communes", clItems=[], lastRac=0;
-const state={q:"",commune:"",cpts:"",statut:"",sort:"places_desc",onlyAvail:false,fAS:false,fSF:false,fHT:false,fHTU:false,fAJ:false,fChambreInd:false,fChambreDouble:false,fChambreCouple:false,fChambreFemme:false,fCRT:false,fRepit:false,fPASA:false};
+const state={q:"",commune:"",cpts:"",statut:"",sort:"places_desc",onlyAvail:false,fAS:false,fSO:false,fSF:false,fHT:false,fHTU:false,fAJ:false,fChambreInd:false,fChambreDouble:false,fChambreFemme:false,fChambreHomme:false,fCRT:false,fRepit:false,fPASA:false};
 
 // ── HELPERS ──
 const el=id=>document.getElementById(id);
 function escapeHtml(s){return (s??"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function normalize(s){return (s??"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
 function toNum(v){const n=Number((v??"").toString().replace(",","."));return Number.isFinite(n)?n:0}
+function hasVal(v){return (v??"").toString().trim()!==""}
 function pct(n){if(!Number.isFinite(n))return "—";return (Math.round(n*10)/10).toString().replace(".",",")+"%"}
 // ── Analytics helper (safe : ne casse rien si gtag est bloqué / undefined) ──
 function trackEvent(name,params){try{if(typeof gtag==='function')gtag('event',name,params||{})}catch(e){}}
@@ -927,7 +1036,7 @@ function goTo(s){
   }
   step=s;
   el("btnPrev").disabled=s===0;
-  el("btnNext").textContent=s===4?"✅ Terminer":"Suivant →";
+  el("btnNext").innerHTML=s===4?'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Terminer':"Suivant →";
   el("navCur").textContent=s+1;
   if(s===0)renderGir();
   if(s===1){updateGirResult();renderChecklist()}
@@ -1033,7 +1142,7 @@ function calcFin(){
     ${apl>0?`<div class="fin-row"><span class="fr-lbl">Aide logement (APL/ALS)</span><span class="fr-pos">− ${apl.toLocaleString("fr-FR")} €</span></div>`:""}
     <hr class="fin-div">
     <div class="fin-row"><span class="fr-lbl" style="font-weight:700;color:var(--ink)">Reste à charge estimé</span><span class="fr-big">${rac.toLocaleString("fr-FR")} €/mois</span></div>
-    ${rac>rev?`<div style="margin-top:10px;font-size:.8rem;font-weight:600;color:var(--red)">⚠️ Dépasse les revenus — Dossier ASH recommandé auprès du CCAS</div>`:""}
+    ${rac>rev?`<div style="margin-top:10px;font-size:.8rem;font-weight:600;color:var(--red)"><svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Dépasse les revenus — Dossier ASH recommandé auprès du CCAS</div>`:""}
     ${rac<=rev&&rac>0?`<div style="margin-top:10px;font-size:.78rem;color:var(--ink30)">Soit ${Math.round(rac/rev*100)}% des revenus mensuels</div>`:""}`;
   el("synRac").textContent=rac.toLocaleString("fr-FR")+" €/mois";
 }
@@ -1076,14 +1185,14 @@ function parseCsv(text){
 async function loadFromSheet(){
   if(!SHEET_CSV_URL||SHEET_CSV_URL.includes("PASTE_YOUR_PUBLISHED_CSV_URL_HERE")){
     el("cfgBanner").style.display="block";
-    el("cfgBanner").textContent="⚙️ Configuration requise : renseignez l'URL du Google Sheets publié en CSV dans le code (variable SHEET_CSV_URL). Feuille → Fichier → Partager → Publier sur le web → Format CSV.";
+    el("cfgBanner").innerHTML='<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Configuration requise : renseignez l\'URL du Google Sheets publié en CSV dans le code (variable SHEET_CSV_URL). Feuille → Fichier → Partager → Publier sur le web → Format CSV.';
     return;
   }
   const res=await fetch(SHEET_CSV_URL,{cache:"no-store"});
   if(!res.ok)throw new Error("Erreur chargement Sheets");
   const text=await res.text();
   const rows=parseCsv(text);
-  const required=["Date_maj","Commune","EHPAD","Statut","Telephone","Capacite_total","Places_disponibles","Taux_remplissage","Disponibilites_details","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour","Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec","Chambres_individuelles","Chambres_doubles","Site_internet"];
+  const required=["Date_maj","Commune","EHPAD","Statut","Telephone","Capacite_total","Places_disponibles","Taux_remplissage","Disponibilites_details","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour","Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec","Chambres_individuelles","Chambres_doubles","Chambres_femme","CRT","Plateforme_repit","PASA","Site_internet","Chambres_indiv_dispo","Chambres_double_dispo","Chambres_femme_dispo","Chambres_homme_dispo","Secteur_ouvert_dispo","Secteur_protégé_dispo","HT_dispo","HTU_dispo"];
   DATA2=rows.map(r=>{
     const obj={};
     for(const k of required)obj[k]=(r[k]??"");
@@ -1117,15 +1226,18 @@ function filtered(){
     if(state.statut&&(r.Statut||"").toUpperCase()!==state.statut)return false;
     const places=toNum(r.Places_disponibles);
     if(state.onlyAvail&&places<=0)return false;
+    // Filtres "PLACES DISPONIBLES par typologie" — testent les colonnes _dispo
+    if(state.fChambreInd&&toNum(r.Chambres_indiv_dispo)<=0)return false;
+    if(state.fChambreDouble&&toNum(r.Chambres_double_dispo)<=0)return false;
+    if(state.fChambreFemme&&toNum(r.Chambres_femme_dispo)<=0)return false;
+    if(state.fChambreHomme&&toNum(r.Chambres_homme_dispo)<=0)return false;
+    if(state.fSO&&toNum(r.Secteur_ouvert_dispo)<=0)return false;
+    if(state.fSF&&toNum(r.Secteur_protégé_dispo)<=0)return false;
+    if(state.fHT&&toNum(r.HT_dispo)<=0)return false;
+    if(state.fHTU&&toNum(r.HTU_dispo)<=0)return false;
+    // Filtres "CARACTÉRISTIQUES" — testent l'existence du service (oui/non)
     if(state.fAS&&!isOui(r.Aide_sociale_capacite))return false;
-    if(state.fSF&&!isOui(r.Secteur_ferme_capacite))return false;
-    if(state.fHT&&!isOui(r.HT_capacite))return false;
-    if(state.fHTU&&!isOui(r.HTU))return false;
     if(state.fAJ&&!isOui(r.Accueil_jour))return false;
-    if(state.fChambreInd&&toNum(r.Chambres_individuelles)<=0)return false;
-    if(state.fChambreDouble&&toNum(r.Chambres_doubles)<=0)return false;
-    if(state.fChambreCouple&&toNum(r.Chambres_couple)<=0)return false;
-    if(state.fChambreFemme&&toNum(r.Chambres_femme)<=0)return false;
     if(state.fCRT&&!isOui(r.CRT))return false;
     if(state.fRepit&&!isOui(r.Plateforme_repit))return false;
     if(state.fPASA&&!isOui(r.PASA))return false;
@@ -1150,15 +1262,60 @@ function accentColor(places){
 }
 function fillColor(t){return t>=95?"#c0273e":t>=85?"#c77a00":"#1a9c6a"}
 function featureBadges(r){
+  // Badges "Caractéristiques" — services proposés par l'EHPAD (oui/non)
   const b=[];
   if(isOui(r.Aide_sociale_capacite))b.push('<span class="badge badge-blue">AS</span>');
-  if(isOui(r.Secteur_ferme_capacite))b.push('<span class="badge badge-blue">Secteur protégé</span>');
-  if(isOui(r.HT_capacite))b.push('<span class="badge badge-blue">HT</span>');
-  if(isOui(r.HTU))b.push('<span class="badge badge-blue">HTU</span>');
   if(isOui(r.Accueil_jour))b.push('<span class="badge badge-blue">Accueil jour</span>');
   if(isOui(r.CRT))b.push('<span class="badge badge-blue">CRT</span>');
   if(isOui(r.Plateforme_repit))b.push('<span class="badge badge-blue">Plateforme répit</span>');
   if(isOui(r.PASA))b.push('<span class="badge badge-blue">PASA</span>');
+  return b.join("");
+}
+// Icônes SVG inline (Feather/Lucide style) — utilisées partout dans l'app
+const ICO={
+  bed:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>',
+  bedDouble:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M2 20h20"/><path d="M12 10v10"/><path d="M6 14h2"/><path d="M16 14h2"/></svg>',
+  users:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  venus:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><line x1="12" y1="14" x2="12" y2="22"/><line x1="9" y1="19" x2="15" y2="19"/></svg>',
+  mars:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><line x1="14" y1="10" x2="19" y2="5"/><polyline points="14 5 19 5 19 10"/></svg>',
+  shield:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>',
+  home:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  clock:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  alert:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  info:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+  checkCircle:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  chart:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+  hospital:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v4M10 8h4"/><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M10 22v-4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v4"/></svg>',
+  euro:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.5 7.5 0 1 0 0 12"/></svg>',
+  link:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  lock:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+  chat:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  phone:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+  mail:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>',
+  globe:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  scale:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6 8L3 14h6l-3-6z"/><path d="M18 8l-3 6h6l-3-6z"/><path d="M4 21h16"/></svg>',
+  send:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
+  monitor:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+  settings:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  package:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+  search:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>',
+  clipboard:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>',
+  printer:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
+  download:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+  sliders:'<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>'
+};
+function dispoBadges(r){
+  // Badges "Places dispo par typologie" — n'affichés que si dispo > 0
+  const b=[];
+  const dInd=toNum(r.Chambres_indiv_dispo),dDbl=toNum(r.Chambres_double_dispo),dF=toNum(r.Chambres_femme_dispo),dH=toNum(r.Chambres_homme_dispo),dSO=toNum(r.Secteur_ouvert_dispo),dSF=toNum(r.Secteur_protégé_dispo),dHT=toNum(r.HT_dispo),dHTU=toNum(r.HTU_dispo);
+  if(dInd>0)b.push(`<span class="badge badge-green">${ICO.bed}${dInd} indiv.</span>`);
+  if(dDbl>0)b.push(`<span class="badge badge-green">${ICO.bedDouble}${dDbl} double${dDbl>1?"s":""}</span>`);
+  if(dF>0)b.push(`<span class="badge badge-green">${ICO.venus}${dF} femme${dF>1?"s":""}</span>`);
+  if(dH>0)b.push(`<span class="badge badge-green">${ICO.mars}${dH} homme${dH>1?"s":""}</span>`);
+  if(dSO>0)b.push(`<span class="badge badge-green">${ICO.home}${dSO} sect. ouvert</span>`);
+  if(dSF>0)b.push(`<span class="badge badge-green">${ICO.shield}${dSF} sect. protégé</span>`);
+  if(dHT>0)b.push(`<span class="badge badge-green">${ICO.clock}${dHT} HT</span>`);
+  if(dHTU>0)b.push(`<span class="badge badge-green">${ICO.alert}${dHTU} HTU</span>`);
   return b.join("");
 }
 function renderCards(){
@@ -1180,10 +1337,9 @@ function renderCards(){
     const p=Math.max(0,Math.min(100,taux));
     const statusBadge=(r.Statut||"").toUpperCase()==="PUBLIC"?'<span class="badge badge-blue">Public</span>':(r.Statut?'<span class="badge badge-default">Privé</span>':"");
     const tel=(r.Telephone||"").toString().trim();
-    const telLine=tel?`<span class="badge badge-default">📞 ${escapeHtml(tel)}</span>`:"";
+    const telLine=tel?`<span class="badge badge-default">${ICO.phone}${escapeHtml(tel)}</span>`:"";
     const cptsDot=r.CPTS_label?`<span class="badge badge-default"><span class="legendDot" style="background:${r.CPTS_color};margin-right:4px"></span>${escapeHtml(r.CPTS_label)}</span>`:"";
-    const chInd=toNum(r.Chambres_individuelles),chDouble=toNum(r.Chambres_doubles),chCouple=toNum(r.Chambres_couple),chFemme=toNum(r.Chambres_femme);
-    const roomBadges=[chInd>0?`<span class="badge badge-default">🛏 ${chInd} indiv.</span>`:"",chDouble>0?`<span class="badge badge-default">🛏🛏 ${chDouble} double${chDouble>1?"s":""}</span>`:"",chCouple>0?`<span class="badge badge-default">💑 ${chCouple} couple${chCouple>1?"s":""}</span>`:"",chFemme>0?`<span class="badge badge-default">♀ ${chFemme} femme${chFemme>1?"s":""}</span>`:""].filter(Boolean).join("");
+    const roomBadges=dispoBadges(r);
     const site=(r.Site_internet||"").toString().trim();
     const siteUrl=site&&!/^https?:\/\//i.test(site)?"https://"+site:site;
     return`<article class="card" data-idx="${idx}">
@@ -1196,7 +1352,7 @@ function renderCards(){
         <div class="badges"><span class="badge badge-default">Cap. ${cap||"—"}</span><span class="badge badge-default">Taux ${Number.isFinite(taux)?pct(taux):"—"}</span>${telLine}</div>
         ${cptsDot?`<div class="badges">${cptsDot}</div>`:""}
         ${roomBadges?`<div class="badges">${roomBadges}</div>`:""}
-        <div class="badges">${featureBadges(r)}${siteUrl?`<a class="badge badge-blue" href="${escapeHtml(siteUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🌐 Site web</a>`:""}</div>
+        <div class="badges">${featureBadges(r)}${siteUrl?`<a class="badge badge-blue" href="${escapeHtml(siteUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ICO.globe}Site web</a>`:""}</div>
         <div class="card-progress">
           <div class="prog-lbl"><span>Taux de remplissage</span><span style="color:${fillColor(p)};font-weight:700">${Number.isFinite(taux)?pct(taux):"—"}</span></div>
           <div class="track"><div class="fill" style="width:${p.toFixed(1)}%;background:${fillColor(p)}"></div></div>
@@ -1259,14 +1415,30 @@ function openModal(r){
   el("mDetail").textContent=(r.Disponibilites_details||"—").toString();
   el("mCpts").textContent=r.CPTS_label||"—";
   const sr=v=>{const s=(v??"").toString().trim();return s?s:"—"};
-  el("mAS").textContent=sr(r.Aide_sociale_capacite);
-  el("mSF").textContent=sr(r.Secteur_ferme_capacite);
-  el("mHT").textContent=sr(r.HT_capacite);
-  el("mHTU").textContent=sr(r.HTU);
-  el("mAJ").textContent=sr(r.Accueil_jour);
-  const chInd=toNum(r.Chambres_individuelles),chDouble=toNum(r.Chambres_doubles);
-  el("mChambreInd").textContent=chInd>0?chInd+" chambre(s)":"—";
-  el("mChambreDouble").textContent=chDouble>0?chDouble+" chambre(s)":"—";
+  const yn=v=>{if(!hasVal(v))return"—";return isOui(v)?"Oui":"Non"};
+  // Caractéristiques (services de l'EHPAD)
+  el("mAS").textContent=yn(r.Aide_sociale_capacite);
+  el("mAJ").textContent=yn(r.Accueil_jour);
+  el("mCRT").textContent=yn(r.CRT);
+  el("mRepit").textContent=yn(r.Plateforme_repit);
+  el("mPASA").textContent=yn(r.PASA);
+  // Places dispo par typologie — affichage "X" si renseigné, "—" sinon, +total en sub si connu
+  const setDispo=(id,dispoField,capField)=>{
+    const cell=el(id);if(!cell)return;
+    if(!hasVal(r[dispoField])){cell.className="tr-val na";cell.textContent="—";return}
+    const n=toNum(r[dispoField]);
+    const capTxt=capField&&toNum(r[capField])>0?`<span class="tr-sub">/ ${toNum(r[capField])} total</span>`:"";
+    cell.className="tr-val "+(n>0?"pos":"zero");
+    cell.innerHTML=n+" dispo"+capTxt;
+  };
+  setDispo("mDispoInd","Chambres_indiv_dispo","Chambres_individuelles");
+  setDispo("mDispoDouble","Chambres_double_dispo","Chambres_doubles");
+  setDispo("mDispoFemme","Chambres_femme_dispo","Chambres_femme");
+  setDispo("mDispoHomme","Chambres_homme_dispo",null);
+  setDispo("mDispoSO","Secteur_ouvert_dispo",null);
+  setDispo("mDispoSF","Secteur_protégé_dispo",null);
+  setDispo("mDispoHT","HT_dispo",null);
+  setDispo("mDispoHTU","HTU_dispo",null);
   const tel=(r.Telephone||"").toString().trim();
   el("mTel").innerHTML=tel?`<a href="tel:${tel.replace(/\s+/g,"").replace(/\./g,"")}">${escapeHtml(tel)}</a>`:"—";
   function mailCell(mail){
@@ -1299,9 +1471,28 @@ function openModal(r){
   el("siteBtn").style.opacity=siteHref?"1":".4";
   el("siteBtn").style.pointerEvents=siteHref?"auto":"none";
   el("copyBtn").onclick=async()=>{
-    const chIndCopy=toNum(r.Chambres_individuelles),chDoubleCopy=toNum(r.Chambres_doubles);
-    const txt=[`EHPAD : ${r.EHPAD}`,`Commune : ${r.Commune}`,`Zone CPTS : ${r.CPTS_label}`,`MAJ : ${r.Date_maj}`,`Statut : ${r.Statut}`,`Places dispo : ${places} / Capacité : ${cap}`,`Taux : ${Number.isFinite(taux)?pct(taux):"—"}`,`Chambres individuelles : ${chIndCopy>0?chIndCopy:"—"}`,`Chambres doubles : ${chDoubleCopy>0?chDoubleCopy:"—"}`,`AS : ${sr(r.Aide_sociale_capacite)}`,`Secteur protégé : ${sr(r.Secteur_ferme_capacite)}`,`HT : ${sr(r.HT_capacite)}`,`HTU : ${sr(r.HTU)}`,`Accueil de jour : ${sr(r.Accueil_jour)}`,`Téléphone : ${tel||"—"}`,`Site internet : ${siteBrut||"—"}`,`Détail : ${(r.Disponibilites_details||"").toString().replace(/\s+/g," ").trim()}`].join("\n");
-    try{await navigator.clipboard.writeText(txt);el("copyBtn").textContent="✅ Copié";setTimeout(()=>{el("copyBtn").innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copier`},1400)}
+    const dsp=k=>hasVal(r[k])?toNum(r[k])+" dispo":"—";
+    const txt=[
+      `EHPAD : ${r.EHPAD}`,`Commune : ${r.Commune}`,`Zone CPTS : ${r.CPTS_label}`,`MAJ : ${r.Date_maj}`,`Statut : ${r.Statut}`,
+      `Places dispo : ${places} / Capacité : ${cap}`,`Taux : ${Number.isFinite(taux)?pct(taux):"—"}`,
+      `— Places dispo par typologie —`,
+      `Chambre individuelle : ${dsp("Chambres_indiv_dispo")}`,
+      `Chambre double : ${dsp("Chambres_double_dispo")}`,
+      `Chambre femme : ${dsp("Chambres_femme_dispo")}`,
+      `Chambre homme : ${dsp("Chambres_homme_dispo")}`,
+      `Secteur ouvert : ${dsp("Secteur_ouvert_dispo")}`,
+      `Secteur protégé : ${dsp("Secteur_protégé_dispo")}`,
+      `Hébergement temporaire : ${dsp("HT_dispo")}`,
+      `HTU (urgences) : ${dsp("HTU_dispo")}`,
+      `— Caractéristiques —`,
+      `Habilité aide sociale : ${yn(r.Aide_sociale_capacite)}`,
+      `Accueil de jour : ${yn(r.Accueil_jour)}`,
+      `CRT : ${yn(r.CRT)}`,
+      `Plateforme répit : ${yn(r.Plateforme_repit)}`,
+      `PASA : ${yn(r.PASA)}`,
+      `Téléphone : ${tel||"—"}`,`Site internet : ${siteBrut||"—"}`,`Détail : ${(r.Disponibilites_details||"").toString().replace(/\s+/g," ").trim()}`
+    ].join("\n");
+    try{await navigator.clipboard.writeText(txt);el("copyBtn").innerHTML=`<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Copié`;setTimeout(()=>{el("copyBtn").innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copier`},1400)}
     catch(e){alert("Copie impossible sur ce navigateur.")}
   };
   el("backdrop").style.display="flex";
@@ -1336,7 +1527,7 @@ function closeMssPopup(){el("mssBackdrop").style.display="none"}
 function exportCsv(){
   const rows=filtered();
   trackEvent('csv_export',{row_count:rows.length});
-  const headers=["Date_maj","Commune","CPTS_label","Statut","EHPAD","Telephone","Site_internet","Capacite_total","Places_disponibles","Taux_remplissage","Disponibilites_details","Chambres_individuelles","Chambres_doubles","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour","Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec"];
+  const headers=["Date_maj","Commune","CPTS_label","Statut","EHPAD","Telephone","Site_internet","Capacite_total","Places_disponibles","Taux_remplissage","Disponibilites_details","Chambres_individuelles","Chambres_doubles","Chambres_femme","Chambres_indiv_dispo","Chambres_double_dispo","Chambres_femme_dispo","Chambres_homme_dispo","Secteur_ouvert_dispo","Secteur_protégé_dispo","HT_dispo","HTU_dispo","Aide_sociale_capacite","Secteur_ferme_capacite","HT_capacite","HTU","Accueil_jour","CRT","Plateforme_repit","PASA","Commentaires","Mail_accueil","Mail_direction","Mail_medecin","Mail_idec"];
   const esc=v=>'"'+(v??"").toString().replaceAll('"','""').replace(/\r?\n/g," ")+'"';
   const csv=[headers.join(";")].concat(rows.map(r=>headers.map(h=>esc(r[h]??"")).join(";"))).join("\n");
   const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
@@ -1395,8 +1586,39 @@ function _poolScreen(name){
   s.style.display='none';
 }
 
+// ══ ANNONCE TEMPORAIRE — Nouveau filtrage par typologie ══
+// Auto-expire le 30/09/2026 : passé cette date, ni bannière ni badge NOUVEAU ne s'affichent (même sans clic "Compris")
+// À retirer manuellement du code après expiration (bloc CSS + HTML + JS marqués "ANNONCE TEMPORAIRE")
+const ANNOUNCE_EXPIRES = new Date('2026-09-30T23:59:59');
+const ANNOUNCE_KEY = 'dacmission_ann_typo_2607';
+function initAnnounce(){
+  const ann = document.getElementById('announceTypo');
+  const badge = document.getElementById('newTagTypo');
+  const expired = new Date() > ANNOUNCE_EXPIRES;
+  if(expired) return; // banner + badge restent .hidden
+  if(badge) badge.classList.remove('hidden');
+  try{
+    if(localStorage.getItem(ANNOUNCE_KEY) === '1') return; // déjà fermée par l'user
+  }catch(e){}
+  if(ann){
+    ann.classList.remove('hidden');
+    trackEvent('announcement_shown',{ann_id:'typo_2607'});
+    const btn = document.getElementById('announceCloseBtn');
+    if(btn) btn.addEventListener('click', ()=>{
+      try{ localStorage.setItem(ANNOUNCE_KEY, '1'); }catch(e){}
+      trackEvent('announcement_dismissed',{ann_id:'typo_2607'});
+      ann.style.transition = 'opacity .3s ease, transform .3s ease';
+      ann.style.opacity = '0';
+      ann.style.transform = 'translateY(-8px)';
+      setTimeout(()=>ann.classList.add('hidden'), 300);
+    });
+  }
+}
+// ══ FIN ANNONCE TEMPORAIRE ══
+
 // ── INIT ──
 function init(){
+  initAnnounce();
   ['s0','s1','s3','s4'].forEach(id=>{const s=el(id);s.style.display='none';el('toolsPool').appendChild(s)});
   if(!TOOLS_ENABLED)document.body.classList.add('tools-locked');
   if(!NEW_FILTERS_ENABLED){
@@ -1412,26 +1634,27 @@ function init(){
   el("sort").addEventListener("change",e=>{state.sort=e.target.value;renderCards()});
   el("onlyAvail").addEventListener("change",e=>{state.onlyAvail=e.target.checked;renderCards()});
   el("fAS").addEventListener("change",e=>{state.fAS=e.target.checked;renderCards()});
+  el("fSO").addEventListener("change",e=>{state.fSO=e.target.checked;renderCards()});
   el("fSF").addEventListener("change",e=>{state.fSF=e.target.checked;renderCards()});
   el("fHT").addEventListener("change",e=>{state.fHT=e.target.checked;renderCards()});
   el("fHTU").addEventListener("change",e=>{state.fHTU=e.target.checked;renderCards()});
   el("fAJ").addEventListener("change",e=>{state.fAJ=e.target.checked;renderCards()});
   el("fChambreInd").addEventListener("change",e=>{state.fChambreInd=e.target.checked;renderCards()});
   el("fChambreDouble").addEventListener("change",e=>{state.fChambreDouble=e.target.checked;renderCards()});
-  el("fChambreCouple").addEventListener("change",e=>{state.fChambreCouple=e.target.checked;renderCards()});
   el("fChambreFemme").addEventListener("change",e=>{state.fChambreFemme=e.target.checked;renderCards()});
+  el("fChambreHomme").addEventListener("change",e=>{state.fChambreHomme=e.target.checked;renderCards()});
   el("fCRT").addEventListener("change",e=>{state.fCRT=e.target.checked;renderCards()});
   el("fRepit").addEventListener("change",e=>{state.fRepit=e.target.checked;renderCards()});
   el("fPASA").addEventListener("change",e=>{state.fPASA=e.target.checked;renderCards()});
   el("resetBtn").addEventListener("click",()=>{
     state.q="";state.commune="";state.cpts="";state.statut="";
-    state.onlyAvail=false;state.fAS=false;state.fSF=false;state.fHT=false;state.fHTU=false;state.fAJ=false;state.fChambreInd=false;state.fChambreDouble=false;state.fChambreCouple=false;state.fChambreFemme=false;state.fCRT=false;state.fRepit=false;state.fPASA=false;
+    state.onlyAvail=false;state.fAS=false;state.fSO=false;state.fSF=false;state.fHT=false;state.fHTU=false;state.fAJ=false;state.fChambreInd=false;state.fChambreDouble=false;state.fChambreFemme=false;state.fChambreHomme=false;state.fCRT=false;state.fRepit=false;state.fPASA=false;
     state.sort="places_desc";
     el("q").value="";el("commune").value="";el("cpts").value="";el("statut").value="";
-    el("onlyAvail").checked=false;el("fAS").checked=false;el("fSF").checked=false;
+    el("onlyAvail").checked=false;el("fAS").checked=false;el("fSO").checked=false;el("fSF").checked=false;
     el("fHT").checked=false;el("fHTU").checked=false;el("fAJ").checked=false;
     el("fChambreInd").checked=false;el("fChambreDouble").checked=false;
-    el("fChambreCouple").checked=false;el("fChambreFemme").checked=false;
+    el("fChambreFemme").checked=false;el("fChambreHomme").checked=false;
     el("fCRT").checked=false;el("fRepit").checked=false;el("fPASA").checked=false;
     el("sort").value="places_desc";renderCards();
   });
@@ -1443,7 +1666,7 @@ function init(){
   loadFromSheet().catch(err=>{
     console.error(err);
     el("cfgBanner").style.display="block";
-    el("cfgBanner").textContent="⚠️ Impossible de charger le Google Sheets. Vérifiez l'URL publiée en CSV et les droits d'accès public.";
+    el("cfgBanner").innerHTML='<svg class="ico-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Impossible de charger le Google Sheets. Vérifiez l\'URL publiée en CSV et les droits d\'accès public.';
   });
 }
 init();
