@@ -3,921 +3,1087 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Carte DAC Var Est — Premium++</title>
+<title>Cartographie DAC Var Est — v4 · ORP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --dac-blue:#3666AE;
+  /* ════════ TOKENS ════════ */
+  :root {
+    --navy:     #0d2e52;
+    --navy-2:   #163d6a;
+    --brand:    #2060b0;
+    --brand-lt: #3a7bd5;
+    --dac-blue: #3666AE;
     --dac-blue-2:#2E5A9B;
-    --ink:#0f172a;
-    --muted:#64748b;
-    --line: rgba(15,23,42,.12);
 
-    --bg1:#f6f8fc;
-    --bg2:#eef3fb;
+    --ink:      #0e1c2f;
+    --ink-60:   #4a5a6e;
+    --ink-30:   #8898aa;
+    --muted:    #4a5a6e;
+    --line:     rgba(14,28,47,.10);
+    --bg:       #f3f6fb;
+    --bg1:      #f3f6fb;
+    --bg2:      #e9eef8;
+    --card:     #ffffff;
+    --soft:     rgba(32,96,176,.10);
+    --soft2:    rgba(32,96,176,.16);
 
-    --card:#ffffff;
-    --soft: rgba(54,102,174,.10);
-    --soft2: rgba(54,102,174,.16);
+    --shadow-sm: 0 1px 3px rgba(14,28,47,.07), 0 4px 12px rgba(14,28,47,.05);
+    --shadow:    0 2px 8px rgba(14,28,47,.08), 0 8px 24px rgba(14,28,47,.08);
+    --shadow-lg: 0 8px 32px rgba(14,28,47,.14);
 
-    --shadow: 0 14px 34px rgba(15,23,42,.10);
-
-    --p1: rgba(54,102,174,.90);
-    --p2: rgba(54,102,174,.55);
-    --p3: rgba(54,102,174,.25);
-    --pHeat: rgba(54,102,174,1);
-
+    --p1:   rgba(54,102,174,.92);
+    --p2:   rgba(54,102,174,.55);
+    --p3:   rgba(54,102,174,.25);
+    --pHeat:rgba(54,102,174,1);
     --density-stroke: rgba(255,255,255,.88);
+
+    --font:      'Lexend', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Lexend Deca', monospace;
+
+    --tb-h: 48px;   /* toolbar row height */
   }
 
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: radial-gradient(1200px 700px at 20% 0%, var(--bg2), var(--bg1));
-    color:var(--ink);
+  /* ════════ RESET ════════ */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .wrap{
-    max-width:1320px;
-    margin:0 auto;
-    padding:18px;
-    display:grid;
-    grid-template-columns: 1.52fr .48fr;
-    gap:16px;
+  /* ════════ SKIP LINK ════════ */
+  .skip-link {
+    position: absolute; left: -9999px; top: 6px; z-index: 9999;
+    background: var(--navy); color: #fff;
+    padding: 8px 16px; border-radius: 6px; font-size: .85rem; font-weight: 600;
   }
-  @media (max-width: 980px){ .wrap{grid-template-columns:1fr;} }
+  .skip-link:focus { left: 12px; }
 
-  .card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:20px;
-    box-shadow: var(--shadow);
-    overflow:hidden;
-  }
+  /* ════════ FOCUS RING ════════ */
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
 
-  .head{
-    padding:14px 16px;
-    border-bottom:1px solid rgba(15,23,42,.08);
-    display:flex;
-    gap:14px;
-    align-items:flex-start;
-    justify-content:space-between;
+  /* ════════ TOP BAND ════════ */
+  .topband { background: var(--navy); }
+  .topband-inner {
+    max-width: 1480px; margin: 0 auto; padding: 3px 18px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10.5px; color: rgba(255,255,255,.45); letter-spacing: .4px; font-weight: 500;
   }
-  .titleRow{ display:flex; gap:12px; align-items:flex-start; }
-  .titleBlock h1{ margin:0; font-size:16px; font-weight:950; letter-spacing:.2px; }
-  .titleBlock p{
-    margin:6px 0 0;
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.35;
-    max-width: 62ch;
-  }
-  .rightHead{ display:flex; gap:10px; align-items:center; }
-  .pill{
-    font-size:12px;
-    color:var(--dac-blue);
-    border:1px solid rgba(54,102,174,.22);
-    background: rgba(54,102,174,.06);
-    padding:6px 10px;
-    border-radius:999px;
-    white-space:nowrap;
-    font-weight:800;
-  }
-  .logo{
-    width:56px; height:56px; border-radius:16px;
-    border:1px solid rgba(15,23,42,.10);
-    background:#fff;
-    display:grid; place-items:center; overflow:hidden;
-    box-shadow: 0 10px 20px rgba(15,23,42,.08);
-  }
-  .logo img{ width:88%; height:88%; object-fit:contain; display:block; }
+  .topband-inner span { color: rgba(255,255,255,.22); }
 
-  .mapWrap{
-    position:relative;
-    width:100%;
-    aspect-ratio: 1.25/1;
-    background:
-      radial-gradient(900px 500px at 85% 85%, rgba(56,189,248,.07), transparent 60%),
-      radial-gradient(700px 400px at 15% 10%, rgba(54,102,174,.07), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0));
+  /* ════════ APP HEADER ════════ */
+  .appHeader {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,.07);
   }
-  svg{ width:100%; height:100%; display:block; }
-
-  #heatCanvas,#heatCanvasPatients{
-    position:absolute; inset:0; width:100%; height:100%;
-    pointer-events:none; opacity:.92; display:none;
+  .appHeader-inner {
+    max-width: 1480px; margin: 0 auto; padding: 10px 18px;
+    display: flex; align-items: center; gap: 14px; justify-content: space-between; flex-wrap: wrap;
+  }
+  .appHeader-brand { display: flex; align-items: center; gap: 12px; }
+  .logo-box {
+    background: rgba(255,255,255,.95); border-radius: 8px; padding: 4px 8px;
+    height: 40px; display: flex; align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.14); text-decoration: none;
+  }
+  .logo-box img { height: 26px; width: auto; display: block; }
+  .logo-divider { width: 1px; height: 22px; background: rgba(255,255,255,.16); flex-shrink: 0; }
+  .appHeader-title h1 {
+    margin: 0; font-size: .95rem; font-weight: 700; color: #fff;
+    line-height: 1.2; letter-spacing: -.1px;
+  }
+  .appHeader-title p { margin: 1px 0 0; font-size: .72rem; color: rgba(255,255,255,.45); font-weight: 400; }
+  .appHeader-actions { display: flex; align-items: center; gap: 8px; }
+  .meta-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px;
+    background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 999px; color: rgba(255,255,255,.75); font-size: .74rem; font-weight: 600;
   }
 
-  .commune{
-    fill:#f8fafc;
-    stroke: rgba(15,23,42,.24);
-    stroke-width:1.15;
+  /* ════════ TOOLBAR ════════ */
+  .toolbar-wrap {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 2px 8px rgba(14,28,47,.06);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+  .toolbar-row {
+    max-width: 1480px; margin: 0 auto;
+    padding: 0 18px;
+    height: var(--tb-h);
+    display: flex; align-items: center; gap: 4px;
+    overflow-x: auto;
+  }
+  .toolbar-row::-webkit-scrollbar { height: 3px; }
+  .toolbar-row::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+
+  .tb-group {
+    display: flex; align-items: center; gap: 4px;
+    flex-shrink: 0;
+  }
+  .tb-group-label {
+    font-size: .68rem; font-weight: 700;
+    color: var(--ink-30); text-transform: uppercase; letter-spacing: .5px;
+    margin-right: 2px; white-space: nowrap;
+  }
+  .tb-div {
+    width: 1px; height: 22px; background: var(--line);
+    margin: 0 6px; flex-shrink: 0;
+  }
+  .tb-spacer { flex: 1; }
+
+  /* Toolbar search */
+  .tb-search {
+    position: relative; display: flex; align-items: center;
+    min-width: 140px; max-width: 200px; flex-shrink: 1;
+  }
+  .tb-search .tb-search-icon {
+    position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+    color: var(--ink-30); pointer-events: none;
+    width: 13px; height: 13px; display: block; flex-shrink: 0;
+  }
+  .tb-input {
+    width: 100%; height: 32px;
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 0 10px 0 30px;
+    font-family: var(--font); font-size: .82rem; color: var(--ink);
+    background: var(--bg); outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .tb-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(32,96,176,.12); background: #fff; }
+  .tb-input::placeholder { color: var(--ink-30); }
+
+  /* Layer pill toggles */
+  .layer-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 10px; height: 30px;
+    border: 1px solid var(--line); border-radius: 6px;
+    background: var(--bg);
+    font-size: .78rem; font-weight: 600; color: var(--ink-60);
+    cursor: pointer; user-select: none;
+    transition: all .12s;
+    white-space: nowrap;
+  }
+  .layer-pill input { display: none; }
+  .layer-pill:hover { background: #e8edf5; border-color: #c0ccd8; }
+  .layer-pill.is-active {
+    background: rgba(32,96,176,.10);
+    border-color: rgba(32,96,176,.35);
+    color: var(--brand);
+  }
+
+  /* Toolbar buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    appearance: none; border: 1px solid var(--line);
+    background: var(--bg); color: var(--ink-60);
+    padding: 0 10px; height: 30px;
+    border-radius: 6px; font-family: var(--font);
+    font-weight: 600; font-size: .78rem; cursor: pointer;
+    transition: all .12s; white-space: nowrap; flex-shrink: 0;
+  }
+  .btn:hover { background: #e8edf5; border-color: #c0ccd8; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn-primary:hover { background: var(--brand-lt); border-color: var(--brand-lt); }
+  .btn-ghost { border: 1px dashed rgba(14,28,47,.18); background: rgba(255,255,255,.70); color: var(--ink); }
+  .btn-ghost:hover { background: rgba(255,255,255,.95); }
+  .btn-clear { border-color: rgba(192,39,62,.25); background: rgba(192,39,62,.06); color: #b91c1c; }
+  .btn-clear:hover { background: rgba(192,39,62,.12); }
+  /* Legacy aliases */
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn.primary:hover { background: var(--brand-lt); }
+  .btn.ghost { border: 1px dashed rgba(14,28,47,.18); background: rgba(255,255,255,.70); color: var(--ink); }
+  .btn.danger { border-color: rgba(192,39,62,.25); background: rgba(192,39,62,.06); color: #b91c1c; }
+
+  /* Settings strips */
+  .settings-strip {
+    max-width: 1480px; margin: 0 auto;
+    padding: 6px 18px;
+    background: rgba(32,96,176,.04);
+    border-top: 1px solid rgba(32,96,176,.10);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .settings-label {
+    font-size: .72rem; font-weight: 700; color: var(--brand);
+    text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+  }
+  .ctrl-sm {
+    height: 28px; border: 1px solid var(--line); border-radius: 5px;
+    padding: 0 26px 0 8px; font-family: var(--font); font-size: .78rem; color: var(--ink);
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%234a5a6e' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 7px center;
+    appearance: none; outline: none;
+    transition: border-color .15s; cursor: pointer;
+  }
+  .ctrl-sm:focus { border-color: var(--brand); box-shadow: 0 0 0 2px rgba(32,96,176,.12); }
+  .ctrl-sm:disabled { opacity: .45; cursor: not-allowed; }
+  .tb-input-sm {
+    height: 28px; border: 1px solid var(--line); border-radius: 5px;
+    padding: 0 8px; font-family: var(--font); font-size: .78rem; color: var(--ink);
+    background: #fff; outline: none; min-width: 140px;
+  }
+  .tb-input-sm:focus { border-color: var(--brand); box-shadow: 0 0 0 2px rgba(32,96,176,.12); }
+  .chk-sm {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .78rem; color: var(--ink-60); cursor: pointer; white-space: nowrap;
+  }
+  .chk-sm input { accent-color: var(--brand); width: 14px; height: 14px; }
+  .range-sm { accent-color: var(--brand); cursor: pointer; width: 80px; }
+  .settings-note { font-size: .72rem; color: var(--ink-30); font-style: italic; max-width: 260px; }
+
+  /* Chips row */
+  .chips-row {
+    max-width: 1480px; margin: 0 auto;
+    padding: 5px 18px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px; border-radius: 999px;
+    border: 1px solid rgba(32,96,176,.22); background: rgba(32,96,176,.08);
+    color: var(--ink); font-size: .72rem; font-weight: 600; user-select: none;
+  }
+  .chip small { font-weight: 700; color: var(--brand); }
+  .chip button {
+    appearance: none; border: none; background: rgba(14,28,47,.10);
+    width: 14px; height: 14px; border-radius: 999px; cursor: pointer;
+    font-size: 9px; display: grid; place-items: center; color: var(--ink);
+    transition: background .12s;
+  }
+  .chip button:hover { background: rgba(14,28,47,.20); }
+
+  /* ════════ MAIN 3 COLUMNS ════════ */
+  .main-cols {
+    max-width: 1480px; margin: 0 auto;
+    padding: 12px 18px 40px;
+    display: grid;
+    grid-template-columns: 230px 1fr 270px;
+    gap: 12px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) { .main-cols { grid-template-columns: 200px 1fr; } .right-panel { grid-column: 1/-1; } }
+  @media (max-width: 760px)  { .main-cols { grid-template-columns: 1fr; } }
+
+  /* ── LEFT PANEL ── */
+  .left-panel { display: flex; flex-direction: column; gap: 10px; }
+
+  .lp-card {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden;
+  }
+  .lp-head {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(to bottom, rgba(32,96,176,.03), transparent);
+    font-size: .72rem; font-weight: 700; color: var(--navy);
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .lp-badge {
+    margin-left: auto; font-size: .70rem; color: var(--brand);
+    background: var(--soft); border: 1px solid rgba(32,96,176,.18);
+    padding: 1px 7px; border-radius: 999px; font-weight: 700;
+  }
+  .lp-body { padding: 10px 12px; }
+  .offices-text {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .74rem; color: var(--ink-30);
+  }
+  .offices-text b { color: var(--ink); }
+  .lp-note { font-size: .72rem; color: var(--ink-30); line-height: 1.45; font-style: italic; }
+  .lp-files { padding: 4px 0; }
+
+  /* Legend embedded in lp-card */
+  .legend { margin: 0; border: 0; border-radius: 0; background: transparent; padding: 0; }
+  .legend.lp-card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .legend.show { display: block !important; }
+  .lgTitle { font-size: .72rem; font-weight: 700; color: var(--navy); margin: 6px 0 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .lg { display: flex; gap: 8px; align-items: center; padding: 4px 0; color: var(--ink); font-size: .80rem; }
+  .sw { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(0,0,0,.12); flex-shrink: 0; }
+  .sw.line { width: 18px; height: 10px; border-radius: 999px; background: linear-gradient(90deg, rgba(14,28,47,.18), rgba(14,28,47,.4)); }
+
+  /* ── CENTER : MAP ── */
+  .map-col {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); overflow: hidden;
+    position: sticky; top: calc(var(--tb-h) + 12px);
+  }
+  .mapWrap { position: relative; width: 100%; aspect-ratio: 1.25/1; }
+  /* Map SVG only — inline icon SVGs must NOT inherit this */
+  svg#svg { width: 100%; height: 100%; display: block; }
+  /* Inline decorative icons — explicitly constrain */
+  .rp-head svg, .lp-head svg, .tb-group svg,
+  .btn svg, .tb-search svg, .sub-summary svg,
+  .drop svg, .meta-chip svg { width: 13px; height: 13px; flex-shrink: 0; display: inline; }
+  #heatCanvas, #heatCanvasPatients {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; opacity: .92; display: none;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel { display: flex; flex-direction: column; gap: 8px; }
+
+  .rp-section {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden;
+  }
+  .rp-section[open] .rp-arrow { transform: rotate(180deg); }
+  .rp-head {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 12px; cursor: pointer; list-style: none;
+    font-size: .76rem; font-weight: 700; color: var(--navy);
+    text-transform: uppercase; letter-spacing: .5px;
+    border-bottom: 1px solid transparent;
+    background: linear-gradient(to bottom, rgba(32,96,176,.03), transparent);
+    transition: background .12s;
+    user-select: none;
+  }
+  .rp-section[open] .rp-head { border-bottom-color: var(--line); }
+  .rp-head::-webkit-details-marker { display: none; }
+  .rp-head::marker { display: none; }
+  .rp-head:hover { background: rgba(32,96,176,.05); }
+  .rp-badge {
+    margin-left: auto; font-size: .70rem; color: var(--brand);
+    background: var(--soft); border: 1px solid rgba(32,96,176,.18);
+    padding: 1px 7px; border-radius: 999px; font-weight: 700;
+  }
+  .rp-arrow { font-size: .65rem; color: var(--ink-30); transition: transform .15s; }
+  .rp-body { padding: 10px 12px; }
+
+  .sub-details { margin-top: 8px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .sub-summary {
+    font-size: .72rem; font-weight: 700; color: var(--ink-60);
+    padding: 6px 10px; cursor: pointer; list-style: none;
+    background: var(--bg); text-transform: uppercase; letter-spacing: .4px;
+    user-select: none;
+  }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::marker { display: none; }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--line); }
+  .bars-wrap { padding: 6px 8px; }
+
+  /* ════════ SHARED COMPONENTS ════════ */
+
+  /* KPI Grid */
+  .kpiGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .kpiGrid-2 { grid-template-columns: 1fr 1fr; }
+  .kpi {
+    border: 1px solid rgba(32,96,176,.10);
+    background: linear-gradient(135deg, rgba(32,96,176,.04), transparent);
+    border-radius: 10px; padding: 8px 10px;
+  }
+  .kpi .t { font-size: .68rem; color: var(--ink-30); font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+  .kpi .v { font-family: var(--font-mono); font-size: .95rem; font-weight: 700; margin-top: 3px; color: var(--navy); }
+
+  /* Bars */
+  .bars { padding: 0; }
+  .bars h3 { margin: 0 0 6px; font-size: .68rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: .5px; }
+  .barRow { display: grid; grid-template-columns: minmax(0,1fr) 38px; gap: 7px; align-items: center; margin: 4px 0; }
+  .barRow > div:first-child { min-width: 0; }
+  .bar { height: 7px; border-radius: 999px; background: rgba(32,96,176,.07); border: 1px solid rgba(32,96,176,.10); overflow: hidden; }
+  .bar > span { display: block; height: 100%; width: 0%; background: var(--p1); border-radius: 999px; transition: width .4s ease; }
+  .barLabel { font-size: .75rem; color: var(--ink); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .barVal { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-60); text-align: right; font-weight: 700; }
+
+  /* List */
+  .list {
+    max-height: 160px; overflow-y: auto;
+    border-radius: 6px; padding: 2px;
+    background: var(--bg); border: 1px solid var(--line); margin-top: 6px;
+    scroll-behavior: smooth;
+  }
+  .list::-webkit-scrollbar { width: 4px; }
+  .list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+  .item {
+    padding: 5px 8px; border-radius: 6px;
+    cursor: pointer; border: 1px solid transparent;
+    display: flex; justify-content: space-between; gap: 8px; align-items: center;
+    transition: background .10s, border-color .10s;
+  }
+  .item:hover { background: rgba(32,96,176,.07); border-color: rgba(32,96,176,.18); }
+  .item b { font-size: .78rem; font-weight: 700; }
+
+  /* Drop zone */
+  .drop {
+    padding: 10px; border-radius: 8px;
+    border: 1px dashed rgba(32,96,176,.30);
+    background: rgba(32,96,176,.03);
+    font-size: .78rem; line-height: 1.4; color: var(--ink);
+  }
+  .drop strong { font-weight: 700; }
+
+  /* Badge */
+  .badge {
+    font-size: .70rem; color: var(--ink-60);
+    background: var(--bg); border: 1px solid var(--line);
+    padding: 2px 7px; border-radius: 999px; white-space: nowrap; font-weight: 600;
+  }
+
+  /* Range */
+  .range { width: 100%; accent-color: var(--brand); }
+
+  /* Note */
+  .note { color: var(--ink-30); font-size: .72rem; line-height: 1.45; font-style: italic; }
+  code {
+    background: var(--bg); padding: 1px 5px; border-radius: 4px;
+    font-family: var(--font-mono); font-size: .75rem; border: 1px solid var(--line);
+  }
+
+  /* Density legend */
+  .densityLegendBand {
+    display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 3px; margin: 6px 0 4px;
+  }
+  .densityLegendBand span { height: 10px; border-radius: 999px; border: 1px solid rgba(14,28,47,.08); }
+  .densityLegendScale {
+    display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 3px;
+    font-size: 8.5px; color: var(--ink-30); font-weight: 700; line-height: 1.15;
+  }
+  .densityLegendScale span { text-align: center; overflow-wrap: anywhere; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed; z-index: 9999; pointer-events: none;
+    background: var(--navy); color: #fff;
+    padding: 9px 13px; border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.25);
+    font-size: .78rem; line-height: 1.3; max-width: 320px;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .10s ease, transform .10s ease;
+    border: 1px solid rgba(255,255,255,.09);
+  }
+  .tooltip.show { opacity: 1; transform: translateY(0); }
+  .tooltip .tt { font-weight: 700; margin-bottom: 5px; font-size: .85rem; }
+  .tooltip .tm { color: rgba(255,255,255,.65); font-size: .75rem; }
+  .ttGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin-top: 7px; }
+  .ttK { color: rgba(255,255,255,.58); font-size: .70rem; }
+  .ttV { font-weight: 700; font-size: .78rem; }
+
+  /* ════════ SVG MAP STYLES ════════ */
+  .commune {
+    fill: #f4f7fb; stroke: rgba(14,28,47,.20); stroke-width: 1.1;
     vector-effect: non-scaling-stroke;
     transition: fill .12s ease, stroke .12s ease, stroke-width .12s ease, opacity .12s ease, filter .12s ease;
-    cursor:pointer;
+    cursor: pointer;
   }
-  .commune:hover{
-    fill: var(--soft2);
-    stroke: var(--dac-blue);
-    stroke-width: 1.7;
-  }
-  .commune.is-selected{
-    stroke: var(--dac-blue);
-    stroke-width:2.3;
-    filter: drop-shadow(0 3px 10px rgba(54,102,174,.18));
-  }
-  .commune.density-active{
-    stroke: rgba(255,255,255,.86);
-    stroke-width:1.4;
-  }
-  .commune.density-active:hover{
-    stroke:#0f172a;
-    stroke-width:1.6;
-    filter: brightness(1.02);
-  }
+  .commune:hover { fill: var(--soft2); stroke: var(--brand); stroke-width: 1.7; }
+  .commune.is-selected { stroke: var(--brand); stroke-width: 2.3; filter: drop-shadow(0 3px 10px rgba(32,96,176,.20)); }
+  .commune.density-active { stroke: rgba(255,255,255,.86); stroke-width: 1.4; }
+  .commune.density-active:hover { stroke: #0e1c2f; stroke-width: 1.6; filter: brightness(1.02); }
 
-  .outer{
-    fill:none;
-    stroke: var(--dac-blue);
-    stroke-width:4.5;
+  .outer {
+    fill: none; stroke: var(--brand); stroke-width: 4.5;
     vector-effect: non-scaling-stroke;
-    filter: drop-shadow(0 4px 10px rgba(15,23,42,.20));
-    pointer-events:none;
+    filter: drop-shadow(0 4px 10px rgba(14,28,47,.20)); pointer-events: none;
   }
 
-  .label{
-    font-size: 11.5px;
-    font-weight: 800;
-    fill:#0b1220;
-    paint-order: stroke;
-    stroke:#fff;
-    stroke-width: 3px;
-    stroke-linejoin: round;
-    pointer-events:none;
-    user-select:none;
+  .label {
+    font-size: 11px; font-weight: 700; fill: #0b1220;
+    paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round;
+    pointer-events: none; user-select: none; transition: opacity .12s ease;
+  }
+
+  .proDot {
+    fill: var(--p2); stroke: rgba(255,255,255,.96); stroke-width: 1.6;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 6px 12px rgba(14,28,47,.18));
     transition: opacity .12s ease;
+    transform-box: fill-box; transform-origin: center; /* scale centré sur le point */
+  }
+  .proDot:hover { opacity: 1 !important; transform: scale(1.12); }
+
+  .pin { fill: var(--p1); stroke: rgba(255,255,255,.95); stroke-width: 1.8; vector-effect: non-scaling-stroke; filter: drop-shadow(0 10px 16px rgba(14,28,47,.18)); }
+  .pinCore { fill: rgba(255,255,255,.92); opacity: .95; pointer-events: none; }
+
+  .cluster { fill: var(--p1); stroke: rgba(255,255,255,.95); stroke-width: 2; vector-effect: non-scaling-stroke; filter: drop-shadow(0 8px 14px rgba(14,28,47,.18)); }
+  .clusterText { font-size: 12px; font-weight: 800; fill: #fff; paint-order: stroke; stroke: rgba(0,0,0,.25); stroke-width: 2px; pointer-events: none; user-select: none; }
+
+  .officePin { fill: rgba(13,46,82,.95); stroke: rgba(255,255,255,.96); stroke-width: 2; vector-effect: non-scaling-stroke; filter: drop-shadow(0 10px 16px rgba(14,28,47,.20)); }
+  .officeCore { fill: rgba(255,255,255,.96); opacity: .95; pointer-events: none; }
+  .officeLabel {
+    font-size: 11px; font-weight: 700; fill: #0b1220;
+    paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round;
+    pointer-events: none; user-select: none;
   }
 
-  .proDot{
-    fill: var(--p2);
-    stroke: rgba(255,255,255,.96);
-    stroke-width: 1.6;
+  /* ════════ ORP — RUPTURES DE PARCOURS ════════ */
+  :root {
+    --orp-crit-1: #3f8fd0;   /* Faible   */
+    --orp-crit-2: #f1b50a;   /* Modérée  */
+    --orp-crit-3: #ef7c2a;   /* Élevée   */
+    --orp-crit-4: #d8392f;   /* Critique */
+    --orp-st-en_cours:   #f0a500;
+    --orp-st-resolue:    #1f9d6b;
+    --orp-st-non_resolue:#cf2f2f;
+  }
+  /* individual case marker */
+  .orpDot {
+    stroke: rgba(255,255,255,.92); stroke-width: 1.3;
     vector-effect: non-scaling-stroke;
-    filter: drop-shadow(0 6px 12px rgba(15,23,42,.18));
-    transition: opacity .12s ease, transform .12s ease;
+    filter: drop-shadow(0 4px 8px rgba(14,28,47,.22));
+    transition: stroke-width .12s ease, stroke .12s ease;
+    transform-box: fill-box; transform-origin: center; /* mise à l'échelle centrée sur le point (évite le saut/tremblement au survol) */
+    cursor: pointer;
   }
-  .proDot:hover{ opacity:1 !important; transform: scale(1.04); }
+  .orpDot:hover { stroke: #0e1c2f; stroke-width: 2.4; transform: scale(1.3); }
+  /* critical cases get a subtle pulsing ring */
+  .orpRing { fill: none; stroke: var(--orp-crit-4); stroke-width: 1.4; vector-effect: non-scaling-stroke; opacity: .55; pointer-events: none; }
+  @keyframes orpPulse { 0%{ r: 6; opacity:.55 } 70%{ opacity:0 } 100%{ r: 15; opacity:0 } }
+  /* aggregate bubble per commune */
+  .orpAgg { stroke: rgba(255,255,255,.95); stroke-width: 2; vector-effect: non-scaling-stroke; filter: drop-shadow(0 8px 14px rgba(14,28,47,.20)); cursor: pointer; }
+  .orpAggText { font-size: 12px; font-weight: 800; fill: #fff; paint-order: stroke; stroke: rgba(0,0,0,.22); stroke-width: 2px; pointer-events: none; user-select: none; }
+  .orpCell { cursor: default; }
 
-  .pin{
-    fill: var(--p1);
-    stroke: rgba(255,255,255,.95);
-    stroke-width:1.8;
-    vector-effect: non-scaling-stroke;
-    filter: drop-shadow(0 10px 16px rgba(15,23,42,.18));
-  }
-  .pinCore{ fill: rgba(255,255,255,.92); opacity:.95; pointer-events:none; }
+  /* toolbar pill accent for ORP */
+  .layer-pill-orp.is-active { background: rgba(216,57,47,.12) !important; border-color: rgba(216,57,47,.45) !important; color: #b32a22 !important; }
+  .layer-pill-orp.is-active input { accent-color: #cf2f2f; }
 
-  .cluster{
-    fill: var(--p1);
-    stroke: rgba(255,255,255,.95);
-    stroke-width: 2;
-    vector-effect: non-scaling-stroke;
-    filter: drop-shadow(0 8px 14px rgba(15,23,42,.18));
+  /* RGPD / fictive note */
+  .orp-rgpd {
+    margin: 0 0 10px; padding: 8px 10px; border-radius: 9px;
+    background: rgba(216,57,47,.06); border: 1px solid rgba(216,57,47,.20);
+    color: var(--ink-60); font-size: .72rem; line-height: 1.4;
   }
-  .clusterText{
-    font-size: 12px;
-    font-weight: 950;
-    fill:#fff;
-    paint-order: stroke;
-    stroke: rgba(0,0,0,.25);
-    stroke-width: 2px;
-    pointer-events:none;
-    user-select:none;
-  }
+  .orp-rgpd strong { color: #b32a22; }
 
-  .side{ padding:12px 12px 14px; }
-  .topActions{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-  .btn{
-    appearance:none;
-    border:1px solid rgba(54,102,174,.28);
-    background: linear-gradient(180deg, rgba(54,102,174,.12), rgba(54,102,174,.06));
-    color: var(--dac-blue-2);
-    padding:10px 12px;
-    border-radius:14px;
-    font-weight:900;
-    font-size:13px;
-    cursor:pointer;
-    transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
-  }
-  .btn:hover{
-    background: linear-gradient(180deg, rgba(54,102,174,.18), rgba(54,102,174,.08));
-    box-shadow: 0 10px 18px rgba(15,23,42,.10);
-    transform: translateY(-1px);
-  }
-  .btn:active{ transform: translateY(0px); box-shadow:none; }
-  .btn.primary{
-    border-color: rgba(54,102,174,.40);
-    background: linear-gradient(180deg, rgba(54,102,174,.98), rgba(54,102,174,.82));
-    color:#fff;
-  }
-  .btn.primary:hover{
-    background: linear-gradient(180deg, rgba(54,102,174,1), rgba(54,102,174,.88));
-  }
-  .btn.ghost{
-    border:1px dashed rgba(15,23,42,.18);
-    background: rgba(255,255,255,.55);
-    color:#0f172a;
-    font-weight:900;
-  }
-  .btn.danger{
-    border-color: rgba(239,68,68,.35);
-    background: rgba(239,68,68,.08);
-    color:#b91c1c;
+  /* ORP color legend (panel) */
+  .orp-legend { margin: 10px 0 4px; display: flex; flex-wrap: wrap; gap: 5px 12px; }
+  .orp-legend .orp-leg-item { display: inline-flex; align-items: center; gap: 6px; font-size: .72rem; font-weight: 600; color: var(--ink-60); }
+  .orp-legend .orp-leg-dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(255,255,255,.85); box-shadow: 0 0 0 1px rgba(14,28,47,.12); flex-shrink: 0; }
+  .rp-badge-orp { background: rgba(216,57,47,.10); border-color: rgba(216,57,47,.28); color: #b32a22; }
+  .settings-strip-orp .settings-label { color: #b32a22; }
+
+  /* ════════ PRINT ════════ */
+  @media print {
+    .topband, .appHeader, .toolbar-wrap, .left-panel, .right-panel { display: none !important; }
+    .main-cols { grid-template-columns: 1fr; }
+    .map-col { position: static; box-shadow: none; }
   }
 
-  .search{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid rgba(15,23,42,.12);
-    border-radius:14px;
-    outline:none;
-    background:#fff;
-  }
-  .row{ display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap; }
-  .ctrl{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid rgba(15,23,42,.12);
-    border-radius:14px;
-    outline:none;
-    background:#fff;
-    font-size:13px;
-  }
-  .chk{ display:flex; gap:8px; align-items:center; font-size:13px; color:#111827; }
-  .subtle{
-    margin-top:10px;
-    padding:10px 10px;
-    border-radius:14px;
-    border:1px solid rgba(15,23,42,.10);
-    background: rgba(248,250,252,.78);
-    color:#0f172a;
-    font-size:12.5px;
-    line-height:1.35;
-  }
-  .badge{
-    font-size:12px;
-    color:#334155;
-    background: rgba(255,255,255,.92);
-    border:1px solid rgba(15,23,42,.10);
-    padding:2px 8px;
-    border-radius:999px;
-    white-space:nowrap;
-  }
-  .range{ width:100%; accent-color: var(--dac-blue); }
-
-  .kpiGrid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:8px;
-    margin-top:10px;
-  }
-  .kpi{
-    border:1px solid rgba(15,23,42,.10);
-    background:#fff;
-    border-radius:14px;
-    padding:10px;
-  }
-  .kpi .t{ font-size:11px; color:var(--muted); font-weight:900; }
-  .kpi .v{ font-size:18px; font-weight:980; margin-top:4px; letter-spacing:.2px; }
-
-  .bars{
-    margin-top:10px;
-    border:1px solid rgba(15,23,42,.10);
-    background:#fff;
-    border-radius:14px;
-    padding:10px;
-  }
-  .bars h3{ margin:0 0 8px 0; font-size:12px; color:#0f172a; font-weight:980; }
-  .barRow{
-    display:grid;
-    grid-template-columns: minmax(0, 1fr) 48px;
-    gap:10px;
-    align-items:center;
-    margin:6px 0;
-  }
-  .barRow > div:first-child{ min-width:0; }
-
-  .bar{
-    height:10px;
-    border-radius:999px;
-    background: rgba(54,102,174,.10);
-    border:1px solid rgba(54,102,174,.14);
-    overflow:hidden;
-  }
-  .bar > span{
-    display:block;
-    height:100%;
-    width:0%;
-    background: var(--p1);
-    border-radius:999px;
-  }
-  .barLabel{
-    font-size:12px;
-    color:#0f172a;
-    font-weight:900;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .barVal{
-    font-size:12px;
-    color:#334155;
-    text-align:right;
-    font-weight:900;
-    white-space:nowrap;
-    min-width:48px;
-  }
-
-  .list{
-    margin-top:10px;
-    max-height: 220px;
-    overflow:auto;
-    border:1px solid rgba(15,23,42,.10);
-    border-radius:14px;
-    padding:6px;
-    background: rgba(248,250,252,.65);
-  }
-  .item{
-    padding:8px 10px;
-    border-radius:12px;
-    cursor:pointer;
-    border:1px solid transparent;
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    align-items:center;
-  }
-  .item:hover{ background:rgba(54,102,174,.08); border-color:rgba(54,102,174,.16); }
-  .item b{ font-size:13px; font-weight:950; }
-
-  .legend{
-    margin-top:10px;
-    border:1px solid rgba(15,23,42,.10);
-    border-radius:14px;
-    padding:10px;
-    display:none;
-    background:#fff;
-  }
-  .legend.show{ display:block; }
-  .lgTitle{
-    font-size:12px;
-    font-weight:980;
-    color:#0f172a;
-    margin:8px 0 6px;
-  }
-  .lg{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    padding:6px 0;
-    color:#0f172a;
-    font-size:13px;
-  }
-  .sw{
-    width:16px;
-    height:16px;
-    border-radius:5px;
-    border:1px solid rgba(0,0,0,.12);
-  }
-  .sw.line{
-    width:20px;
-    height:12px;
-    border-radius:999px;
-    background:linear-gradient(90deg, rgba(15,23,42,.18), rgba(15,23,42,.4));
-  }
-
- .densityLegendBand{
-  display:grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap:6px;
-  margin:10px 0 8px;
-}
-
-.densityLegendBand span{
-  height:14px;
-  border-radius:999px;
-  border:1px solid rgba(15,23,42,.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
-}
-
-.densityLegendScale{
-  display:grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap:6px;
-  font-size:10px;
-  color:#475569;
-  font-weight:800;
-  line-height:1.15;
-}
-
-.densityLegendScale span{
-  text-align:center;
-  white-space:normal;
-  overflow-wrap:anywhere;
-}
-
-  .note{ margin-top:10px; color:var(--muted); font-size:12px; line-height:1.35; }
-  code{ background:#f1f5f9; padding:1px 6px; border-radius:8px; }
-
-  .drop{
-    margin-top:10px;
-    padding:12px;
-    border-radius:14px;
-    border:1px dashed rgba(54,102,174,.35);
-    background: rgba(54,102,174,.06);
-    color:#0f172a;
-    font-size:12.5px;
-    line-height:1.35;
-  }
-  .drop strong{ font-weight:980; }
-  .drop small{ color:#475569; }
-
-  .tooltip{
-    position:fixed;
-    z-index:9999;
-    pointer-events:none;
-    background:#0b1220;
-    color:#fff;
-    padding:10px 12px;
-    border-radius:14px;
-    box-shadow: 0 18px 40px rgba(0,0,0,.22);
-    font-size:12px;
-    line-height:1.25;
-    max-width:360px;
-    opacity:0;
-    transform: translateY(6px);
-    transition: opacity .10s ease, transform .10s ease;
-  }
-  .tooltip.show{ opacity:1; transform: translateY(0px); }
-  .tooltip .tt{ font-weight:980; margin-bottom:6px; }
-  .tooltip .tm{ color: rgba(255,255,255,.82); }
-  .ttGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:6px 10px; margin-top:8px; }
-  .ttK{ color: rgba(255,255,255,.75); font-size:11px; }
-  .ttV{ font-weight:900; }
-
-  .chipsWrap{
-    margin-top:10px;
-    border:1px solid rgba(15,23,42,.10);
-    background:#fff;
-    border-radius:14px;
-    padding:10px;
-  }
-  .chipsHead{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:8px;
-  }
-  .chipsHead b{ font-size:12px; font-weight:980; color:#0f172a; }
-  .chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-  }
-  .chip{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:6px 10px;
-    border-radius:999px;
-    border:1px solid rgba(54,102,174,.18);
-    background: rgba(54,102,174,.08);
-    color:#0f172a;
-    font-size:12px;
-    font-weight:900;
-    user-select:none;
-  }
-  .chip small{
-    font-weight:950;
-    color: var(--dac-blue-2);
-    opacity:.95;
-  }
-  .chip button{
-    appearance:none;
-    border:none;
-    background: rgba(15,23,42,.08);
-    width:18px;
-    height:18px;
-    border-radius:999px;
-    cursor:pointer;
-    font-weight:950;
-    line-height:18px;
-    padding:0;
-    display:grid;
-    place-items:center;
-    color:#0f172a;
-  }
-  .chip button:hover{ background: rgba(15,23,42,.14); }
-
-  .officePin{
-    fill: rgba(17,24,39,.95);
-    stroke: rgba(255,255,255,.95);
-    stroke-width:2;
-    vector-effect: non-scaling-stroke;
-    filter: drop-shadow(0 10px 16px rgba(15,23,42,.18));
-  }
-  .officeCore{
-    fill: rgba(255,255,255,.95);
-    opacity:.95;
-    pointer-events:none;
-  }
-  .officeLabel{
-    font-size: 12.5px;
-    font-weight: 980;
-    fill:#0b1220;
-    paint-order: stroke;
-    stroke:#fff;
-    stroke-width: 4px;
-    stroke-linejoin: round;
-    pointer-events:none;
-    user-select:none;
-  }
+  /* ════════ LEGACY CLASS ALIASES (used by JS) ════════ */
+  .chk { display: inline-flex; align-items: center; gap: 6px; font-size: .80rem; color: var(--ink); cursor: pointer; }
+  .chk input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--brand); }
+  .search { height: 30px; border: 1px solid var(--line); border-radius: 6px; padding: 0 10px; font-family: var(--font); font-size: .82rem; outline: none; background: #fff; }
+  .search:focus { border-color: var(--brand); box-shadow: 0 0 0 2px rgba(32,96,176,.12); }
+  .ctrl { height: 30px; border: 1px solid var(--line); border-radius: 6px; padding: 0 26px 0 8px; font-family: var(--font); font-size: .80rem; color: var(--ink); background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%234a5a6e' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 7px center; appearance: none; outline: none; }
+  .ctrl:focus { border-color: var(--brand); box-shadow: 0 0 0 2px rgba(32,96,176,.12); }
+  .ctrl:disabled { opacity: .40; cursor: not-allowed; }
+  .subtle { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+  .range { width: 100%; accent-color: var(--brand); }
 </style>
+
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="card">
-      <div class="head">
-        <div class="titleRow">
-          <div class="titleBlock">
-            <h1>Cartographie DAC Var Est</h1>
-            <p>
-            </p>
-          </div>
-        </div>
+<a href="#map-col" class="skip-link">Aller à la carte</a>
 
-        <div class="rightHead">
-          <span class="pill">DAC Var Est</span>
-          <div class="logo" title="Logo DAC Var Est">
-            <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logo.svg" alt="Logo DAC Var Est" />
-          </div>
-        </div>
+<!-- ════════ HEADER ════════ -->
+<div class="topband" role="banner">
+  <div class="topband-inner">
+    Dispositif d'Appui à la Coordination — Territoire Var Est
+    <span>·</span>
+    Fréjus / Draguignan
+  </div>
+</div>
+<header class="appHeader">
+  <div class="appHeader-inner">
+    <div class="appHeader-brand">
+      <a class="logo-box" href="https://www.dacvarest.fr/" target="_blank" rel="noopener" title="DAC Var Est">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="Logo DAC Var Est" />
+      </a>
+      <div class="logo-divider" aria-hidden="true"></div>
+      <a class="logo-box" href="https://www.dacvarest.fr/" target="_blank" rel="noopener" title="ARS PACA">
+        <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/ars_r_publiquefrancaise.png" alt="Logo ARS" />
+      </a>
+      <div class="appHeader-title">
+        <h1>Cartographie DAC Var Est</h1>
+        <p>69 communes · Var Est · ORP — Observatoire des Ruptures de Parcours</p>
       </div>
+    </div>
+    <div class="appHeader-actions">
+      <span class="meta-chip">DAC Var Est</span>
+    </div>
+  </div>
+</header>
 
-      <div class="mapWrap">
-        <canvas id="heatCanvas"></canvas>
-        <canvas id="heatCanvasPatients"></canvas>
-        <svg id="svg" viewBox="0 0 1550 1222" aria-label="Carte DAC Var Est"></svg>
-      </div>
-    </section>
+<!-- ════════ TOOLBAR ════════ -->
+<div class="toolbar-wrap" role="toolbar" aria-label="Contrôles de la carte">
+  <div class="toolbar-row">
 
-    <aside class="card">
-      <div class="side">
-        <div class="topActions">
-          <button id="exportSvg" class="btn primary" type="button">Exporter SVG</button>
-          <button id="exportPng" class="btn" type="button">PNG HD</button>
-          <button id="exportPngAll" class="btn" type="button">PNG HD (avec heat)</button>
-        </div>
+    <!-- Export -->
+    <div class="tb-group" role="group" aria-label="Export">
+      <button id="exportSvg" class="btn btn-primary" type="button" title="Exporter SVG">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        SVG
+      </button>
+      <button id="exportPng" class="btn" type="button" title="PNG haute définition">PNG HD</button>
+      <button id="exportPngAll" class="btn" type="button" title="PNG HD avec heatmap">+Heat</button>
+    </div>
 
-        <input id="q" class="search" placeholder="Rechercher une commune…" />
+    <div class="tb-div" aria-hidden="true"></div>
 
-        <div class="chipsWrap" aria-label="Filtres actifs">
-          <div class="chipsHead">
-            <b>Filtres actifs</b>
-            <button id="clearAllFilters" class="btn danger" type="button" style="padding:8px 10px;border-radius:12px;font-size:12px;">
-              Tout effacer
-            </button>
-          </div>
-          <div id="chips" class="chips">
-            <span class="badge">Aucun filtre pour l’instant</span>
-          </div>
-        </div>
+    <!-- Search -->
+    <div class="tb-search">
+      <svg class="tb-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="q" class="tb-input" placeholder="Commune…" type="search" autocomplete="off" aria-label="Rechercher une commune" />
+    </div>
 
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <span class="badge">KPIs territoire</span>
-            <span class="badge">Var Est</span>
-          </div>
+    <div class="tb-div" aria-hidden="true"></div>
 
-          <div class="kpiGrid" aria-label="Stats territoire">
-            <div class="kpi">
-              <div class="t">Population Var Est</div>
-              <div class="v" id="kpiPopVE">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Superficie Var Est (km²)</div>
-              <div class="v" id="kpiSurfVE">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Densité moyenne</div>
-              <div class="v" id="kpiDensityVE">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Commune la plus dense</div>
-              <div class="v" id="kpiDensityMax">—</div>
-            </div>
-          </div>
+    <!-- Couches géographiques -->
+    <div class="tb-group" role="group" aria-label="Couches géographiques">
+      <span class="tb-group-label">Couches</span>
+      <label class="layer-pill" id="lpill-density" title="Densité de population (hab./km²)">
+        <input id="toggleDensity" type="checkbox" aria-label="Activer la densité de population" />
+        <span>Densité</span>
+      </label>
+      <label class="layer-pill" id="lpill-cpts" title="Afficher les zones CPTS">
+        <input id="toggleCpts" type="checkbox" aria-label="Activer les zones CPTS" />
+        <span>CPTS</span>
+      </label>
+      <label class="layer-pill" id="lpill-empsa" title="Afficher les zones EMPSA">
+        <input id="toggleEmpsa" type="checkbox" aria-label="Activer les zones EMPSA" />
+        <span>EMPSA</span>
+      </label>
+      <label class="layer-pill" id="lpill-crt" title="Afficher les zones CRT (cellules territoriales)">
+        <input id="toggleCrt" type="checkbox" aria-label="Activer les zones CRT" />
+        <span>CRT</span>
+      </label>
+    </div>
 
-          <div class="row" style="margin-top:10px">
-            <label class="chk" style="width:100%">
-              <input id="toggleOffices" type="checkbox" checked />
-              Afficher repères Siège/Antenne
-            </label>
-          </div>
+    <div class="tb-div" aria-hidden="true"></div>
 
-          <div id="officesText" style="margin-top:6px;color:#475569;font-size:12px">
-            Siège : <b>DRAGUIGNAN</b> • Antenne bureau : <b>FREJUS</b>
-          </div>
-        </div>
+    <!-- Données -->
+    <div class="tb-group" role="group" aria-label="Couches de données">
+      <span class="tb-group-label">Données</span>
+      <label class="layer-pill" id="lpill-pros" title="Sollicitations professionnels 2025">
+        <input id="togglePros" type="checkbox" aria-label="Activer la couche sollicitations pros 2025" />
+        <span>Pros 2025</span>
+      </label>
+      <label class="layer-pill" id="lpill-patients" title="Patients suivis 2025">
+        <input id="togglePatients" type="checkbox" aria-label="Activer la couche patients suivis 2025" />
+        <span>Patients</span>
+      </label>
+      <label class="layer-pill layer-pill-orp" id="lpill-orp" title="Observatoire des Ruptures de Parcours — situations fictives anonymisées">
+        <input id="toggleOrp" type="checkbox" aria-label="Activer la couche ORP (ruptures de parcours)" />
+        <span>ORP · Ruptures</span>
+      </label>
+    </div>
 
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <label class="chk" style="margin:0"><input id="toggleDensity" type="checkbox" /> Afficher densité de population</label>
-            <span class="badge">hab./km²</span>
-          </div>
+    <div class="tb-div" aria-hidden="true"></div>
 
-          <div class="row" style="margin-top:10px">
-            <select id="densityPalette" class="ctrl" disabled>
-              <option value="sea">Palette : Mer douce</option>
-              <option value="teal">Palette : Aqua</option>
-              <option value="slate">Palette : Ardoise</option>
-            </select>
-          </div>
+    <!-- Affichage -->
+    <div class="tb-group" role="group" aria-label="Options d'affichage">
+      <span class="tb-group-label">Vue</span>
+      <label class="layer-pill" id="lpill-labels" title="Afficher/masquer les noms des communes">
+        <input id="toggleLabels" type="checkbox" checked aria-label="Afficher les noms des communes" />
+        <span>Labels</span>
+      </label>
+      <label class="layer-pill" id="lpill-offices" title="Afficher/masquer les repères Siège/Antenne">
+        <input id="toggleOffices" type="checkbox" checked aria-label="Afficher les repères DAC" />
+        <span>Repères</span>
+      </label>
+      <label class="layer-pill" id="lpill-outline" title="Afficher/masquer le contour bleu du territoire">
+        <input id="toggleOutline" type="checkbox" checked aria-label="Afficher le contour du territoire" />
+        <span>Contour</span>
+      </label>
+    </div>
 
-          <div class="row">
-            <label class="chk">
-              <input id="densityLabelsBoost" type="checkbox" checked disabled />
-              Renforcer les libellés sur la densité
-            </label>
-          </div>
+    <div class="tb-spacer" aria-hidden="true"></div>
 
-          <div id="densityText" style="margin-top:8px;color:#475569;font-size:12px">
-            La densité est calculée automatiquement à partir de la population JSON et de la surface géographique de chaque commune.
-          </div>
-        </div>
-
-        <div class="subtle" id="sollicRecap">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <span class="badge">Sollicitations pros 2025</span>
-            <span id="sollicMini" class="badge">—</span>
-          </div>
-
-          <div class="kpiGrid" aria-label="Récap sollicitations">
-            <div class="kpi">
-              <div class="t">Total info cadre</div>
-              <div class="v" id="kpiSollicTotal">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Var Est info cadre</div>
-              <div class="v" id="kpiSollicVE">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Hors Var Est info cadre</div>
-              <div class="v" id="kpiSollicHV">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Lignes fichier</div>
-              <div class="v" id="kpiSollicRows">—</div>
-            </div>
-          </div>
-
-          <div id="sollicNote" class="note" style="margin-top:8px">—</div>
-        </div>
-
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <label class="chk" style="margin:0"><input id="toggleCpts" type="checkbox" /> Afficher les zones CPTS</label>
-            <span class="badge">zonage</span>
-          </div>
-          <div class="row" style="margin-top:10px">
-            <select id="cptsSelect" class="ctrl" disabled>
-              <option value="__all__">Toutes les CPTS (couleurs)</option>
-              <option value="dpv">CPTS Dracénie Provence Verdon</option>
-              <option value="cdv">CPTS Coeur du Var</option>
-              <option value="gst">CPTS Golf St Tropez</option>
-              <option value="vem">CPTS Var Esterel Méditerranée</option>
-              <option value="pdf">CPTS Pays de Fayence</option>
-              <option value="zb">Zone blanche</option>
-            </select>
-          </div>
-          <div class="row">
-            <label class="chk">
-              <input id="onlyZone" type="checkbox" disabled />
-              Afficher uniquement la/les zone(s) sélectionnée(s)
-            </label>
-          </div>
-        </div>
-
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <label class="chk" style="margin:0"><input id="toggleEmpsa" type="checkbox" /> Afficher les zones EMPSA</label>
-            <span class="badge">zonage</span>
-          </div>
-          <div class="row" style="margin-top:10px">
-            <select id="empsaSelect" class="ctrl" disabled>
-              <option value="__all__">Toutes les zones EMPSA (couleurs)</option>
-              <option value="zb">Zone blanche EMPSA</option>
-              <option value="e1">EMPSA 1</option>
-              <option value="e2">EMPSA 2 (autres communes)</option>
-            </select>
-          </div>
-          <div class="row">
-            <label class="chk">
-              <input id="onlyEmpsa" type="checkbox" disabled />
-              Afficher uniquement la/les zone(s) sélectionnée(s)
-            </label>
-          </div>
-        </div>
-
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <label class="chk" style="margin:0"><input id="togglePros" type="checkbox" /> Sollicitations 2025 (pros sur carte)</label>
-            <span id="prosMini" class="badge">—</span>
-          </div>
-
-          <div class="row" style="margin-top:10px">
-            <select id="profSelect" class="ctrl" disabled>
-              <option value="__all__">Toutes professions</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <input id="proSearch" class="search" placeholder="Filtre texte (nom/structure/commune)…" disabled />
-          </div>
-
-          <div class="row">
-            <select id="prosMode" class="ctrl" disabled>
-              <option value="clusters">Mode : Clusters</option>
-              <option value="points">Mode : Points</option>
-              <option value="pins">Mode : Punaise (pin)</option>
-              <option value="density">Mode : Densité (grille)</option>
-              <option value="heat">Mode : Heatmap</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <select id="paletteSelect" class="ctrl" disabled>
-              <option value="dac">Palette : DAC (bleu)</option>
-              <option value="teal">Palette : Turquoise</option>
-              <option value="sunset">Palette : Sunset</option>
-              <option value="grape">Palette : Prune</option>
-              <option value="mono">Palette : Gris</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <label class="chk" style="width:100%">
-              Taille (points/clusters/pins)
-              <input id="dotSize" class="range" type="range" min="1" max="4" step="1" value="2" disabled />
-            </label>
-          </div>
-
-          <div class="row">
-            <label class="chk">
-              <input id="prosFollowCptsOnly" type="checkbox" disabled checked />
-              Suivre les filtres “uniquement”
-            </label>
-          </div>
-
-          <div id="prosInfo" style="margin-top:8px;color:#475569;font-size:12px">
-            Mets <code>sollicitations_pros_2025.json</code> dans le dossier… ou importe CSV/XLSX/JSON ci-dessous.
-          </div>
-
-          <div class="drop" id="dropZone">
-            <strong>Import premium</strong> : glisse-dépose un fichier <b>CSV / XLSX / JSON</b> ici, ou
-            <button id="pickFile" class="btn ghost" type="button" style="margin-top:8px;width:100%">Choisir un fichier</button>
-            <input id="fileInput" type="file" accept=".csv,.xlsx,.xls,.json" style="display:none" />
-            <small>
-              Colonnes reconnues : <code>lat</code>/<code>lon</code> (ou <code>latitude</code>/<code>longitude</code>),
-              sinon <code>commune</code>.
-            </small>
-          </div>
-
-          <div class="kpiGrid" aria-label="Statistiques pros">
-            <div class="kpi">
-              <div class="t">Pros affichés / répartition</div>
-              <div class="v" id="kpiTotal">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Communes touchées</div>
-              <div class="v" id="kpiCommunes">—</div>
-            </div>
-          </div>
-
-          <div class="bars">
-            <h3>Répartition exhaustive communes Var Est</h3>
-            <div id="topBars"></div>
-          </div>
-
-          <div class="list" id="varEstList" aria-label="Répartition exhaustive Var Est"></div>
-
-          <div class="bars">
-            <h3>Répartition zones CPTS Var Est</h3>
-            <div id="topBarsCpts"></div>
-          </div>
-        </div>
-
-        <div class="subtle" id="horsVarBlock">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <span class="badge">Hors Var Est (hors carte)</span>
-            <span id="horsMini" class="badge">—</span>
-          </div>
-
-          <div class="row" style="margin-top:10px">
-            <input id="horsSearch" class="search" placeholder="Filtrer (commune)…" />
-          </div>
-
-          <div class="kpiGrid" aria-label="Statistiques hors Var Est">
-            <div class="kpi">
-              <div class="t">Sollicitations hors Var Est</div>
-              <div class="v" id="kpiHorsTotal">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Communes hors Var Est</div>
-              <div class="v" id="kpiHorsCommunes">—</div>
-            </div>
-          </div>
-
-          <div class="bars">
-            <h3>Répartition exhaustive communes hors Var Est</h3>
-            <div id="horsTopBars"></div>
-          </div>
-
-          <div class="list" id="horsList" aria-label="Répartition exhaustive hors Var Est"></div>
-        </div>
-
-        <div class="subtle">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
-            <label class="chk" style="margin:0"><input id="togglePatients" type="checkbox" /> Patients suivis 2025</label>
-            <span id="patientsMini" class="badge">—</span>
-          </div>
-
-          <div class="row" style="margin-top:10px">
-            <select id="patientsMode" class="ctrl" disabled>
-              <option value="clusters">Mode : Clusters</option>
-              <option value="points">Mode : Points</option>
-              <option value="pins">Mode : Punaise (pin)</option>
-              <option value="density">Mode : Densité (grille)</option>
-              <option value="heat">Mode : Heatmap</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <select id="patientsPalette" class="ctrl" disabled>
-              <option value="dac">Palette : DAC (bleu)</option>
-              <option value="teal">Palette : Turquoise</option>
-              <option value="sunset">Palette : Sunset</option>
-              <option value="grape">Palette : Prune</option>
-              <option value="mono">Palette : Gris</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <label class="chk" style="width:100%">
-              Taille (points/clusters/pins)
-              <input id="patientsDotSize" class="range" type="range" min="1" max="4" step="1" value="2" disabled />
-            </label>
-          </div>
-
-          <div class="kpiGrid" aria-label="Statistiques patients">
-            <div class="kpi">
-              <div class="t">Patients affichés</div>
-              <div class="v" id="kpiPatientsTotal">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Communes touchées</div>
-              <div class="v" id="kpiPatientsCommunes">—</div>
-            </div>
-          </div>
-
-          <div class="bars">
-            <h3>Top communes (patients)</h3>
-            <div id="patientsTopBars"></div>
-          </div>
-
-          <div class="bars">
-            <h3>Top zones CPTS (patients)</h3>
-            <div id="patientsTopBarsCpts"></div>
-          </div>
-        </div>
-
-        <div id="legend" class="legend"></div>
-        <div id="list" class="list"></div>
-
-        <div class="note">
-          Fichiers : <code>communes.geojson</code> + (optionnel) <code>var_est_outline.svg</code> +
-          <code>sollicitations_pros_2025.json</code> + <code>population_var_est_69_communes.json</code>.
-        </div>
-      </div>
-    </aside>
+    <!-- Clear -->
+    <button id="clearAllFilters" class="btn btn-clear" type="button" aria-label="Effacer tous les filtres">
+      ✕ Filtres
+    </button>
   </div>
 
-  <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
+  <!-- Settings strips (shown when a layer is active) -->
+  <div id="density-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres densité" role="region">
+    <span class="settings-label">Densité :</span>
+    <select id="densityPalette" class="ctrl-sm" disabled aria-label="Palette densité">
+      <option value="sea">Mer douce</option>
+      <option value="teal">Aqua</option>
+      <option value="slate">Ardoise</option>
+    </select>
+    <label class="chk-sm"><input id="densityLabelsBoost" type="checkbox" checked disabled aria-label="Renforcer les libellés" /> Renforcer labels</label>
+    <span id="densityText" class="settings-note" aria-live="polite"></span>
+  </div>
+
+  <div id="cpts-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres CPTS" role="region">
+    <span class="settings-label">CPTS :</span>
+    <select id="cptsSelect" class="ctrl-sm" disabled aria-label="Sélection zone CPTS">
+      <option value="__all__">Toutes (couleurs)</option>
+      <option value="dpv">Dracénie Provence Verdon</option>
+      <option value="cdv">Coeur du Var</option>
+      <option value="gst">Golf St Tropez</option>
+      <option value="vem">Var Esterel Méditerranée</option>
+      <option value="pdf">Pays de Fayence</option>
+      <option value="zb">Zone blanche</option>
+    </select>
+    <label class="chk-sm"><input id="onlyZone" type="checkbox" disabled aria-label="Afficher uniquement la zone sélectionnée" /> Uniquement</label>
+  </div>
+
+  <div id="empsa-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres EMPSA" role="region">
+    <span class="settings-label">EMPSA :</span>
+    <select id="empsaSelect" class="ctrl-sm" disabled aria-label="Sélection zone EMPSA">
+      <option value="__all__">Toutes (couleurs)</option>
+      <option value="zb">Zone blanche EMPSA</option>
+      <option value="e1">EMPSA 1</option>
+      <option value="e2">EMPSA 2 (autres)</option>
+    </select>
+    <label class="chk-sm"><input id="onlyEmpsa" type="checkbox" disabled aria-label="Afficher uniquement la zone EMPSA sélectionnée" /> Uniquement</label>
+  </div>
+
+  <div id="crt-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres CRT" role="region">
+    <span class="settings-label">CRT :</span>
+    <select id="crtSelect" class="ctrl-sm" disabled aria-label="Sélection zone CRT">
+      <option value="__all__">Toutes (couleurs)</option>
+      <option value="bargemon">CRT Bargemon</option>
+      <option value="salernes">CRT Salernes – La Source</option>
+      <option value="lachenaud">CRT Lachenaud – Fréjus</option>
+      <option value="golfe">CRT Golfe – Cogolin</option>
+      <option value="leluc">CRT Le Luc</option>
+      <option value="zb">Zone blanche (aucun CRT)</option>
+    </select>
+    <label class="chk-sm"><input id="onlyCrt" type="checkbox" disabled aria-label="Afficher uniquement la zone CRT sélectionnée" /> Uniquement</label>
+  </div>
+
+  <div id="pros-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres pros" role="region">
+    <span class="settings-label">Pros :</span>
+    <select id="profSelect" class="ctrl-sm" disabled aria-label="Filtrer par profession"><option value="__all__">Toutes professions</option></select>
+    <input id="proSearch" class="ctrl-sm tb-input-sm" placeholder="Nom/structure/commune…" disabled aria-label="Recherche textuelle pros" />
+    <select id="prosMode" class="ctrl-sm" disabled aria-label="Mode d'affichage pros">
+      <option value="clusters">Clusters</option>
+      <option value="points">Points</option>
+      <option value="pins">Punaise</option>
+      <option value="density">Densité</option>
+      <option value="heat">Heatmap</option>
+    </select>
+    <select id="paletteSelect" class="ctrl-sm" disabled aria-label="Palette pros">
+      <option value="dac">DAC (bleu)</option>
+      <option value="teal">Turquoise</option>
+      <option value="sunset">Sunset</option>
+      <option value="grape">Prune</option>
+      <option value="mono">Gris</option>
+    </select>
+    <label class="chk-sm" title="Taille des marqueurs">
+      Taille <input id="dotSize" class="range-sm" type="range" min="1" max="4" step="1" value="2" disabled aria-label="Taille marqueurs pros" />
+    </label>
+    <label class="chk-sm"><input id="prosFollowCptsOnly" type="checkbox" disabled checked aria-label="Suivre filtres CPTS uniquement" /> Suivre CPTS</label>
+    <span id="prosInfo" class="settings-note" aria-live="polite">JSON/CSV dans le dossier ou importer ↓</span>
+  </div>
+
+  <div id="patients-settings-panel" class="settings-strip" style="display:none" aria-label="Paramètres patients" role="region">
+    <span class="settings-label">Patients :</span>
+    <select id="patientsMode" class="ctrl-sm" disabled aria-label="Mode d'affichage patients">
+      <option value="clusters">Clusters</option>
+      <option value="points">Points</option>
+      <option value="pins">Punaise</option>
+      <option value="density">Densité</option>
+      <option value="heat">Heatmap</option>
+    </select>
+    <select id="patientsPalette" class="ctrl-sm" disabled aria-label="Palette patients">
+      <option value="dac">DAC (bleu)</option>
+      <option value="teal">Turquoise</option>
+      <option value="sunset">Sunset</option>
+      <option value="grape">Prune</option>
+      <option value="mono">Gris</option>
+    </select>
+    <label class="chk-sm" title="Taille des marqueurs patients">
+      Taille <input id="patientsDotSize" class="range-sm" type="range" min="1" max="4" step="1" value="2" disabled aria-label="Taille marqueurs patients" />
+    </label>
+  </div>
+
+  <div id="orp-settings-panel" class="settings-strip settings-strip-orp" style="display:none" aria-label="Paramètres ORP" role="region">
+    <span class="settings-label">ORP :</span>
+    <select id="orpMode" class="ctrl-sm" disabled aria-label="Mode d'affichage ORP">
+      <option value="points">Situations (points)</option>
+      <option value="agg">Agrégat / commune</option>
+      <option value="grid">Densité (grille)</option>
+    </select>
+    <select id="orpColorBy" class="ctrl-sm" disabled aria-label="Coloration des situations">
+      <option value="criticite">Couleur : criticité</option>
+      <option value="type">Couleur : type de rupture</option>
+      <option value="statut">Couleur : statut</option>
+    </select>
+    <select id="orpType" class="ctrl-sm" disabled aria-label="Filtrer par type de rupture">
+      <option value="__all__">Tous types</option>
+      <option value="hopital">Sortie d'hospitalisation</option>
+      <option value="acces_soins">Accès aux soins</option>
+      <option value="medico_social">Médico-social / place</option>
+      <option value="social">Sociale / précarité</option>
+      <option value="aidant">Aidant (épuisement)</option>
+      <option value="sante_mentale">Santé mentale</option>
+      <option value="coordination">Défaut de coordination</option>
+      <option value="handicap">Parcours handicap</option>
+    </select>
+    <select id="orpCrit" class="ctrl-sm" disabled aria-label="Filtrer par criticité">
+      <option value="__all__">Toutes criticités</option>
+      <option value="4">Critique</option>
+      <option value="3">Élevée</option>
+      <option value="2">Modérée</option>
+      <option value="1">Faible</option>
+    </select>
+    <select id="orpStatut" class="ctrl-sm" disabled aria-label="Filtrer par statut">
+      <option value="__all__">Tous statuts</option>
+      <option value="en_cours">En cours</option>
+      <option value="resolue">Résolue</option>
+      <option value="non_resolue">Non résolue</option>
+    </select>
+    <label class="chk-sm" title="Taille des marqueurs ORP">
+      Taille <input id="orpDotSize" class="range-sm" type="range" min="1" max="4" step="1" value="2" disabled aria-label="Taille marqueurs ORP" />
+    </label>
+    <span id="orpInfo" class="settings-note" aria-live="polite">Données fictives anonymisées — modélisation</span>
+  </div>
+
+  <!-- Active chips row -->
+  <div class="chips-row" id="chips-row" style="display:none" aria-live="polite">
+    <div id="chips" class="chips" role="list"></div>
+  </div>
+</div>
+
+<!-- ════════ MAIN 3 COL ════════ -->
+<div class="main-cols">
+
+  <!-- ── GAUCHE : KPIs ── -->
+  <aside class="left-panel" aria-label="Indicateurs territoire">
+
+    <div class="lp-card" role="region" aria-labelledby="lbl-kpi-terr">
+      <div class="lp-head" id="lbl-kpi-terr">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        KPIs Territoire
+      </div>
+      <div class="lp-body">
+        <div class="kpiGrid">
+          <div class="kpi"><div class="t">Population</div><div class="v" id="kpiPopVE" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Superficie km²</div><div class="v" id="kpiSurfVE" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Densité moy.</div><div class="v" id="kpiDensityVE" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">+ dense</div><div class="v" id="kpiDensityMax" aria-live="polite">—</div></div>
+        </div>
+        <div id="officesText" class="offices-text" aria-live="polite">
+          Siège : <b>DRAGUIGNAN</b> · Antenne : <b>FREJUS</b>
+        </div>
+      </div>
+    </div>
+
+    <div id="legend" class="legend lp-card" role="region" aria-label="Légende"></div>
+    <div id="list" class="list" role="list" aria-label="Résultats de la recherche commune"></div>
+
+    <p class="lp-note lp-files">
+      Fichiers : <code>communes.geojson</code> · <code>var_est_outline.svg</code> · <code>sollicitations_pros_2025.json</code> · <code>population_var_est_69_communes.json</code>
+    </p>
+  </aside>
+
+  <!-- ── CENTRE : Carte ── -->
+  <section class="map-col card" id="map-col" aria-label="Carte interactive Var Est">
+    <div class="mapWrap" role="img" aria-label="Carte géographique Var Est — 69 communes">
+      <canvas id="heatCanvas" aria-hidden="true"></canvas>
+      <canvas id="heatCanvasPatients" aria-hidden="true"></canvas>
+      <svg id="svg" viewBox="0 0 1550 1222" aria-label="Carte DAC Var Est"></svg>
+    </div>
+  </section>
+
+  <!-- ── DROITE : Données ── -->
+  <aside class="right-panel" aria-label="Données et répartitions">
+
+    <!-- Import fichier (pros) -->
+    <details class="rp-section" id="horsVarBlock">
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Import données pros
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <div class="drop" id="dropZone" role="region" aria-label="Zone d'import">
+          <strong>Import</strong> : glisse-dépose CSV / XLSX / JSON, ou
+          <button id="pickFile" class="btn btn-ghost" type="button" style="margin-top:6px;width:100%"
+                  aria-label="Choisir un fichier">Choisir un fichier</button>
+          <input id="fileInput" type="file" accept=".csv,.xlsx,.xls,.json" style="display:none" aria-label="Fichier à importer" />
+          <small style="display:block;margin-top:6px;color:var(--ink-30)">
+            Colonnes : <code>lat/lon</code> ou <code>latitude/longitude</code>, sinon <code>commune</code>.
+          </small>
+        </div>
+      </div>
+    </details>
+
+    <!-- Récap Sollicitations info cadre 2025 -->
+    <details class="rp-section" id="sollicRecap">
+      <summary class="rp-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Sollicitations info cadre
+        <span id="sollicMini" class="rp-badge" aria-live="polite">—</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <div class="kpiGrid kpiGrid-2">
+          <div class="kpi"><div class="t">Total info cadre</div><div class="v" id="kpiSollicTotal" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Var Est</div><div class="v" id="kpiSollicVE" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Hors Var Est</div><div class="v" id="kpiSollicHV" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Lignes fichier</div><div class="v" id="kpiSollicRows" aria-live="polite">—</div></div>
+        </div>
+        <div id="sollicNote" class="lp-note" style="margin-top:8px" aria-live="polite"></div>
+      </div>
+    </details>
+
+    <!-- Sollicitations pros -->
+    <details class="rp-section" open>
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+        Sollicitations pros 2025
+        <span id="prosMini" class="rp-badge" aria-live="polite">—</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <div class="kpiGrid kpiGrid-2">
+          <div class="kpi"><div class="t">Pros affichés</div><div class="v" id="kpiTotal" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Communes</div><div class="v" id="kpiCommunes" aria-live="polite">—</div></div>
+        </div>
+
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition communes Var Est</summary>
+          <div class="bars-wrap">
+            <div id="topBars" role="list"></div>
+          </div>
+          <div class="list" id="varEstList" role="list" aria-label="Liste communes Var Est"></div>
+        </details>
+
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition zones CPTS</summary>
+          <div class="bars-wrap">
+            <div id="topBarsCpts" role="list"></div>
+          </div>
+        </details>
+      </div>
+    </details>
+
+    <!-- Hors Var Est -->
+    <details class="rp-section">
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        Hors Var Est
+        <span id="horsMini" class="rp-badge" aria-live="polite">—</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <input id="horsSearch" class="tb-input" placeholder="Filtrer (commune)…" style="width:100%;margin-bottom:8px" aria-label="Recherche commune hors Var Est" />
+        <div class="kpiGrid kpiGrid-2">
+          <div class="kpi"><div class="t">Sollicitations</div><div class="v" id="kpiHorsTotal" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Communes</div><div class="v" id="kpiHorsCommunes" aria-live="polite">—</div></div>
+        </div>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition communes</summary>
+          <div class="bars-wrap"><div id="horsTopBars" role="list"></div></div>
+          <div class="list" id="horsList" role="list" aria-label="Liste communes hors Var Est"></div>
+        </details>
+      </div>
+    </details>
+
+    <!-- Patients -->
+    <details class="rp-section">
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Patients suivis 2025
+        <span id="patientsMini" class="rp-badge" aria-live="polite">—</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <div class="kpiGrid kpiGrid-2">
+          <div class="kpi"><div class="t">Patients affichés</div><div class="v" id="kpiPatientsTotal" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Communes</div><div class="v" id="kpiPatientsCommunes" aria-live="polite">—</div></div>
+        </div>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition communes</summary>
+          <div class="bars-wrap"><div id="patientsTopBars" role="list"></div></div>
+        </details>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition CPTS</summary>
+          <div class="bars-wrap"><div id="patientsTopBarsCpts" role="list"></div></div>
+        </details>
+      </div>
+    </details>
+
+    <!-- CRT — Cellules territoriales -->
+    <details class="rp-section" id="crtBlock">
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+        CRT · Cellules territoriales
+        <span id="crtMini" class="rp-badge" aria-live="polite">5</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <p class="lp-note" style="margin:0 0 8px">Zonage validé (image DAC VE). Active la couche <b>CRT</b> dans la barre d'outils pour la colorer sur la carte.</p>
+        <div id="crtList"></div>
+      </div>
+    </details>
+
+    <!-- ORP — Observatoire des Ruptures de Parcours -->
+    <details class="rp-section rp-section-orp" id="orpBlock">
+      <summary class="rp-head">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 7v5l3 2"/><path d="M16 3l5 5"/></svg>
+        ORP · Ruptures de parcours
+        <span id="orpMini" class="rp-badge rp-badge-orp" aria-live="polite">—</span>
+        <span class="rp-arrow" aria-hidden="true">▾</span>
+      </summary>
+      <div class="rp-body">
+        <p class="orp-rgpd" role="note">
+          <strong>Modélisation — données fictives.</strong> Situations générées et <em>anonymisées</em> à des fins de démonstration de l'Observatoire des Ruptures de Parcours. Aucune donnée nominative ou réelle.
+        </p>
+
+        <div class="kpiGrid kpiGrid-2">
+          <div class="kpi"><div class="t">Situations</div><div class="v" id="kpiOrpTotal" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Communes touchées</div><div class="v" id="kpiOrpCommunes" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">% non résolues</div><div class="v" id="kpiOrpUnresolved" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Critiques / élevées</div><div class="v" id="kpiOrpCritical" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Délai médian (j)</div><div class="v" id="kpiOrpDelai" aria-live="polite">—</div></div>
+          <div class="kpi"><div class="t">Score criticité moy.</div><div class="v" id="kpiOrpScore" aria-live="polite">—</div></div>
+        </div>
+
+        <div id="orpLegend" class="orp-legend" aria-label="Légende des couleurs ORP"></div>
+
+        <details class="sub-details" open>
+          <summary class="sub-summary">Répartition par type de rupture</summary>
+          <div class="bars-wrap"><div id="orpBarsType" role="list"></div></div>
+        </details>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition par criticité</summary>
+          <div class="bars-wrap"><div id="orpBarsCrit" role="list"></div></div>
+        </details>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition par statut</summary>
+          <div class="bars-wrap"><div id="orpBarsStatut" role="list"></div></div>
+        </details>
+        <details class="sub-details">
+          <summary class="sub-summary">Répartition par zone CPTS</summary>
+          <div class="bars-wrap"><div id="orpBarsCpts" role="list"></div></div>
+        </details>
+        <details class="sub-details">
+          <summary class="sub-summary">Origine du signalement</summary>
+          <div class="bars-wrap"><div id="orpBarsOrient" role="list"></div></div>
+        </details>
+      </div>
+    </details>
+
+  </aside>
+
+</div><!-- /main-cols -->
+
+<div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-server@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
@@ -940,7 +1106,7 @@ const COMMUNES = [
 const norm = s => (s || "")
   .toUpperCase()
   .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-  .replace(/[-’']/g," ")
+  .replace(/[-'']/g," ")
   .replace(/\s+/g," ")
   .trim();
 
@@ -1009,6 +1175,36 @@ const EMPSA_ZONES = {
 const empsaOf = new Map();
 for (const [key, z] of Object.entries(EMPSA_ZONES)) {
   for (const c of z.communes) empsaOf.set(canon(c), key);
+}
+
+/* =========================
+   CRT — Cellules territoriales (5 CRT + zone blanche)
+   Zonage validé (image DAC VE). Ne pas modifier sans revalidation.
+   ========================= */
+const CRT_ZONES = {
+  bargemon:  { label:"CRT Bargemon", tel:"04.94.76.60.28", color:"rgba(150,200,232,.55)",
+    statut:["Accompagnement à la rédaction du projet","Participation au lancement (1ʳᵉ commission gérontologique)","Promotion et communication","✅ Convention effective et formalisée + membre de la gouvernance","Utilisateur Azurezo"],
+    communes:["LE BOURGUET","CHÂTEAUVIEUX","BRENON","LA MARTRE","LA BASTIDE","TRIGANCE","BARGEME","LA ROQUE ESCLAPON","COMPS SUR ARTUBY","MONTFERRAT","CHATEAUDOUBLE","BARGEMON","CLAVIERS","CALLAS","FIGANIERES","AMPUS"] },
+  salernes:  { label:"CRT Salernes – La Source", tel:"04.94.60.40.50", color:"rgba(176,224,190,.55)",
+    statut:["Accompagnement à la rédaction du projet","Participation au lancement","Promotion et communication","✅ Convention effective et formalisée"],
+    communes:["AIGUINES","SALLES SUR VERDON","BAUDINARD","BAUDUEN","ARTIGNOSC","REGUSSE","MOISSAC BELLEVUE","VERIGNON","AUPS","TOURTOUR","VILLECROZE","SILLANS LA CASCADE","SALERNES"] },
+  lachenaud: { label:"CRT Lachenaud – Fréjus", tel:"04.94.17.68.00", color:"rgba(245,228,196,.68)",
+    statut:["Membre fondateur du GCS DAC VE","Site expérimental CRT","Appui au passage en droit commun (communication / promotion)","Participation au lancement (1ʳᵉ commission gérontologique)","✅ Convention effective et formalisée"],
+    communes:["SEILLANS","MONS","CALLIAN","FAYENCE","TOURRETTES","MONTAUROUX","TANNERON","SAINT PAUL EN FORET","BAGNOLS EN FORET","LES ADRETS DE L'ESTEREL","FREJUS","SAINT RAPHAEL","PUGET SUR ARGENS","ROQUEBRUNE SUR ARGENS"] },
+  golfe:     { label:"CRT Golfe – Cogolin", tel:"04.94.54.65.94", color:"rgba(234,196,206,.60)",
+    statut:["Lettre de soutien au projet","Accompagnement à la rédaction du projet","Promotion et communication","✅ Convention effective et formalisée + membre de la gouvernance"],
+    communes:["SAINTE MAXIME","PLAN DE LA TOUR","LA GARDE FREINET","GRIMAUD (PORT)","COGOLIN","GASSIN","SAINT TROPEZ","RAMATUELLE","LA CROIX VALMER","LA MOLE","RAYOL CANADEL SUR MER","CAVALAIRE SUR MER"] },
+  leluc:     { label:"CRT Le Luc", tel:"04.94.50.00.34", color:"rgba(199,201,236,.62)",
+    statut:["Soutien au projet","Participation à la présentation","🚀 Démarrage prévu septembre 2025 (convention à la signature)"],
+    communes:["LE LUC EN PROVENCE","LE CANNET DES MAURES","VIDAUBAN","LES MAYONS","LE THORONET"] },
+  zb:        { label:"Zone blanche (aucun CRT)", tel:"", color:"rgba(150,150,150,.42)",
+    statut:["Aucun CRT rattaché à ce jour"],
+    communes:["DRAGUIGNAN","TRANS EN PROVENCE","LA MOTTE","LES ARCS","TARADEAU","LORGUES","FLAYOSC","SAINT ANTONIN","LE MUY"] },
+};
+const CRT_KEYS = ["bargemon","salernes","lachenaud","golfe","leluc","zb"];
+const crtOf = new Map();
+for (const [key, z] of Object.entries(CRT_ZONES)) {
+  for (const c of z.communes) crtOf.set(canon(c), key);
 }
 
 /* =========================
@@ -1132,6 +1328,7 @@ const g = svg.append("g");
 const gCommunes = g.append("g").attr("id","communesLayer");
 const gPros = g.append("g").attr("id","prosLayer");
 const gPatients = g.append("g").attr("id","patientsLayer");
+const gORP = g.append("g").attr("id","orpLayer");
 const gLabels = g.append("g").attr("id","labelsLayer");
 const gOffices = g.append("g").attr("id","officesLayer");
 
@@ -1148,6 +1345,7 @@ svg.call(
     scheduleHeatDraw();
     schedulePatientsRender();
     schedulePatientsHeatDraw();
+    /* ORP : positions fixes en espace-données (le zoom est géré par le transform du groupe) → pas de re-rendu nécessaire */
   })
 );
 
@@ -1163,6 +1361,12 @@ const kpiDensityMax = document.getElementById("kpiDensityMax");
 const toggleOfficesEl = document.getElementById("toggleOffices");
 const officesTextEl = document.getElementById("officesText");
 
+/* ✅ NOUVEAU : référence au toggle labels */
+const toggleLabelsEl = document.getElementById("toggleLabels");
+
+/* Référence au toggle contour territoire */
+const toggleOutlineEl = document.getElementById("toggleOutline");
+
 const toggleDensityEl = document.getElementById("toggleDensity");
 const densityPaletteEl = document.getElementById("densityPalette");
 const densityLabelsBoostEl = document.getElementById("densityLabelsBoost");
@@ -1175,6 +1379,10 @@ const onlyZoneEl = document.getElementById("onlyZone");
 const toggleEmpsaEl = document.getElementById("toggleEmpsa");
 const empsaSelectEl = document.getElementById("empsaSelect");
 const onlyEmpsaEl = document.getElementById("onlyEmpsa");
+
+const toggleCrtEl = document.getElementById("toggleCrt");
+const crtSelectEl = document.getElementById("crtSelect");
+const onlyCrtEl = document.getElementById("onlyCrt");
 
 const legendEl = document.getElementById("legend");
 
@@ -1226,6 +1434,28 @@ const kpiPatientsCommunesEl = document.getElementById("kpiPatientsCommunes");
 const patientsTopBarsEl = document.getElementById("patientsTopBars");
 const patientsTopBarsCptsEl = document.getElementById("patientsTopBarsCpts");
 
+const toggleOrpEl = document.getElementById("toggleOrp");
+const orpModeEl = document.getElementById("orpMode");
+const orpColorByEl = document.getElementById("orpColorBy");
+const orpTypeEl = document.getElementById("orpType");
+const orpCritEl = document.getElementById("orpCrit");
+const orpStatutEl = document.getElementById("orpStatut");
+const orpDotSizeEl = document.getElementById("orpDotSize");
+const orpInfoEl = document.getElementById("orpInfo");
+const orpMiniEl = document.getElementById("orpMini");
+const orpLegendEl = document.getElementById("orpLegend");
+const kpiOrpTotalEl = document.getElementById("kpiOrpTotal");
+const kpiOrpCommunesEl = document.getElementById("kpiOrpCommunes");
+const kpiOrpUnresolvedEl = document.getElementById("kpiOrpUnresolved");
+const kpiOrpCriticalEl = document.getElementById("kpiOrpCritical");
+const kpiOrpDelaiEl = document.getElementById("kpiOrpDelai");
+const kpiOrpScoreEl = document.getElementById("kpiOrpScore");
+const orpBarsTypeEl = document.getElementById("orpBarsType");
+const orpBarsCritEl = document.getElementById("orpBarsCrit");
+const orpBarsStatutEl = document.getElementById("orpBarsStatut");
+const orpBarsCptsEl = document.getElementById("orpBarsCpts");
+const orpBarsOrientEl = document.getElementById("orpBarsOrient");
+
 const chipsEl = document.getElementById("chips");
 const clearAllFiltersBtn = document.getElementById("clearAllFilters");
 
@@ -1248,7 +1478,7 @@ let rafPatientsHeat = null;
 /* =========================
    MULTI-SELECT
    ========================= */
-const MULTI = { cpts: ["__all__"], empsa: ["__all__"], prof: ["__all__"], mode: ["clusters"], palette: ["dac"] };
+const MULTI = { cpts: ["__all__"], empsa: ["__all__"], crt: ["__all__"], prof: ["__all__"], mode: ["clusters"], palette: ["dac"] };
 const PATIENTS = { mode: ["clusters"], palette: ["dac"] };
 
 function uniquePush(arr, v){ if (!arr.includes(v)) arr.push(v); return arr; }
@@ -1291,6 +1521,7 @@ function setupMultiSelect(selectEl, key, opts={}){
 function applyAllAfterMultiChange(){
   if (isAllSelected(MULTI.cpts)) onlyZoneEl.checked = false;
   if (isAllSelected(MULTI.empsa)) onlyEmpsaEl.checked = false;
+  if (isAllSelected(MULTI.crt)) onlyCrtEl.checked = false;
 
   applyZonings();
   renderProsSummaryPanel();
@@ -1380,6 +1611,7 @@ function calcGeoAreaKm2(feature){
    ========================= */
 function currentCptsState() { return { enabled: !!toggleCptsEl.checked, zones: MULTI.cpts.slice(), only: !!onlyZoneEl.checked }; }
 function currentEmpsaState() { return { enabled: !!toggleEmpsaEl.checked, zones: MULTI.empsa.slice(), only: !!onlyEmpsaEl.checked }; }
+function currentCrtState() { return { enabled: !!toggleCrtEl.checked, zones: MULTI.crt.slice(), only: !!onlyCrtEl.checked }; }
 function currentDensityState() { return { enabled: !!toggleDensityEl.checked, palette: densityPaletteEl.value || "sea", labelsBoost: !!densityLabelsBoostEl.checked }; }
 
 function cptsKeyForFeature(f) { return zoneOf.get(canon(f.__label)) || null; }
@@ -1416,6 +1648,42 @@ function empsaFill(f) {
   return null;
 }
 
+function crtKeyForFeature(f) { return crtOf.get(canon(f.__label)) || "zb"; }
+function isVisibleByCrt(f) {
+  const st = currentCrtState();
+  if (!st.enabled) return true;
+  if (isAllSelected(st.zones)) return true;
+  return st.zones.includes(crtKeyForFeature(f));
+}
+function crtFill(f) {
+  const st = currentCrtState();
+  if (!st.enabled) return null;
+  const z = crtKeyForFeature(f);
+  if (!z) return null;
+  if (isAllSelected(st.zones)) return CRT_ZONES[z].color;
+  if (st.zones.includes(z)) return CRT_ZONES[z].color;
+  return null;
+}
+
+/* Panneau droit : fiche exhaustive des CRT (généré depuis CRT_ZONES) */
+function renderCrtPanel(){
+  const host = document.getElementById("crtList");
+  if (!host) return;
+  host.innerHTML = CRT_KEYS.map(k => {
+    const z = CRT_ZONES[k];
+    const bullets = (z.statut||[]).map(s => `<li>${escapeHtml(s)}</li>`).join("");
+    const tel = z.tel ? `<span style="margin-left:auto;font-size:.72rem;color:var(--ink-60);font-family:var(--font-mono);white-space:nowrap">☎ ${escapeHtml(z.tel)}</span>` : "";
+    return `<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">
+        <span style="width:14px;height:14px;border-radius:4px;background:${z.color};border:1px solid rgba(14,28,47,.15);flex-shrink:0"></span>
+        <b style="font-size:.82rem">${escapeHtml(z.label)}</b>${tel}
+      </div>
+      <ul style="margin:4px 0;padding-left:18px;font-size:.74rem;color:var(--ink-60);line-height:1.45">${bullets}</ul>
+      <div style="font-size:.68rem;color:var(--ink-30)">${z.communes.length} commune(s)</div>
+    </div>`;
+  }).join("");
+}
+
 function allowedSetFromOnlyFilters(){
   let allowed = null;
 
@@ -1431,6 +1699,12 @@ function allowedSetFromOnlyFilters(){
     allowed = allowed ? intersectSets(allowed, s) : s;
   }
 
+  const r = currentCrtState();
+  if (r.enabled && r.only && !isAllSelected(r.zones)){
+    const s = new Set(features.filter(isVisibleByCrt).map(f => canon(f.__label)));
+    allowed = allowed ? intersectSets(allowed, s) : s;
+  }
+
   return allowed;
 }
 function intersectSets(a,b){ const out = new Set(); for (const v of a) if (b.has(v)) out.add(v); return out; }
@@ -1440,6 +1714,7 @@ function intersectSets(a,b){ const out = new Set(); for (const v of a) if (b.has
    ========================= */
 function activeFillMode(){
   if (toggleDensityEl.checked) return "density";
+  if (toggleCrtEl.checked) return "crt";
   if (toggleEmpsaEl.checked) return "empsa";
   if (toggleCptsEl.checked) return "cpts";
   return "none";
@@ -1448,6 +1723,7 @@ function activeFillMode(){
 function communeFill(f){
   const mode = activeFillMode();
   if (mode === "density") return getDensityColor(f.__density_hab_km2);
+  if (mode === "crt") return crtFill(f) || "#f8fafc";
   if (mode === "empsa") return empsaFill(f) || "#f8fafc";
   if (mode === "cpts") return cptsFill(f) || "#f8fafc";
   return "#f8fafc";
@@ -1464,6 +1740,8 @@ function communeOpacity(f){
 
     if (c.enabled && !isAllSelected(c.zones) && !c.only){ fade = true; keep = keep && isVisibleByCpts(f); }
     if (e.enabled && !isAllSelected(e.zones) && !e.only){ fade = true; keep = keep && isVisibleByEmpsa(f); }
+    const r = currentCrtState();
+    if (r.enabled && !isAllSelected(r.zones) && !r.only){ fade = true; keep = keep && isVisibleByCrt(f); }
 
     if (!fade) return 1;
     return keep ? 1 : (toggleDensityEl.checked ? 0.16 : 0.25);
@@ -1484,6 +1762,8 @@ function labelOpacity(f){
 
     if (c.enabled && !isAllSelected(c.zones) && !c.only){ fade = true; keep = keep && isVisibleByCpts(f); }
     if (e.enabled && !isAllSelected(e.zones) && !e.only){ fade = true; keep = keep && isVisibleByEmpsa(f); }
+    const r = currentCrtState();
+    if (r.enabled && !isAllSelected(r.zones) && !r.only){ fade = true; keep = keep && isVisibleByCrt(f); }
 
     if (!fade) return densityBoost ? 0.92 : 1;
     return keep ? (densityBoost ? 0.96 : 1) : (densityBoost ? 0.18 : 0.35);
@@ -1544,6 +1824,14 @@ function buildActiveFilters(){
     filters.push({ id:"offices", label:"Repères", value:"Siège/Antenne", clear: () => { toggleOfficesEl.checked = false; applyOfficesVisibility(); updateChips(); } });
   }
 
+  if (!toggleLabelsEl.checked){
+    filters.push({ id:"labels", label:"Noms communes", value:"masqués", clear: () => { toggleLabelsEl.checked = true; gLabels.style("display", null); updateChips(); } });
+  }
+
+  if (!toggleOutlineEl.checked){
+    filters.push({ id:"outline", label:"Contour territoire", value:"masqué", clear: () => { toggleOutlineEl.checked = true; applyOutlineVisibility(); updateChips(); } });
+  }
+
   if (toggleDensityEl.checked){
     filters.push({
       id:"density",
@@ -1591,6 +1879,22 @@ function buildActiveFilters(){
     }
   }
 
+  const r = currentCrtState();
+  if (r.enabled){
+    const zones = r.zones.slice();
+    if (isAllSelected(zones)){
+      filters.push({ id:"crt_all", label:"CRT", value:"Toutes", clear: () => { toggleCrtEl.checked=false; setOnly(MULTI.crt,"__all__"); onlyCrtEl.checked=false; crtSelectEl.disabled=true; onlyCrtEl.disabled=true; applyZonings(); } });
+    } else {
+      for (const z of zones){
+        filters.push({
+          id:`crt_${z}`, label:"CRT", value:(CRT_ZONES[z]?.label || z) + (r.only ? " (uniquement)" : ""),
+          clear: () => { removeFrom(MULTI.crt,z); if(!MULTI.crt.length) setOnly(MULTI.crt,"__all__"); if(isAllSelected(MULTI.crt)) onlyCrtEl.checked=false; applyZonings(); updateChips(); }
+        });
+      }
+      filters.push({ id:"crt_layer", label:"CRT", value:"affichées", clear: () => { toggleCrtEl.checked=false; setOnly(MULTI.crt,"__all__"); onlyCrtEl.checked=false; crtSelectEl.disabled=true; onlyCrtEl.disabled=true; applyZonings(); updateChips(); } });
+    }
+  }
+
   const p = getProsState();
   if (p.enabled){
     filters.push({ id:"prosLayer", label:"Pros", value:"carte activée", clear: () => { toggleProsEl.checked=false; enableProsUI(false); applyProsLayer(); updateChips(); } });
@@ -1611,13 +1915,24 @@ function buildActiveFilters(){
     filters.push({ id:"patientsLayer", label:"Patients", value:"affichés", clear: () => { togglePatientsEl.checked=false; enablePatientsUI(false); applyPatientsLayer(); updateChips(); } });
   }
 
+  if (toggleOrpEl && toggleOrpEl.checked){
+    filters.push({ id:"orpLayer", label:"ORP", value:"ruptures affichées", clear: () => { toggleOrpEl.checked=false; enableOrpUI(false); applyORPLayer(); updateChips(); } });
+    const ost = getORPState();
+    if (ost.type !== "__all__")
+      filters.push({ id:"orpType", label:"Type rupture", value: ORP_TYPES[ost.type]?.short || ost.type, clear: () => { orpTypeEl.value="__all__"; applyORPLayer(); updateChips(); } });
+    if (ost.crit !== "__all__")
+      filters.push({ id:"orpCrit", label:"Criticité", value: ORP_CRIT[+ost.crit]?.label || ost.crit, clear: () => { orpCritEl.value="__all__"; applyORPLayer(); updateChips(); } });
+    if (ost.statut !== "__all__")
+      filters.push({ id:"orpStatut", label:"Statut", value: ORP_STATUT[ost.statut]?.label || ost.statut, clear: () => { orpStatutEl.value="__all__"; applyORPLayer(); updateChips(); } });
+  }
+
   return filters;
 }
 
 function updateChips(){
   const filters = buildActiveFilters();
   if (!filters.length){
-    chipsEl.innerHTML = `<span class="badge">Aucun filtre pour l’instant</span>`;
+    chipsEl.innerHTML = `<span class="badge">Aucun filtre pour l'instant</span>`;
     clearAllFiltersBtn.disabled = true;
     clearAllFiltersBtn.style.opacity = .65;
     return;
@@ -1647,6 +1962,12 @@ function updateChips(){
 clearAllFiltersBtn.addEventListener("click", () => {
   toggleOfficesEl.checked = false;
 
+  toggleLabelsEl.checked = true;
+  gLabels.style("display", null);
+
+  toggleOutlineEl.checked = true;
+  applyOutlineVisibility();
+
   toggleDensityEl.checked = false;
   densityPaletteEl.value = "sea";
   densityPaletteEl.disabled = true;
@@ -1667,6 +1988,13 @@ clearAllFiltersBtn.addEventListener("click", () => {
   onlyEmpsaEl.disabled = true;
   empsaSelectEl.value = "__all__";
 
+  toggleCrtEl.checked = false;
+  setOnly(MULTI.crt, "__all__");
+  onlyCrtEl.checked = false;
+  crtSelectEl.disabled = true;
+  onlyCrtEl.disabled = true;
+  crtSelectEl.value = "__all__";
+
   toggleProsEl.checked = false;
   setOnly(MULTI.prof, "__all__");
   setOnly(MULTI.mode, "clusters");
@@ -1686,11 +2014,21 @@ clearAllFiltersBtn.addEventListener("click", () => {
   patientsDotSizeEl.value = "2";
   enablePatientsUI(false);
 
+  toggleOrpEl.checked = false;
+  orpModeEl.value = "points";
+  orpColorByEl.value = "criticite";
+  orpTypeEl.value = "__all__";
+  orpCritEl.value = "__all__";
+  orpStatutEl.value = "__all__";
+  orpDotSizeEl.value = "2";
+  enableOrpUI(false);
+
   applyOfficesVisibility();
   applyZonings();
   renderProsSummaryPanel();
   applyProsLayer();
   applyPatientsLayer();
+  applyORPLayer();
   updateChips();
 });
 
@@ -1698,15 +2036,36 @@ clearAllFiltersBtn.addEventListener("click", () => {
    OUTLINE
    ========================= */
 async function loadOutline() {
+  // Tentative de chargement du fichier SVG pré-généré
   try {
     const txt = await fetch("./var_est_outline.svg").then(r => r.text());
     const dom = new DOMParser().parseFromString(txt, "image/svg+xml");
     const path = dom.querySelector("path");
-    if(!path) return;
-    g.append("path").attr("class","outer").attr("d", path.getAttribute("d"));
+    if (path) {
+      g.append("path").attr("class","outer").attr("d", path.getAttribute("d"));
+      applyOutlineVisibility();
+      return;
+    }
   } catch(e) {
-    console.warn("Outline non chargé (var_est_outline.svg manquant).");
+    // SVG absent — calcul dynamique depuis le GeoJSON
   }
+  // Fallback : contour calculé depuis les communes via topojson
+  if (features.length && geoPath) {
+    try {
+      const fc = { type: "FeatureCollection", features };
+      const topo = topojson.topology({ communes: fc });
+      const merged = topojson.merge(topo, topo.objects.communes.geometries);
+      g.append("path").attr("class","outer").attr("d", geoPath(merged));
+    } catch(e) {
+      console.warn("Outline non généré :", e);
+    }
+  }
+  applyOutlineVisibility();
+}
+
+/* Affiche/masque le contour bleu du territoire */
+function applyOutlineVisibility(){
+  g.selectAll(".outer").style("display", toggleOutlineEl.checked ? null : "none");
 }
 
 /* =========================
@@ -1735,9 +2094,10 @@ function renderDensityLegend(){
 function renderLegend(){
   const c = currentCptsState();
   const e = currentEmpsaState();
+  const rc = currentCrtState();
   const densityOn = !!toggleDensityEl.checked;
 
-  if (!c.enabled && !e.enabled && !densityOn){
+  if (!c.enabled && !e.enabled && !rc.enabled && !densityOn){
     legendEl.classList.remove("show");
     legendEl.innerHTML = "";
     return;
@@ -1764,6 +2124,14 @@ function renderLegend(){
     if (isAllSelected(e.zones)) for (const key of ["zb","e1","e2"]) rows.push({ label: EMPSA_ZONES[key].label, color: EMPSA_ZONES[key].color });
     else for (const z of e.zones) if (EMPSA_ZONES[z]) rows.push({ label: EMPSA_ZONES[z].label, color: EMPSA_ZONES[z].color });
     html += rows.map(r => `<div class="lg"><span class="sw" style="background:${r.color}"></span><span>${escapeHtml(r.label)}</span></div>`).join("");
+  }
+
+  if (rc.enabled){
+    html += `<div class="lgTitle" style="margin-top:${(c.enabled || e.enabled || densityOn) ? 12 : 8}px">CRT</div>`;
+    const rows = [];
+    if (isAllSelected(rc.zones)) for (const key of CRT_KEYS) rows.push({ label: CRT_ZONES[key].label, tel: CRT_ZONES[key].tel, color: CRT_ZONES[key].color });
+    else for (const z of rc.zones) if (CRT_ZONES[z]) rows.push({ label: CRT_ZONES[z].label, tel: CRT_ZONES[z].tel, color: CRT_ZONES[z].color });
+    html += rows.map(r => `<div class="lg"><span class="sw" style="background:${r.color}"></span><span>${escapeHtml(r.label)}${r.tel ? ` <small style="color:var(--ink-30)">☎ ${escapeHtml(r.tel)}</small>` : ""}</span></div>`).join("");
   }
 
   legendEl.innerHTML = html;
@@ -1813,11 +2181,13 @@ function renderList(filterText="") {
   for (const f of items) {
     const cKey = cptsKeyForFeature(f);
     const eKey = empsaKeyForFeature(f);
+    const rKey = crtKeyForFeature(f);
 
     const rightParts = [];
     if (toggleDensityEl.checked) rightParts.push(formatDensity(f.__density_hab_km2));
     if (toggleCptsEl.checked) rightParts.push(CPTS_ZONES[cKey]?.label || "CPTS —");
     if (toggleEmpsaEl.checked) rightParts.push(EMPSA_ZONES[eKey]?.label || "EMPSA —");
+    if (toggleCrtEl.checked) rightParts.push(CRT_ZONES[rKey]?.label || "CRT —");
     if (!rightParts.length) rightParts.push("Zoom");
 
     const pop = getPopCommune(f.__label);
@@ -1931,7 +2301,6 @@ async function exportAsPngHD(scale=3, includeHeat=false){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Important : forcer le SVG à occuper tout le viewBox
     ctx.setTransform(scale, 0, 0, scale, 0, 0);
     ctx.drawImage(img, 0, 0, w, h);
 
@@ -2368,6 +2737,411 @@ patientsPaletteEl.addEventListener("change", () => { setOnly(PATIENTS.palette, p
 patientsDotSizeEl.addEventListener("input", () => { applyPatientsLayer(); updateChips(); });
 
 /* =========================
+   ORP — OBSERVATOIRE DES RUPTURES DE PARCOURS
+   Situations FICTIVES, ANONYMISÉES, à visée de modélisation.
+   Le DAC a pour mission d'identifier, analyser et réduire les
+   ruptures de parcours des personnes en situation complexe.
+   ========================= */
+
+/* PRNG reproductible (mulberry32) — distribution stable entre rechargements */
+function orpRng(seed){
+  let a = seed >>> 0;
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const ORP_TYPES = {
+  hopital:       { label: "Rupture à la sortie d'hospitalisation",          short: "Sortie hospitalisation", color: "#2f6fb0", w: 22 },
+  acces_soins:   { label: "Difficulté d'accès aux soins / désert médical",  short: "Accès aux soins",        color: "#13a4a4", w: 16 },
+  medico_social: { label: "Orientation médico-sociale (place ESMS/EHPAD/MDPH)", short: "Médico-social",      color: "#7b5cd6", w: 15 },
+  social:        { label: "Rupture sociale (logement, précarité, isolement)", short: "Sociale / précarité",   color: "#d4823a", w: 14 },
+  aidant:        { label: "Épuisement ou absence de l'aidant",              short: "Aidant",                 color: "#c94f8a", w: 10 },
+  sante_mentale: { label: "Souffrance psychique / santé mentale",           short: "Santé mentale",          color: "#3e8e57", w: 9 },
+  coordination:  { label: "Défaut de coordination entre acteurs",           short: "Coordination",           color: "#5a6b86", w: 8 },
+  handicap:      { label: "Parcours handicap (transition, scolarité, emploi)", short: "Handicap",            color: "#c9a227", w: 6 },
+};
+const ORP_TYPE_KEYS = Object.keys(ORP_TYPES);
+
+const ORP_CRIT = {
+  1: { label: "Faible",   hex: "#3f8fd0" },
+  2: { label: "Modérée",  hex: "#f1b50a" },
+  3: { label: "Élevée",   hex: "#ef7c2a" },
+  4: { label: "Critique", hex: "#d8392f" },
+};
+const ORP_CRIT_W = { 1: 22, 2: 40, 3: 26, 4: 12 };
+
+const ORP_STATUT = {
+  en_cours:    { label: "En cours",    hex: "#f0a500", w: 48 },
+  resolue:     { label: "Résolue",     hex: "#1f9d6b", w: 34 },
+  non_resolue: { label: "Non résolue", hex: "#cf2f2f", w: 18 },
+};
+
+const ORP_AGE = [
+  { band: "0–17 ans",     w: 8 },
+  { band: "18–59 ans",    w: 30 },
+  { band: "60–74 ans",    w: 26 },
+  { band: "75 ans et +",  w: 36 },
+];
+
+const ORP_ORIENTEUR = [
+  { label: "Établissement de santé",                       w: 26 },
+  { label: "Médecin traitant",                             w: 18 },
+  { label: "Service social (CCAS / Conseil Départemental)",w: 16 },
+  { label: "Famille / proche aidant",                      w: 12 },
+  { label: "EHPAD / ESMS",                                 w: 9 },
+  { label: "Professionnel libéral (IDE, kiné…)",           w: 8 },
+  { label: "Auto-saisine / usager",                        w: 6 },
+  { label: "Autre dispositif (CLIC, MDPH…)",               w: 5 },
+];
+
+const ORP_FACTEURS = {
+  hopital: ["Sortie d'hospitalisation non anticipée","Absence de relais ville-hôpital","Retour à domicile sans aide en place","Réhospitalisations répétées évitables"],
+  acces_soins: ["Absence de médecin traitant","Délai d'accès à un spécialiste","Renoncement aux soins","Territoire sous-dense en offre de soins"],
+  medico_social: ["Attente de place en ESMS","Délai d'instruction MDPH","Pas de solution d'hébergement adaptée","Orientation EHPAD bloquée"],
+  social: ["Logement insalubre ou inadapté","Isolement social majeur","Précarité financière / non-recours","Absence d'ouverture de droits"],
+  aidant: ["Épuisement de l'aidant principal","Hospitalisation de l'aidant","Absence d'aidant identifié","Conflit familial bloquant"],
+  sante_mentale: ["Refus de soins psychiatriques","Rupture de suivi en psychiatrie","Crise sans relais d'urgence","Comorbidité psychiatrique non suivie"],
+  coordination: ["Information non transmise entre acteurs","Intervenants multiples non coordonnés","Dossier perdu de vue","Absence de référent de parcours"],
+  handicap: ["Rupture de scolarisation","Transition enfant → adulte (amendement Creton)","Sortie d'IME sans solution","Accès à l'emploi non accompagné"],
+};
+
+const ORP_COMPLEXITE = [
+  "Isolement géographique","Isolement social","Précarité financière","Polypathologie",
+  "Troubles cognitifs","Perte d'autonomie récente","Refus de soins","Barrière linguistique",
+  "Logement inadapté","Défaut d'aidant","Difficultés de mobilité","Conduites addictives",
+];
+
+function orpWeightedPick(rng, entries){
+  const total = entries.reduce((a,e)=>a+e.w,0);
+  let r = rng()*total;
+  for (const e of entries){ if ((r -= e.w) <= 0) return e; }
+  return entries[entries.length-1];
+}
+function orpPickKeyW(rng, obj, wmap){
+  const entries = Object.keys(obj).map(k => ({ k, w: wmap ? wmap[k] : obj[k].w }));
+  return orpWeightedPick(rng, entries).k;
+}
+
+let ORP_CASES = [];
+let ORP_POS_DONE = false;
+
+/* Génération des situations fictives — réparties par commune,
+   pondérées par les patients suivis (données réelles agrégées) et la population. */
+function buildORPCases(){
+  if (!features.length) return;
+  const rng = orpRng(20250131);
+
+  const weights = features.map(f => {
+    const k = canon(f.__label);
+    const pat = (typeof PATIENTS_COUNTS !== "undefined" && PATIENTS_COUNTS.get(k)) || 0;
+    const pop = getPopCommune(f.__label) || 0;
+    return { f, k, w: Math.sqrt(pat * 3 + pop / 60 + 1) }; // sqrt : évite l'écrasement par les grosses communes
+  });
+  const totalW = weights.reduce((a,x)=>a+x.w,0) || 1;
+
+  const TARGET = 190;
+  let alloc = weights.map(x => {
+    const exact = (x.w / totalW) * TARGET;
+    return { f:x.f, k:x.k, exact, n: Math.floor(exact), frac: exact - Math.floor(exact) };
+  });
+  let assigned = alloc.reduce((a,x)=>a+x.n,0);
+  alloc.sort((a,b)=>b.frac-a.frac);
+  let idx = 0;
+  while (assigned < TARGET){ alloc[idx % alloc.length].n += 1; assigned++; idx++; }
+
+  alloc.sort((a,b)=> a.f.__id - b.f.__id);
+  const cases = [];
+  let serial = 1;
+  for (const a of alloc){
+    for (let j=0;j<a.n;j++){
+      const type   = orpPickKeyW(rng, ORP_TYPES);
+      const crit   = +orpPickKeyW(rng, ORP_CRIT, ORP_CRIT_W);
+      const statut = orpPickKeyW(rng, ORP_STATUT);
+      const age    = orpWeightedPick(rng, ORP_AGE).band;
+      const orient = orpWeightedPick(rng, ORP_ORIENTEUR).label;
+      const facs   = ORP_FACTEURS[type];
+      const facteur= facs[Math.floor(rng()*facs.length)];
+      const nComp  = 1 + Math.floor(rng()*4);
+      const pool   = ORP_COMPLEXITE.slice();
+      const comp   = [];
+      for (let c=0;c<nComp && pool.length;c++) comp.push(pool.splice(Math.floor(rng()*pool.length),1)[0]);
+      let delai = Math.round(2 + rng()*60);
+      if (statut === "non_resolue") delai += Math.round(rng()*60);
+      if (crit === 4) delai = Math.max(1, Math.round(delai*0.5));
+      cases.push({
+        id: "RP-VE-25-" + String(serial++).padStart(4,"0"),
+        k: a.k, f: a.f, communeDisplay: a.f.__label,
+        type, crit, statut, age, orient, facteur, comp, delai,
+      });
+    }
+  }
+  ORP_CASES = cases;
+  ORP_POS_DONE = false;
+}
+
+/* Positionne chaque situation à l'intérieur du polygone de sa commune (échantillonnage par rejet) */
+function computeORPPositions(){
+  if (!geoPath || !projection) return;
+  const rng = orpRng(99887766);
+  const byCommune = new Map();
+  for (const c of ORP_CASES){
+    if (!byCommune.has(c.k)) byCommune.set(c.k, []);
+    byCommune.get(c.k).push(c);
+  }
+  for (const [k, list] of byCommune){
+    const f = list[0].f;
+    let b = null;
+    try { b = geoPath.bounds(f); } catch(e){ b = null; }
+    const cx = f.__centroid[0], cy = f.__centroid[1];
+    const bw = b ? (b[1][0]-b[0][0]) : 30;
+    const bh = b ? (b[1][1]-b[0][1]) : 30;
+    for (const c of list){
+      let placed = false;
+      for (let tries=0; tries<24 && !placed; tries++){
+        const px = (b ? b[0][0] : cx-15) + rng()*bw;
+        const py = (b ? b[0][1] : cy-15) + rng()*bh;
+        const ll = projection.invert ? projection.invert([px,py]) : null;
+        if (ll && d3.geoContains(f, ll)){ c.x = px; c.y = py; placed = true; }
+      }
+      if (!placed){
+        const a = rng()*Math.PI*2, r = rng()*Math.min(12, Math.max(bw,bh)*0.12);
+        c.x = cx + Math.cos(a)*r; c.y = cy + Math.sin(a)*r;
+      }
+    }
+  }
+  ORP_POS_DONE = true;
+}
+
+function getORPState(){
+  return {
+    enabled: !!toggleOrpEl.checked,
+    mode:    orpModeEl.value    || "points",
+    colorBy: orpColorByEl.value || "criticite",
+    type:    orpTypeEl.value    || "__all__",
+    crit:    orpCritEl.value    || "__all__",
+    statut:  orpStatutEl.value  || "__all__",
+    size:    parseInt(orpDotSizeEl.value || "2", 10),
+  };
+}
+function orpFilteredCases(st){
+  return ORP_CASES.filter(c =>
+    (st.type   === "__all__" || c.type   === st.type) &&
+    (st.crit   === "__all__" || c.crit   === +st.crit) &&
+    (st.statut === "__all__" || c.statut === st.statut)
+  );
+}
+function orpCaseColor(c, colorBy){
+  if (colorBy === "type")   return ORP_TYPES[c.type].color;
+  if (colorBy === "statut") return ORP_STATUT[c.statut].hex;
+  return ORP_CRIT[c.crit].hex;
+}
+function enableOrpUI(enabled){
+  [orpModeEl, orpColorByEl, orpTypeEl, orpCritEl, orpStatutEl, orpDotSizeEl].forEach(el => el.disabled = !enabled);
+}
+let rafORP = null;
+function scheduleORPRender(){
+  if (rafORP) cancelAnimationFrame(rafORP);
+  rafORP = requestAnimationFrame(() => { rafORP = null; applyORPLayer(); });
+}
+
+function orpTooltip(event, c){
+  showTip(event.clientX, event.clientY,
+    c.id + " · " + smartLabel(c.communeDisplay),
+    ORP_TYPES[c.type].label,
+    {
+      "Profil (anonyme)":       c.age,
+      "Criticité":              ORP_CRIT[c.crit].label,
+      "Statut":                 ORP_STATUT[c.statut].label,
+      "Facteur déclenchant":    c.facteur,
+      "Origine du signalement": c.orient,
+      "Délai (jours)":          String(c.delai),
+      "Facteurs de complexité": c.comp.length ? c.comp.join(", ") : "—",
+    }
+  );
+}
+
+function applyORPLayer(){
+  const st = getORPState();
+  if (!st.enabled || !geoPath || !features.length){
+    gORP.selectAll("*").remove();
+    orpMiniEl.textContent = "—";
+    [kpiOrpTotalEl,kpiOrpCommunesEl,kpiOrpUnresolvedEl,kpiOrpCriticalEl,kpiOrpDelaiEl,kpiOrpScoreEl].forEach(e=>{ if(e) e.textContent="—"; });
+    if (orpLegendEl) orpLegendEl.innerHTML = "";
+    [orpBarsTypeEl,orpBarsCritEl,orpBarsStatutEl,orpBarsCptsEl,orpBarsOrientEl].forEach(e=>{ if(e) e.innerHTML=""; });
+    return;
+  }
+  if (!ORP_CASES.length) buildORPCases();
+  if (!ORP_POS_DONE) computeORPPositions();
+
+  const data = orpFilteredCases(st);
+  renderORPKpis(data);
+  renderORPLegend(st);
+  renderORPBars(data);
+
+  gORP.selectAll("*").remove();
+  if (st.mode === "agg")       renderORPAgg(data, st);
+  else if (st.mode === "grid") renderORPGrid(data, st);
+  else                         renderORPPoints(data, st);
+}
+
+function renderORPPoints(data, st){
+  const r = 3.2 + st.size*1.1;
+
+  const critical = data.filter(c => c.crit === 4);
+  const ring = gORP.selectAll("circle.orpRing").data(critical, c=>c.id);
+  ring.exit().remove();
+  ring.enter().append("circle").attr("class","orpRing")
+    .merge(ring)
+    .attr("cx", c=>c.x).attr("cy", c=>c.y).attr("r", r+3.5);
+
+  const sel = gORP.selectAll("circle.orpDot").data(data, c=>c.id);
+  sel.exit().remove();
+  const enter = sel.enter().append("circle").attr("class","orpDot")
+    .attr("r", 0)
+    .on("mousemove", (e,c)=>orpTooltip(e,c))
+    .on("mouseleave", hideTip)
+    .on("click", (e,c)=>{ e.stopPropagation(); selectFeature(c.f.__id, true); });
+  enter.merge(sel)
+    .attr("cx", c=>c.x).attr("cy", c=>c.y)
+    .style("fill", c=>orpCaseColor(c, st.colorBy))
+    .transition().duration(200).attr("r", r);
+}
+
+function renderORPAgg(data, st){
+  const m = new Map();
+  for (const c of data){
+    if (!m.has(c.k)) m.set(c.k, { k:c.k, f:c.f, centroid:c.f.__centroid, n:0, sumCrit:0, statut:{} });
+    const o = m.get(c.k); o.n++; o.sumCrit += c.crit;
+    o.statut[c.statut] = (o.statut[c.statut]||0)+1;
+  }
+  const arr = Array.from(m.values());
+  const max = d3.max(arr, d=>d.n) || 1;
+  const rScale = d3.scaleSqrt().domain([1,max]).range([7,24]);
+  const sizeF = st.size/2;
+
+  const sel = gORP.selectAll("g.orpAggNode").data(arr, d=>d.k);
+  sel.exit().remove();
+  const enter = sel.enter().append("g").attr("class","orpAggNode")
+    .on("mousemove", (e,d)=>{
+      showTip(e.clientX, e.clientY, smartLabel(d.f.__label), `${d.n} situation(s) de rupture`, {
+        "Criticité moyenne": (d.sumCrit/d.n).toFixed(1).replace(".", ","),
+        "En cours":     String(d.statut.en_cours||0),
+        "Résolues":     String(d.statut.resolue||0),
+        "Non résolues": String(d.statut.non_resolue||0),
+      });
+    })
+    .on("mouseleave", hideTip)
+    .on("click",(e,d)=>{ e.stopPropagation(); selectFeature(d.f.__id, true); });
+  enter.append("circle").attr("class","orpAgg");
+  enter.append("text").attr("class","orpAggText").attr("text-anchor","middle").attr("dy","0.35em");
+  const merged = enter.merge(sel);
+  merged.attr("transform", d=>`translate(${d.centroid[0]},${d.centroid[1]})`);
+  merged.select("circle.orpAgg")
+    .style("fill", d=>{ const a = Math.round(d.sumCrit/d.n); return (ORP_CRIT[a]||ORP_CRIT[2]).hex; })
+    .transition().duration(200).attr("r", d=>rScale(d.n)*sizeF);
+  merged.select("text.orpAggText")
+    .style("font-size", d=> Math.max(9, Math.min(16, rScale(d.n)*sizeF*0.9))+"px")
+    .text(d=>d.n);
+}
+
+function renderORPGrid(data, st){
+  const gridSize = 40;
+  const cols = Math.ceil(width/gridSize), rows = Math.ceil(height/gridSize);
+  const grid = new Array(cols*rows).fill(0);
+  for (const c of data){
+    const gx = Math.floor(c.x/gridSize), gy = Math.floor(c.y/gridSize);
+    if (gx<0||gy<0||gx>=cols||gy>=rows) continue;
+    grid[gy*cols+gx]++;
+  }
+  const max = Math.max(1, ...grid);
+  const aScale = d3.scaleSqrt().domain([0,max]).range([0,0.85]);
+  const cells = [];
+  for (let y=0;y<rows;y++) for (let x=0;x<cols;x++){ const v=grid[y*cols+x]; if(v) cells.push({x,y,v}); }
+
+  const sel = gORP.selectAll("rect.orpCell").data(cells, d=>`${d.x}-${d.y}`);
+  sel.exit().remove();
+  sel.enter().append("rect").attr("class","orpCell")
+    .attr("x",d=>d.x*gridSize).attr("y",d=>d.y*gridSize)
+    .attr("width",gridSize).attr("height",gridSize).attr("rx",9).attr("ry",9)
+    .style("stroke","rgba(255,255,255,.5)").style("stroke-width",1)
+    .style("vector-effect","non-scaling-stroke")
+    .on("mousemove",(e,d)=>showTip(e.clientX,e.clientY,"Densité ruptures",`${d.v} situation(s)`))
+    .on("mouseleave",hideTip)
+    .merge(sel)
+    .style("fill", d=>`rgba(216,57,47,${aScale(d.v).toFixed(3)})`);
+}
+
+function renderORPKpis(data){
+  const total = data.length;
+  const communes = new Set(data.map(c=>c.k)).size;
+  const nonRes = data.filter(c=>c.statut==="non_resolue").length;
+  const critElev = data.filter(c=>c.crit>=3).length;
+  const delais = data.map(c=>c.delai).sort((a,b)=>a-b);
+  const med = delais.length ? (delais.length%2 ? delais[(delais.length-1)/2] : Math.round((delais[delais.length/2-1]+delais[delais.length/2])/2)) : 0;
+  const score = total ? (data.reduce((a,c)=>a+c.crit,0)/total) : 0;
+
+  orpMiniEl.textContent = total ? `${total} situations` : "0";
+  kpiOrpTotalEl.textContent      = String(total);
+  kpiOrpCommunesEl.textContent   = String(communes);
+  kpiOrpUnresolvedEl.textContent = total ? Math.round(nonRes/total*100)+" %" : "—";
+  kpiOrpCriticalEl.textContent   = String(critElev);
+  kpiOrpDelaiEl.textContent      = total ? String(med) : "—";
+  kpiOrpScoreEl.textContent      = total ? score.toFixed(1).replace(".",",")+"/4" : "—";
+}
+
+function renderORPLegend(st){
+  let items;
+  if (st.colorBy === "type")        items = ORP_TYPE_KEYS.map(k=>({c:ORP_TYPES[k].color, l:ORP_TYPES[k].short}));
+  else if (st.colorBy === "statut") items = Object.keys(ORP_STATUT).map(k=>({c:ORP_STATUT[k].hex, l:ORP_STATUT[k].label}));
+  else                              items = [1,2,3,4].map(n=>({c:ORP_CRIT[n].hex, l:ORP_CRIT[n].label}));
+  orpLegendEl.innerHTML = items.map(it=>
+    `<span class="orp-leg-item"><span class="orp-leg-dot" style="background:${it.c}"></span>${escapeHtml(it.l)}</span>`
+  ).join("");
+}
+
+function orpRenderBars(el, rows){
+  const max = rows.length ? Math.max(...rows.map(r=>r.v)) : 0;
+  el.innerHTML = "";
+  for (const row of rows){
+    const div = document.createElement("div");
+    div.className = "barRow";
+    const pct = max ? Math.round(row.v/max*100) : 0;
+    const bg = row.color ? `;background:${row.color}` : "";
+    div.innerHTML = `<div><div class="barLabel">${escapeHtml(row.label)}</div><div class="bar"><span style="width:${pct}%${bg}"></span></div></div><div class="barVal">${row.v}</div>`;
+    el.appendChild(div);
+  }
+}
+
+function renderORPBars(data){
+  const tCount = {}; ORP_TYPE_KEYS.forEach(k=>tCount[k]=0);
+  const cCount = {1:0,2:0,3:0,4:0};
+  const sCount = {en_cours:0,resolue:0,non_resolue:0};
+  const zCount = {}, oCount = {};
+  for (const c of data){
+    tCount[c.type]++; cCount[c.crit]++; sCount[c.statut]++;
+    const z = zoneOf.get(c.k) || "zb"; zCount[z]=(zCount[z]||0)+1;
+    oCount[c.orient]=(oCount[c.orient]||0)+1;
+  }
+  orpRenderBars(orpBarsTypeEl,   ORP_TYPE_KEYS.map(k=>({label:ORP_TYPES[k].short,v:tCount[k],color:ORP_TYPES[k].color})).filter(r=>r.v).sort((a,b)=>b.v-a.v));
+  orpRenderBars(orpBarsCritEl,   [4,3,2,1].map(n=>({label:ORP_CRIT[n].label,v:cCount[n],color:ORP_CRIT[n].hex})).filter(r=>r.v));
+  orpRenderBars(orpBarsStatutEl, Object.keys(ORP_STATUT).map(k=>({label:ORP_STATUT[k].label,v:sCount[k],color:ORP_STATUT[k].hex})).filter(r=>r.v));
+  orpRenderBars(orpBarsCptsEl,   Object.keys(zCount).map(z=>({label:(CPTS_ZONES[z]?.label||z),v:zCount[z]})).sort((a,b)=>b.v-a.v));
+  orpRenderBars(orpBarsOrientEl, Object.keys(oCount).map(o=>({label:o,v:oCount[o]})).sort((a,b)=>b.v-a.v));
+}
+
+toggleOrpEl.addEventListener("change", () => { const en = toggleOrpEl.checked; enableOrpUI(en); applyORPLayer(); updateChips(); });
+orpModeEl.addEventListener("change",    () => { applyORPLayer(); updateChips(); });
+orpColorByEl.addEventListener("change", () => { applyORPLayer(); updateChips(); });
+orpTypeEl.addEventListener("change",    () => { applyORPLayer(); updateChips(); });
+orpCritEl.addEventListener("change",    () => { applyORPLayer(); updateChips(); });
+orpStatutEl.addEventListener("change",  () => { applyORPLayer(); updateChips(); });
+orpDotSizeEl.addEventListener("input",  () => { applyORPLayer(); updateChips(); });
+
+/* =========================
    PROS
    ========================= */
 const PROS_URL = "./sollicitations_pros_2025.json";
@@ -2394,7 +3168,7 @@ async function loadProsOnce(){
 
     const diff = computedRows - expectedTotal;
     if (diff === 0){
-      sollicNoteEl.textContent = "OK : le fichier correspond au total de l’info cadre.";
+      sollicNoteEl.textContent = "OK : le fichier correspond au total de l'info cadre.";
     } else {
       sollicNoteEl.textContent = `Le fichier contient ${computedRows} lignes, soit ${diff > 0 ? "+" : ""}${diff} vs le total info cadre (${expectedTotal}). Les KPI info cadre restent distincts de la répartition exhaustive du fichier.`;
     }
@@ -3093,6 +3867,18 @@ toggleEmpsaEl.addEventListener("change", () => {
 onlyEmpsaEl.addEventListener("change", () => { if (isAllSelected(MULTI.empsa)) onlyEmpsaEl.checked = false; applyZonings(); });
 
 /* =========================
+   CRT UI
+   ========================= */
+toggleCrtEl.addEventListener("change", () => {
+  const enabled = toggleCrtEl.checked;
+  crtSelectEl.disabled = !enabled;
+  onlyCrtEl.disabled = !enabled;
+  if (!enabled) { setOnly(MULTI.crt, "__all__"); onlyCrtEl.checked = false; crtSelectEl.value="__all__"; }
+  applyZonings();
+});
+onlyCrtEl.addEventListener("change", () => { if (isAllSelected(MULTI.crt)) onlyCrtEl.checked = false; applyZonings(); });
+
+/* =========================
    DENSITY UI
    ========================= */
 toggleDensityEl.addEventListener("change", () => {
@@ -3117,6 +3903,16 @@ function applyOfficesVisibility(){
   officesTextEl.style.display = show ? "" : "none";
 }
 toggleOfficesEl.addEventListener("change", () => { applyOfficesVisibility(); updateChips(); });
+
+toggleOutlineEl.addEventListener("change", () => { applyOutlineVisibility(); updateChips(); });
+
+/* =========================
+   ✅ LABELS VISIBILITY
+   ========================= */
+toggleLabelsEl.addEventListener("change", () => {
+  gLabels.style("display", toggleLabelsEl.checked ? null : "none");
+  updateChips();
+});
 
 function renderOffices(){
   const getCentroid = (name) => {
@@ -3181,13 +3977,13 @@ function updateDensityKpis(){
    ========================= */
 setupMultiSelect(cptsSelectEl, "cpts",   { behavior:"multi",  allValue:"__all__", resetTo:"__all__" });
 setupMultiSelect(empsaSelectEl,"empsa",  { behavior:"multi",  allValue:"__all__", resetTo:"__all__" });
+setupMultiSelect(crtSelectEl,  "crt",    { behavior:"multi",  allValue:"__all__", resetTo:"__all__" });
 
 /* =========================
    MAIN
    ========================= */
 async function main() {
   applyPalette("dac");
-  await loadOutline();
   await loadPopulation();
 
   kpiSurfVE.textContent = KPI_FIXED.superficie_km2.toLocaleString("fr-FR");
@@ -3221,6 +4017,8 @@ async function main() {
   projection.fitExtent([[80,80],[width-80,height-80]], fc);
   geoPath = d3.geoPath(projection);
 
+  await loadOutline();
+
   for (const f of features) {
     f.__centroid = geoPath.centroid(f);
     f.__pop = getPopCommune(f.__label);
@@ -3249,27 +4047,30 @@ async function main() {
     .on("mousemove", (event, d) => {
       const cKey = cptsKeyForFeature(d);
       const eKey = empsaKeyForFeature(d);
+      const rKey = crtKeyForFeature(d);
 
       const tags = [];
       if (toggleDensityEl.checked) tags.push(formatDensity(d.__density_hab_km2));
       if (toggleCptsEl.checked) tags.push(CPTS_ZONES[cKey]?.label || "CPTS —");
       if (toggleEmpsaEl.checked) tags.push(EMPSA_ZONES[eKey]?.label || "EMPSA —");
+      if (toggleCrtEl.checked) tags.push(CRT_ZONES[rKey]?.label || "CRT —");
 
       const popCommune = getPopCommune(d.__label);
 
-      showTip(
-        event.clientX,
-        event.clientY,
-        d.__label,
-        tags.length ? tags.join(" • ") : "Commune",
-        {
-          "Population commune (JSON)": popCommune != null ? popCommune.toLocaleString("fr-FR") : "—",
-          "Surface commune (km²)": Number.isFinite(d.__area_km2) ? d.__area_km2.toFixed(1).replace(".", ",") : "—",
-          "Densité commune": formatDensity(d.__density_hab_km2),
-          "Population Var Est": (kpiPopVE.textContent || "—"),
-          "Superficie Var Est (km²)": KPI_FIXED.superficie_km2.toLocaleString("fr-FR")
-        }
-      );
+      const grid = {
+        "Population commune (JSON)": popCommune != null ? popCommune.toLocaleString("fr-FR") : "—",
+        "Surface commune (km²)": Number.isFinite(d.__area_km2) ? d.__area_km2.toFixed(1).replace(".", ",") : "—",
+        "Densité commune": formatDensity(d.__density_hab_km2),
+      };
+      if (toggleCrtEl.checked){
+        const z = CRT_ZONES[rKey];
+        grid["CRT"] = z ? z.label : "—";
+        grid["Contact CRT"] = (z && z.tel) ? z.tel : "—";
+      }
+      grid["Population Var Est"] = (kpiPopVE.textContent || "—");
+      grid["Superficie Var Est (km²)"] = KPI_FIXED.superficie_km2.toLocaleString("fr-FR");
+
+      showTip(event.clientX, event.clientY, d.__label, tags.length ? tags.join(" • ") : "Commune", grid);
     })
     .on("mouseleave", hideTip);
 
@@ -3300,16 +4101,20 @@ async function main() {
 
   enableProsUI(false);
   enablePatientsUI(false);
+  enableOrpUI(false);
 
   cptsSelectEl.disabled = true;
   onlyZoneEl.disabled = true;
   empsaSelectEl.disabled = true;
   onlyEmpsaEl.disabled = true;
+  crtSelectEl.disabled = true;
+  onlyCrtEl.disabled = true;
   densityPaletteEl.disabled = true;
   densityLabelsBoostEl.disabled = true;
 
   cptsSelectEl.value = "__all__";
   empsaSelectEl.value = "__all__";
+  crtSelectEl.value = "__all__";
   profSelectEl.value = "__all__";
   prosModeEl.value = "clusters";
   paletteSelectEl.value = "dac";
@@ -3319,11 +4124,20 @@ async function main() {
   patientsPaletteEl.value = "dac";
   patientsDotSizeEl.value = "2";
 
+  orpModeEl.value = "points";
+  orpColorByEl.value = "criticite";
+  orpTypeEl.value = "__all__";
+  orpCritEl.value = "__all__";
+  orpStatutEl.value = "__all__";
+  orpDotSizeEl.value = "2";
+
   applyOfficesVisibility();
   applyZonings();
+  renderCrtPanel();
   renderProsSummaryPanel();
   renderHorsVar();
   applyPatientsLayer();
+  applyORPLayer();
   updateChips();
 
   window.addEventListener("resize", () => {
@@ -3338,4 +4152,62 @@ main().catch(err => {
 });
 </script>
 </body>
+</html>
+
+<script>
+/* ── Toolbar panel management ── */
+(function(){
+  /* Map toggle IDs → settings panel IDs */
+  const LAYER_PANELS = [
+    ["toggleDensity",  "density-settings-panel",  "lpill-density"],
+    ["toggleCpts",     "cpts-settings-panel",      "lpill-cpts"],
+    ["toggleEmpsa",    "empsa-settings-panel",     "lpill-empsa"],
+    ["toggleCrt",      "crt-settings-panel",        "lpill-crt"],
+    ["togglePros",     "pros-settings-panel",      "lpill-pros"],
+    ["togglePatients", "patients-settings-panel",  "lpill-patients"],
+    ["toggleOrp",      "orp-settings-panel",        "lpill-orp"],
+    ["toggleLabels",   null,                       "lpill-labels"],
+    ["toggleOffices",  null,                       "lpill-offices"],
+  ];
+
+  function updatePill(pillId, checked) {
+    const pill = document.getElementById(pillId);
+    if (!pill) return;
+    if (checked) pill.classList.add("is-active");
+    else pill.classList.remove("is-active");
+  }
+
+  function updatePanel(panelId, checked) {
+    if (!panelId) return;
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.style.display = checked ? "flex" : "none";
+  }
+
+  LAYER_PANELS.forEach(([toggleId, panelId, pillId]) => {
+    const toggle = document.getElementById(toggleId);
+    if (!toggle) return;
+    /* Initial state */
+    updatePill(pillId, toggle.checked);
+    updatePanel(panelId, toggle.checked);
+    /* Listen */
+    toggle.addEventListener("change", () => {
+      updatePill(pillId, toggle.checked);
+      updatePanel(panelId, toggle.checked);
+    });
+  });
+
+  /* Chips row visibility */
+  const chipsEl = document.getElementById("chips");
+  const chipsRow = document.getElementById("chips-row");
+  if (chipsEl && chipsRow) {
+    const obs = new MutationObserver(() => {
+      const hasBadgeOnly = chipsEl.children.length === 1 && chipsEl.children[0].classList.contains("badge");
+      const hasChips = chipsEl.children.length > 0 && !hasBadgeOnly;
+      chipsRow.style.display = hasChips ? "flex" : "none";
+    });
+    obs.observe(chipsEl, { childList: true, subtree: false });
+  }
+})();
+</script>
 </html>
