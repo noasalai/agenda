@@ -161,6 +161,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;font-s
 .cmp-ttl{font-family:'Barlow Semi Condensed',sans-serif;font-size:11.5px;font-weight:700;color:var(--B);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
 .cmp-sel{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:10.5px;padding:5px 8px;flex:1}
 .cmp-sel:disabled{opacity:.5;cursor:not-allowed}
+.cmp-cs-btn{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;color:var(--tx2);font-size:15px;font-weight:800;line-height:1;padding:3px 10px;cursor:pointer;transition:all .15s;flex-shrink:0;letter-spacing:1px}
+.cmp-cs-btn:hover{background:var(--B);color:#fff;border-color:var(--B)}
 .cmp-cw{position:relative;flex:1;min-height:180px}
 .cmp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;padding:8px 4px 0;border-top:1px solid var(--bd);flex-shrink:0}
 .cmp-stat{display:flex;flex-direction:column;gap:1px;padding:5px 7px;background:var(--sf2);border-radius:6px;min-width:0}
@@ -169,7 +171,9 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;font-s
 .hctrl{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;color:#fff;font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;padding:4px 10px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .hctrl:hover{background:rgba(255,255,255,.22)}
 .wkf{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.7);font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600}
-.wksel{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:5px;color:#fff;padding:3px 6px;font-size:10px;font-family:'DM Mono',monospace}
+.wksel{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);border-radius:5px;color:#fff;padding:4px 10px;font-size:11px;font-family:'DM Mono',monospace;min-width:70px;cursor:pointer;font-weight:600;text-align:center;text-align-last:center}
+.wksel option{background:#1a2d52;color:#fff;font-family:'DM Mono',monospace;font-size:11px;padding:6px 10px;font-weight:500}
+.wksel:focus{outline:2px solid #F9B42D;outline-offset:1px}
 .n1pill{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.7);font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;cursor:pointer}
 /* MISC */
 .cmt{background:rgba(55,102,174,.06);border:1px solid rgba(55,102,174,.18);border-left:3px solid var(--B);border-radius:5px;padding:6px 9px;font-size:9.5px;color:var(--tx2);margin-top:7px;line-height:1.5}
@@ -238,6 +242,10 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;font-s
   <div class="g2">
     <div class="card"><div class="ct">Sollicitations traitées S1–S16</div><div class="cw"><canvas id="sSoll"></canvas></div><div class="cmt"><span class="al">⚠ S2 :</span> SAS S2 non valable</div></div>
     <div class="card"><div class="ct">Sollicitations &lt;48h (%) S1–S16</div><div class="cw"><canvas id="s48h"></canvas></div><div class="cmt"><span class="al">⚠ S7 :</span> 68.8% — bas à surveiller</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">📈 Cumul — Sollicitations traitées &amp; Patients associés (évolution depuis S1)</div>
+    <div class="cw t"><canvas id="sCum"></canvas></div>
   </div>
   <div class="card">
     <div class="ct">Tableau détaillé S1–S16</div>
@@ -864,8 +872,20 @@ const D={
 /* ══ VUE GLOBALE : supprimée (v6). Les charts g* ont été retirés. ══ */
 
 /* ══ SOLLICITATIONS ══ */
+/* Somme cumulée depuis S1 (utilise pour le chart d'évolution "sCum") */
+function _cumsum(arr){const out=[];let s=0;for(const v of(arr||[])){if(v==null){out.push(null);continue;}s+=v;out.push(s);}return out;}
 mk('sSoll','bar',{labels:W12,datasets:[{label:'Traitées',data:D.soll,backgroundColor:W12.map((_,i)=>mc(i)+'bb'),borderColor:W12.map((_,i)=>mc(i)),borderWidth:1,borderRadius:3},{label:'Patients',data:D.pat,backgroundColor:W12.map((_,i)=>i<4?C.C+'66':i<9?C.Y+'66':C.M+'44'),borderColor:W12.map((_,i)=>i<4?C.C:i<9?C.Y:C.M),borderWidth:1,borderRadius:3}]},bo(true));
 mk('s48h','bar',{labels:W12,datasets:[{label:'% <48h',data:D.h48,backgroundColor:W12.map((_,i)=>mc(i)+'99'),borderColor:W12.map((_,i)=>mc(i)),borderWidth:1,borderRadius:3}]},{...bo(false),scales:{x:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},y:{min:60,max:105,grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5},callback:v=>v+'%'}}}});
+/* Chart cumul (évolution de la totalité depuis S1) */
+mk('sCum','line',{labels:W12,datasets:[ld('Cumul Sollicitations traitées',_cumsum(D.soll),C.B),ld('Cumul Patients associés',_cumsum(D.pat),C.C)]},bo(true));
+function refreshCumul(){
+  const ch=chs['sCum'];if(!ch)return;
+  ch.data.labels=[...W12];
+  ch.data.datasets[0].data=_cumsum(D.soll);
+  ch.data.datasets[1].data=_cumsum(D.pat);
+  ch.update('none');
+}
+window.refreshCumul=refreshCumul;
 
 /* ══ CANAUX ══ */
 mk('cCan','line',{labels:W12,datasets:[ld('Téléphone',D.tel,C.B),ld('Mail',D.mail,C.C),ld('Manquante',D.cManq,C.R),ld('Réunion',D.cReu,C.Y),ld('MSSanté',D.cMss,C.G),ld('Courrier',D.cCou,C.T)]},bo(true));
@@ -1935,7 +1955,13 @@ function addN1ToCharts(){
   if(D25.soll?.length){
     addTo('gSoll',ds25('Sollicitations','soll'),ds25('Patients','pat'));
     addTo('sSoll',ds25('Sollicitations','soll'),ds25('Patients','pat'));
+    /* Cumul 2025 pour le chart d'évolution sCum */
+    D25.sollCum=_cumsum(D25.soll);
+    if(D25.pat)D25.patCum=_cumsum(D25.pat);
+    addTo('sCum',ds25('Cumul Sollicitations','sollCum'),ds25('Cumul Patients','patCum'));
   }
+  /* Refresh du chart sCum (les données 2026 ont pu changer via le sync) */
+  if(typeof refreshCumul==='function')refreshCumul();
   if(D25.h48?.length)addTo('s48h',ds25('%<48h','h48'));
   /* ── Canal de réception ── */
   if(D25.tel?.length)addTo('cCan',
@@ -2123,6 +2149,7 @@ function closeFsMod(){
 const CMP_GROUPS=[
   {name:'📞 Sollicitations',opts:[
     {id:'sSoll',lbl:'Sollicitations traitées + Patients'},
+    {id:'sCum', lbl:'Cumul Sollicitations + Patients (évolution)'},
     {id:'s48h', lbl:'Traitement < 48h (%)'},
   ]},
   {name:'📥 Canaux & Contexte',opts:[
@@ -2195,7 +2222,14 @@ function openCmpMod(){
 function _cmpEsc(e){if(e.key==='Escape')closeCmpMod();}
 function closeCmpMod(){
   document.getElementById('cmpMod').classList.remove('on');
-  [1,2].forEach(n=>{if(_cmpCh[n]){_cmpCh[n].destroy();_cmpCh[n]=null;}});
+  [1,2].forEach(n=>{
+    /* Nettoyage magasin graphiques + désenregistrement de chs */
+    delete CS_ORIG['cmpC'+n];delete CS_CUR['cmpC'+n];
+    delete chs['cmpC'+n];
+    /* Ferme le menu ⋯ s'il est ouvert */
+    document.getElementById('csm-cmpC'+n)?.remove();
+    if(_cmpCh[n]){_cmpCh[n].destroy();_cmpCh[n]=null;}
+  });
   document.removeEventListener('keydown',_cmpEsc);
 }
 
@@ -2224,38 +2258,49 @@ function cmpRefresh(){
 }
 
 function _cmpStats(datasets,labels){
-  /* Calcule min/max/moy/delta pour le 1er dataset numérique */
-  const ds=datasets.find(d=>Array.isArray(d.data));
-  if(!ds)return{min:null,max:null,moy:null,delta:null,pct:null};
-  const vals=ds.data.map(v=>typeof v==='number'?v:null).filter(v=>v!==null);
-  if(!vals.length)return{min:null,max:null,moy:null,delta:null,pct:null};
-  const min=Math.min(...vals),max=Math.max(...vals),moy=vals.reduce((a,b)=>a+b,0)/vals.length;
-  const first=vals[0],last=vals[vals.length-1];
-  const delta=last-first;
-  const pct=first!==0?((delta/first)*100):null;
-  return{min,max,moy,delta,pct,first,last,label:ds.label||''};
+  /* Calcule min/max/moy/somme par dataset numérique */
+  const series=[];
+  for(const ds of datasets){
+    if(!Array.isArray(ds.data))continue;
+    const vals=ds.data.map(v=>typeof v==='number'?v:null).filter(v=>v!==null);
+    if(!vals.length)continue;
+    series.push({
+      label:ds.label||'',
+      min:Math.min(...vals),
+      max:Math.max(...vals),
+      moy:vals.reduce((a,b)=>a+b,0)/vals.length,
+      sum:vals.reduce((a,b)=>a+b,0),
+    });
+  }
+  return series;
 }
 
 function _cmpFmtNum(v){if(v===null||v===undefined||!isFinite(v))return'—';return Number.isInteger(v)?String(v):v.toFixed(1);}
-function _cmpFmtDelta(d,p){
-  if(d===null||!isFinite(d))return'—';
-  const sign=d>0?'▲':d<0?'▼':'=';
-  const cls=d>0?'tu':d<0?'td':'';
-  const pct=p!==null&&isFinite(p)?` (${p>=0?'+':''}${p.toFixed(0)}%)`:'';
-  return `<span class="${cls}">${sign} ${d>=0?'+':''}${_cmpFmtNum(d)}${pct}</span>`;
+
+function _cmpRenderStats(panelN,series,srcLbl){
+  const el=document.getElementById('cmpS'+panelN);if(!el)return;
+  if(!series||!series.length){el.innerHTML='<span style="opacity:.5">Pas de données numériques</span>';return;}
+  const s1=series[0];
+  const s2=series[1]||null;
+  /* Nettoie le label pour retirer les mentions "(n-1 2025)" éventuelles */
+  const cleanLbl=l=>(l||'').replace(/\s*\(n-1 2025\)/,'').trim();
+  const totS1Lbl=`Total ${cleanLbl(s1.label)||srcLbl||'série'}`;
+  const totS2Html=s2?`<div class="cmp-stat"><span class="cmp-stat-lbl">Total ${cleanLbl(s2.label)}</span><span class="cmp-stat-v">${_cmpFmtNum(s2.sum)}</span></div>`:'';
+  el.innerHTML=`
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Série</span><span class="cmp-stat-v">${cleanLbl(s1.label)||srcLbl}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Min</span><span class="cmp-stat-v">${_cmpFmtNum(s1.min)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Max</span><span class="cmp-stat-v">${_cmpFmtNum(s1.max)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Moy</span><span class="cmp-stat-v">${_cmpFmtNum(s1.moy)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">${totS1Lbl}</span><span class="cmp-stat-v">${_cmpFmtNum(s1.sum)}</span></div>
+    ${totS2Html}
+  `;
 }
 
-function _cmpRenderStats(panelN,stats,srcLbl){
-  const el=document.getElementById('cmpS'+panelN);if(!el)return;
-  if(stats.min===null){el.innerHTML='<span style="opacity:.5">Pas de données numériques</span>';return;}
-  el.innerHTML=`
-    <div class="cmp-stat"><span class="cmp-stat-lbl">Série</span><span class="cmp-stat-v">${stats.label||srcLbl}</span></div>
-    <div class="cmp-stat"><span class="cmp-stat-lbl">Min</span><span class="cmp-stat-v">${_cmpFmtNum(stats.min)}</span></div>
-    <div class="cmp-stat"><span class="cmp-stat-lbl">Max</span><span class="cmp-stat-v">${_cmpFmtNum(stats.max)}</span></div>
-    <div class="cmp-stat"><span class="cmp-stat-lbl">Moy</span><span class="cmp-stat-v">${_cmpFmtNum(stats.moy)}</span></div>
-    <div class="cmp-stat"><span class="cmp-stat-lbl">1ᵉʳ → dernier</span><span class="cmp-stat-v">${_cmpFmtNum(stats.first)} → ${_cmpFmtNum(stats.last)}</span></div>
-    <div class="cmp-stat"><span class="cmp-stat-lbl">Δ</span><span class="cmp-stat-v">${_cmpFmtDelta(stats.delta,stats.pct)}</span></div>
-  `;
+/* Recalcule les stats en tenant compte des datasets masqués par la légende */
+function _cmpRecomputeStats(n,chart,srcLbl){
+  if(!chart)return;
+  const visible=chart.data.datasets.filter((_,i)=>chart.isDatasetVisible(i));
+  _cmpRenderStats(n,_cmpStats(visible,chart.data.labels),srcLbl);
 }
 
 function cmpBuild(n){
@@ -2290,12 +2335,26 @@ function cmpBuild(n){
     /* Mode dual : 2 indicateurs différents côte à côte (jamais de n-1 en superposé) */
     datasets=src.data.datasets.filter(ds=>!ds._n1).map(ds=>({...ds,data:(ds.data||[]).slice(from,to+1),hidden:false}));
   }
+  const opt=CMP_OPT.find(o=>o.id===srcId);
+  const srcLbl=opt?.lbl||srcId;
+  /* Options avec onClick de légende personnalisé pour recalculer les stats */
+  const baseOpts=bo(src.config.type==='bar'||src.config.type==='line');
+  const chartOpts={...baseOpts,animation:{duration:0},plugins:{...baseOpts.plugins,legend:{...(baseOpts.plugins?.legend||{}),display:true,onClick(e,item,legend){
+    /* Toggle visibilité (comportement natif Chart.js) */
+    const idx=item.datasetIndex;
+    if(legend.chart.isDatasetVisible(idx))legend.chart.hide(idx);else legend.chart.show(idx);
+    /* Puis recalcule les stats en filtrant les datasets masqués */
+    _cmpRecomputeStats(n,legend.chart,srcLbl);
+  }}}};
   _cmpCh[n]=new Chart(canvas.getContext('2d'),{
     type:src.config.type,data:{labels,datasets},
-    options:{...bo(src.config.type==='bar'||src.config.type==='line'),animation:{duration:0}},
+    options:chartOpts,
   });
-  const opt=CMP_OPT.find(o=>o.id===srcId);
-  _cmpRenderStats(n,_cmpStats(datasets,labels),opt?.lbl||srcId);
+  /* Enregistre dans chs pour que le magasin graphiques (⋯) fonctionne */
+  chs['cmpC'+n]=_cmpCh[n];
+  /* Reset de l'état magasin pour ce panneau à chaque changement de source */
+  delete CS_ORIG['cmpC'+n];delete CS_CUR['cmpC'+n];
+  _cmpRenderStats(n,_cmpStats(datasets,labels),srcLbl);
 }
 
 /* ══ MAGASIN GRAPHIQUES ══ */
@@ -2314,14 +2373,20 @@ const CS_CAT=[
   {key:'pie',    ico:'◔',lbl:'Secteurs'},
 ];
 
-/* Types proposés selon le type de base du graphique */
+/* Types proposés selon le type de base du graphique — camembert (donut/pie)
+   disponible partout, même sur les séries temporelles (utilise le 1ᵉʳ dataset). */
 function csAvail(chartId){
   const ch=chs[chartId];if(!ch)return[];
   const base=CS_ORIG[chartId]?.type||ch.config.type;
   const multi=ch.data.datasets.length>1;
-  if(base==='doughnut'||base==='pie')return['default','doughnut','pie','bar'];
-  if(base==='bar')return multi?['default','bar','hbar','stackb','line','area']:['default','bar','hbar','line','area'];
-  return['default','line','area','bar','stackb'];
+  if(base==='doughnut'||base==='pie')return['default','doughnut','pie','bar','hbar','line'];
+  if(base==='bar'){
+    return multi
+      ?['default','bar','hbar','stackb','line','area','doughnut','pie']
+      :['default','bar','hbar','line','area','doughnut','pie'];
+  }
+  /* line, area, autres */
+  return['default','line','area','bar','stackb','doughnut','pie'];
 }
 
 function openCS(chartId,anchorEl){
@@ -2336,7 +2401,8 @@ function openCS(chartId,anchorEl){
     }).join('');
   if(!menu){
     menu=document.createElement('div');menu.className='cs-menu';menu.id='csm-'+chartId;menu.dataset.cid=chartId;
-    anchorEl.closest('.card').appendChild(menu);
+    /* Support .card (dashboard) OU .cmp-panel (comparaison) */
+    (anchorEl.closest('.card')||anchorEl.closest('.cmp-panel')||anchorEl.parentElement).appendChild(menu);
   }
   menu.innerHTML=html;menu.classList.toggle('open');
   /* Ferme au clic extérieur */
@@ -2392,6 +2458,24 @@ function csApply(chartId,typeKey,btn){
   ch.destroy();delete chs[chartId];
   chs[chartId]=new Chart(canvas.getContext('2d'),{type:newType,data:{labels,datasets},options:newOpts});
   document.getElementById('csm-'+chartId)?.classList.remove('open');
+  /* Si c'est un chart du Comparer (cmpC1/cmpC2), réattache le handler de légende
+     pour que la sélection montre/masque continue de recalculer les stats */
+  if(chartId==='cmpC1'||chartId==='cmpC2'){
+    const n=parseInt(chartId.slice(4));
+    _cmpCh[n]=chs[chartId];
+    const srcId=document.getElementById('cmpSel'+n)?.value;
+    const opt=CMP_OPT.find(o=>o.id===srcId);const srcLbl=opt?.lbl||srcId||'';
+    const chartRef=chs[chartId];
+    chartRef.options.plugins=chartRef.options.plugins||{};
+    chartRef.options.plugins.legend=chartRef.options.plugins.legend||{};
+    chartRef.options.plugins.legend.onClick=function(e,item,legend){
+      const idx=item.datasetIndex;
+      if(legend.chart.isDatasetVisible(idx))legend.chart.hide(idx);else legend.chart.show(idx);
+      _cmpRecomputeStats(n,legend.chart,srcLbl);
+    };
+    chartRef.update('none');
+    _cmpRecomputeStats(n,chartRef,srcLbl);
+  }
 }
 
 /* ══ LÉGENDE CALENDAIRE ══ */
@@ -2521,12 +2605,20 @@ document.addEventListener('DOMContentLoaded',()=>GS.autoLoad());
   </div>
   <div class="cmp-body">
     <div class="cmp-panel" id="cmpP1">
-      <div class="cmp-hdr2"><span class="cmp-ttl" id="cmpP1Ttl">Indicateur A</span><select class="cmp-sel" id="cmpSel1" onchange="cmpRefresh()"></select></div>
+      <div class="cmp-hdr2">
+        <span class="cmp-ttl" id="cmpP1Ttl">Indicateur A</span>
+        <select class="cmp-sel" id="cmpSel1" onchange="cmpRefresh()"></select>
+        <button class="cmp-cs-btn" onclick="openCS('cmpC1',this)" title="Changer le type de graphique">⋯</button>
+      </div>
       <div class="cmp-cw"><canvas id="cmpC1"></canvas></div>
       <div class="cmp-stats" id="cmpS1"></div>
     </div>
     <div class="cmp-panel" id="cmpP2">
-      <div class="cmp-hdr2"><span class="cmp-ttl" id="cmpP2Ttl">Indicateur B</span><select class="cmp-sel" id="cmpSel2" onchange="cmpRefresh()"></select></div>
+      <div class="cmp-hdr2">
+        <span class="cmp-ttl" id="cmpP2Ttl">Indicateur B</span>
+        <select class="cmp-sel" id="cmpSel2" onchange="cmpRefresh()"></select>
+        <button class="cmp-cs-btn" onclick="openCS('cmpC2',this)" title="Changer le type de graphique">⋯</button>
+      </div>
       <div class="cmp-cw"><canvas id="cmpC2"></canvas></div>
       <div class="cmp-stats" id="cmpS2"></div>
     </div>
