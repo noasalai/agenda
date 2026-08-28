@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revue des Indicateurs 2026 – DAC Var Est</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{--bg:#0d1219;--sf:#131a26;--sf2:#1a2336;--bd:#243048;--tx:#e8edf5;--tx2:#8fa3c0;--tx3:#4e6280;--hbg:linear-gradient(135deg,#0b1220 0%,#1a2d52 55%,#131a26 100%);--nav:#131a26;--shd:0 2px 12px rgba(0,0,0,.35);--thov:rgba(55,102,174,.08);}
+[data-theme="light"]{--bg:#f3f6fb;--sf:#fff;--sf2:#eaf0f9;--bd:#d0daea;--tx:#0d1219;--tx2:#3a4f6e;--tx3:#7a90ae;--hbg:linear-gradient(135deg,#1f3d7a 0%,#3766ae 55%,#2d5298 100%);--nav:#fff;--shd:0 2px 12px rgba(55,102,174,.10);--thov:rgba(55,102,174,.06);}
+:root{--B:#3766AE;--C:#73BFD8;--R:#EB5D45;--Y:#F9B42D;--G:#38b16b;--M:#9b59b6;--T:#2da88f;--S:#8b9ec4;--r:9px;}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;font-size:12.5px;line-height:1.5;transition:background .25s,color .25s}
+/* HEADER */
+.hdr{background:var(--hbg);border-bottom:3px solid var(--B);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:10px;flex-wrap:wrap}
+.hl{display:flex;align-items:center;gap:12px}
+.logo img{height:46px;filter:drop-shadow(0 1px 4px rgba(0,0,0,.4))}
+.logo-fb{display:none;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);color:#fff;font-family:'Barlow Semi Condensed',sans-serif;font-weight:800;font-size:11px;padding:5px 9px;border-radius:5px;text-align:center}
+.ars{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:5px;padding:4px 9px;color:rgba(255,255,255,.85);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:10.5px;text-align:center;line-height:1.3}
+.htitle{font-family:'Barlow Semi Condensed',sans-serif;font-size:19px;font-weight:800;color:#fff;line-height:1.1}
+.htitle span{color:var(--C)}
+.hmeta{font-size:9.5px;color:rgba(255,255,255,.6);margin-top:1px}
+.hr{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 9px;font-size:10px;color:rgba(255,255,255,.75);font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;white-space:nowrap}
+.pill.jan{background:rgba(55,102,174,.5);color:#fff;border-color:var(--B)}
+.pill.fev{background:rgba(235,93,69,.5);color:#fff;border-color:var(--R)}
+.pill.mar{background:rgba(155,89,182,.5);color:#fff;border-color:var(--M)}
+.tbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:7px;padding:4px 10px;cursor:pointer;font-size:11px;color:#fff;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;transition:background .2s;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.28)}
+/* NAV */
+.nav{display:flex;gap:2px;padding:7px 22px 0;background:var(--nav);border-bottom:2px solid var(--bd);overflow-x:auto;transition:background .25s;scrollbar-width:none;position:sticky;top:64px;z-index:99}
+.nav::-webkit-scrollbar{display:none}
+.ntab{padding:6px 11px;border-radius:7px 7px 0 0;font-family:'Barlow Semi Condensed',sans-serif;font-size:11.5px;font-weight:600;color:var(--tx3);cursor:pointer;white-space:nowrap;border:1px solid transparent;border-bottom:none;transition:all .2s}
+.ntab:hover{color:var(--tx);background:var(--sf2)}
+.ntab.active{color:var(--B);background:var(--bg);border-color:var(--bd);margin-bottom:-2px;border-bottom:2px solid var(--bg)}
+/* LAYOUT */
+.main{padding:14px 22px}
+.sec{display:none}.sec.active{display:block}
+.st{font-family:'Barlow Semi Condensed',sans-serif;font-size:14.5px;font-weight:800;color:var(--tx);margin-bottom:11px;padding-bottom:6px;border-bottom:2px solid var(--B);display:flex;align-items:center;gap:7px}
+.st.sub{font-size:12.5px;border-bottom-color:var(--C);margin-top:14px}
+.st .n{background:var(--B);color:#fff;min-width:21px;height:21px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:10px;font-weight:800;padding:0 3px}
+.st.sub .n{background:var(--C);color:#0d1219}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.g2>*,.g3>*{min-width:0}
+/* Cards conteneurs bornés — évite les débordements horizontaux dans les grilles */
+.card{min-width:0}
+.card>[data-dyn],.card>.dt-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+.card>[data-dyn]::-webkit-scrollbar,.card>.dt-scroll::-webkit-scrollbar{height:7px}
+.card>[data-dyn]::-webkit-scrollbar-track,.card>.dt-scroll::-webkit-scrollbar-track{background:rgba(0,0,0,.04);border-radius:3px}
+.card>[data-dyn]::-webkit-scrollbar-thumb,.card>.dt-scroll::-webkit-scrollbar-thumb{background:var(--tx3);border-radius:3px;opacity:.5}
+/* Colonne "Indicateur" sticky pour les tables larges */
+.card [data-dyn] table.dt th:first-child,
+.card [data-dyn] table.dt td:first-child{position:sticky;left:0;background:var(--sf);z-index:2;box-shadow:2px 0 3px -1px rgba(0,0,0,.08)}
+.card [data-dyn] table.dt tr.tot td:first-child{background:var(--sf2)}
+.card [data-dyn] table.dt tr:hover td:first-child{background:var(--thov)}
+.card [data-dyn] table.dt tr.n1-row td:first-child{background:var(--sf);color:var(--tx3);font-style:italic}
+/* KPI */
+.kr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;margin-bottom:10px}
+.kc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px;box-shadow:var(--shd);position:relative;overflow:hidden;transition:background .25s,border .25s}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--B)}
+.kc.c::before{background:var(--C)}.kc.r::before{background:var(--R)}.kc.y::before{background:var(--Y)}.kc.g::before{background:var(--G)}.kc.m::before{background:var(--M)}.kc.t::before{background:var(--T)}
+/* Cartes Moyenne — visuellement distinctes des semaines */
+.kc.kmoy4{background:linear-gradient(135deg,rgba(115,191,216,.18),rgba(115,191,216,.32));border:1.5px solid var(--C);box-shadow:0 2px 8px rgba(115,191,216,.25);padding:8px 10px}
+.kc.kmoy4::before{height:4px;background:var(--C)}
+.kc.kmoy4 .kl{color:var(--C);font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-size:9.5px}
+.kc.kmoy4 .kv{color:var(--C);font-family:'DM Mono',monospace}
+.kc.kmoy4 .ks{color:var(--C);opacity:.75;font-family:'DM Mono',monospace;font-size:8.5px}
+.kc.kmoy{background:linear-gradient(135deg,rgba(249,180,45,.22),rgba(249,180,45,.4));border:2px solid var(--Y);box-shadow:0 3px 12px rgba(249,180,45,.35);padding:8px 12px}
+.kc.kmoy::before{height:5px;background:var(--Y)}
+.kc.kmoy .kl{color:var(--Y);font-weight:900;letter-spacing:.8px;text-transform:uppercase;font-size:10px}
+.kc.kmoy .kv{color:var(--Y);font-family:'DM Mono',monospace;font-size:22px}
+.kc.kmoy .ks{color:var(--Y);opacity:.75;font-family:'Barlow Semi Condensed',sans-serif;font-size:8.5px;font-weight:600}
+.kl{font-size:8.5px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600}
+.kv{font-family:'Barlow Semi Condensed',sans-serif;font-size:25px;font-weight:800;line-height:1;color:var(--tx)}
+.ks{font-size:9px;color:var(--tx2);margin-top:2px}
+.kt{font-size:9.5px;font-weight:700;margin-top:3px;font-family:'Barlow Semi Condensed',sans-serif}
+.kt.up{color:var(--G)}.kt.dn{color:var(--R)}.kt.eq{color:var(--tx3)}
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px;box-shadow:var(--shd);transition:background .25s,border .25s;margin-bottom:10px}
+.card:last-child{margin-bottom:0}
+.ct{font-family:'Barlow Semi Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--tx);margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.bdg{font-size:8px;background:var(--sf2);border:1px solid var(--bd);padding:1px 5px;border-radius:8px;color:var(--tx3);font-family:'DM Mono',monospace}
+.cw{position:relative;height:190px}.cw.t{height:270px}.cw.s{height:150px}.cw.xs{height:120px}
+/* TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:10px}
+.dt th{text-align:right;font-family:'DM Mono',monospace;font-size:8px;color:var(--tx3);padding:3px 5px;border-bottom:2px solid var(--B);font-weight:500}
+.dt th:first-child{text-align:left}
+.dt td{padding:3px 5px;border-bottom:1px solid var(--bd);text-align:right;font-family:'DM Mono',monospace;font-size:9.5px}
+.dt td:first-child{text-align:left;color:var(--tx2);font-family:'Barlow',sans-serif;font-size:9.5px}
+.dt tr:hover td{background:var(--thov)}
+.m4{color:var(--C);font-weight:700}.fev{color:var(--R)}.mar{color:var(--M)}.m12{color:var(--Y);font-weight:700}
+.tot{color:var(--tx);font-weight:700;background:var(--sf2)}.red{color:var(--R);font-weight:600}
+.tJ{background:rgba(55,102,174,.07)!important}.tF{background:rgba(235,93,69,.07)!important}.tM{background:rgba(155,89,182,.07)!important}.tA{background:rgba(56,177,107,.07)!important}
+/* ── Colonnes MOYENNES (4-semaines glissantes + totale) : visuellement distinctes des semaines ── */
+.dt th.moy4h{background:rgba(115,191,216,.28)!important;color:var(--C)!important;font-family:'Barlow Semi Condensed',sans-serif!important;font-size:9px!important;font-weight:800!important;text-align:center!important;border-left:2px solid var(--C);border-right:2px solid var(--C);letter-spacing:.3px;text-transform:uppercase}
+.dt th.moyTh{background:rgba(249,180,45,.35)!important;color:var(--Y)!important;font-family:'Barlow Semi Condensed',sans-serif!important;font-size:10px!important;font-weight:900!important;text-align:center!important;border-left:3px solid var(--Y);letter-spacing:.4px;text-transform:uppercase;padding:5px 8px!important}
+.dt td.moy4c{background:rgba(115,191,216,.14)!important;color:var(--C)!important;font-weight:800!important;text-align:center!important;font-family:'DM Mono',monospace;font-size:10px!important;border-left:2px solid rgba(115,191,216,.5);border-right:2px solid rgba(115,191,216,.5)}
+.dt td.m12{background:rgba(249,180,45,.18)!important;color:var(--Y)!important;font-weight:900!important;text-align:center!important;font-family:'DM Mono',monospace;font-size:11px!important;border-left:3px solid var(--Y);padding:4px 8px!important}
+/* Row TOT (TOTAL) : garder son fond spécifique mais permettre le contraste des moy */
+.dt tr.tot td.moy4c{background:rgba(115,191,216,.28)!important}
+.dt tr.tot td.m12{background:rgba(249,180,45,.32)!important}
+/* Hover : préserve la couleur de fond des moy */
+.dt tr:hover td.moy4c{background:rgba(115,191,216,.24)!important}
+.dt tr:hover td.m12{background:rgba(249,180,45,.28)!important}
+.jan{color:var(--C)}.fev{color:var(--R)}.mar{color:var(--M)}.avr{color:var(--G)}
+/* Overlay chargement */
+#gsLoad{display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,18,35,.75);align-items:center;justify-content:center;flex-direction:column;gap:14px}
+#gsLoad.on{display:flex}
+.gs-spin{width:40px;height:40px;border:4px solid rgba(255,255,255,.2);border-top-color:#3766AE;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gs-lbl{font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.85)}
+.tu{color:var(--G);font-weight:700}.td{color:var(--R);font-weight:700}
+/* ── Légende calendaire ── */
+.callg{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;padding:5px 8px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd)}
+.callg-chip{display:flex;align-items:center;gap:4px;font-size:9px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;color:var(--tx2)}
+.callg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.callg-dot{width:8px;height:8px;border-radius:50%;background:rgba(235,93,69,.85);flex-shrink:0}
+.callg-line{width:14px;height:2px;background:repeating-linear-gradient(90deg,rgba(235,93,69,.7) 0 4px,transparent 4px 7px);flex-shrink:0}
+/* ── N-1 tableau ── */
+.n1-row td{color:var(--tx3);font-style:italic;background:rgba(139,158,196,.07);font-size:8px;border-bottom:none}
+.n1-row td:first-child::before{content:'↳ n-1 2025 · ';font-weight:600}
+/* ── Magasin graphiques (⋯) ── */
+.cs-btn{position:absolute;top:7px;right:34px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);opacity:0;transition:opacity .15s;z-index:5;padding:1px 6px;border-radius:4px;letter-spacing:1px;font-weight:700;line-height:1.2}
+.cs-btn:hover{background:var(--sf2);opacity:1!important}.card:hover .cs-btn{opacity:.6}
+.cs-menu{position:absolute;top:30px;right:30px;z-index:300;background:var(--sf);border:1px solid var(--bd);border-radius:10px;box-shadow:0 6px 28px rgba(0,0,0,.3);min-width:160px;padding:6px;display:none;flex-direction:column;gap:2px}
+.cs-menu.open{display:flex}
+.cs-mhdr{font-size:9px;color:var(--tx3);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 7px 5px;border-bottom:1px solid var(--bd);margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.cs-opt{display:flex;align-items:center;gap:9px;background:none;border:none;color:var(--tx);font-family:'Barlow',sans-serif;font-size:11px;padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left;width:100%;transition:background .1s}
+.cs-opt:hover{background:var(--sf2)}.cs-opt.cs-active{background:rgba(55,102,174,.13);color:var(--B);font-weight:700}
+.cs-opt.cs-reset{color:var(--tx3);font-style:italic}
+.cs-ico{width:22px;text-align:center;flex-shrink:0;font-size:13px}
+/* ── Bouton plein écran (par carte) ── */
+.exp-btn{position:absolute;top:7px;right:8px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);opacity:0;transition:opacity .15s;z-index:5;padding:2px 5px;border-radius:4px;line-height:1}
+.exp-btn:hover{background:var(--sf2);opacity:1!important}.card:hover .exp-btn{opacity:.6}
+/* ── Modal fullscreen ── */
+#fsMod{display:none;position:fixed;inset:0;z-index:9998;background:var(--bg);flex-direction:column}
+#fsMod.on{display:flex}
+.fs-hdr{background:#1a2d52;border-bottom:2px solid var(--B);padding:11px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fs-title{font-family:'Barlow Semi Condensed',sans-serif;font-size:17px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fs-body{flex:1;display:grid;grid-template-rows:1fr auto auto;gap:14px;padding:16px 20px;overflow-y:auto;min-height:0}
+.fs-cw{position:relative;min-height:300px}
+.fs-tbl{overflow-x:auto;overflow-y:auto;max-height:28vh}
+.fs-note{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:10px 12px}
+.fs-note-lbl{font-size:9.5px;color:var(--tx3);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fs-note textarea{width:100%;box-sizing:border-box;min-height:65px;resize:vertical;background:transparent;border:none;outline:none;color:var(--tx);font-family:'Barlow',sans-serif;font-size:12px;line-height:1.5}
+.fs-acts{display:flex;gap:8px;align-items:center}
+.fs-acts label{color:rgba(255,255,255,.7);font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer}
+/* ── Modal comparaison ── */
+#cmpMod{display:none;position:fixed;inset:0;z-index:9998;background:var(--bg);flex-direction:column}
+#cmpMod.on{display:flex}
+.cmp-hdr{background:#1a2d52;border-bottom:2px solid var(--B);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cmp-mode{display:flex;gap:12px;background:rgba(255,255,255,.05);padding:5px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1)}
+.cmp-mode label{display:flex;align-items:center;gap:5px;color:#fff;font-family:'Barlow',sans-serif;font-size:11px;cursor:pointer;font-weight:500}
+.cmp-mode input[type=radio]{accent-color:#3766AE;margin:0}
+.cmp-mode label:has(input:checked){color:#F9B42D;font-weight:700}
+.cmp-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;min-height:0;overflow:hidden}
+.cmp-panel{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:0;overflow:hidden}
+.cmp-hdr2{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cmp-ttl{font-family:'Barlow Semi Condensed',sans-serif;font-size:11.5px;font-weight:700;color:var(--B);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
+.cmp-sel{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:10.5px;padding:5px 8px;flex:1}
+.cmp-sel:disabled{opacity:.5;cursor:not-allowed}
+.cmp-cw{position:relative;flex:1;min-height:180px}
+.cmp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;padding:8px 4px 0;border-top:1px solid var(--bd);flex-shrink:0}
+.cmp-stat{display:flex;flex-direction:column;gap:1px;padding:5px 7px;background:var(--sf2);border-radius:6px;min-width:0}
+.cmp-stat-lbl{font-size:8.5px;color:var(--tx3);font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.cmp-stat-v{font-size:11px;color:var(--tx);font-family:'DM Mono',monospace;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hctrl{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;color:#fff;font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;padding:4px 10px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.hctrl:hover{background:rgba(255,255,255,.22)}
+.wkf{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.7);font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600}
+.wksel{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:5px;color:#fff;padding:3px 6px;font-size:10px;font-family:'DM Mono',monospace}
+.n1pill{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.7);font-size:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;cursor:pointer}
+/* MISC */
+.cmt{background:rgba(55,102,174,.06);border:1px solid rgba(55,102,174,.18);border-left:3px solid var(--B);border-radius:5px;padding:6px 9px;font-size:9.5px;color:var(--tx2);margin-top:7px;line-height:1.5}
+.cmt .al{color:var(--Y);font-weight:700}
+.mleg{display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap;align-items:center}
+.mchip{display:flex;align-items:center;gap:4px;font-size:9.5px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;padding:2px 8px;border-radius:20px}
+.mchip.jan{background:rgba(55,102,174,.2);color:var(--C);border:1px solid rgba(55,102,174,.3)}
+.mchip.fev{background:rgba(235,93,69,.2);color:var(--R);border:1px solid rgba(235,93,69,.3)}
+.mchip.mar{background:rgba(155,89,182,.2);color:#c39bd3;border:1px solid rgba(155,89,182,.3)}
+.ftr{display:flex;align-items:center;justify-content:space-between;padding:10px 22px;font-size:9px;color:var(--tx3);border-top:2px solid var(--B);margin-top:16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600}
+.ftr img{height:24px;opacity:.5}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}.main{padding:9px}.hdr{padding:8px 11px}.kr{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hl">
+    <div class="logo">
+      <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="logo-fb">DAC<br>VAR EST</div>
+    </div>
+    <div>
+      <div class="htitle">Revue des Indicateurs <span>2026</span></div>
+      <div class="hmeta">Dispositif d'Appui à la Coordination · Var Est · Jan–Avr 2026 (S1–S15)</div>
+    </div>
+  </div>
+  <div class="hr">
+    <div class="pill jan">Janvier S1–S4</div>
+    <div class="pill fev">Février S5–S9</div>
+    <div class="pill mar">Mars S10–S13</div>
+    <div class="pill" style="background:#7d5fa0;color:#fff">Avril S14–S15</div>
+    <button class="tbtn" id="gsBtn" onclick="GS.load()" title="Rafraîchir les données depuis Google Sheets">🔄 Google Sheets</button>
+    <span id="gsMaj" style="font-size:9px;color:rgba(255,255,255,.55);font-family:'DM Mono',monospace;white-space:nowrap"></span>
+    <button class="tbtn" onclick="openCmpMod()" title="Comparer côte à côte (2 indicateurs ou n-1 2025)">⚡ Comparer</button>
+    <label class="tbtn" style="cursor:pointer;display:flex;align-items:center;gap:5px" title="Afficher les repères calendaires (jours fériés · vacances Zone B · tensions sanitaires)">
+      <input type="checkbox" id="calChk" style="margin:0;accent-color:#F9B42D" onchange="toggleCalendar(this.checked)" checked>
+      📅 Calendrier
+    </label>
+    <button class="tbtn" onclick="toggleTheme()" id="themeBtn">🌙 Fond sombre</button>
+  </div>
+</header>
+
+
+<nav class="nav">
+  <div class="ntab active" onclick="show('soll',this)">1 · Sollicitations</div>
+  <div class="ntab" onclick="show('canal',this)">Canaux & Contexte</div>
+  <div class="ntab" onclick="show('rep',this)">Réponses par type</div>
+  <div class="ntab" onclick="show('them',this)">Thématiques (complet)</div>
+  <div class="ntab" onclick="show('addr',this)">Adresseurs (complet)</div>
+  <div class="ntab" onclick="show('mg',this)">11 · Médecins généralistes</div>
+  <div class="ntab" onclick="show('probl',this)">7 · Problématiques</div>
+  <div class="ntab" onclick="show('ci',this)">Dossiers CI</div>
+  <div class="ntab" onclick="show('cs',this)">Dossiers CS</div>
+  <div class="ntab" onclick="show('orient',this)">Orientation par CS</div>
+  <div class="ntab" onclick="show('vad',this)">10 · Visites dom.</div>
+  <div class="ntab" onclick="show('coord',this)">15-17 · Coord. Intensive</div>
+  <div class="ntab" onclick="show('mens',this)">📊 Mensuel</div>
+</nav>
+
+<main class="main">
+
+<!-- ══ SOLLICITATIONS (section par défaut) ══ -->
+<section class="sec active" id="soll">
+  <div class="st"><div class="n">1</div>Sollicitations & Traitement &lt;48h — S1–S16</div>
+  <div class="kr" id="sollKpi"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">Sollicitations traitées S1–S16</div><div class="cw"><canvas id="sSoll"></canvas></div><div class="cmt"><span class="al">⚠ S2 :</span> SAS S2 non valable</div></div>
+    <div class="card"><div class="ct">Sollicitations &lt;48h (%) S1–S16</div><div class="cw"><canvas id="s48h"></canvas></div><div class="cmt"><span class="al">⚠ S7 :</span> 68.8% — bas à surveiller</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau détaillé S1–S16</div>
+    <table class="dt"><thead><tr><th>Indicateur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th class="tM">S12</th><th class="tM">S13</th><th>MMar</th><th style="background:rgba(155,89,182,.13)">S14</th><th style="background:rgba(155,89,182,.13)">S15</th><th>Moy</th></tr></thead>
+    <tbody>
+      <tr><td>Sollicitations traitées</td><td>15</td><td>34</td><td>45</td><td>40</td><td class="m4">34</td><td class="fev">47</td><td class="fev">42</td><td class="fev">40</td><td class="fev">43</td><td class="fev">33</td><td class="m4">41</td><td class="mar">41</td><td class="mar">41</td><td class="mar">40</td><td class="mar">50</td><td class="m12">43</td><td>35</td><td>30</td><td class="m12">39.7</td></tr>
+      <tr><td>Patients associés clôturées</td><td>12</td><td>29</td><td>42</td><td>36</td><td class="m4">30</td><td class="fev">38</td><td class="fev">32</td><td class="fev">37</td><td class="fev">35</td><td class="fev">26</td><td class="m4">34</td><td class="mar">35</td><td class="mar">32</td><td class="mar">33</td><td class="mar">43</td><td class="m12">35.8</td><td>32</td><td>25</td><td class="m12">32.5</td></tr>
+      <tr><td>% dossiers clos/patients</td><td>80%</td><td>85%</td><td>93%</td><td>90%</td><td class="m4">87%</td><td class="fev">81%</td><td class="fev">76%</td><td class="fev">93%</td><td class="fev">81%</td><td class="fev">79%</td><td class="m4">82%</td><td class="mar">85%</td><td class="mar">78%</td><td class="mar">83%</td><td class="mar">86%</td><td class="m12">83%</td><td>91%</td><td>83%</td><td class="m12">84%</td></tr>
+      <tr><td>Sollicitations &lt;48h (%)</td><td>100</td><td>82.4</td><td>100</td><td>94.4</td><td class="m4">94.2</td><td class="fev">87.5</td><td class="fev">100</td><td class="fev red">68.8</td><td class="fev">96.2</td><td class="fev">94.7</td><td class="m4">89.4</td><td class="mar">100</td><td class="mar">94.7</td><td class="mar">95.7</td><td class="mar">95.7</td><td class="m12">96.5</td><td>86.7</td><td>100</td><td class="m12">93.1</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ CANAUX ══ -->
+<section class="sec" id="canal">
+  <div class="st"><div class="n">C</div>Canal de réception & Contexte — S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Canal de réception S1–S16</div><div class="cw"><canvas id="cCan"></canvas></div></div>
+    <div class="card"><div class="ct">Contexte de la demande S1–S16</div><div class="cw"><canvas id="cCtx"></canvas></div></div>
+  </div>
+
+</section>
+
+<!-- ══ RÉPONSES PAR TYPE ══ -->
+<section class="sec" id="rep">
+  <div class="st"><div class="n">3</div>Répartition des réponses apportées par type — S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Évolution % par type S1–S16</div><div class="cw"><canvas id="rRep"></canvas></div><div class="cmt"><span class="al">S7 :</span> CPC à 70% — pic à vérifier. <span class="al">S11 :</span> CPC 65.9%.</div></div>
+    <div class="card"><div class="ct">Comparaison Moy par période</div><div class="cw"><canvas id="rCmp"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau réponses par type (%) S1–S16 — Requêté sur la D/R</div>
+    <table class="dt"><thead><tr><th>Type</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th class="tM">S12</th><th class="tM">S13</th><th>MMar</th><th style="background:rgba(155,89,182,.13)">S14</th><th style="background:rgba(155,89,182,.13)">S15</th></tr></thead>
+    <tbody>
+      <tr><td>Information</td><td>6.7</td><td>2.9</td><td>4.4</td><td>2.5</td><td class="m4">4.1</td><td class="fev">0</td><td class="fev">4.8</td><td class="fev">2.5</td><td class="fev">9.3</td><td class="fev">6.1</td><td class="m4">4.5</td><td class="mar">9.8</td><td class="mar">4.9</td><td class="mar">10</td><td class="mar">6</td><td class="m12">7.7</td><td>0</td><td>13</td></tr>
+      <tr><td>Orientation</td><td>40</td><td>38.2</td><td>48.9</td><td>37.5</td><td class="m4">41.2</td><td class="fev">44.7</td><td class="fev">28.6</td><td class="fev">27.5</td><td class="fev">48.8</td><td class="fev">48.5</td><td class="m4">39.6</td><td class="mar">24.4</td><td class="mar">39</td><td class="mar">45</td><td class="mar">40</td><td class="m12">37.1</td><td>37</td><td>33</td></tr>
+      <tr><td>CPC (Coordination Soutenue)</td><td>53.3</td><td>58.8</td><td>42.2</td><td>57.5</td><td class="m4">53</td><td class="fev">51.1</td><td class="fev">59.5</td><td class="fev red">70</td><td class="fev">39.5</td><td class="fev">42.4</td><td class="m4">52.5</td><td class="mar red">65.9</td><td class="mar">53.7</td><td class="mar">40</td><td class="mar">54</td><td class="m12">53.4</td><td>60</td><td>50</td></tr>
+      <tr><td>CPC de proximité</td><td>0</td><td>0</td><td>4.4</td><td>0</td><td class="m4">1.1</td><td class="fev">2.1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.4</td><td class="mar">0</td><td class="mar">0</td><td class="mar">0</td><td class="mar">0</td><td class="m12">0</td><td>0</td><td>0</td></tr>
+      <tr><td>Service spécialisé (covid long)</td><td>0</td><td>0</td><td>0</td><td>2.5</td><td class="m4">0.6</td><td class="fev">2.1</td><td class="fev">2.4</td><td class="fev">0</td><td class="fev">2.3</td><td class="fev">3</td><td class="m4">1.9</td><td class="mar">0</td><td class="mar">2.4</td><td class="mar">5</td><td class="mar">0</td><td class="m12">1.9</td><td>3</td><td>3</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ THÉMATIQUES COMPLET ══ -->
+<section class="sec" id="them">
+  <div class="st"><div class="n">5</div>Répartition des réponses par type — Thématique (exhaustif) S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Top thématiques — évolution S1–S16</div><div class="cw t"><canvas id="tLine"></canvas></div></div>
+    <div class="card"><div class="ct">Distribution Moy S1–S16</div><div class="cw t"><canvas id="tPie"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau complet — Toutes thématiques S1–S16</div>
+    <table class="dt" style="font-size:9px"><thead><tr><th>Thématique</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th><th>Moy</th></tr></thead>
+    <tbody>
+      <tr><td>Lieu de vie / Habitat</td><td>2</td><td>4</td><td>3</td><td>1</td><td class="m4">2.5</td><td class="fev">4</td><td class="fev">2</td><td class="fev">3</td><td class="fev">1</td><td class="fev">2</td><td class="m4">2.4</td><td class="mar">0</td><td class="mar">1</td><td>3</td><td>1</td><td>4</td><td>2</td><td class="m12">2.2</td></tr>
+      <tr><td>Oncologie</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">1</td><td class="fev">0</td><td class="m4">0.1</td><td class="mar">0</td><td class="mar">0</td><td>2</td><td>0</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Violence intra-familiale</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">1</td><td class="fev">1</td><td class="fev">0</td><td class="m4">0.2</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Précarité</td><td>0</td><td>0</td><td>0</td><td>1</td><td class="m4">0.3</td><td class="fev">0</td><td class="fev">2</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.4</td><td class="mar">0</td><td class="mar">1</td><td>1</td><td>0</td><td>0</td><td>0</td><td class="m12">0.4</td></tr>
+      <tr><td>Soins</td><td>0</td><td>1</td><td>1</td><td>1</td><td class="m4">0.8</td><td class="fev">1</td><td class="fev">3</td><td class="fev">1</td><td class="fev">2</td><td class="fev">0</td><td class="m4">1.4</td><td class="mar">3</td><td class="mar">0</td><td>3</td><td>1</td><td>0</td><td>1</td><td class="m12">1.2</td></tr>
+      <tr><td>Addiction</td><td>1</td><td>1</td><td>2</td><td>1</td><td class="m4">1.3</td><td class="fev">0</td><td class="fev">1</td><td class="fev">0</td><td class="fev">1</td><td class="fev">1</td><td class="m4">0.6</td><td class="mar">0</td><td class="mar">2</td><td>0</td><td>1</td><td>1</td><td>0</td><td class="m12">0.8</td></tr>
+      <tr><td>Médicale</td><td>5</td><td>3</td><td>8</td><td>3</td><td class="m4">4.8</td><td class="fev">7</td><td class="fev">6</td><td class="fev">3</td><td class="fev">2</td><td class="fev">8</td><td class="m4">5.2</td><td class="mar">3</td><td class="mar">3</td><td>8</td><td>10</td><td>7</td><td>6</td><td class="m12">5.5</td></tr>
+      <tr><td>Risque suicidaire</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="m4">0.5</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Handicap</td><td>0</td><td>3</td><td>1</td><td>0</td><td class="m4">1</td><td class="fev">3</td><td class="fev">0</td><td class="fev">2</td><td class="fev">1</td><td class="fev">1</td><td class="m4">1.4</td><td class="mar">2</td><td class="mar">1</td><td>4</td><td>1</td><td>1</td><td>0</td><td class="m12">1.3</td></tr>
+      <tr><td>Accueil en structure</td><td>0</td><td>2</td><td>2</td><td>2</td><td class="m4">1.5</td><td class="fev">2</td><td class="fev">0</td><td class="fev">2</td><td class="fev">2</td><td class="fev">4</td><td class="m4">2</td><td class="mar">3</td><td class="mar">2</td><td>1</td><td>0</td><td>3</td><td>1</td><td class="m12">1.7</td></tr>
+      <tr><td>Aidants</td><td>0</td><td>2</td><td>1</td><td>1</td><td class="m4">1</td><td class="fev">1</td><td class="fev">9</td><td class="fev">9</td><td class="fev">3</td><td class="fev">2</td><td class="m4">4.8</td><td class="mar">2</td><td class="mar">2</td><td>3</td><td>5</td><td>2</td><td>6</td><td class="m12">3.2</td></tr>
+      <tr><td>Santé mentale</td><td>5</td><td>5</td><td>9</td><td>7</td><td class="m4">6.5</td><td class="fev">5</td><td class="fev">4</td><td class="fev">9</td><td class="fev">12</td><td class="fev">5</td><td class="m4">7</td><td class="mar">11</td><td class="mar">10</td><td>8</td><td>15</td><td>6</td><td>8</td><td class="m12">7.9</td></tr>
+      <tr><td>Maintien à domicile</td><td>7</td><td>25</td><td>34</td><td>29</td><td class="m4">23.8</td><td class="fev">32</td><td class="fev">32</td><td class="fev">31</td><td class="fev">22</td><td class="fev">29</td><td class="m4">29.2</td><td class="mar">26</td><td class="mar">37</td><td>22</td><td>41</td><td>30</td><td>25</td><td class="m12">28.1</td></tr>
+      <tr><td>Gérontologie</td><td>3</td><td>16</td><td>23</td><td>18</td><td class="m4">15</td><td class="fev">28</td><td class="fev">29</td><td class="fev">24</td><td class="fev">12</td><td class="fev">8</td><td class="m4">20.2</td><td class="mar">14</td><td class="mar">17</td><td>19</td><td>24</td><td>26</td><td>20</td><td class="m12">18.7</td></tr>
+      <tr><td>Aide administrative</td><td>0</td><td>0</td><td>2</td><td>1</td><td class="m4">0.8</td><td class="fev">3</td><td class="fev">7</td><td class="fev">2</td><td class="fev">4</td><td class="fev">3</td><td class="m4">3.8</td><td class="mar">1</td><td class="mar">2</td><td>2</td><td>5</td><td>1</td><td>2</td><td class="m12">2.3</td></tr>
+      <tr><td>Sociale</td><td>1</td><td>3</td><td>6</td><td>4</td><td class="m4">3.5</td><td class="fev">6</td><td class="fev">5</td><td class="fev">0</td><td class="fev">1</td><td class="fev">3</td><td class="m4">3</td><td class="mar">3</td><td class="mar">7</td><td>2</td><td>2</td><td>8</td><td>4</td><td class="m12">3.7</td></tr>
+      <tr><td>Diogène</td><td>0</td><td>1</td><td>3</td><td>0</td><td class="m4">1</td><td class="fev">1</td><td class="fev">0</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.4</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>1</td><td class="m12">0.5</td></tr>
+      <tr><td>Soutien aux aidants</td><td>0</td><td>8</td><td>11</td><td>9</td><td class="m4">7</td><td class="fev">4</td><td class="fev">2</td><td class="fev">8</td><td class="fev">6</td><td class="fev">4</td><td class="m4">4.8</td><td class="mar">11</td><td class="mar">7</td><td>8</td><td>10</td><td>7</td><td>10</td><td class="m12">7.0</td></tr>
+      <tr><td>Retour à domicile</td><td>1</td><td>1</td><td>3</td><td>3</td><td class="m4">2</td><td class="fev">1</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">1</td><td class="m4">0.6</td><td class="mar">1</td><td class="mar">4</td><td>6</td><td>2</td><td>3</td><td>1</td><td class="m12">1.9</td></tr>
+      <tr><td>Information préoccupante</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">1</td><td class="fev">1</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.6</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.3</td></tr>
+      <tr><td>Insertion</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr><td>Accès aux droits</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr><td>Soins Palliatifs</td><td>0</td><td>0</td><td>0</td><td>2</td><td class="m4">0.5</td><td class="fev">2</td><td class="fev">1</td><td class="fev">1</td><td class="fev">2</td><td class="fev">0</td><td class="m4">1.2</td><td class="mar">0</td><td class="mar">0</td><td>2</td><td>1</td><td>0</td><td>0</td><td class="m12">0.7</td></tr>
+      <tr><td>Cancérologie</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">2</td><td class="fev">0</td><td class="m4">0.2</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Transport</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m4">0.3</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr><td>Vie sociale et culturelle <em>(Nouveau)</em></td><td>1</td><td>0</td><td>0</td><td>0</td><td class="m4">0.3</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr><td>Maladie Rénale <em>(Nouveau)</em></td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr><td>Covid long</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">3</td><td class="m4">0.3</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Manquante</td><td>0</td><td>0</td><td>0</td><td>2</td><td class="m4">0.5</td><td class="fev">1</td><td class="fev">6</td><td class="fev">2</td><td class="fev">10</td><td class="fev">1</td><td class="m4">4</td><td class="mar">3</td><td class="mar">1</td><td>4</td><td>1</td><td>2</td><td>2</td><td class="m12">2.3</td></tr>
+      <tr class="tot"><td>TOTAL</td><td>27</td><td>76</td><td>111</td><td>85</td><td class="m4">74.8</td><td class="fev">101</td><td class="fev">111</td><td class="fev">101</td><td class="fev">85</td><td class="fev">75</td><td class="m4">94.6</td><td class="mar">83</td><td class="mar">101</td><td>99</td><td>123</td><td>101</td><td>90</td><td class="m12">60.4</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ ADRESSEURS COMPLET ══ -->
+<section class="sec" id="addr">
+  <div class="st"><div class="n">2</div>Types d'adresseurs — Exhaustif S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Évolution adresseurs principaux S1–S16</div><div class="cw t"><canvas id="aLine"></canvas></div></div>
+    <div class="card"><div class="ct">Poids relatifs Moy S1–S16</div><div class="cw t"><canvas id="aPie"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau complet adresseurs S1–S16</div>
+    <table class="dt" style="font-size:9px"><thead><tr><th>Type d'adresseur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th><th>Moy</th></tr></thead>
+    <tbody>
+      <tr><td>Autres acteurs</td><td>1</td><td>2</td><td>2</td><td>2</td><td class="m4">1.8</td><td class="fev">1</td><td class="fev">3</td><td class="fev">2</td><td class="fev">3</td><td class="fev">0</td><td class="m4">1.8</td><td class="mar">2</td><td class="mar">1</td><td>1</td><td>2</td><td>2</td><td>1</td><td class="m12">1.8</td></tr>
+      <tr><td>Médecin généraliste salarié</td><td>0</td><td>0</td><td>1</td><td>0</td><td class="m4">0.3</td><td class="fev">0</td><td class="fev">0</td><td class="fev">2</td><td class="fev">1</td><td class="fev">1</td><td class="m4">0.8</td><td class="mar">1</td><td class="mar">0</td><td>0</td><td>0</td><td>1</td><td>2</td><td class="m12">0.6</td></tr>
+      <tr><td>Organisme protection sociale / complémentaire</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m4">0.3</td><td class="fev">2</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.6</td><td class="mar">1</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.4</td></tr>
+      <tr><td>Médecin généraliste hors salarié à l'H</td><td>0</td><td>5</td><td>0</td><td>2</td><td class="m4">1.8</td><td class="fev">5</td><td class="fev">4</td><td class="fev">0</td><td class="fev">1</td><td class="fev">3</td><td class="m4">2.6</td><td class="mar">4</td><td class="mar">3</td><td>3</td><td>3</td><td>4</td><td>1</td><td class="m12">2.5</td></tr>
+      <tr><td>Profession de ville (hors médecin généraliste)</td><td>1</td><td>5</td><td>0</td><td>6</td><td class="m4">3</td><td class="fev">2</td><td class="fev">3</td><td class="fev">4</td><td class="fev">2</td><td class="fev">2</td><td class="m4">2.6</td><td class="mar">4</td><td class="mar">4</td><td>2</td><td>5</td><td>5</td><td>0</td><td class="m12">3.0</td></tr>
+      <tr><td>Professionnel exerçant dans d'autres structures</td><td>1</td><td>0</td><td>0</td><td>0</td><td class="m4">0.3</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">1</td><td>1</td><td>0</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Professionnel exerçant en ESMS</td><td>4</td><td>3</td><td>7</td><td>3</td><td class="m4">4.3</td><td class="fev">7</td><td class="fev">1</td><td class="fev">3</td><td class="fev">6</td><td class="fev">4</td><td class="m4">4.2</td><td class="mar">10</td><td class="mar">4</td><td>3</td><td>5</td><td>6</td><td>4</td><td class="m12">4.7</td></tr>
+      <tr><td>Professionnel du secteur social</td><td>2</td><td>5</td><td>6</td><td>5</td><td class="m4">4.5</td><td class="fev">5</td><td class="fev">8</td><td class="fev">8</td><td class="fev">6</td><td class="fev">6</td><td class="m4">6.6</td><td class="mar">12</td><td class="mar">7</td><td>11</td><td>9</td><td>6</td><td>6</td><td class="m12">6.8</td></tr>
+      <tr><td>Professionnel hospitalier</td><td>8</td><td>13</td><td>22</td><td>20</td><td class="m4">15.8</td><td class="fev">22</td><td class="fev">15</td><td class="fev">14</td><td class="fev">23</td><td class="fev">16</td><td class="m4">18</td><td class="mar">11</td><td class="mar">15</td><td>24</td><td>15</td><td>19</td><td>16</td><td class="m12">16.9</td></tr>
+      <tr><td>Personne elle-même</td><td>1</td><td>1</td><td>4</td><td>1</td><td class="m4">1.8</td><td class="fev">5</td><td class="fev">1</td><td class="fev">0</td><td class="fev">3</td><td class="fev">1</td><td class="m4">2</td><td class="mar">1</td><td class="mar">2</td><td>5</td><td>2</td><td>3</td><td>1</td><td class="m12">2.1</td></tr>
+      <tr><td>Entourage de la personne</td><td>2</td><td>12</td><td>7</td><td>12</td><td class="m4">8.3</td><td class="fev">9</td><td class="fev">10</td><td class="fev">15</td><td class="fev">8</td><td class="fev">4</td><td class="m4">9.2</td><td class="mar">7</td><td class="mar">10</td><td>3</td><td>12</td><td>2</td><td>7</td><td class="m12">8.0</td></tr>
+      <tr class="tot"><td>TOTAL</td><td>20</td><td>47</td><td>49</td><td>51</td><td class="m4">41.8</td><td class="fev">58</td><td class="fev">46</td><td class="fev">48</td><td class="fev">53</td><td class="fev">37</td><td class="m4">48.4</td><td class="mar">53</td><td class="mar">47</td><td>54</td><td>55</td><td>48</td><td>38</td><td class="m12">46.9</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ MG ══ -->
+<section class="sec" id="mg">
+  <div class="st"><div class="n">11</div>Médecins Généralistes — S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Nb MG ayant sollicité & % parmi prof. ville S1–S16</div><div class="cw"><canvas id="mgLine"></canvas></div></div>
+    <div class="card"><div class="ct">Part de renouvellement S1–S16</div><div class="cw"><canvas id="mgRen"></canvas></div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Tableau Ind. 11 — Médecins généralistes S1–S16</div>
+      <table class="dt" style="font-size:9px"><thead><tr><th>Indicateur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th><th>Moy</th></tr></thead>
+      <tbody>
+        <tr><td>Nb MG ayant sollicité le DAC</td><td>0</td><td>11</td><td>8</td><td>10</td><td class="m4">7.3</td><td class="fev">10</td><td class="fev">6</td><td class="fev">4</td><td class="fev">8</td><td class="fev">10</td><td class="m4">7.6</td><td class="mar">7</td><td class="mar">7</td><td>4</td><td>3</td><td>3</td><td>1</td><td class="m12">6.1</td></tr>
+        <tr><td>% MG parmi prof. de ville</td><td>0</td><td>50</td><td>26.7</td><td>41.7</td><td class="m4">29.6</td><td class="fev">43.5</td><td class="fev">24</td><td class="fev">22.2</td><td class="fev">32</td><td class="fev">45.5</td><td class="m4">33.4</td><td class="mar">23.3</td><td class="mar">30.4</td><td>14.8</td><td>15</td><td>15</td><td>6</td><td class="m12">25.9</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <div class="ct">Tableau — Part de renouvellement des MG S1–S16</div>
+      <table class="dt" style="font-size:9px"><thead><tr><th>Indicateur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th></tr></thead>
+      <tbody>
+        <tr><td>Part de renouvellement</td><td>0</td><td class="red">7</td><td>2</td><td>1</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">3</td><td class="fev">1</td><td class="mar">3</td><td class="mar">0</td><td>5</td><td>4</td><td>11</td></tr>
+        <tr><td>MG identifiés</td>
+          <td>—</td>
+          <td style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">KAIDOMAR, HUBER, LAGARDE, WILLERON</td>
+          <td style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">Mme BOUZEREAU</td>
+          <td style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">Mme INNOCENTI</td>
+          <td class="fev" style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">Mme KAIDOMAR</td>
+          <td>—</td><td>—</td>
+          <td class="fev" style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">KAIDOMAR, Mme LOUSTAU</td>
+          <td class="fev" style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">Mme VEDY-BONNAT</td>
+          <td class="mar" style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px">Dr MELIN, Dr MOUTON DE FRANCE</td>
+          <td>—</td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROBLÉMATIQUES ══ -->
+<section class="sec" id="probl">
+  <div class="st"><div class="n">7</div>Répartition des personnes accompagnées par type de problématique — S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Problématiques principales S1–S16 (empilé)</div><div class="cw t"><canvas id="pBar"></canvas></div></div>
+    <div class="card"><div class="ct">Distribution Moy S1–S16</div><div class="cw t"><canvas id="pPie"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau complet problématiques S1–S16</div>
+    <table class="dt" style="font-size:9px"><thead><tr><th>Problématique</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th>M4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th>MFév</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th><th>Moy</th></tr></thead>
+    <tbody>
+      <tr><td>Aide à la vie quotidienne</td><td>7</td><td>22</td><td>19</td><td>20</td><td class="m4">17</td><td class="fev">25</td><td class="fev">27</td><td class="fev">25</td><td class="fev">14</td><td class="fev">19</td><td class="m4">22</td><td class="mar">21</td><td class="mar">26</td><td>17</td><td>30</td><td>23</td><td>21</td><td class="m12">21.1</td></tr>
+      <tr><td>Problème psychique, psychiatrique et ou cognitif</td><td>7</td><td>13</td><td>18</td><td>16</td><td class="m4">13.5</td><td class="fev">20</td><td class="fev">17</td><td class="fev">18</td><td class="fev">18</td><td class="fev">13</td><td class="m4">17.2</td><td class="mar">26</td><td class="mar">23</td><td>12</td><td>29</td><td>16</td><td>16</td><td class="m12">17.5</td></tr>
+      <tr><td>Isolement social</td><td>2</td><td>4</td><td>10</td><td>4</td><td class="m4">5</td><td class="fev">5</td><td class="fev">5</td><td class="fev">1</td><td class="fev">3</td><td class="fev">1</td><td class="m4">3</td><td class="mar">5</td><td class="mar">4</td><td>3</td><td>3</td><td>8</td><td>3</td><td class="m12">4.1</td></tr>
+      <tr><td>Proches aidants (aidants épuisés, aidant non bienveillant, VIF…)</td><td>1</td><td>13</td><td>10</td><td>12</td><td class="m4">9</td><td class="fev">11</td><td class="fev">12</td><td class="fev">12</td><td class="fev">4</td><td class="fev">8</td><td class="m4">9.4</td><td class="mar">12</td><td class="mar">10</td><td>9</td><td>15</td><td>10</td><td>14</td><td class="m12">10.2</td></tr>
+      <tr><td>Problématiques administratives et/ou financière</td><td>1</td><td>0</td><td>0</td><td>1</td><td class="m4">0.5</td><td class="fev">2</td><td class="fev">2</td><td class="fev">1</td><td class="fev">1</td><td class="fev">2</td><td class="m4">1.6</td><td class="mar">2</td><td class="mar">2</td><td>0</td><td>2</td><td>1</td><td>2</td><td class="m12">1.3</td></tr>
+      <tr><td>Soins somatiques (hospitalisations non programmées récurrentes…)</td><td>0</td><td>2</td><td>7</td><td>7</td><td class="m4">4</td><td class="fev">2</td><td class="fev">1</td><td class="fev">2</td><td class="fev">0</td><td class="fev">1</td><td class="m4">1.2</td><td class="mar">2</td><td class="mar">3</td><td>2</td><td>2</td><td>0</td><td>3</td><td class="m12">2.3</td></tr>
+      <tr><td>Autres</td><td>0</td><td>0</td><td>1</td><td>0</td><td class="m4">0.3</td><td class="fev">2</td><td class="fev">0</td><td class="fev">0</td><td class="fev">1</td><td class="fev">0</td><td class="m4">0.6</td><td class="mar">1</td><td class="mar">1</td><td>0</td><td>0</td><td>0</td><td>1</td><td class="m12">0.5</td></tr>
+      <tr><td>Besoin de protection juridique</td><td>0</td><td>4</td><td>4</td><td>1</td><td class="m4">2.3</td><td class="fev">3</td><td class="fev">2</td><td class="fev">1</td><td class="fev">1</td><td class="fev">1</td><td class="m4">1.6</td><td class="mar">1</td><td class="mar">0</td><td>3</td><td>3</td><td>1</td><td>1</td><td class="m12">1.7</td></tr>
+      <tr><td>Prévention et éducation à la santé</td><td>1</td><td>0</td><td>0</td><td>0</td><td class="m4">0.3</td><td class="fev">2</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0.4</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m12">0.2</td></tr>
+      <tr><td>Structure d'hébergement et d'accueil de jour / accueil partiel</td><td>2</td><td>0</td><td>1</td><td>0</td><td class="m4">0.8</td><td class="fev">3</td><td class="fev">1</td><td class="fev">1</td><td class="fev">1</td><td class="fev">0</td><td class="m4">1.2</td><td class="mar">0</td><td class="mar">2</td><td>1</td><td>0</td><td>2</td><td>0</td><td class="m12">0.9</td></tr>
+      <tr><td>Scolarité / Formation / Emploi</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="m4">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="m4">0</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="m12">0.1</td></tr>
+      <tr class="tot"><td>TOTAL</td><td>21</td><td>58</td><td>70</td><td>61</td><td class="m4">52.5</td><td class="fev">75</td><td class="fev">67</td><td class="fev">61</td><td class="fev">43</td><td class="fev">45</td><td class="m4">58</td><td class="mar">70</td><td class="mar">71</td><td>57</td><td>85</td><td>61</td><td>61</td><td class="m12">60.4</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ DOSSIERS CI ══ -->
+<section class="sec" id="ci">
+  <div class="st"><div class="n">CI</div>Dossiers par Coordination Intensive — S1–S16</div>
+  <div class="kr">
+    <div class="kc"><div class="kl">S1 Jan</div><div class="kv">154</div><div class="ks">Ratio : 22</div></div>
+    <div class="kc r"><div class="kl">S9 Fév fin</div><div class="kv">135</div><div class="ks">Ratio : 19.3</div></div>
+    <div class="kc m"><div class="kl">S15 Avr</div><div class="kv">128</div><div class="ks">Ratio : 18.3 · K.OCHEM S15:10</div></div>
+    <div class="kc y"><div class="kl">S13 Mars</div><div class="kv">130</div><div class="ks">Ratio : 18.6</div></div>
+    <div class="kc g"><div class="kl">K.OCHEM revient</div><div class="kv">9</div><div class="ks">S13 — était à 0 depuis S7</div><div class="kt up">▲ Retour actif</div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ct">Dossiers actifs CI S1–S16</div><div class="cw t"><canvas id="ciAct"></canvas></div></div>
+    <div class="card"><div class="ct">Dossiers inactifs &gt;1 mois CI S1–S16</div><div class="cw t"><canvas id="ciIn"></canvas></div></div>
+  </div>
+</section>
+
+<!-- ══ DOSSIERS CS ══ -->
+<section class="sec" id="cs">
+  <div class="st"><div class="n">CS</div>Dossiers par Coordination Soutenue — S1–S16</div>
+  <div class="kr">
+    <div class="kc"><div class="kl">S1 Jan</div><div class="kv">168</div><div class="ks">Ratio : 33.6</div></div>
+    <div class="kc m"><div class="kl">Pic S13–S14</div><div class="kv">201</div><div class="ks">Ratio : 40.2 !</div><div class="kt dn">⚠ Forte hausse</div></div>
+    <div class="kc g"><div class="kl">S15 Avr</div><div class="kv">182</div><div class="ks">Ratio : 36.4 · ↓ -19</div></div>
+    <div class="kc r"><div class="kl">Inactifs S13–S14 ⚠</div><div class="kv">49</div><div class="ks">S15 : 25 · vs S1 : 8</div><div class="kt dn">Mais en baisse S15</div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ct">Dossiers actifs CS S1–S16</div><div class="cw t"><canvas id="csAct"></canvas></div></div>
+    <div class="card"><div class="ct">Dossiers inactifs &gt;1 mois CS S1–S16</div><div class="cw t"><canvas id="csIn"></canvas></div><div class="cmt"><span class="al">⚠ S13–S14 ALERTE :</span> 49 dossiers inactifs (201 total). S15 en baisse : 25 inactifs — à confirmer.</div></div>
+  </div>
+</section>
+
+<!-- ══ ORIENTATION PAR CS ══ -->
+<section class="sec" id="orient">
+  <div class="st"><div class="n">OR</div>Nombre de dossiers Orientation par CS — S1–S16</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Dossiers Orientation par CS S1–S16</div><div class="cw t"><canvas id="orLine"></canvas></div></div>
+    <div class="card"><div class="ct">Dossiers Orientation inactifs +1 mois par CS</div><div class="cw t"><canvas id="orIn"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau complet — Orientation par CS avec inactifs S1–S16</div>
+    <table class="dt" style="font-size:8.5px"><thead><tr><th>CS</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th></tr></thead>
+    <tbody>
+      <tr><td>MT. KUNERS OF KOENDERS</td><td>7</td><td>13</td><td>13</td><td>13</td><td class="fev">13</td><td class="fev">8</td><td class="fev">6</td><td class="fev">6</td><td class="fev">5</td><td class="mar">5</td><td class="mar">6</td><td>6</td><td>7</td><td>7</td><td>7</td></tr>
+      <tr><td class="red">↳ Inactif &gt;1 mois</td><td class="red">0</td><td class="red">3</td><td class="red">5</td><td class="red">5</td><td class="fev red">4</td><td class="fev red">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">1</td><td class="red">1</td><td class="red">3</td><td>3</td><td>0</td></tr>
+      <tr><td>N. POLIAKOFF</td><td>9</td><td>9</td><td>13</td><td>13</td><td class="fev">15</td><td class="fev">15</td><td class="fev">13</td><td class="fev">13</td><td class="fev">12</td><td class="mar">12</td><td class="mar">11</td><td>11</td><td>15</td><td>15</td><td>13</td></tr>
+      <tr><td class="red">↳ Inactif &gt;1 mois</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="fev red">1</td><td class="fev red">1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">2</td><td class="red">2</td><td class="red">8</td><td class="red">8</td><td class="red">6</td></tr>
+      <tr><td>E. BAUDOUIN</td><td>8</td><td>9</td><td>4</td><td>4</td><td class="fev">5</td><td class="fev">5</td><td class="fev">8</td><td class="fev">8</td><td class="fev">6</td><td class="mar">6</td><td class="mar">7</td><td>7</td><td>8</td><td>8</td><td>8</td></tr>
+      <tr><td class="red">↳ Inactif &gt;1 mois</td><td class="red">0</td><td class="red">1</td><td class="red">0</td><td class="red">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">1</td><td class="red">1</td><td class="red">2</td><td>2</td><td>1</td></tr>
+      <tr><td>AP. VILLAIN</td><td>6</td><td>9</td><td>6</td><td>6</td><td class="fev">9</td><td class="fev">10</td><td class="fev">17</td><td class="fev">17</td><td class="fev">18</td><td class="mar">18</td><td class="mar">10</td><td>10</td><td>18</td><td>18</td><td>18</td></tr>
+      <tr><td class="red">↳ Inactif &gt;1 mois</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>M. LATIL</td><td>4</td><td>3</td><td>1</td><td>1</td><td class="fev">2</td><td class="fev">2</td><td class="fev">2</td><td class="fev">2</td><td class="fev">1</td><td class="mar">1</td><td class="mar">3</td><td>3</td><td>6</td><td>6</td><td>11</td></tr>
+      <tr><td class="red">↳ Inactif &gt;1 mois</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="red">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr class="tot"><td>TOTAL Orientation</td><td>34</td><td>43</td><td>37</td><td>37</td><td class="fev">44</td><td class="fev">40</td><td class="fev">46</td><td class="fev">46</td><td class="fev">46</td><td class="mar">46</td><td class="mar">37</td><td>37</td><td>54</td><td>54</td><td>57</td></tr>
+      <tr class="tot"><td>TOTAL Inactifs</td><td>0</td><td>4</td><td>5</td><td>5</td><td class="fev">5</td><td class="fev">1</td><td class="fev">0</td><td class="fev">0</td><td class="fev">0</td><td class="mar">0</td><td class="mar">4</td><td>4</td><td class="red">13</td><td>13</td><td>7</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ VISITES DOM ══ -->
+<section class="sec" id="vad">
+  <div class="st"><div class="n">10</div>Visite à domicile — S1–S16</div>
+  <div class="kr">
+    <div class="kc c"><div class="kl">Pic Jan S3</div><div class="kv">21</div><div class="ks">12.3% des accompagnés</div></div>
+    <div class="kc r"><div class="kl">Pic Fév S5</div><div class="kv">19</div><div class="ks">11.3% des accompagnés</div></div>
+    <div class="kc m"><div class="kl">Pic Mars S12</div><div class="kv">25</div><div class="ks">17.3% — record !</div><div class="kt up">▲ Nouveau pic</div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ct">Visites à domicile S1–S16 <span class="bdg">Ind. 10</span></div><div class="cw"><canvas id="vVad"></canvas></div></div>
+    <div class="card"><div class="ct">% patients visités S1–S16</div><div class="cw"><canvas id="vPct"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau VAD S1–S16</div>
+    <table class="dt"><thead><tr><th>Indicateur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th></tr></thead>
+    <tbody>
+      <tr><td>Patients ayant eu ≥1 visite à domicile</td><td>10</td><td>12</td><td class="red">21</td><td>6</td><td class="fev red">19</td><td class="fev">10</td><td class="fev">18</td><td class="fev">18</td><td class="fev">16</td><td class="mar">16</td><td class="mar red">25</td><td>22</td><td class="red">24</td><td>10</td><td>13</td></tr>
+      <tr><td>Nombre de personnes accompagnées</td><td>162</td><td>170</td><td>162</td><td>156</td><td class="fev">159</td><td class="fev">160</td><td class="fev">155</td><td class="fev">152</td><td class="fev">149</td><td class="mar">147</td><td class="mar">139</td><td>139</td><td>136</td><td>135</td><td>124</td></tr>
+      <tr><td>Pourcentage (%)</td><td>5.6%</td><td>6.5%</td><td class="red">12.3%</td><td>3.1%</td><td class="fev red">11.3%</td><td class="fev">5.6%</td><td class="fev">11%</td><td class="fev">11.2%</td><td class="fev">10.1%</td><td class="mar">10.2%</td><td class="mar red">17.3%</td><td>15.1%</td><td class="red">16.9%</td><td>6.7%</td><td>9.7%</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ══ COORD INTENSIVE ══ -->
+<section class="sec" id="coord">
+  <div class="st"><div class="n">15-17</div><span id="coordTitle">Coordination Intensive — S1–S16</span></div>
+  <div class="kr" id="coordKpi"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">Coord. Intensive — Personnes accompagnées S1–S16 <span class="bdg">Ind. 15–17</span></div><div class="cw"><canvas id="coAcc"></canvas></div></div>
+    <div class="card"><div class="ct">Flux Incluses / Sorties de la période S1–S16</div><div class="cw"><canvas id="coFlux"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau complet Coordination intensive S1–S16</div>
+    <table class="dt"><thead><tr><th>Indicateur</th><th class="tJ">S1</th><th class="tJ">S2</th><th class="tJ">S3</th><th class="tJ">S4</th><th class="tF">S5</th><th class="tF">S6</th><th class="tF">S7</th><th class="tF">S8</th><th class="tF">S9</th><th class="tM">S10</th><th class="tM">S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th></tr></thead>
+    <tbody>
+      <tr><td>Nombre de personnes accompagnées à la coord. intensive</td><td>158</td><td>163</td><td>157</td><td>152</td><td class="fev">152</td><td class="fev">156</td><td class="fev">149</td><td class="fev">149</td><td class="fev">144</td><td class="mar">144</td><td class="mar">136</td><td>135</td><td>134</td><td>133</td><td>130</td></tr>
+      <tr><td>Nombre de personnes incluses dans la semaine</td><td>0</td><td>6</td><td>0</td><td>1</td><td class="fev">1</td><td class="fev">5</td><td class="fev">1</td><td class="fev">2</td><td class="fev">0</td><td class="mar red">8</td><td class="mar">0</td><td>3</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>Nombre de personnes sorties de la période</td><td>1</td><td>6</td><td>6</td><td>1</td><td class="fev">1</td><td class="fev red">8</td><td class="fev">2</td><td class="fev">5</td><td class="fev">8</td><td class="mar red">8</td><td class="mar">4</td><td>1</td><td>2</td><td>4</td><td>1</td></tr>
+    </tbody></table>
+    <div class="cmt">Les données 2024 (n-1) pour la coord. intensive : S1:130→131, pics à 136-131 en Déc-Jan. Baisse notable 2026 vs 2024.</div>
+  </div>
+</section>
+
+<!-- ══ MENSUEL ══ -->
+<section class="sec" id="mens">
+  <div class="st"><div class="n">M</div>Indicateurs Mensuels 2026 — Janvier & Février</div>
+  <div class="st sub"><div class="n">5</div>Part des situations complexes achevées (%)</div>
+  <div class="g3">
+    <div class="card"><div class="ct">Coord. soutenue</div><div class="cw xs"><canvas id="mCs"></canvas></div></div>
+    <div class="card"><div class="ct">Coord. intensive</div><div class="cw xs"><canvas id="mCi"></canvas></div></div>
+    <div class="card"><div class="ct">Covid long</div><div class="cw xs"><canvas id="mCovid"></canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Tableau — Part situations complexes (%)</div>
+    <table class="dt" id="mInd5Tbl"></table>
+    <div class="cmt">Refixer procédure CI LD et sortie</div>
+  </div>
+  <div class="st sub"><div class="n">19</div>RDV en coordination intensive</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Types de RDV Jan vs Fév 2026 vs Moy 2024</div><div class="cw"><canvas id="mRdv"></canvas></div></div>
+    <div class="card"><div class="ct">Tableau RDV coordination intensive</div>
+    <table class="dt" id="mInd19Tbl"></table>
+    <div class="cmt" id="mInd19Cmt"><span class="al">Attention :</span> à analyser dès accumulation suffisante de mois.</div></div>
+  </div>
+  <div class="st sub"><div class="n">📞</div>Appels 3CX — Temps téléphonique CS</div>
+  <div class="g2">
+    <div class="card"><div class="ct">Temps téléphonique Jan 2026 vs Moy 2024</div><div class="cw"><canvas id="mTel"></canvas></div></div>
+    <div class="card"><div class="ct">Tableau 3CX — Temps téléphonique CS (h)</div>
+    <table class="dt" id="m3cxTbl"></table></div>
+  </div>
+</section>
+
+</main>
+<footer class="ftr">
+  <span>DAC Var Est · Revue des Indicateurs <strong>2026</strong> · S1–S15 (Jan–Avr)</span>
+  <img src="https://www.dacvarest.fr/wp-content/uploads/2024/12/logodacvarest-svg.png" alt="DAC" onerror="this.style.display='none'">
+</footer>
+
+<script>
+function toggleTheme(){const h=document.documentElement,b=document.getElementById('themeBtn');h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';b.textContent=h.dataset.theme==='dark'?'☀️ Fond clair':'🌙 Fond sombre';uct();}
+function show(id,el){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active');}
+
+const C={B:'#3766AE',C:'#73BFD8',R:'#EB5D45',Y:'#F9B42D',G:'#38b16b',M:'#9b59b6',T:'#2da88f',S:'#8b9ec4'};
+const W12=['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13','S14','S15','S16'];
+const W14=['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13','S14','S15','S16'];
+function mc(i){return i<4?C.B:i<9?C.R:C.M;}
+const chs={};
+function tc(){const d=document.documentElement.dataset.theme==='dark';return{g:d?'rgba(36,48,72,.6)':'rgba(200,215,235,.65)',t:d?'#4e6280':'#7a90ae',l:d?'#8fa3c0':'#3a4f6e',bg:d?'#1a2336':'#fff',fc:d?'#e8edf5':'#0d1219'};}
+function bo(m=false,s=false){const t=tc();return{responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:m,labels:{color:t.l,font:{family:"'Barlow Semi Condensed'",size:10,weight:'600'},boxWidth:8,padding:7}},tooltip:{backgroundColor:t.bg,borderColor:C.B,borderWidth:1,titleColor:t.fc,bodyColor:t.fc,titleFont:{family:"'Barlow Semi Condensed'",weight:'700'},bodyFont:{family:"'Barlow'",size:10},padding:7}},scales:{x:{stacked:s,grid:{color:t.g},ticks:{color:t.t,font:{family:"'DM Mono'",size:8.5}}},y:{stacked:s,grid:{color:t.g},ticks:{color:t.t,font:{family:"'DM Mono'",size:8.5}}}}};}
+function po(){const t=tc();return{responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:true,position:'right',labels:{color:t.l,font:{family:"'Barlow'",size:9},boxWidth:8,padding:5}},tooltip:{backgroundColor:t.bg,borderColor:C.B,borderWidth:1,titleColor:t.fc,bodyColor:t.fc,padding:6}}};}
+function ld(l,d,c){return{label:l,data:d,borderColor:c,backgroundColor:c+'15',fill:true,tension:0.35,pointRadius:2.5,pointHoverRadius:5,borderWidth:2};}
+function bd(l,d,c){return{label:l,data:d,backgroundColor:c+'bb',borderColor:c,borderWidth:1,borderRadius:2};}
+function mk(id,type,data,opts){const c=document.getElementById(id);if(!c)return;chs[id]=new Chart(c,{type,data,options:opts});}
+function uct(){const t=tc();Object.values(chs).forEach(ch=>{if(ch.options.scales){['x','y','pct'].forEach(ax=>{if(!ch.options.scales[ax])return;if(ch.options.scales[ax].grid)ch.options.scales[ax].grid.color=t.g;if(ch.options.scales[ax].ticks)ch.options.scales[ax].ticks.color=t.t;});}if(ch.options.plugins?.legend?.labels)ch.options.plugins.legend.labels.color=t.l;if(ch.options.plugins?.tooltip){ch.options.plugins.tooltip.backgroundColor=t.bg;ch.options.plugins.tooltip.titleColor=t.fc;ch.options.plugins.tooltip.bodyColor=t.fc;}ch.update('none');});}
+
+/* ══ REPÈRES CALENDAIRES 2026 ══
+   Semaines 2026 : S1 = lun 5 jan · Zone scolaire : B (académie Aix-Marseille, Var inclus) */
+const CAL={
+  on: JSON.parse(localStorage.getItem('dac_cal')?? 'true'),
+
+  /* Jours fériés 2026 — Source : calendrier officiel MEN Zone B
+     S1 = ISO semaine 1 = lun 29 déc 2025 · Sn démarre le 29 déc + (n-1)×7 jours
+     Vérification : S15 = 6-12 avr (Pâques ✓) · S16-17 = 13-26 avr (Vac. Printemps ✓) */
+  jf:[
+    {w:15, tip:'Lundi de Pâques (6 avr.)'},         // S15 = 6-12 avr
+    {w:18, tip:'Fête du Travail (1ᵉʳ mai)'},         // S18 = 27 avr-3 mai
+    {w:19, tip:'Victoire 1945 (8 mai)'},             // S19 = 4-10 mai
+    {w:20, tip:'Ascension (14 mai)'},                // S20 = 11-17 mai
+    {w:22, tip:'Lundi de Pentecôte (25 mai)'},       // S22 = 25-31 mai
+    {w:29, tip:'Fête nationale (14 juil.)'},          // S29 = 13-19 juil
+    {w:33, tip:'Assomption (15 août)'},              // S33 = 10-16 août
+    {w:44, tip:'Toussaint (1ᵉʳ nov.)'},              // S44 = 26 oct-1 nov
+    {w:46, tip:'Armistice (11 nov.)'},               // S46 = 9-15 nov
+    {w:52, tip:'Noël (25 déc.)'},                    // S52 = 21-27 déc
+  ],
+
+  /* Vacances scolaires Zone B 2025-2026 — Source : calendrier officiel MEN */
+  vac:[
+    // Hiver : sam 14 fév → lun 2 mar · S7=fin sem scolaire, S8-S9=vacances
+    {f:8,  t:9,  lb:'Vac. Hiver',        bg:'rgba(55,102,174,.12)', brd:'rgba(55,102,174,.5)',  tc:'rgba(40,80,160,.85)'},
+    // Printemps : sam 11 avr → lun 27 avr · S15=Pâques (sem scolaire), S16-S17=vacances
+    {f:16, t:17, lb:'Vac. Printemps',    bg:'rgba(56,177,107,.12)', brd:'rgba(40,150,70,.5)',   tc:'rgba(35,130,60,.85)'},
+    // Pont Ascension : mer 13 mai → lun 18 mai · S20 principalement (11-17 mai)
+    {f:20, t:20, lb:'Pont Ascension',    bg:'rgba(249,180,45,.10)', brd:'rgba(200,145,20,.4)',  tc:'rgba(155,115,10,.85)'},
+    // Été : sam 4 juil → mer 2 sept · S28-S35 = semaines pleines (6 juil-30 août)
+    {f:28, t:35, lb:'Grandes Vacances',  bg:'rgba(249,180,45,.12)', brd:'rgba(200,145,20,.5)',  tc:'rgba(155,115,10,.9)'},
+    // Toussaint 2026 (estimation Zone B ≈ sam 17 oct-lun 2 nov) · S43-S44
+    {f:43, t:44, lb:'Vac. Toussaint',    bg:'rgba(155,89,182,.12)', brd:'rgba(120,60,160,.5)',  tc:'rgba(100,50,150,.85)'},
+    // Noël 2026 (estimation ≈ sam 19 déc-lun 4 jan 2027) · S51-S52
+    {f:51, t:52, lb:'Vac. Noël',         bg:'rgba(55,102,174,.12)', brd:'rgba(55,102,174,.5)',  tc:'rgba(40,80,160,.85)'},
+  ],
+
+  /* Périodes de tension sanitaire (DAC Var Est) */
+  ten:[
+    {f:1,  t:9,  bg:'rgba(235,93,69,.06)',  lb:'Épidémies hivernales'},
+    {f:28, t:35, bg:'rgba(249,180,45,.08)', lb:'Risque canicule'},
+    {f:41, t:49, bg:'rgba(235,93,69,.06)',  lb:'Épidémies automnales'},
+  ],
+};
+
+/* Plugin Chart.js — repères dessinés AVANT les données */
+Chart.register({
+  id:'calRep',
+  beforeDraw(chart){
+    if(!CAL.on)return;
+    const{ctx,chartArea:ca,scales,data}=chart;
+    if(!ca||!scales.x)return;
+    const labels=data.labels||[];
+    /* Uniquement pour les graphiques avec axe semaines (S1, S2 …) */
+    if(!labels.some(l=>/^S\d+$/.test(String(l))))return;
+    const n=labels.length;if(n<2)return;
+    const xs=scales.x;
+
+    /* Centre d'une semaine (1-basé) */
+    function wpx(wk){const i=labels.indexOf('S'+wk);return i<0?null:xs.getPixelForValue(i);}
+
+    /* Bord gauche exact d'une colonne : milieu entre la précédente et elle-même */
+    function lEdge(idx){
+      if(idx<=0)return ca.left;
+      return(xs.getPixelForValue(idx-1)+xs.getPixelForValue(idx))*0.5;
+    }
+    /* Bord droit exact d'une colonne : milieu entre elle-même et la suivante */
+    function rEdge(idx){
+      if(idx>=n-1)return ca.left+xs.width;
+      return(xs.getPixelForValue(idx)+xs.getPixelForValue(idx+1))*0.5;
+    }
+    /* Bande couvrant exactement les semaines f à t incluses */
+    function band(f,t){
+      const ia=labels.indexOf('S'+f), ib=labels.indexOf('S'+t);
+      if(ia<0&&ib<0)return null;
+      return{x1:lEdge(ia>=0?ia:ib), x2:rEdge(ib>=0?ib:ia)};
+    }
+
+    ctx.save();
+    /* Clipping sur la zone graphique */
+    ctx.beginPath();ctx.rect(ca.left,ca.top,ca.width,ca.bottom-ca.top);ctx.clip();
+
+    /* 1 — Tensions sanitaires (fond très léger, dernier plan) */
+    for(const t of CAL.ten){
+      const b=band(t.f,t.t);if(!b)continue;
+      ctx.fillStyle=t.bg;
+      ctx.fillRect(b.x1,ca.top,b.x2-b.x1,ca.bottom-ca.top);
+    }
+
+    /* 2 — Vacances scolaires (fond coloré + trait supérieur + label) */
+    ctx.font="bold 7px 'Barlow Semi Condensed',sans-serif";
+    for(const v of CAL.vac){
+      const b=band(v.f,v.t);if(!b)continue;
+      /* Fond */
+      ctx.fillStyle=v.bg;
+      ctx.fillRect(b.x1,ca.top,b.x2-b.x1,ca.bottom-ca.top);
+      /* Trait supérieur */
+      ctx.strokeStyle=v.brd;ctx.lineWidth=2;ctx.setLineDash([]);
+      ctx.beginPath();ctx.moveTo(b.x1,ca.top+.5);ctx.lineTo(b.x2,ca.top+.5);ctx.stroke();
+      /* Label (seulement si bande assez large) */
+      if(b.x2-b.x1>20){
+        ctx.fillStyle=v.tc;ctx.textAlign='center';ctx.textBaseline='top';
+        ctx.fillText(v.lb,(b.x1+b.x2)*.5,ca.top+5);
+      }
+    }
+
+    /* 3 — Jours fériés (pastille rouge + ligne pointillée) */
+    for(const jf of CAL.jf){
+      const x=wpx(jf.w);if(!x)continue;
+      /* Pastille */
+      ctx.fillStyle='rgba(235,93,69,.85)';
+      ctx.beginPath();ctx.arc(x,ca.top+10,4,0,Math.PI*2);ctx.fill();
+      /* Ligne pointillée */
+      ctx.strokeStyle='rgba(235,93,69,.45)';ctx.lineWidth=1;ctx.setLineDash([4,3]);
+      ctx.beginPath();ctx.moveTo(x,ca.top+15);ctx.lineTo(x,ca.bottom);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.restore();
+  }
+});
+
+function toggleCalendar(v){
+  CAL.on=v!==undefined?v:!CAL.on;
+  localStorage.setItem('dac_cal',CAL.on);
+  const cb=document.getElementById('calChk');if(cb)cb.checked=CAL.on;
+  for(const ch of Object.values(chs))ch.update('none');
+}
+
+/* ── DONNÉES ── */
+const D={
+  soll: [15,34,45,40,47,42,40,43,33,41,41,40,50,35,30,null],
+  pat:  [12,29,42,36,38,32,37,35,26,35,32,33,43,32,25,null],
+  h48:  [100,82.4,100,94.4,87.5,100,68.8,96.2,94.7,100,94.7,95.7,95.7,86.7,100,null],
+  clos: [80,85.3,93.3,90,80.9,76.2,92.5,81.4,78.8,85.4,78,82.5,86,91.4,83.3,null],
+  tel:  [8,18,12,16,19,19,15,13,9,14,11,18,14,9,15,null],
+  mail: [12,30,39,35,39,27,33,39,28,36,35,34,30,37,21,null],
+  mant: [16,34,54,41,52,42,41,44,39,40,46,39,63,41,39,null],
+  info: [6.7,2.9,4.4,2.5,0,4.8,2.5,9.3,6.1,9.8,4.9,10,6,0,13,null],
+  ori:  [40,38.2,48.9,37.5,44.7,28.6,27.5,48.8,48.5,24.4,39,45,40,37,33,null],
+  cpc:  [53.3,58.8,42.2,57.5,51.1,59.5,70,39.5,42.4,65.9,53.7,40,54,60,50,null],
+  /* thématiques */
+  tMai: [7,25,34,29,32,32,31,22,29,26,37,22,41,30,25,null],
+  tGer: [3,16,23,18,28,29,24,12,8,14,17,19,24,26,20,null],
+  tSme: [5,5,9,7,5,4,9,12,5,11,10,8,15,6,8,null],
+  tAid: [0,8,11,9,4,2,8,6,4,11,7,8,10,7,10,null],
+  tMed: [5,3,8,3,7,6,3,2,8,3,3,8,10,7,6,null],
+  tSoc: [1,3,6,4,6,5,0,1,3,3,7,2,2,8,4,null],
+  tAds: [0,2,1,1,1,9,9,3,2,2,2,3,5,2,6,null],
+  tAcc: [0,2,2,2,2,0,2,2,4,3,2,1,0,3,1,null],
+  tLdv: [2,4,3,1,4,2,3,1,2,0,1,3,1,4,2,null],
+  tAdm: [0,0,2,1,3,7,2,4,3,1,2,2,5,1,2,null],
+  tTot: [27,76,111,85,101,111,101,85,75,83,101,99,123,101,90,null],
+  /* adresseurs */
+  aHos: [8,13,22,20,22,15,14,23,16,11,15,24,15,19,16,null],
+  aEnt: [2,12,7,12,9,10,15,8,4,7,10,3,12,2,7,null],
+  aPer: [1,1,4,1,5,1,0,3,1,1,2,5,2,3,1,null],
+  aSoc: [2,5,6,5,5,8,8,6,6,12,7,11,9,6,6,null],
+  aESM: [4,3,7,3,7,1,3,6,4,10,4,3,5,6,4,null],
+  aVil: [1,5,0,6,2,3,4,2,2,4,4,2,5,5,0,null],
+  aMGh: [0,5,0,2,5,4,0,1,3,4,3,3,3,4,1,null],
+  aAut: [1,2,2,2,1,3,2,3,0,2,1,1,2,2,1,null],
+  aTot: [20,47,49,51,58,46,48,53,37,53,47,54,55,48,38,null],
+  /* MG */
+  mgNb: [0,11,8,10,10,6,4,8,10,7,7,4,3,3,1,null],
+  mgPc: [0,50,26.7,41.7,43.5,24,22.2,32,45.5,23.3,30.4,14.8,15,15,6,null],
+  mgRn: [0,7,2,1,1,0,0,3,1,3,0,5,4,11,null,null],
+  /* problématiques */
+  pAVQ: [7,22,19,20,25,27,25,14,19,21,26,17,30,23,21,null],
+  pPsy: [7,13,18,16,20,17,18,18,13,26,23,12,29,16,16,null],
+  pAid: [1,13,10,12,11,12,12,4,8,12,10,9,15,10,14,null],
+  pIso: [2,4,10,4,5,5,1,3,1,5,4,3,3,8,3,null],
+  pSom: [0,2,7,7,2,1,2,0,1,2,3,2,2,0,3,null],
+  pJur: [0,4,4,1,3,2,1,1,1,1,0,3,3,1,1,null],
+  pTot: [21,58,70,61,75,67,61,43,45,70,71,57,85,61,61,null],
+  /* CI S1–S15 */
+  ciOc: [27,23,22,22,19,12,0,0,0,0,4,5,9,9,10,null],
+  ciDe: [25,37,35,35,34,35,34,34,34,34,34,34,30,30,30,null],
+  ciFa: [29,41,41,41,41,43,43,43,43,43,43,43,34,34,34,null],
+  ciGo: [39,36,36,36,37,37,35,35,36,36,36,36,34,34,32,null],
+  ciDa: [34,35,34,34,35,31,30,30,22,22,22,22,23,23,22,null],
+  ciBe: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciPo: [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciCv: [81,81,81,82,82,84,85,85,86,86,86,86,87,87,86,null],
+  ciGi: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,null],
+  ciTo: [154,173,168,168,166,158,142,142,135,135,139,140,130,130,128,null],
+  ciIK: [8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciIM: [1,1,3,3,0,1,1,1,3,3,3,3,6,6,5,null],
+  ciIF: [1,3,9,9,11,9,13,13,14,14,14,14,12,12,11,null],
+  ciIG: [0,0,0,0,1,1,0,0,0,0,0,0,1,1,2,null],
+  ciID: [4,1,3,3,3,3,1,1,1,1,1,1,1,1,1,null],
+  ciIBe:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciIPo:[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciIGi:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  ciIT: [14,6,15,15,15,14,15,15,18,18,18,18,20,20,19,null],
+  /* CS S1–S15 */
+  csKu: [23,25,26,26,31,22,24,24,21,21,29,29,44,44,36,null],
+  csPo: [25,26,26,26,31,33,30,30,28,28,37,37,35,35,41,null],
+  csBa: [51,49,39,39,36,38,34,34,39,39,49,49,54,54,43,null],
+  csVi: [41,30,25,25,30,46,52,52,53,53,38,38,39,39,43,null],
+  csLa: [28,32,37,37,41,27,30,30,28,28,22,22,29,29,19,null],
+  csTo: [168,162,153,153,169,166,170,170,169,169,175,175,201,201,182,null],
+  csIK: [4,8,5,5,3,0,1,1,2,2,6,6,9,9,5,null],
+  csIP: [0,0,3,3,3,3,10,10,3,3,0,0,16,16,18,null],
+  csIB: [0,7,2,4,4,4,3,3,2,2,6,6,17,17,2,null],
+  csIV: [0,0,1,1,0,0,0,0,2,2,0,0,0,0,0,null],
+  csIL: [4,5,2,2,4,0,4,4,6,6,4,4,7,7,0,null],
+  csIT: [8,20,13,15,14,7,18,18,18,18,16,16,49,49,25,null],
+  /* Orientation par CS S1–S15 */
+  orKu: [7,13,13,13,13,8,6,6,5,5,6,6,7,7,7,null],
+  orPo: [9,9,13,13,15,15,13,13,12,12,11,11,15,15,13,null],
+  orBa: [8,9,4,4,5,5,8,8,6,6,7,7,8,8,8,null],
+  orVi: [6,9,6,6,9,10,17,17,18,18,10,10,18,18,18,null],
+  orLa: [4,3,1,1,2,2,2,2,1,1,3,3,6,6,11,null],
+  orTo: [34,43,37,37,44,40,46,46,46,46,37,37,54,54,57,null],
+  /* VAD S1–S15 */
+  vPat: [10,12,21,6,19,10,18,18,16,16,25,22,24,10,13,null],
+  vAcc: [162,170,162,156,159,160,155,152,149,147,139,139,136,135,124,null],
+  vPct: [5.6,6.5,12.3,3.1,11.3,5.6,11,11.2,10.1,10.2,17.3,15.1,16.9,6.7,9.7,null],
+  /* Coord int S1–S15 */
+  coAc: [158,163,157,152,152,156,149,149,144,144,136,135,134,133,130,null],
+  coIn: [0,6,0,1,1,5,1,2,0,8,0,3,0,1,1,null],
+  coSo: [1,6,6,1,1,8,2,5,8,8,4,1,2,4,1,null],
+  /* Tableaux inline extraits (permettent la mise à jour via Google Sheets) */
+  cManq:  [0,0,0,0,0,0,0,1,0,3,1,3,0,1,1,null],
+  cInstit:[1,5,2,4,4,3,2,4,3,4,1,0,0,1,2,null],
+  cRetDm: [2,1,2,0,2,1,0,0,1,1,5,4,2,1,2,null],
+  cCtxMq: [0,0,0,2,1,7,0,2,2,0,1,2,0,2,1,null],
+  rCovid: [0,0,0,2.5,2.1,2.4,0,2.3,3,0,2.4,5,0,3,3,null],
+  orInac: [0,4,5,5,5,1,0,0,0,0,4,4,13,13,7,null],
+  /* Canal secondaires */
+  cAZ:    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  cReu:   [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,null],
+  cMss:   [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  cCou:   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  cpcPx:  [0,0,4.4,0,2.1,0,0,0,0,0,0,0,0,0,0,null],
+  /* Adresseurs supplémentaires (3 catégories manquantes) */
+  aMGs:   [0,0,1,0,0,0,2,1,1,1,0,0,0,1,2,null],
+  aOPS:   [0,1,0,0,2,1,0,0,0,1,0,0,1,0,0,null],
+  aPro:   [1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,null],
+  /* Problématiques supplémentaires (5 catégories manquantes) */
+  pAdm:   [1,0,0,1,2,2,1,1,2,2,2,0,2,1,2,null],
+  pAut:   [0,0,1,0,2,0,0,1,0,1,1,0,0,0,1,null],
+  pPre:   [1,0,0,0,2,0,0,0,0,0,0,0,0,0,0,null],
+  pHeb:   [2,0,1,0,3,1,1,1,0,0,2,1,0,2,0,null],
+  pSco:   [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,null],
+  /* Thématiques supplémentaires (20 catégories manquantes) */
+  tOnc:   [0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,null],
+  tVif:   [0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,null],
+  tPre:   [0,0,0,1,0,2,1,0,0,0,1,1,0,0,0,null],
+  tSns:   [0,1,1,1,1,3,1,2,0,3,0,3,1,0,1,null],
+  tAdd:   [1,1,2,1,0,1,0,1,1,0,2,0,1,1,0,null],
+  tRsu:   [1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,null],
+  tHdc:   [0,3,1,0,3,0,2,1,1,2,1,4,1,1,0,null],
+  tDio:   [0,1,3,0,1,0,1,0,0,0,0,0,0,0,1,null],
+  tRDm:   [1,1,3,3,1,1,0,0,1,1,4,6,2,3,1,null],
+  tIPr:   [0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,null],
+  tIns:   [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,null],
+  tADr:   [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,null],
+  tSPa:   [0,0,0,2,2,1,1,2,0,0,0,2,1,0,0,null],
+  tCan:   [0,0,0,0,0,0,0,2,0,0,0,0,1,0,0,null],
+  tTsp:   [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,null],
+  tMnq:   [0,0,0,2,1,6,2,10,1,3,1,4,1,2,2,null],
+  tVsc:   [1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,null],
+  tMRe:   [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,null],
+  tCvL:   [0,0,0,2.5,2.1,2.4,0,2.3,3,0,2.4,5,0,2.6,3.3,null],
+  tJnF:   [0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,null],
+  /* MG identifiés nouveaux — texte brut par semaine (chargé via findRaw) */
+  mgNv:   [],
+  /* Mensuel 2026 — Jan..Déc (12 mois) */
+  mCsM:     [42.6,38.1,35.6,45.8,null,null,null,null,null,null,null,null],
+  mCiM:     [8.5,14.5,12.2,8.5,null,null,null,null,null,null,null,null],
+  mCvM:     [1.1,0,2.1,2,null,null,null,null,null,null,null,null],
+  m19Concer:[0,1,2,1,null,null,null,null,null,null,null,null],
+  m19RdvA:  [11,6,14,10,null,null,null,null,null,null,null,null],
+  m19RdvS:  [2,2,3,1,null,null,null,null,null,null,null,null],
+  m19RdvB:  [1,0,1,0,null,null,null,null,null,null,null,null],
+  m19VadP:  [8,8,12,8,null,null,null,null,null,null,null,null],
+  m19VadS:  [42,46,71,56,null,null,null,null,null,null,null,null],
+  m19VadE:  [10,8,9,5,null,null,null,null,null,null,null,null],
+  m19VStr:  [2,0,4,0,null,null,null,null,null,null,null,null],
+  m19Tot:   [76,71,116,80,null,null,null,null,null,null,null,null],
+  m3cxKu:   [13.9,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxPo:   [14.5,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxBa:   [14.9,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxVi:   [5.9,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxLa:   [11.3,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxLac:  [7.7,null,null,null,null,null,null,null,null,null,null,null],
+  m3cxPoe:  [0,null,null,null,null,null,null,null,null,null,null,null],
+};
+
+/* ══ VUE GLOBALE : supprimée (v6). Les charts g* ont été retirés. ══ */
+
+/* ══ SOLLICITATIONS ══ */
+mk('sSoll','bar',{labels:W12,datasets:[{label:'Traitées',data:D.soll,backgroundColor:W12.map((_,i)=>mc(i)+'bb'),borderColor:W12.map((_,i)=>mc(i)),borderWidth:1,borderRadius:3},{label:'Patients',data:D.pat,backgroundColor:W12.map((_,i)=>i<4?C.C+'66':i<9?C.Y+'66':C.M+'44'),borderColor:W12.map((_,i)=>i<4?C.C:i<9?C.Y:C.M),borderWidth:1,borderRadius:3}]},bo(true));
+mk('s48h','bar',{labels:W12,datasets:[{label:'% <48h',data:D.h48,backgroundColor:W12.map((_,i)=>mc(i)+'99'),borderColor:W12.map((_,i)=>mc(i)),borderWidth:1,borderRadius:3}]},{...bo(false),scales:{x:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},y:{min:60,max:105,grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5},callback:v=>v+'%'}}}});
+
+/* ══ CANAUX ══ */
+mk('cCan','line',{labels:W12,datasets:[ld('Téléphone',D.tel,C.B),ld('Mail',D.mail,C.C),ld('Manquante',D.cManq,C.R),ld('Réunion',D.cReu,C.Y),ld('MSSanté',D.cMss,C.G),ld('Courrier',D.cCou,C.T)]},bo(true));
+mk('cCtx','line',{labels:W12,datasets:[ld('Maintien dom.',D.mant,C.B),ld('Entrée instit.',D.cInstit,C.Y),ld('Retour dom.',D.cRetDm,C.C),ld('Manquante',D.cCtxMq,C.R)]},bo(true));
+
+/* ══ RÉPONSES ══ */
+mk('rRep','line',{labels:W12,datasets:[ld('CPC',D.cpc,C.B),ld('Orientation',D.ori,C.C),ld('Information',D.info,C.T),ld('Covid long',D.rCovid,C.R)]},bo(true));
+mk('rCmp','bar',{labels:['Information','Orientation','CPC','CPC Proxi.','Covid long'],datasets:[bd('Moy4 Jan',[4.1,41.2,53,1.1,0.6],C.B),bd('Moy5 Fév',[4.5,39.6,52.5,0.4,1.8],C.R),bd('Moy4 Mars S10-S13',[7.7,37.1,53.4,0,1.9],C.M),bd('Moy2 Avr S14-S15',[6.5,35,55,0,3],C.Y)]},bo(true));
+
+/* ══ THÉMATIQUES ══ */
+mk('tLine','line',{labels:W12,datasets:[ld('Maintien dom.',D.tMai,C.B),ld('Gérontologie',D.tGer,C.C),ld('Santé mentale',D.tSme,C.M),ld('Soutien aidants',D.tAid,C.Y),ld('Médicale',D.tMed,C.R),ld('Sociale',D.tSoc,C.T)]},bo(true));
+mk('tPie','doughnut',{labels:['Maintien dom. (28.1)','Gérontologie (18.7)','Santé mentale (7.9)','Soutien aidants (7.0)','Médicale (5.5)','Sociale (3.7)','Aidants (3.2)','Aide admin. (2.3)','Lieu de vie (2.2)','Accueil struct. (1.7)','Autres'],datasets:[{data:[28.1,18.7,7.9,7.0,5.5,3.7,3.2,2.3,2.2,1.7,10.9],backgroundColor:[C.B,C.C,C.M,C.Y,C.R,C.T,C.S,'#c07850','#5d9b8a','#b08bbd','#95a5a6'],borderWidth:0}]},po());
+
+/* ══ ADRESSEURS ══ */
+mk('aLine','line',{labels:W12,datasets:[ld('Prof. hosp.',D.aHos,C.B),ld('Entourage',D.aEnt,C.C),ld('Pers. elle-même',D.aPer,C.T),ld('Secteur social',D.aSoc,C.Y),ld('ESMS',D.aESM,C.M),ld('Ville hors MG',D.aVil,C.R),ld('MG hors sal.',D.aMGh,C.S)]},bo(true));
+mk('aPie','doughnut',{labels:['Prof. hosp. (16.9)','Entourage (8.0)','Sect. social (6.8)','ESMS (4.7)','Ville hors MG (3.0)','MG hors sal. (2.5)','Pers. elle-même (2.1)','Autres acteurs (1.8)','Divers (1.1)'],datasets:[{data:[16.9,8.0,6.8,4.7,3.0,2.5,2.1,1.8,1.1],backgroundColor:[C.B,C.C,C.Y,C.M,C.S,C.R,C.T,'#c07850','#95a5a6'],borderWidth:0}]},po());
+
+/* ══ MG ══ */
+mk('mgLine','line',{labels:W12,datasets:[ld('Nb MG sollicitants',D.mgNb,C.B),{label:'% parmi prof. ville',data:D.mgPc,borderColor:C.Y,backgroundColor:C.Y+'15',fill:false,tension:0.35,pointRadius:2.5,borderWidth:2,yAxisID:'pct'}]},{...bo(true),scales:{x:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},y:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},pct:{position:'right',ticks:{color:C.Y,callback:v=>v+'%',font:{size:8.5}},grid:{display:false}}}});
+mk('mgRen','bar',{labels:W12.slice(0,14),datasets:[{label:'Part de renouvellement',data:D.mgRn.slice(0,14),backgroundColor:W12.slice(0,14).map((_,i)=>mc(i)+'bb'),borderColor:W12.slice(0,14).map((_,i)=>mc(i)),borderWidth:1,borderRadius:3}]},bo(false));
+
+/* ══ PROBLÉMATIQUES ══ */
+mk('pBar','bar',{labels:W12,datasets:[bd('Aide vie quot.',D.pAVQ,C.B),bd('Pb psychique',D.pPsy,C.M),bd('Proches aidants',D.pAid,C.Y),bd('Isolement',D.pIso,C.C),bd('Soins soma.',D.pSom,C.R),bd('Prot. jur.',D.pJur,C.T)]},bo(true,true));
+mk('pPie','doughnut',{labels:['Aide vie quot. (21.1)','Pb psychique (17.5)','Proches aidants (10.2)','Isolement soc. (4.1)','Soins soma. (2.3)','Prot. jur. (1.7)','Pb admin (1.3)','Struct. héb. (0.9)','Prév. édu. (0.2)','Scolarité (0.1)'],datasets:[{data:[21.1,17.5,10.2,4.1,2.3,1.7,1.3,0.9,0.2,0.1],backgroundColor:[C.B,C.M,C.Y,C.C,C.R,C.T,C.S,'#c07850','#5d9b8a','#95a5a6'],borderWidth:0}]},po());
+
+/* ══ CI ══ */
+mk('ciAct','line',{labels:W14,datasets:[ld('K.OCHEM',D.ciOc,C.R),ld('M.DENYS',D.ciDe,C.B),ld('C.FAUCON',D.ciFa,C.C),ld('S.GOUTH',D.ciGo,C.T),ld('M.DAIME',D.ciDa,C.Y),ld('Z.BEKADDOUR',D.ciBe,C.G),ld('E.POESSON CI',D.ciPo,C.S),ld('P.GIRON',D.ciGi,'#475569'),ld('E.P.Covid',D.ciCv,C.M)]},bo(true));
+mk('ciIn','bar',{labels:W14,datasets:[bd('K.OCHEM',D.ciIK,C.R),bd('M.DENYS',D.ciIM,C.B),bd('C.FAUCON',D.ciIF,C.C),bd('S.GOUTH',D.ciIG,C.T),bd('M.DAIME',D.ciID,C.Y),bd('Z.BEKADDOUR',D.ciIBe,C.G),bd('E.POESSON CI',D.ciIPo,C.S),bd('P.GIRON',D.ciIGi,'#475569')]},bo(true,true));
+
+/* ══ CS ══ */
+mk('csAct','line',{labels:W14,datasets:[ld('MT.KUNERS',D.csKu,C.B),ld('N.POLIAKOFF',D.csPo,C.C),ld('E.BAUDOUIN',D.csBa,C.Y),ld('AP.VILLAIN',D.csVi,C.R),ld('M.LATIL',D.csLa,C.T)]},bo(true));
+mk('csIn','bar',{labels:W14,datasets:[bd('MT.KUNERS',D.csIK,C.B),bd('N.POLIAKOFF',D.csIP,C.C),bd('E.BAUDOUIN',D.csIB,C.Y),bd('AP.VILLAIN',D.csIV,C.R),bd('M.LATIL',D.csIL,C.T)]},bo(true,true));
+
+/* ══ ORIENTATION ══ */
+mk('orLine','line',{labels:W14,datasets:[ld('MT.KUNERS',D.orKu,C.B),ld('N.POLIAKOFF',D.orPo,C.C),ld('E.BAUDOUIN',D.orBa,C.Y),ld('AP.VILLAIN',D.orVi,C.R),ld('M.LATIL',D.orLa,C.T)]},bo(true));
+mk('orIn','line',{labels:W14,datasets:[{label:'Total Orientation',data:D.orTo,borderColor:C.B,backgroundColor:C.B+'15',fill:true,tension:0.35,pointRadius:2.5,borderWidth:2},{label:'Total Inactifs',data:D.orInac,borderColor:C.R,backgroundColor:C.R+'15',fill:true,tension:0.35,pointRadius:2.5,borderWidth:2}]},bo(true));
+
+/* ══ VAD ══ */
+const vadO={responsive:true,maintainAspectRatio:false,animation:{duration:450},plugins:{legend:{display:true,labels:{color:tc().l,font:{family:"'Barlow Semi Condensed'",size:10,weight:'600'},boxWidth:8}},tooltip:{backgroundColor:tc().bg,borderColor:C.B,borderWidth:1,titleColor:tc().fc,bodyColor:tc().fc,padding:7}},scales:{x:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},y:{grid:{color:tc().g},ticks:{color:tc().t,font:{size:8.5}}},pct:{position:'right',ticks:{color:C.Y,callback:v=>v+'%',font:{size:8}},grid:{display:false}}}};
+mk('vVad','bar',{labels:W12,datasets:[{label:'Patients ≥1 visite',data:D.vPat,backgroundColor:W12.map((_,i)=>mc(i)+'bb'),borderColor:W12.map((_,i)=>mc(i)),borderWidth:1,borderRadius:2},{label:'% accompagnés',data:D.vPct,type:'line',borderColor:C.Y,backgroundColor:'transparent',yAxisID:'pct',pointRadius:3,borderWidth:2,tension:0.3}]},vadO);
+mk('vPct','line',{labels:W12,datasets:[ld('% patients visités',D.vPct,C.C),ld('Personnes accompagnées (÷10)',D.vAcc.map(v=>v?v/10:null),C.B)]},bo(true));
+
+/* ══ COORD INTENSIVE ══ */
+mk('coAcc','line',{labels:W12,datasets:[ld('Personnes accompagnées',D.coAc,C.B)]},bo(false));
+mk('coFlux','bar',{labels:W12,datasets:[bd('Incluses dans la semaine',D.coIn,C.G),bd('Sorties de la période',D.coSo,C.R)]},bo(true));
+
+/* ══ MENSUEL ══ */
+mk('mCs','bar',{labels:['Jan 2026','Fév 2026','Moy 2024'],datasets:[{label:'%',data:[42.6,38.1,24.3],backgroundColor:[C.B+'bb',C.R+'bb',C.S+'77'],borderColor:[C.B,C.R,C.S],borderWidth:1,borderRadius:3}]},bo(false));
+mk('mCi','bar',{labels:['Jan 2026','Fév 2026','Moy 2024'],datasets:[{label:'%',data:[8.5,14.5,5.2],backgroundColor:[C.B+'bb',C.R+'bb',C.S+'77'],borderColor:[C.B,C.R,C.S],borderWidth:1,borderRadius:3}]},bo(false));
+mk('mCovid','bar',{labels:['Jan 2026','Fév 2026','Moy 2024'],datasets:[{label:'%',data:[1.1,0,2.4],backgroundColor:[C.B+'bb',C.R+'bb',C.S+'77'],borderColor:[C.B,C.R,C.S],borderWidth:1,borderRadius:3}]},bo(false));
+mk('mRdv','bar',{labels:['Concer.','RDV+acc','RDV-acc','RDV-bén','VAD+p','VAD sui','VAD éval','V.struct'],datasets:[bd('Jan 2026',[0,11,2,1,8,42,10,2],C.B),bd('Fév 2026',[1,6,2,0,8,46,8,0],C.R),bd('Moy 2024',[2.8,21.1,5.4,2.7,11.7,73.4,4.4,5.6],C.S)]},bo(true));
+mk('mTel','bar',{labels:['MT.KUNERS','N.POLIAK.','E.BAUDOIN','AP.VILLAIN','M.LATIL','N.LACOSTE','E.POESSON'],datasets:[bd('Jan 2026 (h)',[13.87,14.45,14.93,5.86,11.34,7.72,0],C.B),bd('Moy 2024 (h)',[9.13,10.17,16.24,12.67,10.61,10.12,4.78],C.S)]},bo(true));
+
+/* ══ GÉNÉRATION DYNAMIQUE DES TABLEAUX ══ */
+(function(){
+  /* Couleur cellule selon l'index de semaine (0-basé) — extensible */
+  function mc(i){return i<4?'jan':i<9?'fev':i<13?'mar':i<17?'avr':i<22?'mai':'';}
+  function th(i){return i<4?'tJ':i<9?'tF':i<13?'tM':i<17?'tA':'';}
+
+  function fv(v,fmt){
+    if(v===null||v===undefined)return'—';
+    if(fmt)return fmt(v);
+    return typeof v==='number'?(Number.isInteger(v)?String(v):v.toFixed(1)):String(v);
+  }
+  function moyArr(arr,fmt){
+    /* Utilise toutes les semaines disponibles (dynamique) */
+    const W=Math.max(W12.length-1,1);
+    const vals=(arr||[]).slice(0,W).filter(x=>x!==null&&x!==undefined);
+    if(!vals.length)return'—';
+    return fv(vals.reduce((a,b)=>a+b,0)/vals.length,fmt);
+  }
+
+  /* Trouve la carte (.card) par son attribut data-tbl (persistent) ou par le texte du titre */
+  function findCard(keyword){
+    // Cherche d'abord via l'attribut data-tbl (résiste aux changements de titre)
+    const byAttr=document.querySelector(`.card[data-tbl="${CSS.escape(keyword)}"]`);
+    if(byAttr)return byAttr;
+    // Fallback : recherche par texte du titre (premier appel)
+    for(const card of document.querySelectorAll('.card')){
+      const ct=card.querySelector('.ct');
+      if(ct&&ct.textContent.toLowerCase().includes(keyword.toLowerCase())){
+        card.setAttribute('data-tbl',keyword); // mémorise pour les prochains appels
+        return card;
+      }
+    }
+    return null;
+  }
+
+  /* Construit la table HTML — nombre de colonnes dynamique (W12.length - 1) */
+  function buildTbl(keyword,sections,newTitle){
+    const card=findCard(keyword);if(!card)return;
+    const ct=card.querySelector('.ct');
+    if(ct&&newTitle)ct.innerHTML=newTitle;
+    /* Supprime l'ancienne table statique ET toute table déjà générée */
+    card.querySelectorAll('table,[data-dyn]').forEach(t=>t.remove());
+    /* Nombre de semaines réel = W12.length - 1 (dernier élément = placeholder null) */
+    const W=Math.max(W12.length-1,1);
+
+    /* Construction du plan des colonnes :
+       - S1..S4, Moy4 (S1-S4), S5..S8, Moy4 (S5-S8), ..., Moy Total */
+    const cols=[];
+    for(let i=0;i<W;i++){
+      cols.push({type:'wk',idx:i});
+      if((i+1)%4===0)cols.push({type:'moy4',start:i-3,end:i});
+    }
+    cols.push({type:'moyTot'});
+    const colspan=cols.length+1;
+
+    let h=`<div data-dyn="1" style="overflow-x:auto;margin-top:8px"><table class="dt" style="font-size:8.5px"><thead><tr><th style="min-width:170px">Indicateur</th>`;
+    for(const c of cols){
+      if(c.type==='wk')h+=`<th class="${th(c.idx)}">${W12[c.idx]||'S'+(c.idx+1)}</th>`;
+      else if(c.type==='moy4')h+=`<th class="moy4h" title="Moyenne S${c.start+1}–S${c.end+1}">M<br><span style="font-size:7px;opacity:.75">${c.start+1}-${c.end+1}</span></th>`;
+      else h+=`<th class="moyTh">Moy&nbsp;S1–S${W}</th>`;
+    }
+    h+=`</tr></thead><tbody>`;
+    for(const sec of sections){
+      if(sec.title)h+=`<tr><td colspan="${colspan}" style="background:var(--sf2);color:var(--B);font-family:'Barlow Semi Condensed',sans-serif;font-size:9px;font-weight:700;padding:4px 6px;border-bottom:1px solid var(--bd)">${sec.title}</td></tr>`;
+      for(const r of sec.rows||[]){
+        const arr=r.data?r.data():(r.key&&D[r.key]?[...D[r.key]]:new Array(W).fill(null));
+        h+=`<tr${r.cls?` class="${r.cls}"`:''}>`;h+=`<td>${r.lbl}</td>`;
+        if(r.raw){
+          /* Ligne texte brut (ex : listes de noms) */
+          for(const c of cols){
+            if(c.type==='wk'){
+              const v=(arr[c.idx]||'').toString().trim();
+              const empty=!v||v==='.'||v==='—';
+              const cell=empty?'—':v.replace(/,\s*/g,' · ');
+              h+=`<td class="${mc(c.idx)}" style="text-align:left;font-family:'Barlow',sans-serif;font-size:8.5px;white-space:normal;min-width:110px;max-width:220px;line-height:1.35;vertical-align:top">${cell}</td>`;
+            }else if(c.type==='moy4'){
+              h+=`<td class="moy4c">—</td>`;
+            }else{
+              h+=`<td class="m12">—</td>`;
+            }
+          }
+        }else{
+          for(const c of cols){
+            if(c.type==='wk'){
+              const v=arr[c.idx];
+              const al=r.alert&&v!==null&&v!==undefined&&r.alert(v)?' red':'';
+              h+=`<td class="${mc(c.idx)}${al}">${fv(v,r.fmt)}</td>`;
+            }else if(c.type==='moy4'){
+              /* Moyenne intermédiaire toutes les 4 semaines */
+              const slice=arr.slice(c.start,c.end+1).filter(v=>typeof v==='number');
+              const moy=slice.length?slice.reduce((a,b)=>a+b,0)/slice.length:null;
+              h+=`<td class="moy4c">${moy!==null?fv(moy,r.fmt):'—'}</td>`;
+            }else{
+              /* Moyenne totale depuis S1 */
+              h+=`<td class="m12">${moyArr(arr,r.fmt)}</td>`;
+            }
+          }
+        }
+        h+=`</tr>`;
+      }
+    }
+    h+=`</tbody></table></div>`;
+    card.insertAdjacentHTML('beforeend',h);
+  }
+
+  /* ── Cartes KPI dynamiques (section Sollicitations) ── */
+  function renderSollKpi(){
+    const el=document.getElementById('sollKpi');if(!el)return;
+    const data=D.soll||[];
+    let last=-1;for(let i=0;i<data.length;i++)if(data[i]!=null)last=i;
+    if(last<0){el.innerHTML='';return;}
+    const monthStyle=w=>{
+      if(w<=4) return {c:'kc',         s:''};
+      if(w<=9) return {c:'kc r',       s:''};
+      if(w<=13)return {c:'kc m',       s:''};
+      if(w<=17)return {c:'kc',         s:'background:rgba(155,89,182,.13)'};
+      if(w<=22)return {c:'kc t',       s:''};
+      if(w<=26)return {c:'kc g',       s:''};
+      if(w<=30)return {c:'kc y',       s:''};
+      if(w<=35)return {c:'kc r',       s:''};
+      if(w<=39)return {c:'kc c',       s:''};
+      if(w<=43)return {c:'kc m',       s:''};
+      if(w<=48)return {c:'kc t',       s:''};
+      return            {c:'kc g',       s:''};
+    };
+    /* Étiquettes des groupes de 4 semaines (mois approximatifs) */
+    const MOY4_LBL=['JAN','FÉV','MAR','AVR','MAI','JUIN','JUIL','AOÛT','SEPT','OCT','NOV','DÉC','FIN'];
+    const out=[];let tot=0,cnt=0,grpSum=0,grpCnt=0;
+    for(let i=0;i<=last;i++){
+      const v=data[i];if(v==null){continue;}
+      const w=i+1,{c,s}=monthStyle(w);
+      out.push(`<div class="${c}"${s?` style="${s}"`:''}><div class="kl">S${w}</div><div class="kv">${v}</div></div>`);
+      tot+=v;cnt++;grpSum+=v;grpCnt++;
+      /* Badge moyenne toutes les 4 semaines */
+      if(w%4===0){
+        const g=(w/4)-1;const lbl=MOY4_LBL[g]||('S'+(w-3)+'-S'+w);
+        const moy4=grpCnt?(grpSum/grpCnt).toFixed(1):'—';
+        out.push(`<div class="kc kmoy4"><div class="kl">MOY4 ${lbl}</div><div class="kv">${moy4}</div><div class="ks">S${w-3}–S${w}</div></div>`);
+        grpSum=0;grpCnt=0;
+      }
+    }
+    /* Moyenne totale en fin (mise en avant : classe kmoy) */
+    const moy=cnt?(tot/cnt).toFixed(1):'-';
+    out.push(`<div class="kc kmoy"><div class="kl">MOY S1–S${last+1}</div><div class="kv">${moy}</div><div class="ks">${cnt} sem. saisies</div></div>`);
+    el.innerHTML=out.join('');
+  }
+  window.renderSollKpi=renderSollKpi;
+
+  /* ── Section Mensuelle : tables + charts dynamiques (IND 5, IND 19, 3CX) ── */
+  const MOIS=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc'];
+  function lastMonth(arr){for(let i=11;i>=0;i--)if(arr&&arr[i]!=null)return i;return -1;}
+  function fmtHm(h){if(h==null)return '—';const H=Math.floor(h),M=Math.round((h-H)*60);return `${String(H).padStart(2,'0')}h${String(M).padStart(2,'0')}`;}
+
+  function renderMensuel(){
+    const moisRef=Math.max(lastMonth(D.mCsM),lastMonth(D.mCiM),lastMonth(D.mCvM));
+
+    /* ── IND 5 : 3 charts (Coord. soutenue / intensive / Covid long) ── */
+    const monthColors=[C.B,C.R,C.M,C.T,C.G,C.Y,C.C,C.B,C.R,C.M,C.T,C.G];
+    const ind5Charts=[
+      {id:'mCs',   key:'mCsM', moy24:24.3},
+      {id:'mCi',   key:'mCiM', moy24:5.2},
+      {id:'mCovid',key:'mCvM', moy24:2.4},
+    ];
+    ind5Charts.forEach(({id,key,moy24})=>{
+      const ch=chs[id];if(!ch)return;
+      const arr=D[key]||[],last=lastMonth(arr);
+      if(last<0)return;
+      const labels=[],data=[],cols=[];
+      for(let i=0;i<=last;i++){labels.push(MOIS[i]+' 26');data.push(arr[i]??0);cols.push(monthColors[i%12]);}
+      labels.push('Moy 2024');data.push(moy24);cols.push(C.S);
+      ch.data.labels=labels;
+      ch.data.datasets[0].data=data;
+      ch.data.datasets[0].backgroundColor=cols.map(c=>c+'bb');
+      ch.data.datasets[0].borderColor=cols;
+      ch.update('none');
+    });
+
+    /* ── IND 5 table ── */
+    const t1=document.getElementById('mInd5Tbl');
+    if(t1){
+      const types=[
+        {lbl:'Suivi coordination soutenue', key:'mCsM', ref24:{j:10.1,f:15.3,m:24.3}},
+        {lbl:'Suivi coordination intensive',key:'mCiM', ref24:{j:9.7, f:17.9,m:5.2}},
+        {lbl:'Covid long',                  key:'mCvM', ref24:{j:0,   f:6.5, m:2.4}},
+      ];
+      let h='<thead><tr><th>Type</th>';
+      for(let i=0;i<=moisRef;i++)h+=`<th class="tJ">${MOIS[i]} 26</th>`;
+      h+='<th>Moy 26</th><th>Jan 24</th><th>Fév 24</th><th>Moy 24</th></tr></thead><tbody>';
+      types.forEach(({lbl,key,ref24})=>{
+        const arr=D[key]||[];let s=0,c=0;
+        h+=`<tr><td>${lbl}</td>`;
+        for(let i=0;i<=moisRef;i++){const v=arr[i];if(v==null){h+='<td>—</td>';}else{h+=`<td>${v}</td>`;s+=v;c++;}}
+        h+=`<td class="m4">${c?(s/c).toFixed(1):'—'}</td><td>${ref24.j}</td><td>${ref24.f}</td><td>${ref24.m}</td></tr>`;
+      });
+      h+='</tbody>';
+      t1.innerHTML=h;
+    }
+
+    /* ── IND 19 chart (mRdv) : multi-mois ── */
+    const ind19Rows=[
+      {lbl:'Concer.', key:'m19Concer'},
+      {lbl:'RDV+acc', key:'m19RdvA'},
+      {lbl:'RDV-acc', key:'m19RdvS'},
+      {lbl:'RDV-bén', key:'m19RdvB'},
+      {lbl:'VAD+p',   key:'m19VadP'},
+      {lbl:'VAD sui', key:'m19VadS'},
+      {lbl:'VAD éval',key:'m19VadE'},
+      {lbl:'V.struct',key:'m19VStr'},
+    ];
+    const last19=Math.max(...ind19Rows.map(r=>lastMonth(D[r.key])));
+    const chRdv=chs['mRdv'];
+    if(chRdv&&last19>=0){
+      const datasets=[];
+      for(let m=0;m<=last19;m++){
+        datasets.push({label:MOIS[m]+' 26',data:ind19Rows.map(r=>(D[r.key]||[])[m]??0),
+          backgroundColor:monthColors[m%12]+'bb',borderColor:monthColors[m%12],borderWidth:1,borderRadius:2});
+      }
+      datasets.push({label:'Moy 2024',data:[2.8,21.1,5.4,2.7,11.7,73.4,4.4,5.6],
+        backgroundColor:C.S+'bb',borderColor:C.S,borderWidth:1,borderRadius:2});
+      chRdv.data.labels=ind19Rows.map(r=>r.lbl);
+      chRdv.data.datasets=datasets;
+      chRdv.update('none');
+    }
+
+    /* ── IND 19 table ── */
+    const t2=document.getElementById('mInd19Tbl');
+    if(t2&&last19>=0){
+      const moy24={'m19Concer':2.8,'m19RdvA':21.1,'m19RdvS':5.4,'m19RdvB':2.7,
+        'm19VadP':11.7,'m19VadS':73.4,'m19VadE':4.4,'m19VStr':5.6,'m19Tot':124.7};
+      const rowsTbl=[
+        {lbl:'Concertation pluriprofessionnelle', key:'m19Concer'},
+        {lbl:'RDV avec accompagnement',           key:'m19RdvA'},
+        {lbl:'RDV sans accompagnement',           key:'m19RdvS'},
+        {lbl:'RDV sans bénéficiaire',             key:'m19RdvB'},
+        {lbl:'Visite à domicile avec partenaire', key:'m19VadP'},
+        {lbl:'Visite à domicile de suivi',        key:'m19VadS'},
+        {lbl:"Visite d'évaluation",               key:'m19VadE'},
+        {lbl:'Visite en structure',               key:'m19VStr'},
+        {lbl:'TOTAL',                             key:'m19Tot', cls:'tot'},
+      ];
+      let h='<thead><tr><th>Type de RDV</th>';
+      for(let i=0;i<=last19;i++)h+=`<th class="tJ">${MOIS[i]} 26</th>`;
+      h+='<th>Moy 26</th><th>Moy 24</th></tr></thead><tbody>';
+      rowsTbl.forEach(({lbl,key,cls})=>{
+        const arr=D[key]||[];let s=0,c=0;
+        h+=`<tr${cls?' class="'+cls+'"':''}><td>${lbl}</td>`;
+        for(let i=0;i<=last19;i++){const v=arr[i];if(v==null){h+='<td>—</td>';}else{h+=`<td>${v}</td>`;s+=v;c++;}}
+        h+=`<td class="m4">${c?(s/c).toFixed(1):'—'}</td><td>${moy24[key]??'—'}</td></tr>`;
+      });
+      h+='</tbody>';
+      t2.innerHTML=h;
+    }
+
+    /* ── 3CX chart (mTel) : multi-mois si données ── */
+    const cs3cx=[
+      {lbl:'MT.KUNERS',   key:'m3cxKu',  moy24:9.13},
+      {lbl:'N.POLIAK.',   key:'m3cxPo',  moy24:10.17},
+      {lbl:'E.BAUDOUIN',  key:'m3cxBa',  moy24:16.24},
+      {lbl:'AP.VILLAIN',  key:'m3cxVi',  moy24:12.67},
+      {lbl:'M.LATIL',     key:'m3cxLa',  moy24:10.61},
+      {lbl:'N.LACOSTE',   key:'m3cxLac', moy24:10.12},
+      {lbl:'E.POESSON',   key:'m3cxPoe', moy24:4.78},
+    ];
+    const last3cx=Math.max(...cs3cx.map(r=>lastMonth(D[r.key])));
+    const chTel=chs['mTel'];
+    if(chTel&&last3cx>=0){
+      const datasets=[];
+      for(let m=0;m<=last3cx;m++){
+        datasets.push({label:MOIS[m]+' 26 (h)',data:cs3cx.map(r=>(D[r.key]||[])[m]??0),
+          backgroundColor:monthColors[m%12]+'bb',borderColor:monthColors[m%12],borderWidth:1,borderRadius:2});
+      }
+      datasets.push({label:'Moy 2024 (h)',data:cs3cx.map(r=>r.moy24),
+        backgroundColor:C.S+'bb',borderColor:C.S,borderWidth:1,borderRadius:2});
+      chTel.data.labels=cs3cx.map(r=>r.lbl);
+      chTel.data.datasets=datasets;
+      chTel.update('none');
+    }
+
+    /* ── 3CX table ── */
+    const t3=document.getElementById('m3cxTbl');
+    if(t3){
+      const fullNames={'m3cxKu':'Marie-Thérèse KUNERS OF KOENDERS','m3cxPo':'Natacha POLIAKOFF',
+        'm3cxBa':'Emmanuelle BAUDOUIN','m3cxVi':'Anne-Pascale VILLAIN','m3cxLa':'Marlène LATIL',
+        'm3cxLac':'Noémie LACOSTE','m3cxPoe':'Emeline POESSON'};
+      const lastT=Math.max(0,last3cx);
+      let h='<thead><tr><th>CS</th>';
+      for(let i=0;i<=lastT;i++)h+=`<th class="tJ">${MOIS[i]} 26</th>`;
+      h+='<th>Moy 26</th><th>Moy 24</th></tr></thead><tbody>';
+      cs3cx.forEach(({key,moy24})=>{
+        const arr=D[key]||[];let s=0,c=0;
+        h+=`<tr><td>${fullNames[key]}</td>`;
+        for(let i=0;i<=lastT;i++){const v=arr[i];if(v==null){h+='<td>—</td>';}else{h+=`<td>${fmtHm(v)}</td>`;s+=v;c++;}}
+        h+=`<td class="m4">${c?fmtHm(s/c):'—'}</td><td>${fmtHm(moy24)}</td></tr>`;
+      });
+      h+='</tbody>';
+      t3.innerHTML=h;
+    }
+
+    /* ── Met à jour le titre de section avec les mois dispo ── */
+    const titleEl=document.querySelector('#mens .st .n')?.parentElement;
+    if(titleEl&&moisRef>=0){
+      const moisList=MOIS.slice(0,moisRef+1).join('–');
+      titleEl.lastChild.textContent=`Indicateurs Mensuels 2026 — ${moisList}`;
+    }
+  }
+  window.renderMensuel=renderMensuel;
+
+  /* ── KPI cards Coordination Intensive (section #coord) ── */
+  function renderCoordKpi(){
+    const el=document.getElementById('coordKpi');if(!el)return;
+    const acc=D.coAc||[],inc=D.coIn||[],sor=D.coSo||[];
+    let last=-1;for(let i=0;i<acc.length;i++)if(acc[i]!=null)last=i;
+    if(last<0){el.innerHTML='';return;}
+    const accS1=acc[0]??0,accLast=acc[last]??0,delta=accLast-accS1;
+    const incVals=inc.map((v,i)=>({v,i})).filter(x=>x.v!=null);
+    const sorVals=sor.map((v,i)=>({v,i})).filter(x=>x.v!=null);
+    const maxInc=incVals.length?incVals.reduce((a,b)=>b.v>a.v?b:a):{v:0,i:0};
+    const maxSor=sorVals.length?sorVals.reduce((a,b)=>b.v>a.v?b:a):{v:0,i:0};
+    el.innerHTML=`
+      <div class="kc"><div class="kl">Accompagnées S1</div><div class="kv">${accS1}</div></div>
+      <div class="kc r"><div class="kl">Accompagnées S${last+1}</div><div class="kv">${accLast}</div><div class="ks">${delta>=0?'▲ +':'▼ '}${delta} vs S1</div></div>
+      <div class="kc g"><div class="kl">Max incluses/sem</div><div class="kv">${maxInc.v}</div><div class="ks">S${maxInc.i+1} — ${maxInc.v} nouvelles</div></div>
+      <div class="kc r"><div class="kl">Max sorties/sem</div><div class="kv">${maxSor.v}</div><div class="ks">S${maxSor.i+1} — ${maxSor.v} sorties</div></div>
+    `;
+    /* Mise à jour titre section avec dernière semaine */
+    const t=document.getElementById('coordTitle');
+    if(t)t.textContent=`Coordination Intensive — S1–S${last+1}`;
+  }
+  window.renderCoordKpi=renderCoordKpi;
+
+  window.buildAllTables=function(){
+    const pct1=v=>v.toFixed(1)+'%';
+    try{renderSollKpi();}catch(e){console.warn('renderSollKpi',e);}
+    try{renderMensuel();}catch(e){console.warn('renderMensuel',e);}
+    try{renderCoordKpi();}catch(e){console.warn('renderCoordKpi',e);}
+    /* Sollicitations */
+    buildTbl('Tableau détaillé',[{rows:[
+      {lbl:'Sollicitations traitées',key:'soll',key25:'soll'},
+      {lbl:'Patients associés',key:'pat',key25:'pat'},
+      {lbl:'% dossiers clos/patients',key:'clos',fmt:pct1,key25:'clos'},
+      {lbl:'Sollicitations <48h (%)',key:'h48',fmt:pct1,alert:v=>v<80,key25:'h48'},
+    ]}],'Tableau Sollicitations &amp; &lt;48h');
+    /* Canal de réception */
+    buildTbl('Canal de réception',[{rows:[
+      {lbl:'Téléphone',              key:'tel',   key25:'tel'},
+      {lbl:'Mail',                   key:'mail',  key25:'mail'},
+      {lbl:'Sollicitation équipe (AZ)',key:'cAZ', key25:'cAZ'},
+      {lbl:'Réunion',                key:'cReu',  key25:'cReu'},
+      {lbl:'MSSanté',                key:'cMss',  key25:'cMss'},
+      {lbl:'Courrier',               key:'cCou',  key25:'cCou'},
+      {lbl:'Manquante',              key:'cManq', key25:'cManq'},
+    ]}],'Canal de réception');
+    /* Contexte */
+    buildTbl('Contexte de la demande',[{rows:[
+      {lbl:'Maintien à domicile',                 key:'mant',   key25:'mant'},
+      {lbl:'Entrée institution / Hospitalisation', key:'cInstit',key25:'cInstit'},
+      {lbl:'Retour à domicile',                   key:'cRetDm', key25:'cRetDm'},
+      {lbl:'Manquante / Covid long',              key:'cCtxMq', key25:'cCtxMq'},
+    ]}],'Contexte de la demande');
+    /* Réponses par type */
+    buildTbl('réponses par type (%)',[{rows:[
+      {lbl:'Information (%)',key:'info',fmt:pct1,key25:'info'},
+      {lbl:'Orientation (%)',key:'ori',fmt:pct1,key25:'ori'},
+      {lbl:'CPC — Coordination Soutenue (%)',key:'cpc',fmt:pct1,key25:'cpc'},
+      {lbl:'CPC de proximité (%)',key:'cpcPx',fmt:pct1},
+      {lbl:'Service spécialisé — Covid long (%)',key:'rCovid',fmt:pct1,key25:'rCovid'},
+    ]}],'Réponses par type (%)');
+    /* Thématiques */
+    buildTbl('Toutes thématiques',[{rows:[
+      {lbl:'Maintien à domicile',    key:'tMai',key25:'tMai'},
+      {lbl:'Gérontologie',           key:'tGer',key25:'tGer'},
+      {lbl:'Santé mentale',          key:'tSme',key25:'tSme'},
+      {lbl:'Aidants',                key:'tAds',key25:'tAds'},
+      {lbl:'Soutien aux aidants',    key:'tAid',key25:'tAid'},
+      {lbl:'Médicale',               key:'tMed',key25:'tMed'},
+      {lbl:'Sociale',                key:'tSoc',key25:'tSoc'},
+      {lbl:'Manquante',              key:'tMnq'},
+      {lbl:'Retour à domicile',      key:'tRDm'},
+      {lbl:'Handicap',               key:'tHdc'},
+      {lbl:'Soins',                  key:'tSns'},
+      {lbl:'Soins Palliatifs',       key:'tSPa'},
+      {lbl:'Covid long',             key:'tCvL'},
+      {lbl:'Addiction',              key:'tAdd'},
+      {lbl:'Lieu de vie / Habitat',  key:'tLdv',key25:'tLdv'},
+      {lbl:'Accueil en structure',   key:'tAcc',key25:'tAcc'},
+      {lbl:'Aide administrative',    key:'tAdm',key25:'tAdm'},
+      {lbl:'Précarité',              key:'tPre'},
+      {lbl:'Diogène',                key:'tDio'},
+      {lbl:'Oncologie',              key:'tOnc'},
+      {lbl:'Cancérologie',           key:'tCan'},
+      {lbl:'Violence intra-familiale',key:'tVif'},
+      {lbl:'Risque suicidaire',      key:'tRsu'},
+      {lbl:'Information préoccupante',key:'tIPr'},
+      {lbl:'Accès aux droits',       key:'tADr'},
+      {lbl:'Insertion',              key:'tIns'},
+      {lbl:'Transport',              key:'tTsp'},
+      {lbl:'Vie sociale et culturelle',key:'tVsc'},
+      {lbl:'Maladie Rénale',         key:'tMRe'},
+      {lbl:'Jeunesse / Famille',     key:'tJnF'},
+      {lbl:'TOTAL',                  key:'tTot',cls:'tot',key25:'tTot'},
+    ]}],'Toutes thématiques');
+    /* Adresseurs */
+    buildTbl('complet adresseurs',[{rows:[
+      {lbl:'Autres acteurs',           key:'aAut',key25:'aAut'},
+      {lbl:'Médecin gén. salarié',     key:'aMGs',key25:'aMGs'},
+      {lbl:'Orga. protection sociale', key:'aOPS',key25:'aOPS'},
+      {lbl:'Médecin gén. hors salarié',key:'aMGh',key25:'aMGh'},
+      {lbl:'Prof. de ville (hors MG)', key:'aVil',key25:'aVil'},
+      {lbl:'Prof. autres structures',  key:'aPro',key25:'aPro'},
+      {lbl:'Prof. en ESMS',            key:'aESM',key25:'aESM'},
+      {lbl:'Prof. secteur social',     key:'aSoc',key25:'aSoc'},
+      {lbl:'Prof. hospitalier',        key:'aHos',key25:'aHos'},
+      {lbl:'Personne elle-même',       key:'aPer',key25:'aPer'}, // 2025 = combiné avec Entourage
+      {lbl:'Entourage de la personne', key:'aEnt'},
+      {lbl:'TOTAL',                    key:'aTot',cls:'tot',key25:'aTot'},
+    ]}],'Adresseurs complet');
+    /* MG Ind 11 */
+    buildTbl('Ind. 11 — Médecins',[{rows:[
+      {lbl:'Nb MG ayant sollicité le DAC',key:'mgNb',key25:'mgNb'},
+      {lbl:'% MG parmi prof. de ville',key:'mgPc',fmt:pct1,key25:'mgPc'},
+    ]}],'Ind. 11 — Médecins généralistes');
+    /* Renouvellement MG */
+    buildTbl('renouvellement des MG',[{rows:[
+      {lbl:'Part de renouvellement',key:'mgRn',key25:'mgRn'},
+      {lbl:'MG identifiés nouveaux',key:'mgNv',raw:true},
+    ]}],'Renouvellement MG — S1–S14');
+    /* Problématiques */
+    buildTbl('complet problématiques',[{rows:[
+      {lbl:'Aide à la vie quotidienne',key:'pAVQ',key25:'pAVQ'},
+      {lbl:'Pb psychique / psychiatrique',key:'pPsy',key25:'pPsy'},
+      {lbl:'Isolement social',key:'pIso',key25:'pIso'},
+      {lbl:'Proches aidants',key:'pAid',key25:'pAid'},
+      {lbl:'Pb administratives / financières',key:'pAdm',key25:'pAdm'},
+      {lbl:'Soins somatiques',key:'pSom',key25:'pSom'},
+      {lbl:'Autres',key:'pAut',key25:'pAut'},
+      {lbl:'Besoin de protection juridique',key:'pJur',key25:'pJur'},
+      {lbl:'Prévention / éducation santé',key:'pPre',key25:'pPre'},
+      {lbl:'Structure hébergement / accueil',key:'pHeb',key25:'pHeb'},
+      {lbl:'Scolarité / Emploi',key:'pSco',key25:'pSco'},
+      {lbl:'TOTAL',key:'pTot',cls:'tot',key25:'pTot'},
+    ]}],'Problématiques');
+    /* CI actifs */
+    buildTbl('actifs CI',[{rows:[
+      {lbl:'K. OCHEM (15–30)',      key:'ciOc',alert:v=>v<15||v>30, key25:'ciOc'},
+      {lbl:'M. DENYS (15–30)',      key:'ciDe',alert:v=>v<15||v>30, key25:'ciDe'},
+      {lbl:'C. FAUCON (≤30)',       key:'ciFa',alert:v=>v>30,       key25:'ciFa'},
+      {lbl:'S. GOUTH',              key:'ciGo',                      key25:'ciGo'},
+      {lbl:'M. DAIME (15–30)',      key:'ciDa',alert:v=>v<15||v>30, key25:'ciDa'},
+      {lbl:'Z. BEKADDOUR (15–30)',  key:'ciBe',                      key25:'ciBe'},
+      {lbl:'E. POESSON CI (12–15)', key:'ciPo',                      key25:'ciPo'},
+      {lbl:'P. GIRON',              key:'ciGi'},
+      {lbl:'E. POESSON Covid long', key:'ciCv',                      key25:'ciCv'},
+      {lbl:'TOTAL',                 key:'ciTo',cls:'tot',            key25:'ciTo'},
+    ]}],'Dossiers actifs CI');
+    /* CI inactifs */
+    buildTbl('inactifs >1 mois CI',[{rows:[
+      {lbl:'K. OCHEM',  key:'ciIK',                  key25:'ciIK'},
+      {lbl:'M. DENYS',  key:'ciIM',                  key25:'ciIM'},
+      {lbl:'C. FAUCON', key:'ciIF',alert:v=>v>10,    key25:'ciIF'},
+      {lbl:'S. GOUTH',  key:'ciIG',                  key25:'ciIG'},
+      {lbl:'M. DAIME',  key:'ciID',                  key25:'ciID'},
+      {lbl:'Z. BEKADDOUR', key:'ciIBe',              key25:'ciIBe'},
+      {lbl:'E. POESSON CI',key:'ciIPo',              key25:'ciIPo'},
+      {lbl:'P. GIRON',     key:'ciIGi'},
+      {lbl:'TOTAL',     key:'ciIT',cls:'tot',         key25:'ciIT'},
+    ]}],'Dossiers inactifs &gt;1 mois CI');
+    /* CS actifs */
+    buildTbl('actifs CS',[{rows:[
+      {lbl:'MT. KUNERS OF KOENDERS',key:'csKu',key25:'csKu'},
+      {lbl:'N. POLIAKOFF',          key:'csPo',key25:'csPo'},
+      {lbl:'E. BAUDOUIN',           key:'csBa',key25:'csBa'},
+      {lbl:'AP. VILLAIN',           key:'csVi',alert:v=>v>45,key25:'csVi'},
+      {lbl:'M. LATIL',              key:'csLa',key25:'csLa'},
+      {lbl:'TOTAL',                 key:'csTo',cls:'tot',key25:'csTo'},
+      {lbl:'Ratio (÷5)',data:()=>(D.csTo||[]).map(v=>v!==null?+(v/5).toFixed(1):null),cls:'tot',fmt:v=>v.toFixed(1),alert:v=>v>40},
+    ]}],'Dossiers actifs CS');
+    /* CS inactifs */
+    buildTbl('inactifs >1 mois CS',[{rows:[
+      {lbl:'MT. KUNERS OF KOENDERS',key:'csIK',key25:'csIK'},
+      {lbl:'N. POLIAKOFF',          key:'csIP',alert:v=>v>=10,key25:'csIP'},
+      {lbl:'E. BAUDOUIN',           key:'csIB',alert:v=>v>=10,key25:'csIB'},
+      {lbl:'AP. VILLAIN',           key:'csIV',key25:'csIV'},
+      {lbl:'M. LATIL',              key:'csIL',key25:'csIL'},
+      {lbl:'TOTAL',                 key:'csIT',cls:'tot',alert:v=>v>=25,key25:'csIT'},
+    ]}],'Dossiers inactifs &gt;1 mois CS');
+    /* Orientations CS */
+    buildTbl('Orientation par CS avec inactifs',[{rows:[
+      {lbl:'MT. KUNERS OF KOENDERS',key:'orKu',key25:'orKu'},
+      {lbl:'N. POLIAKOFF',          key:'orPo',key25:'orPo'},
+      {lbl:'E. BAUDOUIN',           key:'orBa',key25:'orBa'},
+      {lbl:'AP. VILLAIN',           key:'orVi',key25:'orVi'},
+      {lbl:'M. LATIL',              key:'orLa',key25:'orLa'},
+      {lbl:'TOTAL Orientation',     key:'orTo',cls:'tot',key25:'orTo'},
+      {lbl:'TOTAL Inactifs >1 mois',key:'orInac',cls:'tot',alert:v=>v>=5},
+    ]}],'Orientation par CS');
+    /* VAD */
+    buildTbl('Tableau VAD',[{rows:[
+      {lbl:'Patients ayant eu ≥1 VAD',key:'vPat',key25:'vPat'},
+      {lbl:'Nb personnes accompagnées',key:'vAcc',key25:'vAcc'},
+      {lbl:'% patients visités',key:'vPct',fmt:pct1,alert:v=>v<5,key25:'vPct'},
+    ]}],'Tableau VAD');
+    /* Coordination intensive */
+    buildTbl('Coordination intensive',[{rows:[
+      {lbl:'Personnes accompagnées',key:'coAc',key25:'coAc'},
+      {lbl:'Incluses dans la semaine',key:'coIn'},
+      {lbl:'Sorties de la période',key:'coSo',key25:'coSo'},
+    ]}],'Coordination intensive');
+  };
+})();
+
+/* ══ GOOGLE SHEETS INTEGRATION ══ */
+const GS={
+  /* URLs CSV directes — Google Sheets publié (Revue_Indicateurs_DAC_2026_v1_sheet_complet) */
+  _B:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6gcj4n9_niiCIx-_VxjqqsOZ_M0jDQWub_WQMb3MRpZfYguKHbdfWRaCGP664ZtKW_409QqrLFIHE/pub?single=true&output=csv&gid=',
+  URLS:{
+    soll: '1452043038',
+    can:  '1978357828',
+    rep:  '892995798',
+    addr: '1032609942',
+    prob: '376090461',
+    ci:   '1237240572',
+    cs:   '248275703',
+    vad:  '1403670435',
+    mens: '1437116435',
+  },
+  csvUrl(gid){return GS._B+gid;},
+
+  /* ── Parseur CSV (gère les guillemets et décimales françaises) ── */
+  parseLine(line){
+    const f=[];let cur='',inQ=false;
+    for(let i=0;i<=line.length;i++){
+      const ch=line[i];
+      if(ch==='"'){inQ=!inQ;continue;}
+      if((ch===','||ch===';'||ch===undefined)&&!inQ){f.push(cur);cur='';}
+      else cur+=(ch||'');
+    }
+    return f;
+  },
+  parseSheet(csv){
+    const rows=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+    const out=[];
+    for(const row of rows){
+      const f=GS.parseLine(row);
+      if(f.length<3)continue;
+      const name=f[0].trim(),year=f[1].trim();
+      if(year!=='2025'&&year!=='2026')continue;
+      const rawVals=f.slice(2,54).map(v=>(v||'').trim());
+      const vals=rawVals.map(s=>{const n=parseFloat(s.replace(',','.'));return s===''||isNaN(n)?null:n;});
+      out.push({name,year:+year,vals,rawVals});
+    }
+    return out;
+  },
+  /* ── Recherche renvoyant le texte brut (pour indicateurs non numériques) ── */
+  findRaw(rows,name,yr){
+    const lo=GS._n(name);
+    for(const r of rows)if(r.year===yr&&GS._n(r.name)===lo)return r.rawVals;
+    for(const r of rows)if(r.year===yr&&GS._n(r.name).includes(lo))return r.rawVals;
+    return null;
+  },
+
+  /* ── Normalisation Unicode (gère les accents composés/décomposés du Sheet) ── */
+  _n(s){return(s||'').normalize('NFC').trim().toLowerCase();},
+
+  /* ── Recherche dans les lignes parsées ── */
+  find(rows,name,yr){
+    const lo=GS._n(name);
+    for(const r of rows)if(r.year===yr&&GS._n(r.name)===lo)return r.vals;
+    for(const r of rows)if(r.year===yr&&GS._n(r.name).includes(lo))return r.vals;
+    return null;
+  },
+  findN(rows,name,yr,n,exact=false){
+    const lo=GS._n(name);
+    let cnt=0;
+    for(const r of rows){
+      if(r.year!==yr)continue;
+      const rn=GS._n(r.name);
+      const m=exact?(rn===lo):(rn===lo||rn.includes(lo));
+      if(m&&++cnt===n)return r.vals;
+    }
+    return null;
+  },
+
+  /* ── Mutation en place du tableau D — auto-détecte le nombre de semaines ── */
+  set(arr,vals){
+    if(!arr||!vals)return;
+    // Trouver la dernière semaine avec une valeur non-nulle
+    let last=-1;
+    for(let i=Math.min(vals.length,52)-1;i>=0;i--){
+      if(vals[i]!==null&&vals[i]!==undefined){last=i;break;}
+    }
+    if(last<0)return;
+    arr.splice(0,arr.length);
+    for(let i=0;i<=last;i++)arr.push(vals[i]??null);
+    arr.push(null); // semaine suivante (placeholder vide)
+  },
+
+  /* ── Étend W12/W14 si de nouvelles semaines ont été chargées ── */
+  extendLabels(){
+    let maxWeek=0;
+    for(const arr of Object.values(D)){
+      if(!Array.isArray(arr))continue;
+      for(let i=arr.length-1;i>=0;i--){
+        if(arr[i]!==null&&arr[i]!==undefined){maxWeek=Math.max(maxWeek,i+1);break;}
+      }
+    }
+    const target=maxWeek+1; // +1 pour le placeholder null
+    while(W12.length<target)W12.push('S'+(W12.length+1));
+    while(W14.length<target)W14.push('S'+(W14.length+1));
+  },
+
+  /* ── Mapping : données Google Sheets → D{} ── */
+  applyD(sheets){
+    const{find,findN,set}=GS;
+    const{soll,can,rep,addr,prob,ci,cs,vad,mens}=sheets;
+
+    /* Sollicitations */
+    if(soll){
+      set(D.soll,find(soll,'sollicitations cloturées',2026));
+      set(D.pat, find(soll,'Patients associés',2026));
+      set(D.clos,find(soll,'% dossiers clos',2026));
+      set(D.h48, find(soll,'% traitées en < 48h',2026));
+    }
+    /* Canaux & Contexte */
+    if(can){
+      set(D.tel,   find(can,'Téléphone',2026));
+      set(D.mail,  find(can,'Mail',2026));
+      set(D.mant,  find(can,'Maintien à domicile',2026));
+      set(D.cManq,  find(can,'Manquante',2026));
+      set(D.cInstit,find(can,'Entrée institution',2026));
+      set(D.cRetDm, find(can,'Retour à domicile',2026));
+      set(D.cCtxMq, find(can,'Manquante / Covid long',2026));
+      set(D.cAZ,    find(can,'Sollicitation équipe ressource',2026));
+      set(D.cReu,   find(can,'Réunion',2026));
+      set(D.cMss,   find(can,'MSSanté',2026));
+      set(D.cCou,   find(can,'Courrier',2026));
+    }
+    /* Réponses & Thématiques */
+    if(rep){
+      set(D.info,  find(rep,'Information',2026));
+      set(D.ori,   find(rep,'Orientation',2026));
+      set(D.cpc,   find(rep,'CPC — Coordination Soutenue',2026));
+      set(D.cpcPx, find(rep,'CPC de proximité',2026));
+      set(D.rCovid,find(rep,'Service spécialisé (Covid long)',2026));
+      set(D.tLdv,  find(rep,'Lieu de vie',2026));
+      set(D.tMed,  find(rep,'Médicale',2026));
+      set(D.tSme,  find(rep,'Santé mentale',2026));
+      set(D.tMai,  find(rep,'Maintien à domicile',2026));
+      set(D.tGer,  find(rep,'Gérontologie',2026));
+      set(D.tAdm,  find(rep,'Aide administrative',2026));
+      set(D.tSoc,  find(rep,'Sociale',2026));
+      set(D.tAds,  find(rep,'Aidants',2026));
+      set(D.tAcc,  find(rep,'Accueil en structure',2026));
+      set(D.tAid,  find(rep,'Soutien aux aidants',2026));
+      /* Thématiques supplémentaires */
+      set(D.tOnc,  find(rep,'Oncologie',2026));
+      set(D.tVif,  find(rep,'Violence intra-familiale',2026));
+      set(D.tPre,  find(rep,'Précarité',2026));
+      set(D.tSns,  find(rep,'Soins (nb dossiers)',2026));
+      set(D.tAdd,  find(rep,'Addiction',2026));
+      set(D.tRsu,  find(rep,'Risque suicidaire',2026));
+      set(D.tHdc,  find(rep,'Handicap',2026));
+      set(D.tDio,  find(rep,'Diogène',2026));
+      set(D.tRDm,  find(rep,'Retour à domicile',2026));
+      set(D.tIPr,  find(rep,'Information préoccupante',2026));
+      set(D.tIns,  find(rep,'Insertion',2026));
+      set(D.tADr,  find(rep,'Accès aux droits',2026));
+      set(D.tSPa,  find(rep,'Soins Palliatifs',2026));
+      set(D.tCan,  find(rep,'Cancérologie',2026));
+      set(D.tTsp,  find(rep,'Transport',2026));
+      set(D.tMnq,  findN(rep,'Manquante (nb dossiers)',2026,1,false));
+      set(D.tVsc,  find(rep,'Vie sociale',2026));
+      set(D.tMRe,  find(rep,'Maladie Rénale',2026));
+      set(D.tCvL,  findN(rep,'Covid long (nb dossiers)',2026,1,false));
+      set(D.tJnF,  find(rep,'Jeunesse / Famille',2026));
+      set(D.tTot,  find(rep,'TOTAL thématiques',2026));
+    }
+    /* Adresseurs & MG */
+    if(addr){
+      set(D.aAut,find(addr,'Autres acteurs',2026));
+      set(D.aMGs,find(addr,'Médecin gén. salarié',2026));
+      set(D.aOPS,find(addr,'Orga. protection sociale',2026));
+      set(D.aMGh,find(addr,'Médecin gén. hors salarié',2026));
+      set(D.aVil,find(addr,'Prof. ville (hors MG)',2026));
+      set(D.aPro,find(addr,'Prof. autres structures',2026));
+      set(D.aESM,find(addr,'Prof. en ESMS',2026));
+      set(D.aSoc,find(addr,'Prof. secteur social',2026));
+      set(D.aHos,find(addr,'Prof. hospitalier',2026));
+      set(D.aPer,find(addr,'Personne elle-même',2026));
+      set(D.aEnt,find(addr,'Entourage de la personne',2026));
+      set(D.aTot,find(addr,'TOTAL adresseurs',2026));
+      set(D.mgNb,find(addr,'Nb MG ayant sollicité',2026));
+      set(D.mgPc,find(addr,'% MG parmi prof',2026));
+      set(D.mgRn,find(addr,'Part de renouvellement (2026)',2026));
+      /* MG identifiés nouveaux — texte brut (noms de médecins) */
+      const mgNvRaw=GS.findRaw(addr,'MG identifiés nouveaux',2026);
+      if(mgNvRaw){D.mgNv=mgNvRaw.slice();}
+    }
+    /* Problématiques */
+    if(prob){
+      set(D.pAVQ,find(prob,'Aide à la vie quotidienne',2026));
+      set(D.pPsy,find(prob,'Pb psychique',2026));
+      set(D.pIso,find(prob,'Isolement social',2026));
+      set(D.pAid,find(prob,'Proches aidants',2026));
+      set(D.pAdm,find(prob,'Pb administratives',2026));
+      set(D.pSom,find(prob,'Soins somatiques',2026));
+      set(D.pAut,find(prob,'Autres',2026));
+      set(D.pJur,find(prob,'Besoin de protection juridique',2026));
+      set(D.pPre,find(prob,'Prévention',2026));
+      set(D.pHeb,find(prob,'Structure hébergement',2026));
+      set(D.pSco,find(prob,'Scolarité',2026));
+      set(D.pTot,find(prob,'TOTAL',2026));
+    }
+    /* CI actifs (noms avec parenthèses) + inactifs (noms courts) */
+    if(ci){
+      set(D.ciOc,find(ci,'K. OCHEM (min',2026));
+      set(D.ciDe,find(ci,'M. DENYS (min',2026));
+      set(D.ciFa,find(ci,'C. FAUCON (max',2026));
+      set(D.ciGo,findN(ci,'S. GOUTH',2026,1,true));
+      set(D.ciDa,find(ci,'M. DAIME (min',2026));
+      set(D.ciBe,find(ci,'Z. BEKADDOUR (min',2026));
+      set(D.ciPo,findN(ci,'E. POESSON CI (min',2026,1,false));
+      set(D.ciGi,findN(ci,'P. GIRON',2026,1,true));
+      set(D.ciCv,find(ci,'E. POESSON Covid long',2026));
+      set(D.ciTo,find(ci,'TOTAL CI actifs',2026));
+      /* Inactifs : noms courts (match exact) */
+      set(D.ciIK,find(ci,'K. OCHEM',2026));
+      set(D.ciIM,find(ci,'M. DENYS',2026));
+      set(D.ciIF,find(ci,'C. FAUCON',2026));  // exact 'C. FAUCON' = inactifs (actifs = 'C. FAUCON (max 30)')
+      set(D.ciIG,findN(ci,'S. GOUTH',2026,2,true));
+      set(D.ciID,find(ci,'M. DAIME',2026));
+      set(D.ciIBe,findN(ci,'Z. BEKADDOUR',2026,2,false));
+      set(D.ciIPo,findN(ci,'E. POESSON CI',2026,2,false));
+      set(D.ciIGi,findN(ci,'P. GIRON',2026,2,true));
+      set(D.ciIT,find(ci,'TOTAL inactifs CI',2026));
+    }
+    /* CS actifs (1re occurrence) + inactifs (2e occurrence) */
+    if(cs){
+      set(D.csKu,findN(cs,'MT. KUNERS OF KOENDERS',2026,1,true));
+      set(D.csPo,findN(cs,'N. POLIAKOFF',2026,1,true));
+      set(D.csBa,findN(cs,'E. BAUDOUIN',2026,1,true));
+      set(D.csVi,findN(cs,'AP. VILLAIN',2026,1,true));
+      set(D.csLa,findN(cs,'M. LATIL',2026,1,true));
+      set(D.csTo,find(cs,'TOTAL CS actifs',2026));
+      set(D.csIK,findN(cs,'MT. KUNERS OF KOENDERS',2026,2,true));
+      set(D.csIP,findN(cs,'N. POLIAKOFF',2026,2,true));
+      set(D.csIB,findN(cs,'E. BAUDOUIN',2026,2,true));
+      set(D.csIV,findN(cs,'AP. VILLAIN',2026,2,true));
+      set(D.csIL,findN(cs,'M. LATIL',2026,2,true));
+      set(D.csIT,find(cs,'TOTAL inactifs CS',2026));
+      /* Orientations */
+      set(D.orKu,find(cs,'MT. KUNERS OF KOENDERS — actifs',2026));
+      set(D.orPo,find(cs,'N. POLIAKOFF — actifs',2026));
+      set(D.orBa,find(cs,'E. BAUDOUIN — actifs',2026));
+      set(D.orVi,find(cs,'AP. VILLAIN — actifs',2026));
+      set(D.orLa,find(cs,'M. LATIL — actifs',2026));
+      set(D.orTo,find(cs,'TOTAL Orientation actifs',2026));
+      set(D.orInac,find(cs,'TOTAL Orientation inactifs',2026));
+    }
+    /* VAD & Coordination */
+    if(vad){
+      set(D.vPat,find(vad,'Patients ayant eu ≥1 VAD',2026));
+      set(D.vAcc,find(vad,'Nb personnes accompagnées',2026));
+      set(D.vPct,find(vad,'% patients visités',2026));
+      set(D.coAc,find(vad,'Personnes accompagnées (CI)',2026));
+      set(D.coIn,find(vad,'Personnes incluses dans la semaine',2026));
+      set(D.coSo,find(vad,'Personnes sorties de la période',2026));
+    }
+    /* Mensuel — IND 5, IND 19, 3CX (12 mois Jan..Déc) */
+    if(mens){
+      set(D.mCsM,    find(mens,'Coord. soutenue',2026));
+      set(D.mCiM,    find(mens,'Coord. intensive',2026));
+      set(D.mCvM,    find(mens,'Covid long',2026));
+      set(D.m19Concer,find(mens,'Concertation pluriprof',2026));
+      set(D.m19RdvA, find(mens,'RDV avec accompagnement',2026));
+      set(D.m19RdvS, find(mens,'RDV sans accompagnement',2026));
+      set(D.m19RdvB, find(mens,'RDV sans bénéficiaire',2026));
+      set(D.m19VadP, find(mens,'VAD avec partenaire',2026));
+      set(D.m19VadS, find(mens,'VAD de suivi',2026));
+      set(D.m19VadE, find(mens,'évaluation',2026));
+      set(D.m19VStr, find(mens,'Visite en structure',2026));
+      set(D.m19Tot,  find(mens,'TOTAL',2026));
+      set(D.m3cxKu,  findN(mens,'MT. KUNERS',2026,1,false));
+      set(D.m3cxPo,  findN(mens,'N. POLIAKOFF',2026,1,false));
+      set(D.m3cxBa,  findN(mens,'E. BAUDOUIN',2026,1,false));
+      set(D.m3cxVi,  findN(mens,'AP. VILLAIN',2026,1,false));
+      set(D.m3cxLa,  findN(mens,'M. LATIL',2026,1,false));
+      set(D.m3cxLac, find(mens,'N. LACOSTE',2026));
+      set(D.m3cxPoe, findN(mens,'E. POESSON',2026,1,false));
+    }
+  },
+
+  /* ── Chargement depuis Google Sheets (URLs directes) ── */
+  async load(){
+    const btn=document.getElementById('gsBtn');
+    const maj=document.getElementById('gsMaj');
+    btn.disabled=true;btn.textContent='⏳ Chargement…';maj.textContent='';
+
+    /* ── Étape 1 : cache localStorage (affichage instantané si dispo) ── */
+    let hadCache=false;
+    try{
+      const cached=localStorage.getItem('gs_cache_v1');
+      if(cached){
+        const{ts,csvs}=JSON.parse(cached);
+        const sheets={};
+        for(const k in csvs)sheets[k]=GS.parseSheet(csvs[k]);
+        GS.applyD(sheets);
+        GS.extendLabels();
+        applyD25(sheets);
+        for(const ch of Object.values(chs))ch.update('none');
+        buildAllTables();
+        addN1ToCharts();
+        injectExpBtns();
+        injectCalLegend();
+        const age=Math.max(0,Math.round((Date.now()-ts)/60000));
+        maj.textContent=`📦 cache (${age}min) · refresh…`;
+        document.getElementById('gsLoad')?.classList.remove('on');
+        hadCache=true;
+      }
+    }catch(e){console.warn('cache read',e);}
+
+    /* ── Étape 2 : fetch frais (timeout 8s/feuille) ── */
+    try{
+      const results=await Promise.allSettled(
+        Object.entries(GS.URLS).map(([k,gid])=>{
+          const ctrl=new AbortController();
+          const to=setTimeout(()=>ctrl.abort(),8000); // timeout 8s par feuille
+          return fetch(GS.csvUrl(gid),{signal:ctrl.signal,cache:'no-cache'})
+            .then(r=>{clearTimeout(to);if(!r.ok)throw new Error('HTTP '+r.status+' ('+k+')');return r.text();})
+            .then(text=>[k,text])
+            .catch(e=>{clearTimeout(to);throw e.name==='AbortError'?new Error('Timeout 8s ('+k+')'):e;});
+        })
+      );
+      const csvs={};const sheets={};
+      let ok=0,err=[];
+      for(const r of results){
+        if(r.status==='fulfilled'){const[k,text]=r.value;csvs[k]=text;sheets[k]=GS.parseSheet(text);ok++;}
+        else err.push(r.reason);
+      }
+      if(ok>0){
+        GS.applyD(sheets);
+        GS.extendLabels();
+        applyD25(sheets);
+        for(const ch of Object.values(chs))ch.update('none');
+        buildAllTables();
+        addN1ToCharts();
+        injectExpBtns();
+        injectCalLegend();
+        /* Sauvegarde du cache pour la prochaine visite */
+        try{localStorage.setItem('gs_cache_v1',JSON.stringify({ts:Date.now(),csvs}));}catch(e){console.warn('cache write',e);}
+      }
+      const ts=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      maj.textContent=`✓ ${ok}/9 à ${ts}`;
+      if(err.length)console.warn('GS erreurs:',err);
+    }catch(e){
+      if(!hadCache)maj.textContent='⚠ '+e.message;
+      else maj.textContent=maj.textContent.replace(' · refresh…',' · ⚠ refresh KO');
+      console.error('GS.load',e);
+    }finally{
+      btn.disabled=false;btn.textContent='🔄 Google Sheets';
+      document.getElementById('gsLoad')?.classList.remove('on');
+    }
+  },
+  autoLoad(){
+    /* Overlay affiché UNIQUEMENT à la 1re visite (pas de cache). Sur les
+       visites suivantes, le cache s'affiche instantanément et le fetch frais
+       tourne en arrière-plan. */
+    const hasCache=(()=>{try{return !!localStorage.getItem('gs_cache_v1');}catch(e){return false;}})();
+    if(!hasCache){
+      const ov=document.getElementById('gsLoad');
+      if(ov)ov.classList.add('on');
+    }
+    GS.load();
+  },
+};
+
+/* ══ N-1 2025 — DONNÉES ET GRAPHIQUES ══ */
+const D25={};
+
+function applyD25(sheets){
+  const f=(r,n,y)=>GS.find(r,n,y);
+  const fN=(r,n,y,i,e)=>GS.findN(r,n,y,i,e);
+  const s=(k,v)=>{
+    if(!v)return;
+    let last=-1;
+    for(let i=Math.min(v.length,52)-1;i>=0;i--){if(v[i]!==null&&v[i]!==undefined){last=i;break;}}
+    if(last<0)return;
+    D25[k]=v.slice(0,last+1).map(x=>x??null);D25[k].push(null);
+  };
+  const{soll,can,rep,addr,prob,ci,cs,vad,mens}=sheets;
+  if(soll){s('soll',f(soll,'sollicitations cloturées',2025));s('pat',f(soll,'Patients associés',2025));s('clos',f(soll,'% dossiers clos',2025));s('h48',f(soll,'% traitées',2025));}
+  if(can){
+    /* Canal */
+    s('tel',    f(can,'Téléphone',2025));
+    s('mail',   f(can,'Mail',2025));
+    s('cAZ',    f(can,'Sollicitation équipe ressource',2025));
+    s('cReu',   f(can,'Réunion',2025));
+    s('cMss',   f(can,'MSSanté',2025));
+    s('cCou',   f(can,'Courrier',2025));
+    s('cManq',  f(can,'Manquante',2025));
+    /* Contexte */
+    s('mant',   f(can,'Maintien à domicile',2025));
+    s('cInstit',f(can,'Entrée institution',2025));
+    s('cRetDm', f(can,'Retour à domicile',2025));
+    s('cCtxMq', f(can,'Manquante / Covid long',2025));
+  }
+  if(rep){
+    s('info',f(rep,'Information',2025));s('ori',f(rep,'Orientation',2025));
+    s('cpc',f(rep,'CPC — Coordination Soutenue',2025));s('rCovid',f(rep,'Service spécialisé (Covid long)',2025));
+    /* Thématiques 2025 — noms avec suffixe (%) dans le sheet */
+    s('tLdv',f(rep,'Lieu de vie',2025));
+    s('tMed',f(rep,'Médicale (%)',2025));
+    s('tSme',f(rep,'Santé mentale (%)',2025));
+    s('tMai',f(rep,'Maintien à domicile (%)',2025));
+    s('tGer',f(rep,'Gérontologie (%)',2025));
+    s('tAdm',f(rep,'Aide administrative (%)',2025));
+    s('tSoc',f(rep,'Sociale (%)',2025));
+    s('tAds',f(rep,'Aidants (%)',2025));       // "Aidants (%)" avant "Soutien aux aidants (%)"
+    s('tAcc',f(rep,'Accueil en structure (%)',2025));
+    s('tAid',f(rep,'Soutien aux aidants (%)',2025));
+    s('tTot',f(rep,'TOTAL thématiques',2025));
+  }
+  if(addr){
+    /* Adresseurs 2025 — noms identiques à 2026 sauf "Personne + Entourage" combinés */
+    s('aAut',f(addr,'Autres acteurs',2025));
+    s('aMGs',f(addr,'Médecin gén. salarié',2025));
+    s('aOPS',f(addr,'Orga. protection sociale',2025));
+    s('aMGh',f(addr,'Médecin gén. hors salarié',2025));
+    s('aVil',f(addr,'Prof. ville (hors MG)',2025));
+    s('aPro',f(addr,'Prof. autres structures',2025));
+    s('aESM',f(addr,'Prof. en ESMS',2025));
+    s('aSoc',f(addr,'Prof. secteur social',2025));
+    s('aHos',f(addr,'Prof. hospitalier',2025));
+    s('aPer',f(addr,'Personne elle-même + Entourage',2025)); // combiné 2025
+    s('aTot',f(addr,'TOTAL adresseurs',2025));
+    s('mgNb',f(addr,'Nb MG ayant sollicité',2025));
+    s('mgPc',f(addr,'% MG parmi prof',2025));
+    s('mgRn',f(addr,'Part de renouvellement',2025));
+  }
+  if(prob){
+    s('pAVQ',f(prob,'Aide à la vie quotidienne',2025));
+    s('pPsy',f(prob,'Pb psychique',2025));
+    s('pAid',f(prob,'Proches aidants',2025));
+    s('pIso',f(prob,'Isolement social',2025));
+    s('pAdm',f(prob,'Pb administratives',2025));
+    s('pSom',f(prob,'Soins somatiques',2025));
+    s('pAut',f(prob,'Autres',2025));
+    s('pJur',f(prob,'Besoin de protection juridique',2025));
+    s('pPre',f(prob,'Prévention',2025));
+    s('pHeb',f(prob,'Structure hébergement',2025));
+    s('pSco',f(prob,'Scolarité',2025));
+    s('pTot',f(prob,'TOTAL',2025));
+  }
+  if(ci){
+    /* CI actifs 2025 — noms avec parenthèses (actifs) vs courts (inactifs) */
+    s('ciOc',f(ci,'K. OCHEM (min',2025));
+    s('ciDe',f(ci,'M. DENYS (min',2025));
+    s('ciFa',f(ci,'C. FAUCON (max',2025));
+    s('ciGo',fN(ci,'S. GOUTH',2025,1,true));  // 1re occurrence = actifs
+    s('ciDa',f(ci,'M. DAIME (min',2025));
+    s('ciBe',f(ci,'Z. BEKADDOUR (min',2025));
+    s('ciPo',fN(ci,'E. POESSON CI (min',2025,1,false));
+    s('ciCv',f(ci,'E. POESSON Covid long',2025));
+    s('ciTo',f(ci,'TOTAL CI actifs',2025));
+    /* CI inactifs 2025 — noms courts (exact match = inactifs) */
+    s('ciIK',f(ci,'K. OCHEM',2025));
+    s('ciIM',f(ci,'M. DENYS',2025));
+    s('ciIF',f(ci,'C. FAUCON',2025));
+    s('ciIG',fN(ci,'S. GOUTH',2025,2,true));  // 2e occurrence = inactifs
+    s('ciID',f(ci,'M. DAIME',2025));
+    s('ciIBe',fN(ci,'Z. BEKADDOUR',2025,2,false));
+    s('ciIPo',fN(ci,'E. POESSON CI',2025,2,false));
+    s('ciIT',f(ci,'TOTAL inactifs CI',2025));
+  }
+  if(cs){
+    /* CS actifs 2025 — 1re occurrence par coordinatrice */
+    s('csKu',fN(cs,'MT. KUNERS OF KOENDERS',2025,1,true));
+    s('csPo',fN(cs,'N. POLIAKOFF',2025,1,true));
+    s('csBa',fN(cs,'E. BAUDOUIN',2025,1,true));
+    s('csVi',fN(cs,'AP. VILLAIN',2025,1,true));
+    s('csLa',fN(cs,'M. LATIL',2025,1,true));
+    s('csTo',f(cs,'TOTAL CS actifs',2025));
+    /* CS inactifs 2025 — 2e occurrence par coordinatrice */
+    s('csIK',fN(cs,'MT. KUNERS OF KOENDERS',2025,2,true));
+    s('csIP',fN(cs,'N. POLIAKOFF',2025,2,true));
+    s('csIB',fN(cs,'E. BAUDOUIN',2025,2,true));
+    s('csIV',fN(cs,'AP. VILLAIN',2025,2,true));
+    s('csIL',fN(cs,'M. LATIL',2025,2,true));
+    s('csIT',f(cs,'TOTAL inactifs CS',2025));
+    /* Orientations 2025 — suffixe "— actifs" */
+    s('orKu',f(cs,'MT. KUNERS OF KOENDERS — actifs',2025));
+    s('orPo',f(cs,'N. POLIAKOFF — actifs',2025));
+    s('orBa',f(cs,'E. BAUDOUIN — actifs',2025));
+    s('orVi',f(cs,'AP. VILLAIN — actifs',2025));
+    s('orLa',f(cs,'M. LATIL — actifs',2025));
+    s('orTo',f(cs,'TOTAL Orientation actifs',2025));
+  }
+  if(vad){s('vPat',f(vad,'Patients ayant eu ≥1 VAD',2025));s('vAcc',f(vad,'Nb personnes accompagnées',2025));s('vPct',f(vad,'% patients visités',2025));s('coAc',f(vad,'Personnes accompagnées (CI)',2025));s('coSo',f(vad,'Personnes sorties',2025));}
+}
+
+function addN1ToCharts(){
+  const col=C.S;
+  const n1hide=!document.getElementById('n1GlobalChk')?.checked;
+  function ds25(lbl,key){
+    return{label:lbl+' (n-1 2025)',data:D25[key]||[],borderColor:col+'cc',backgroundColor:col+'15',
+      borderDash:[6,3],borderWidth:1.5,pointRadius:1.5,fill:false,tension:.35,_n1:true,hidden:n1hide};
+  }
+  function addTo(id,...dsets){
+    const ch=chs[id];if(!ch)return;
+    ch.data.datasets=ch.data.datasets.filter(d=>!d._n1);
+    dsets.forEach(d=>{if(d.data?.some(v=>v!==null&&v!==undefined))ch.data.datasets.push(d);});
+    ch.update('none');
+  }
+  /* ── Sollicitations ── */
+  if(D25.soll?.length){
+    addTo('gSoll',ds25('Sollicitations','soll'),ds25('Patients','pat'));
+    addTo('sSoll',ds25('Sollicitations','soll'),ds25('Patients','pat'));
+  }
+  if(D25.h48?.length)addTo('s48h',ds25('%<48h','h48'));
+  /* ── Canal de réception ── */
+  if(D25.tel?.length)addTo('cCan',
+    ds25('Téléphone','tel'),ds25('Mail','mail'),ds25('Manquante','cManq'),
+    ds25('Réunion','cReu'),ds25('MSSanté','cMss'),ds25('Courrier','cCou'));
+  /* ── Contexte de la demande ── */
+  if(D25.mant?.length)addTo('cCtx',
+    ds25('Maintien dom.','mant'),ds25('Entrée instit.','cInstit'),
+    ds25('Retour dom.','cRetDm'),ds25('Manquante','cCtxMq'));
+  /* ── Réponses par type ── */
+  if(D25.cpc?.length){
+    addTo('gRep',ds25('CPC','cpc'),ds25('Orientation','ori'));
+    addTo('rRep',ds25('CPC','cpc'),ds25('Orientation','ori'),
+                 ds25('Information','info'),ds25('Covid long','rCovid'));
+  }
+  /* ── Médecins généralistes ── */
+  if(D25.mgNb?.length)addTo('mgLine',ds25('Nb MG','mgNb'));
+  /* ── CI actifs — individuels + total ── */
+  if(D25.ciOc?.length)addTo('ciAct',
+    ds25('K.OCHEM','ciOc'),ds25('M.DENYS','ciDe'),
+    ds25('C.FAUCON','ciFa'),ds25('S.GOUTH','ciGo'),
+    ds25('M.DAIME','ciDa'),ds25('Z.BEKADDOUR','ciBe'),
+    ds25('E.POESSON CI','ciPo'),ds25('P.GIRON','ciGi'),
+    ds25('E.P.Covid','ciCv'),ds25('Total CI','ciTo')
+  );
+  /* ── CI inactifs — individuels + total ── */
+  if(D25.ciIK?.length)addTo('ciIn',
+    ds25('K.OCHEM','ciIK'),ds25('M.DENYS','ciIM'),
+    ds25('C.FAUCON','ciIF'),ds25('S.GOUTH','ciIG'),
+    ds25('M.DAIME','ciID'),ds25('Z.BEKADDOUR','ciIBe'),
+    ds25('E.POESSON CI','ciIPo'),ds25('P.GIRON','ciIGi'),
+    ds25('Total inactifs CI','ciIT')
+  );
+  /* ── CS actifs — individuels + total ── */
+  if(D25.csKu?.length)addTo('csAct',
+    ds25('MT.KUNERS','csKu'),ds25('N.POLIAKOFF','csPo'),
+    ds25('E.BAUDOUIN','csBa'),ds25('AP.VILLAIN','csVi'),
+    ds25('M.LATIL','csLa'),ds25('Total CS','csTo')
+  );
+  /* ── CS inactifs — individuels + total ── */
+  if(D25.csIK?.length)addTo('csIn',
+    ds25('MT.KUNERS','csIK'),ds25('N.POLIAKOFF','csIP'),
+    ds25('E.BAUDOUIN','csIB'),ds25('AP.VILLAIN','csIV'),
+    ds25('M.LATIL','csIL'),ds25('Inactifs CS','csIT')
+  );
+  /* ── Orientations — individuelles + total ── */
+  if(D25.orKu?.length)addTo('orLine',
+    ds25('MT.KUNERS','orKu'),ds25('N.POLIAKOFF','orPo'),
+    ds25('E.BAUDOUIN','orBa'),ds25('AP.VILLAIN','orVi'),
+    ds25('M.LATIL','orLa'),ds25('Total Orientation','orTo')
+  );
+  if(D25.orTo?.length)addTo('orIn',ds25('Total Orientation','orTo'));
+  /* ── Vue globale CI/CS ── */
+  if(D25.ciTo?.length&&D25.csTo?.length)addTo('gCiCsTot',ds25('CI Total','ciTo'),ds25('CS Total','csTo'));
+  /* Problématiques n-1 — gProbl (vue globale) + pBar (onglet dédié) */
+  if(D25.pAVQ?.length){
+    addTo('gProbl',
+      ds25('Aide vie quot.',  'pAVQ'),
+      ds25('Pb psychique',    'pPsy'),
+      ds25('Proches aidants', 'pAid')
+    );
+    addTo('pBar',
+      ds25('Aide vie quot.',       'pAVQ'),
+      ds25('Pb psychique',         'pPsy'),
+      ds25('Proches aidants',      'pAid'),
+      ds25('Isolement',            'pIso'),
+      ds25('Soins soma.',          'pSom'),
+      ds25('Prot. juridique',      'pJur')
+    );
+  }
+  /* Adresseurs n-1 */
+  if(D25.aHos?.length){
+    addTo('aLine',
+      ds25('Prof. hosp.',        'aHos'),
+      ds25('Personne+Entourage', 'aPer'),  // 2025 = combiné
+      ds25('Sect. social',       'aSoc'),
+      ds25('ESMS',               'aESM'),
+      ds25('Ville hors MG',      'aVil'),
+      ds25('MG hors sal.',       'aMGh')
+    );
+  }
+  /* ── VAD ── */
+  if(D25.vPat?.length){
+    addTo('vVad', ds25('Patients VAD','vPat'));
+    addTo('vPct', ds25('% visités','vPct'));
+  }
+  /* ── Coordination intensive ── */
+  if(D25.coAc?.length){
+    addTo('coAcc',ds25('Accompagnées','coAc'));
+    addTo('coFlux',ds25('Incluses','coIn'),ds25('Sorties','coSo'));
+  }
+  /* Thématiques n-1 2025 (en %, comparables en tendance) */
+  if(D25.tMai?.length){
+    addTo('tLine',
+      ds25('Maintien dom. (%)',   'tMai'),
+      ds25('Gérontologie (%)',    'tGer'),
+      ds25('Santé mentale (%)',   'tSme'),
+      ds25('Soutien aidants (%)', 'tAid'),
+      ds25('Médicale (%)',        'tMed'),
+      ds25('Sociale (%)',         'tSoc')
+    );
+  }
+}
+
+/* toggleN1Global : retiré en v6 — la comparaison n-1 se fait via ⚡ Comparer */
+
+/* ══ BOUTONS PLEIN ÉCRAN + MAGASIN ══ */
+function injectExpBtns(){
+  document.querySelectorAll('.card').forEach(card=>{
+    const hasCanvas=card.querySelector('canvas');
+    const hasTable=card.querySelector('table,[data-dyn]');
+    if(!hasCanvas&&!hasTable)return;
+    card.style.position='relative';
+    /* ⤢ Plein écran — titre capturé au moment de l'injection */
+    if(!card.querySelector('.exp-btn')){
+      const ctEl=card.querySelector('.ct');
+      const cardTitle=(ctEl?.innerText||ctEl?.textContent||'').trim();
+      const btn=document.createElement('button');
+      btn.className='exp-btn';btn.title='Plein écran';btn.textContent='⤢';
+      btn.dataset.cardTitle=cardTitle; // mémoriser le titre
+      btn.addEventListener('click',e=>{e.stopPropagation();openFsMod(card,btn.dataset.cardTitle);});
+      card.insertBefore(btn,card.firstChild);
+    }
+    /* ⋯ Magasin graphiques (uniquement sur les cartes avec canvas) */
+    if(hasCanvas&&!card.querySelector('.cs-btn')){
+      const cid=hasCanvas.id;if(!cid)return;
+      const csb=document.createElement('button');
+      csb.className='cs-btn';csb.title='Changer le graphique';csb.textContent='⋯';
+      csb.addEventListener('click',e=>{e.stopPropagation();openCS(cid,csb);});
+      card.insertBefore(csb,card.firstChild);
+    }
+  });
+}
+
+/* ══ PLEIN ÉCRAN ══ */
+let _fsChart=null,_fsNoteKey='';
+function openFsMod(card, injectedTitle){
+  const canvEl=card.querySelector('canvas');
+  /* Titre : priorité au titre capturé à l'injection, fallback sur .ct */
+  const ctEl=card.querySelector('.ct');
+  const title=injectedTitle||(ctEl?.innerText||ctEl?.textContent||'').trim()||'—';
+  document.getElementById('fsMod').classList.add('on');
+  document.getElementById('fsTitle').textContent=title;
+  // Reproduire le graphique
+  if(_fsChart){_fsChart.destroy();_fsChart=null;}
+  const fsCanvas=document.getElementById('fsCanvas');
+  const orig=canvEl?chs[canvEl.id]:null;
+  fsCanvas.style.display=orig?'':'none';
+  if(orig){
+    _fsChart=new Chart(fsCanvas.getContext('2d'),{
+      type:orig.config.type,
+      data:{labels:[...(orig.data.labels||[])],datasets:orig.data.datasets.map(ds=>({...ds,data:[...(ds.data||[])]}))},
+      options:{...orig.config.options,responsive:true,maintainAspectRatio:false,animation:{duration:0}},
+    });
+    /* n-1 en plein écran retiré en v6 — utiliser ⚡ Comparer */
+  }
+  // Tableau
+  const tbl=card.querySelector('[data-dyn] table')||card.querySelector('table');
+  document.getElementById('fsTable').innerHTML=tbl?tbl.outerHTML:'';
+  // Note de réunion — chargement depuis localStorage puis sync GAS
+  _fsNoteKey='dac_note_'+(title||canvEl?.id||'x');
+  const ta=document.getElementById('fsNote');
+  const st=document.getElementById('fsNoteSt');
+  const curSemaine=W12.slice(0,-1).filter((_,i)=>D.soll&&D.soll[i]!==null&&D.soll[i]!==undefined).slice(-1)[0]||'';
+  ta.value=localStorage.getItem(_fsNoteKey)||'';
+  st.textContent='';
+  // Tentative de chargement depuis GAS (met à jour si note plus récente)
+  NOTES_GAS.load(_fsNoteKey,title,curSemaine).then(v=>{
+    if(v!==ta.value){ta.value=v;}
+    st.textContent=v?'💾 Note locale chargée':'';
+  });
+  // Envoi automatique après 2s de pause
+  ta.oninput=()=>NOTES_GAS.onChange(_fsNoteKey,ta.value,curSemaine,title);
+  document.addEventListener('keydown',_fsEsc);
+}
+function _fsEsc(e){if(e.key==='Escape')closeFsMod();}
+function closeFsMod(){
+  document.getElementById('fsMod').classList.remove('on');
+  if(_fsChart){_fsChart.destroy();_fsChart=null;}
+  document.removeEventListener('keydown',_fsEsc);
+}
+/* fsToggleN1 : retiré en v6 */
+
+/* ══ COMPARAISON (v6 — modes multiples + stats) ══ */
+const CMP_GROUPS=[
+  {name:'📞 Sollicitations',opts:[
+    {id:'sSoll',lbl:'Sollicitations traitées + Patients'},
+    {id:'s48h', lbl:'Traitement < 48h (%)'},
+  ]},
+  {name:'📥 Canaux & Contexte',opts:[
+    {id:'cCan',lbl:'Canal de réception'},
+    {id:'cCtx',lbl:'Contexte de la demande'},
+  ]},
+  {name:'📊 Réponses & Thématiques',opts:[
+    {id:'rRep', lbl:'Réponses par type (%)'},
+    {id:'rCmp', lbl:'Réponses par mois'},
+    {id:'tLine',lbl:'Thématiques principales'},
+    {id:'tPie', lbl:'Thématiques distribution'},
+  ]},
+  {name:'👥 Adresseurs & MG',opts:[
+    {id:'aLine', lbl:'Adresseurs principaux'},
+    {id:'aPie',  lbl:'Adresseurs distribution'},
+    {id:'mgLine',lbl:'Nb MG + % prof. ville'},
+    {id:'mgRen', lbl:'Part de renouvellement MG'},
+  ]},
+  {name:'🩺 Problématiques',opts:[
+    {id:'pBar',lbl:'Problématiques (barres)'},
+    {id:'pPie',lbl:'Problématiques distribution'},
+  ]},
+  {name:'🏥 Coordination Infirmier (CI)',opts:[
+    {id:'ciAct',lbl:'CI — dossiers actifs'},
+    {id:'ciIn', lbl:'CI — inactifs'},
+  ]},
+  {name:'💼 Coordination Soutenue (CS)',opts:[
+    {id:'csAct', lbl:'CS — dossiers actifs'},
+    {id:'csIn',  lbl:'CS — inactifs'},
+    {id:'orLine',lbl:'Orientation par CS'},
+    {id:'orIn',  lbl:'Orientation Total / Inactifs'},
+  ]},
+  {name:'🏠 VAD & Coord. Intensive',opts:[
+    {id:'vVad', lbl:'VAD — Patients + %'},
+    {id:'vPct', lbl:'% patients visités'},
+    {id:'coAcc', lbl:'Coord. Int. — Personnes'},
+    {id:'coFlux',lbl:'Coord. Int. — Flux'},
+  ]},
+  {name:'📅 Mensuel',opts:[
+    {id:'mCs',   lbl:'Coord. soutenue'},
+    {id:'mCi',   lbl:'Coord. intensive'},
+    {id:'mCovid',lbl:'Covid long'},
+    {id:'mRdv',  lbl:'RDV (IND 19)'},
+    {id:'mTel',  lbl:'3CX — Temps CS'},
+  ]},
+];
+const CMP_OPT=CMP_GROUPS.flatMap(g=>g.opts);
+let _cmpCh={1:null,2:null};
+
+function _cmpBuildOptions(){
+  return CMP_GROUPS.map(g=>`<optgroup label="${g.name}">`+g.opts.map(o=>`<option value="${o.id}">${o.lbl}</option>`).join('')+`</optgroup>`).join('');
+}
+
+function openCmpMod(){
+  document.getElementById('cmpMod').classList.add('on');
+  const opts=_cmpBuildOptions();
+  ['cmpSel1','cmpSel2'].forEach((sid,gi)=>{
+    const el=document.getElementById(sid);
+    el.innerHTML=opts;
+    /* Sélection par défaut : sel1 = Sollicitations, sel2 = Réponses */
+    el.value=gi===0?'sSoll':'rRep';
+  });
+  const n=Math.max(W12.length-1,1);
+  ['cmpFrom','cmpTo'].forEach((sid,isTo)=>{
+    document.getElementById(sid).innerHTML=W12.slice(0,n).map((w,i)=>`<option value="${i}"${(isTo&&i===n-1)||(!isTo&&i===0)?'selected':''}>${w}</option>`).join('');
+  });
+  cmpRefresh();
+  document.addEventListener('keydown',_cmpEsc);
+}
+function _cmpEsc(e){if(e.key==='Escape')closeCmpMod();}
+function closeCmpMod(){
+  document.getElementById('cmpMod').classList.remove('on');
+  [1,2].forEach(n=>{if(_cmpCh[n]){_cmpCh[n].destroy();_cmpCh[n]=null;}});
+  document.removeEventListener('keydown',_cmpEsc);
+}
+
+function _cmpMode(){
+  const r=document.querySelector('input[name="cmpMode"]:checked');
+  return r?r.value:'dual';
+}
+
+function cmpRefresh(){
+  const mode=_cmpMode();
+  const sel1=document.getElementById('cmpSel1');
+  const sel2=document.getElementById('cmpSel2');
+  if(mode==='n1'){
+    /* Mode n-1 côte à côte : même indicateur des deux côtés, gauche = 2026, droite = 2025 */
+    if(sel2.value!==sel1.value)sel2.value=sel1.value;
+    document.getElementById('cmpP1Ttl').textContent='2026 (année en cours)';
+    document.getElementById('cmpP2Ttl').textContent='2025 (n-1)';
+    sel2.disabled=true;
+  }else{
+    /* Mode dual : 2 indicateurs différents côte à côte */
+    document.getElementById('cmpP1Ttl').textContent='Indicateur A';
+    document.getElementById('cmpP2Ttl').textContent='Indicateur B';
+    sel2.disabled=false;
+  }
+  cmpBuild(1);cmpBuild(2);
+}
+
+function _cmpStats(datasets,labels){
+  /* Calcule min/max/moy/delta pour le 1er dataset numérique */
+  const ds=datasets.find(d=>Array.isArray(d.data));
+  if(!ds)return{min:null,max:null,moy:null,delta:null,pct:null};
+  const vals=ds.data.map(v=>typeof v==='number'?v:null).filter(v=>v!==null);
+  if(!vals.length)return{min:null,max:null,moy:null,delta:null,pct:null};
+  const min=Math.min(...vals),max=Math.max(...vals),moy=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const first=vals[0],last=vals[vals.length-1];
+  const delta=last-first;
+  const pct=first!==0?((delta/first)*100):null;
+  return{min,max,moy,delta,pct,first,last,label:ds.label||''};
+}
+
+function _cmpFmtNum(v){if(v===null||v===undefined||!isFinite(v))return'—';return Number.isInteger(v)?String(v):v.toFixed(1);}
+function _cmpFmtDelta(d,p){
+  if(d===null||!isFinite(d))return'—';
+  const sign=d>0?'▲':d<0?'▼':'=';
+  const cls=d>0?'tu':d<0?'td':'';
+  const pct=p!==null&&isFinite(p)?` (${p>=0?'+':''}${p.toFixed(0)}%)`:'';
+  return `<span class="${cls}">${sign} ${d>=0?'+':''}${_cmpFmtNum(d)}${pct}</span>`;
+}
+
+function _cmpRenderStats(panelN,stats,srcLbl){
+  const el=document.getElementById('cmpS'+panelN);if(!el)return;
+  if(stats.min===null){el.innerHTML='<span style="opacity:.5">Pas de données numériques</span>';return;}
+  el.innerHTML=`
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Série</span><span class="cmp-stat-v">${stats.label||srcLbl}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Min</span><span class="cmp-stat-v">${_cmpFmtNum(stats.min)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Max</span><span class="cmp-stat-v">${_cmpFmtNum(stats.max)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Moy</span><span class="cmp-stat-v">${_cmpFmtNum(stats.moy)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">1ᵉʳ → dernier</span><span class="cmp-stat-v">${_cmpFmtNum(stats.first)} → ${_cmpFmtNum(stats.last)}</span></div>
+    <div class="cmp-stat"><span class="cmp-stat-lbl">Δ</span><span class="cmp-stat-v">${_cmpFmtDelta(stats.delta,stats.pct)}</span></div>
+  `;
+}
+
+function cmpBuild(n){
+  const mode=_cmpMode();
+  const selId=(mode==='n1'&&n===2)?'cmpSel1':'cmpSel'+n;
+  const srcId=document.getElementById(selId)?.value;
+  const from=parseInt(document.getElementById('cmpFrom')?.value||'0');
+  const to=parseInt(document.getElementById('cmpTo')?.value||String(W12.length-2));
+  const src=chs[srcId];if(!src)return;
+  if(_cmpCh[n]){_cmpCh[n].destroy();_cmpCh[n]=null;}
+  const canvas=document.getElementById('cmpC'+n);
+  const labels=(src.data.labels||[]).slice(from,to+1);
+  let datasets;
+  if(mode==='n1'){
+    /* Mode n-1 côte à côte : gauche = 2026 (série courante), droite = 2025 (n-1) */
+    if(n===1){
+      datasets=src.data.datasets.filter(ds=>!ds._n1).map(ds=>({...ds,data:(ds.data||[]).slice(from,to+1),hidden:false}));
+    }else{
+      datasets=src.data.datasets.filter(ds=>ds._n1).map(ds=>{
+        const nd={...ds,data:(ds.data||[]).slice(from,to+1),hidden:false};
+        /* Ligne pleine (pas de tirets) pour la lisibilité côte à côte */
+        nd.borderDash=undefined;nd.borderWidth=2;nd.fill=true;nd.label=(nd.label||'').replace(' (n-1 2025)','');
+        return nd;
+      });
+      if(!datasets.length){
+        canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+        document.getElementById('cmpS2').innerHTML='<span style="opacity:.5">Aucune donnée n-1 2025 disponible pour cet indicateur</span>';
+        return;
+      }
+    }
+  }else{
+    /* Mode dual : 2 indicateurs différents côte à côte (jamais de n-1 en superposé) */
+    datasets=src.data.datasets.filter(ds=>!ds._n1).map(ds=>({...ds,data:(ds.data||[]).slice(from,to+1),hidden:false}));
+  }
+  _cmpCh[n]=new Chart(canvas.getContext('2d'),{
+    type:src.config.type,data:{labels,datasets},
+    options:{...bo(src.config.type==='bar'||src.config.type==='line'),animation:{duration:0}},
+  });
+  const opt=CMP_OPT.find(o=>o.id===srcId);
+  _cmpRenderStats(n,_cmpStats(datasets,labels),opt?.lbl||srcId);
+}
+
+/* ══ MAGASIN GRAPHIQUES ══ */
+const CS_ORIG={};   // config originale sauvegardée par chart ID
+const CS_CUR={};    // type actuellement sélectionné
+
+/* Catalogue des types disponibles */
+const CS_CAT=[
+  {key:'default',ico:'↩',lbl:'Défaut (original)'},
+  {key:'bar',    ico:'▦',lbl:'Barres'},
+  {key:'hbar',   ico:'☰',lbl:'Barres horiz.'},
+  {key:'line',   ico:'〰',lbl:'Lignes'},
+  {key:'area',   ico:'◭',lbl:'Aires'},
+  {key:'stackb', ico:'▤',lbl:'Barres empilées'},
+  {key:'doughnut',ico:'◎',lbl:'Donut'},
+  {key:'pie',    ico:'◔',lbl:'Secteurs'},
+];
+
+/* Types proposés selon le type de base du graphique */
+function csAvail(chartId){
+  const ch=chs[chartId];if(!ch)return[];
+  const base=CS_ORIG[chartId]?.type||ch.config.type;
+  const multi=ch.data.datasets.length>1;
+  if(base==='doughnut'||base==='pie')return['default','doughnut','pie','bar'];
+  if(base==='bar')return multi?['default','bar','hbar','stackb','line','area']:['default','bar','hbar','line','area'];
+  return['default','line','area','bar','stackb'];
+}
+
+function openCS(chartId,anchorEl){
+  /* Ferme les autres menus ouverts */
+  document.querySelectorAll('.cs-menu.open').forEach(m=>{if(m.dataset.cid!==chartId)m.classList.remove('open');});
+  let menu=document.getElementById('csm-'+chartId);
+  const avail=csAvail(chartId);
+  const cur=CS_CUR[chartId]||'default';
+  const html='<div class="cs-mhdr">📊 Graphique</div>'+
+    avail.map(k=>{const t=CS_CAT.find(x=>x.key===k)||{ico:'?',lbl:k};
+      return`<button class="cs-opt${cur===k?' cs-active':''}${k==='default'?' cs-reset':''}" onclick="csApply('${chartId}','${k}',this)"><span class="cs-ico">${t.ico}</span><span>${t.lbl}</span></button>`;
+    }).join('');
+  if(!menu){
+    menu=document.createElement('div');menu.className='cs-menu';menu.id='csm-'+chartId;menu.dataset.cid=chartId;
+    anchorEl.closest('.card').appendChild(menu);
+  }
+  menu.innerHTML=html;menu.classList.toggle('open');
+  /* Ferme au clic extérieur */
+  const closeOut=e=>{if(!menu.contains(e.target)&&!anchorEl.contains(e.target)){menu.classList.remove('open');document.removeEventListener('click',closeOut);}};
+  setTimeout(()=>document.addEventListener('click',closeOut),50);
+}
+
+function csApply(chartId,typeKey,btn){
+  const ch=chs[chartId];if(!ch)return;
+  /* Sauvegarder original au premier changement */
+  if(!CS_ORIG[chartId]){
+    CS_ORIG[chartId]={type:ch.config.type,dsProps:ch.data.datasets.map(ds=>({fill:ds.fill,type:ds.type,borderDash:ds.borderDash,borderRadius:ds.borderRadius}))};
+  }
+  CS_CUR[chartId]=typeKey;
+  localStorage.setItem('dac_cs_'+chartId,typeKey);
+  btn.closest('.cs-menu').querySelectorAll('.cs-opt').forEach(b=>b.classList.remove('cs-active'));
+  btn.classList.add('cs-active');
+
+  const canvas=document.getElementById(chartId);
+  const labels=[...(ch.data.labels||[])];
+  const multi=ch.data.datasets.length>1;
+  let newType=ch.config.type,newOpts={...ch.config.options,animation:{duration:300}},
+      datasets=ch.data.datasets.map((ds,i)=>({...ds}));
+
+  if(typeKey==='default'){
+    const orig=CS_ORIG[chartId];
+    newType=orig.type;
+    datasets=datasets.map((ds,i)=>({...ds,...orig.dsProps[i]}));
+    newOpts={...ch.config.options,indexAxis:undefined,animation:{duration:300}};
+    if(newOpts.scales){if(newOpts.scales.x)newOpts.scales.x.stacked=false;if(newOpts.scales.y)newOpts.scales.y.stacked=false;}
+  }else if(typeKey==='bar'){
+    newType='bar';datasets=datasets.map(ds=>({...ds,fill:false,type:undefined,borderDash:undefined,tension:undefined}));
+    newOpts={...bo(multi),animation:{duration:300}};delete newOpts.indexAxis;
+  }else if(typeKey==='hbar'){
+    newType='bar';datasets=datasets.map(ds=>({...ds,fill:false,type:undefined,borderDash:undefined,tension:undefined}));
+    newOpts={...bo(multi),indexAxis:'y',animation:{duration:300}};
+  }else if(typeKey==='line'){
+    newType='line';datasets=datasets.map(ds=>({...ds,fill:false,borderRadius:undefined,borderDash:ds.borderDash}));
+    newOpts={...bo(multi),animation:{duration:300}};
+  }else if(typeKey==='area'){
+    newType='line';datasets=datasets.map((ds,i)=>({...ds,fill:i===0,borderRadius:undefined}));
+    newOpts={...bo(multi),animation:{duration:300}};
+  }else if(typeKey==='stackb'){
+    newType='bar';datasets=datasets.map(ds=>({...ds,fill:false,type:undefined,borderDash:undefined,tension:undefined}));
+    newOpts={...bo(true,true),animation:{duration:300}};
+  }else if(typeKey==='pie'){
+    newType='pie';datasets=datasets.map(ds=>({...ds,fill:false,borderDash:undefined,tension:undefined,type:undefined}));
+    newOpts={...po(),animation:{duration:300}};
+  }else if(typeKey==='doughnut'){
+    newType='doughnut';datasets=datasets.map(ds=>({...ds,fill:false,borderDash:undefined,tension:undefined,type:undefined}));
+    newOpts={...po(),animation:{duration:300}};
+  }
+  ch.destroy();delete chs[chartId];
+  chs[chartId]=new Chart(canvas.getContext('2d'),{type:newType,data:{labels,datasets},options:newOpts});
+  document.getElementById('csm-'+chartId)?.classList.remove('open');
+}
+
+/* ══ LÉGENDE CALENDAIRE ══ */
+function injectCalLegend(){
+  /* Trouve les cartes avec un canvas dont les labels sont des semaines */
+  document.querySelectorAll('.card').forEach(card=>{
+    const canvEl=card.querySelector('canvas');if(!canvEl)return;
+    const ch=chs[canvEl.id];if(!ch)return;
+    if(!ch.data.labels?.some(l=>/^S\d+$/.test(String(l))))return;
+    /* Ne pas ajouter deux fois */
+    if(card.querySelector('.callg'))return;
+    const lg=document.createElement('div');
+    lg.className='callg';
+    lg.innerHTML=
+      `<span class="callg-chip"><span class="callg-dot"></span><span class="callg-line"></span> Jour férié</span>`+
+      `<span class="callg-chip"><span class="callg-sq" style="background:rgba(55,102,174,.25);border:1.5px solid rgba(55,102,174,.5)"></span> Vac. Hiver / Noël</span>`+
+      `<span class="callg-chip"><span class="callg-sq" style="background:rgba(56,177,107,.25);border:1.5px solid rgba(40,150,70,.5)"></span> Vac. Printemps</span>`+
+      `<span class="callg-chip"><span class="callg-sq" style="background:rgba(249,180,45,.25);border:1.5px solid rgba(200,145,20,.5)"></span> Grandes Vacances</span>`+
+      `<span class="callg-chip"><span class="callg-sq" style="background:rgba(235,93,69,.18);border:1px dashed rgba(235,93,69,.4)"></span> Tension sanitaire</span>`;
+    card.appendChild(lg);
+  });
+}
+
+/* ══ NOTES DE RÉUNION → GOOGLE SHEETS ══ */
+const NOTES_GAS={
+  _DEFAULT:'https://script.google.com/macros/s/AKfycbw3P7WG8G8PZ4XFZo2OI7w9cYO0OyzelymtqcQH0EMmtFjS0X4ug_W9G8sHAxLXOLzv/exec',
+  getUrl(){return localStorage.getItem('dac_gas_notes_url')||NOTES_GAS._DEFAULT;},
+  setUrl(u){localStorage.setItem('dac_gas_notes_url',u);},
+  _t:null,
+
+  /* Sauvegarde locale immédiate + envoi GAS après 2s de pause */
+  onChange(key,text,semaine,indicateur){
+    localStorage.setItem(key,text);
+    clearTimeout(NOTES_GAS._t);
+    NOTES_GAS._t=setTimeout(()=>NOTES_GAS.send(text,semaine,indicateur),2000);
+  },
+
+  /* Envoi vers GAS Web App — mode no-cors (fonctionne depuis un fichier local)
+     Le GAS reçoit et traite les données même si on ne peut pas lire la réponse */
+  async send(note,semaine,indicateur){
+    const url=NOTES_GAS.getUrl();
+    const st=document.getElementById('fsNoteSt');
+    if(!url){if(st)st.textContent='💾 Sauvegardé en local';return;}
+    if(st)st.textContent='⏳ Envoi…';
+    try{
+      const qs=new URLSearchParams({
+        note,semaine:semaine||'',indicateur:indicateur||'',action:'upsert'
+      });
+      await fetch(url+'?'+qs.toString(),{mode:'no-cors'});
+      /* no-cors = réponse opaque, mais la requête EST reçue par GAS */
+      if(st)st.textContent='☁️ Sauvegardé dans Google Sheets';
+    }catch(e){
+      if(st)st.textContent='⚠ Erreur réseau — sauvegardé en local';
+    }
+  },
+
+  /* Charge les notes — localStorage en priorité (no-cors bloque la lecture GAS) */
+  async load(key,indicateur,semaine){
+    return localStorage.getItem(key)||'';
+  },
+
+  /* Configuration de l'URL GAS */
+  configure(){
+    const cur=NOTES_GAS.getUrl();
+    const u=prompt(
+      '📝 URL du script Google Apps Script\n\n'+
+      'Étapes :\n'+
+      '1. Google Sheet → Extensions → Apps Script\n'+
+      '2. Coller le contenu de gas_notes_reunions.js\n'+
+      '3. Déployer → Nouvelle déploiement → Application Web\n'+
+      '   • Exécuter en tant que : Moi\n'+
+      '   • Accès : Toute personne (compte Google)\n'+
+      '4. Copier et coller l\'URL ci-dessous',
+      cur||'https://script.google.com/macros/s/...'
+    );
+    if(u&&u.startsWith('https://script.google.com')){
+      NOTES_GAS.setUrl(u.trim());
+      const st=document.getElementById('fsNoteSt');
+      if(st)st.textContent='✓ URL configurée';
+    }
+  },
+};
+
+/* ── Génération initiale des tableaux (données hardcodées) ── */
+buildAllTables();
+
+/* ── Auto-chargement Google Sheets au démarrage ── */
+document.addEventListener('DOMContentLoaded',()=>GS.autoLoad());
+</script>
+
+<!-- ── MODAL PLEIN ÉCRAN ── -->
+<div id="fsMod">
+  <div class="fs-hdr">
+    <span class="fs-title" id="fsTitle">—</span>
+    <div class="fs-acts"></div>
+    <button onclick="closeFsMod()" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:8px;color:#fff;font-size:18px;font-weight:700;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s" onmouseover="this.style.background='rgba(235,93,69,.7)'" onmouseout="this.style.background='rgba(255,255,255,.15)'" title="Fermer (Échap)">✕</button>
+  </div>
+  <div class="fs-body">
+    <div class="fs-cw"><canvas id="fsCanvas"></canvas></div>
+    <div class="fs-tbl" id="fsTable"></div>
+    <div class="fs-note">
+      <div class="fs-note-lbl" style="display:flex;align-items:center;justify-content:space-between">
+        <span>💬 Notes de réunion</span>
+        <span style="display:flex;gap:10px;align-items:center">
+          <span id="fsNoteSt" style="font-size:9px;font-family:'DM Mono',monospace;color:var(--G)"></span>
+          <button onclick="NOTES_GAS.configure()" style="background:none;border:none;cursor:pointer;font-size:9px;color:var(--tx3);padding:0;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;text-decoration:underline">⚙ GSheets</button>
+        </span>
+      </div>
+      <textarea id="fsNote" placeholder="Ajouter un commentaire pour cet indicateur…"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL COMPARAISON (v6) ── -->
+<div id="cmpMod">
+  <div class="cmp-hdr">
+    <span style="color:#fff;font-family:'Barlow Semi Condensed',sans-serif;font-size:15px;font-weight:700;flex-shrink:0">⚡ Comparaison</span>
+    <div class="cmp-mode">
+      <label><input type="radio" name="cmpMode" value="dual" checked onchange="cmpRefresh()"> 2 indicateurs côte à côte</label>
+      <label><input type="radio" name="cmpMode" value="n1" onchange="cmpRefresh()"> 1 indicateur × n-1 2025</label>
+    </div>
+    <div class="wkf">
+      <span>De</span><select class="wksel" id="cmpFrom" onchange="cmpRefresh()"></select>
+      <span>à</span><select class="wksel" id="cmpTo" onchange="cmpRefresh()"></select>
+    </div>
+    <button class="hctrl" onclick="closeCmpMod()" style="margin-left:auto">✕ Fermer</button>
+  </div>
+  <div class="cmp-body">
+    <div class="cmp-panel" id="cmpP1">
+      <div class="cmp-hdr2"><span class="cmp-ttl" id="cmpP1Ttl">Indicateur A</span><select class="cmp-sel" id="cmpSel1" onchange="cmpRefresh()"></select></div>
+      <div class="cmp-cw"><canvas id="cmpC1"></canvas></div>
+      <div class="cmp-stats" id="cmpS1"></div>
+    </div>
+    <div class="cmp-panel" id="cmpP2">
+      <div class="cmp-hdr2"><span class="cmp-ttl" id="cmpP2Ttl">Indicateur B</span><select class="cmp-sel" id="cmpSel2" onchange="cmpRefresh()"></select></div>
+      <div class="cmp-cw"><canvas id="cmpC2"></canvas></div>
+      <div class="cmp-stats" id="cmpS2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay chargement Google Sheets -->
+<div id="gsLoad">
+  <div class="gs-spin"></div>
+  <div class="gs-lbl">Chargement depuis Google Sheets…</div>
+</div>
+
+</body>
+</html>
