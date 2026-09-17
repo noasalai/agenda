@@ -1,0 +1,2762 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procédure — Activité de Coordination — DAC Var Est</title>
+<style>
+  /* ── Variables charte DAC Var Est ── */
+  :root {
+    --blue:       #3765B0;
+    --blue-dark:  #1E3F6E;
+    --blue-light: #73BFD7;
+    --blue-bg:    #EAF2F8;
+    --blue-pale:  #F2F7FC;
+    --orange:     #EB5F46;
+    --orange-bg:  #FEF3F0;
+    --green:      #2EAB7A;
+    --grey:       #F7F8FA;
+    --text:       #1A2340;
+    --text-muted: #5A6480;
+    --border:     #DDE4EF;
+    --nav-width:  305px;
+    --radius:     10px;
+    --shadow:     0 2px 16px rgba(55,101,176,.10);
+  }
+
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #F4F6FB;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Texte justifié avec césure (évite les trous) ── */
+  .section-body p,
+  .section-body li,
+  .info-box p,
+  .vignette,
+  .step-body p,
+  #hero p,
+  .faq-a {
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+  /* Titres toujours alignés à gauche, sans césure */
+  h1, h2, h3, h4 {
+    text-align: left;
+    -webkit-hyphens: manual;
+    hyphens: manual;
+  }
+
+  /* ── Progress bar ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    width: 0%; z-index: 1000;
+    transition: width .1s;
+  }
+
+  /* ── Sidebar nav ── */
+  #sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: var(--nav-width);
+    background: var(--blue-dark);
+    color: #fff;
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 2px 0 20px rgba(0,0,0,.15);
+  }
+  #sidebar-header {
+    padding: 24px 20px 18px;
+    background: var(--blue);
+    border-bottom: 2px solid rgba(255,255,255,.15);
+    flex-shrink: 0;
+  }
+  #sidebar-header .org-name {
+    font-size: 13px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--blue-light);
+    margin-bottom: 4px;
+  }
+  #sidebar-header h2 {
+    font-size: 14px; font-weight: 600; color: #fff;
+    line-height: 1.4;
+  }
+  #sidebar nav { padding: 12px 0; flex: 1; }
+  #sidebar nav a { text-decoration: none; }
+
+  /* ── Sommaire hiérarchique : I. / A. / 1. / a. ── */
+  .nav-node { display: flex; flex-direction: column; }
+  .nav-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px 8px 0;
+    border-left: 3px solid transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .nav-row:hover { background: rgba(255,255,255,.06); }
+  .nav-row.toggle-row { cursor: pointer; }
+  .nav-mark {
+    flex-shrink: 0; font-weight: 800; color: var(--blue-light);
+    text-align: right;
+  }
+  .nav-label, .nav-link {
+    flex: 1; min-width: 0; color: rgba(255,255,255,.8);
+    text-decoration: none; line-height: 1.35;
+  }
+  a.nav-link:hover, a.nav-link.active { color: #fff; }
+  .nav-row.active { background: rgba(255,255,255,.09); border-left-color: var(--blue-light); }
+  .nav-row.active .nav-link, .nav-row.active .nav-mark { color: #fff; }
+  .nav-exp {
+    flex-shrink: 0; width: 22px; border: none; background: none;
+    color: rgba(255,255,255,.4); cursor: pointer;
+    font-size: 10px; transition: transform .25s, color .2s;
+  }
+  .nav-exp:hover { color: #fff; }
+  .nav-node.open > .nav-row .nav-exp { transform: rotate(180deg); color: var(--blue-light); }
+  .nav-sub {
+    max-height: 0; overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: max-height .35s ease;
+  }
+  .nav-node.open > .nav-sub { max-height: 3000px; }
+
+  /* Niveau I. — romain */
+  .lvl-roman > .nav-row { padding-left: 20px; }
+  .lvl-roman > .nav-row .nav-mark { width: 26px; font-size: 12.5px; }
+  .lvl-roman > .nav-row .nav-label,
+  .lvl-roman > .nav-row .nav-link { font-size: 13px; font-weight: 700; }
+
+  /* Niveau A. — lettre majuscule */
+  .lvl-letter > .nav-row { padding-left: 36px; }
+  .lvl-letter > .nav-row .nav-mark { width: 20px; font-size: 11.5px; }
+  .lvl-letter > .nav-row .nav-label,
+  .lvl-letter > .nav-row .nav-link { font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.75); }
+
+  /* Niveau 1. — chiffre */
+  .lvl-number > .nav-row { padding-left: 52px; }
+  .lvl-number > .nav-row .nav-mark { width: 18px; font-size: 11px; color: rgba(255,255,255,.55); }
+  .lvl-number > .nav-row .nav-label,
+  .lvl-number > .nav-row .nav-link { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.68); }
+
+  /* Titre 4 — sans numérotation, simple repère visuel */
+  .lvl-leaf > .nav-row { padding-left: 66px; }
+  .lvl-leaf > .nav-row .nav-mark { display: none; }
+  .lvl-leaf > .nav-row .nav-link {
+    font-size: 11.5px; font-weight: 400; color: rgba(255,255,255,.5);
+    position: relative; padding-left: 12px;
+  }
+  .lvl-leaf > .nav-row .nav-link::before {
+    content: '\2013'; position: absolute; left: 0; color: var(--blue-light);
+  }
+
+  #sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    font-size: 12px; color: rgba(255,255,255,.5);
+    flex-shrink: 0;
+  }
+  #sidebar-footer a { color: var(--blue-light); }
+
+  /* ── Main content ── */
+  #main {
+    margin-left: var(--nav-width);
+    min-height: 100vh;
+  }
+
+  /* ── Hero banner ── */
+  #hero {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-light) 100%);
+    color: #fff;
+    padding: 56px 60px 48px;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+  }
+  #hero::after {
+    content: '';
+    position: absolute; right: 80px; bottom: -80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(115,191,215,.15);
+  }
+  #hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    padding: 4px 14px; font-size: 12px;
+    font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  #hero h1 {
+    font-size: 28px; font-weight: 800; line-height: 1.25;
+    margin-bottom: 12px; position: relative; z-index: 1;
+  }
+  #hero h1 span { color: var(--blue-light); }
+  #hero p {
+    font-size: 15px; color: rgba(255,255,255,.82);
+    max-width: 580px; line-height: 1.6;
+    position: relative; z-index: 1;
+  }
+  #hero .hero-meta {
+    display: flex; gap: 24px; margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  #hero .hero-meta span {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: rgba(255,255,255,.75);
+  }
+  #hero .hero-meta svg { width: 16px; height: 16px; opacity: .8; }
+
+  /* ── Section container ── */
+  .section {
+    padding: 48px 60px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+  }
+  .section:nth-child(even) { background: var(--grey); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+  }
+  .section-header h2 {
+    font-size: 20px; font-weight: 800; color: var(--blue-dark);
+    letter-spacing: -.01em;
+  }
+
+  h3 {
+    font-size: 15px; font-weight: 700; color: var(--blue);
+    margin: 24px 0 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  h3::before {
+    content: '';
+    display: inline-block; width: 4px; height: 16px;
+    background: var(--blue-light); border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-body > h4 {
+    font-size: 13.5px; font-weight: 700; color: var(--blue-dark);
+    margin: 18px 0 8px; padding-left: 12px;
+    border-left: 3px solid var(--blue-light);
+  }
+  p { margin-bottom: 12px; }
+
+  /* ── Cards grid ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px; margin-top: 8px;
+  }
+  .card {
+    background: var(--blue-pale);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--blue);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .card-icon { font-size: 22px; margin-bottom: 8px; }
+  .card h4 { font-size: 13px; font-weight: 700; color: var(--blue-dark); margin-bottom: 6px; }
+  .card p { font-size: 12.5px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  /* ── Info box ── */
+  .info-box {
+    background: var(--blue-bg);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .info-box.orange {
+    background: var(--orange-bg);
+    border-left-color: var(--orange);
+  }
+  .info-box.warning {
+    background: #FFF8F0;
+    border-left-color: #E8A83A;
+  }
+  .info-box strong { display: block; margin-bottom: 4px; color: var(--blue-dark); font-size: 13px; }
+  .info-box.orange strong { color: var(--orange); }
+  .info-box.warning strong { color: #C07A1A; }
+
+  /* ── Vignette clinique ── */
+  .vignette {
+    background: var(--orange-bg);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .vignette .result {
+    font-style: normal; font-weight: 700;
+    color: var(--orange);
+    margin-top: 10px; font-size: 14px;
+  }
+
+  /* ── Stepper (4 étapes) ── */
+  .stepper { display: flex; flex-direction: column; gap: 0; margin: 12px 0; }
+  .step {
+    display: flex; gap: 0; position: relative;
+  }
+  .step-left {
+    display: flex; flex-direction: column; align-items: center;
+    flex-shrink: 0; width: 48px;
+  }
+  .step-dot {
+    width: 36px; height: 36px;
+    background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; flex-shrink: 0;
+    box-shadow: 0 0 0 4px var(--blue-bg);
+    z-index: 1;
+  }
+  .step-line {
+    width: 2px; background: var(--blue-bg);
+    flex: 1; min-height: 20px;
+  }
+  .step:last-child .step-line { display: none; }
+  .step-body {
+    padding: 6px 0 24px 16px;
+    flex: 1;
+  }
+  .step-body h4 { font-size: 14px; font-weight: 700; color: var(--blue-dark); margin-bottom: 4px; }
+  .step-body p { font-size: 13.5px; color: var(--text-muted); margin: 0; }
+
+  /* ── Comparison table ── */
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    margin: 16px 0; font-size: 13.5px;
+    box-shadow: var(--shadow); border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .compare-table thead th {
+    background: var(--blue); color: #fff;
+    padding: 12px 16px; text-align: left;
+    font-size: 13px; font-weight: 700;
+  }
+  .compare-table thead th:first-child {
+    background: var(--blue-dark); width: 130px;
+  }
+  .compare-table tbody tr:nth-child(even) td { background: var(--blue-pale); }
+  .compare-table tbody tr:nth-child(odd) td { background: #fff; }
+  .compare-table td {
+    padding: 10px 16px; vertical-align: top;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table tbody td:first-child {
+    font-weight: 700; color: var(--blue-dark);
+    background: var(--grey) !important;
+    font-size: 12px; white-space: nowrap;
+  }
+
+  /* ── Decision flowchart ── */
+  .decision-box {
+    background: var(--grey);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px; margin: 16px 0;
+  }
+  .decision-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .decision-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .decision-q {
+    background: var(--blue); color: #fff;
+    border-radius: 6px; padding: 10px 14px;
+    font-size: 13.5px; flex: 1;
+  }
+  .decision-a {
+    display: flex; align-items: center; gap: 8px; padding-top: 4px;
+    font-size: 13px; flex-shrink: 0; width: 160px;
+  }
+  .tag {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 20px; font-size: 12px; font-weight: 700;
+  }
+  .tag.blue { background: var(--blue-bg); color: var(--blue); }
+  .tag.orange { background: var(--orange-bg); color: var(--orange); }
+
+  /* ── Lexique ── */
+  .lexique-table {
+    width: 100%; border-collapse: collapse; font-size: 13.5px;
+    box-shadow: var(--shadow); border-radius: var(--radius); overflow: hidden;
+  }
+  .lexique-table thead th {
+    background: var(--blue); color: #fff;
+    padding: 10px 16px; text-align: left; font-size: 13px; font-weight: 700;
+  }
+  .lexique-table tbody tr:nth-child(even) td { background: var(--blue-pale); }
+  .lexique-table tbody tr:nth-child(odd) td { background: #fff; }
+  .lexique-table td {
+    padding: 9px 16px; border-bottom: 1px solid var(--border); vertical-align: top;
+  }
+  .lexique-table td:first-child {
+    font-weight: 700; color: var(--blue); width: 140px; white-space: nowrap;
+  }
+
+  /* ── FAQ accordion ── */
+  .faq { margin: 8px 0; }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .faq-item:hover { box-shadow: var(--shadow); }
+  .faq-q {
+    width: 100%; text-align: left;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px;
+    background: #fff; border: none; cursor: pointer;
+    font-size: 14px; font-weight: 600; color: var(--blue-dark);
+    gap: 12px;
+  }
+  .faq-q:hover { background: var(--blue-pale); }
+  .faq-q .faq-icon {
+    flex-shrink: 0; width: 24px; height: 24px;
+    background: var(--blue-bg); color: var(--blue);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; line-height: 1; transition: transform .25s;
+  }
+  .faq-item.open .faq-q { background: var(--blue-bg); }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--blue); color: #fff; }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s ease, padding .3s;
+    padding: 0 18px; background: var(--blue-pale);
+    font-size: 13.5px; color: var(--text-muted);
+  }
+  .faq-item.open .faq-a { max-height: 400px; padding: 14px 18px 16px; }
+
+  /* ── Process formulaire ── */
+  .steps-inline {
+    display: flex; gap: 0; margin: 16px 0; flex-wrap: wrap;
+  }
+  .step-inline {
+    flex: 1; min-width: 100px;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; text-align: center;
+  }
+  .step-inline:not(:last-child)::after {
+    content: '›';
+    position: absolute; right: -8px; top: 10px;
+    font-size: 20px; color: var(--blue-light);
+    font-weight: 300;
+  }
+  .step-inline .snum {
+    width: 32px; height: 32px;
+    background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; margin-bottom: 8px;
+  }
+  .step-inline span { font-size: 12px; font-weight: 600; color: var(--blue-dark); line-height: 1.3; }
+
+  /* ── Contacts ── */
+  .contact-box {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+    color: #fff; border-radius: var(--radius);
+    padding: 28px 32px; margin: 8px auto 0;
+    display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap;
+    width: fit-content; max-width: 100%;
+  }
+  .contact-box h4 { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+  .contact-info { flex: 1; min-width: 200px; }
+  .contact-info p { margin: 4px 0; font-size: 14px; color: rgba(255,255,255,.85); }
+  .contact-info strong { color: #fff; }
+  .contact-cta {
+    display: inline-block;
+    background: var(--orange); color: #fff;
+    border-radius: 6px; padding: 12px 22px;
+    font-weight: 700; font-size: 14px;
+    text-decoration: none; margin-top: 12px;
+    transition: opacity .2s;
+  }
+  .contact-cta:hover { opacity: .88; text-decoration: none; }
+
+  /* ── RGPD chip ── */
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--blue-bg); color: var(--blue);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 12px; font-weight: 700;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+
+  /* ── List styles ── */
+  ul.dac-list { padding-left: 0; list-style: none; margin: 8px 0; }
+  ul.dac-list li {
+    padding: 5px 0 5px 20px;
+    position: relative; font-size: 14px; color: var(--text);
+  }
+  ul.dac-list li::before {
+    content: '›';
+    position: absolute; left: 0; color: var(--blue-light);
+    font-weight: 700; font-size: 16px; line-height: 1.3;
+  }
+  ul.dac-list.orange li::before { color: var(--orange); }
+
+  /* ── Print button ── */
+  #print-btn {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--blue); color: #fff;
+    border: none; border-radius: 50%;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(55,101,176,.35);
+    transition: background .2s, transform .2s; z-index: 200;
+  }
+  #print-btn:hover { background: var(--blue-dark); transform: scale(1.07); }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); transition: transform .3s; }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    .section { padding: 32px 24px; }
+    #hero { padding: 36px 24px 32px; }
+    #hero h1 { font-size: 22px; }
+    #menu-toggle {
+      display: flex; position: fixed; top: 12px; left: 12px; z-index: 200;
+      background: var(--blue); color: #fff; border: none;
+      border-radius: 8px; padding: 8px 10px; cursor: pointer;
+    }
+  }
+  @media (min-width: 901px) { #menu-toggle { display: none; } }
+
+  @media print {
+    #sidebar, #print-btn, #progress-bar, #menu-toggle { display: none; }
+    #main { margin-left: 0; }
+    .section { break-inside: avoid; border: none; padding: 20px 0; }
+    .faq-a { max-height: none !important; padding: 10px 18px !important; }
+  }
+
+  /* ── Collapsible sections ── */
+  .section-header {
+    cursor: pointer; user-select: none;
+    transition: opacity .15s;
+  }
+  .section-header:hover { opacity: .82; }
+  .section-chevron {
+    margin-left: auto;
+    width: 30px; height: 30px; flex-shrink: 0;
+    background: var(--blue-bg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); font-size: 13px;
+    transition: transform .3s, background .2s;
+  }
+  .section.collapsed .section-chevron {
+    transform: rotate(-90deg);
+    background: var(--border);
+  }
+  .section-body {
+    overflow: hidden;
+    transition: max-height .45s cubic-bezier(.4,0,.2,1), opacity .35s;
+    opacity: 1;
+  }
+  .section.collapsed .section-body {
+    max-height: 0 !important;
+    opacity: 0;
+  }
+
+  /* ── Step accordion (formulaire QUALIOS) ── */
+  .step-acc {
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(55,101,176,.06);
+  }
+  .step-acc-title {
+    width: 100%; text-align: left;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: var(--blue-pale);
+    border: none; cursor: pointer;
+    font-size: 14px; font-weight: 700; color: var(--blue-dark);
+    transition: background .2s;
+  }
+  .step-acc-title:hover { background: var(--blue-bg); }
+  .step-acc.open .step-acc-title {
+    background: var(--blue); color: #fff;
+  }
+  .step-acc.open .step-acc-title .step-snum {
+    background: rgba(255,255,255,.25); color: #fff;
+  }
+  .step-snum {
+    flex-shrink: 0; width: 28px; height: 28px;
+    background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .step-acc-chevron {
+    margin-left: auto; font-size: 18px; line-height: 1;
+    transition: transform .3s; opacity: .7;
+  }
+  .step-acc.open .step-acc-chevron { transform: rotate(180deg); opacity: 1; }
+  .step-acc-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .5s cubic-bezier(.4,0,.2,1);
+    background: #fff;
+  }
+  .step-acc.open .step-acc-body { max-height: 4000px; }
+  .step-acc-inner { padding: 18px 20px; }
+  .step-acc-inner p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+  /* ── Screenshot gallery ── */
+  .screenshots {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 12px;
+  }
+  .screenshot-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .screenshot-item img {
+    width: 100%; display: block;
+    cursor: zoom-in;
+    transition: opacity .2s;
+  }
+  .screenshot-item img:hover { opacity: .93; }
+  .screenshot-caption {
+    padding: 7px 12px;
+    background: var(--grey);
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* ── Lightbox ── */
+  #lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,15,35,.88);
+    z-index: 3000; align-items: center; justify-content: center;
+    padding: 24px; cursor: zoom-out;
+  }
+  #lightbox.active { display: flex; }
+  #lightbox img {
+    max-width: 92vw; max-height: 88vh;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 48px rgba(0,0,0,.6);
+    cursor: default;
+  }
+  #lightbox-close {
+    position: fixed; top: 18px; right: 22px;
+    background: rgba(255,255,255,.12); border: none;
+    color: #fff; font-size: 26px; line-height: 1;
+    width: 40px; height: 40px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  #lightbox-close:hover { background: rgba(255,255,255,.22); }
+
+
+  /* ── Collapsible sections ── */
+  .section-header { cursor: pointer; user-select: none; }
+  .section-header:hover { opacity: .84; }
+  .section-chevron {
+    margin-left: auto; flex-shrink: 0;
+    width: 30px; height: 30px;
+    background: var(--blue-bg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); font-size: 14px;
+    transition: transform .3s, background .2s;
+  }
+  .section.collapsed .section-chevron { transform: rotate(-90deg); background: var(--border); }
+  .section-body { overflow: hidden; transition: max-height .45s cubic-bezier(.4,0,.2,1), opacity .3s; opacity: 1; }
+  .section.collapsed .section-body { max-height: 0 !important; opacity: 0; }
+
+  /* ── Step accordion ── */
+  .step-accordions { margin-top: 4px; }
+  .step-acc {
+    margin-bottom: 10px; border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 1px 5px rgba(55,101,176,.07);
+  }
+  .step-acc-title {
+    width: 100%; text-align: left;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; background: var(--blue-pale);
+    border: none; cursor: pointer;
+    font-size: 14px; font-weight: 700; color: var(--blue-dark);
+    transition: background .2s;
+  }
+  .step-acc-title:hover { background: var(--blue-bg); }
+  .step-acc.open .step-acc-title { background: var(--blue); color: #fff; }
+  .step-acc.open .step-acc-title .step-snum { background: rgba(255,255,255,.22); color: #fff; }
+  .step-snum {
+    flex-shrink: 0; width: 28px; height: 28px;
+    background: var(--blue); color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .step-acc-chevron { margin-left: auto; font-size: 16px; transition: transform .3s; opacity: .7; }
+  .step-acc.open .step-acc-chevron { transform: rotate(180deg); opacity: 1; }
+  .step-acc-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.4,0,.2,1); background: #fff; }
+  .step-acc.open .step-acc-body { max-height: 5000px; }
+  .step-acc-inner { padding: 16px 20px; }
+  .step-acc-inner p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+  /* ── Screenshot gallery ── */
+  .screenshots { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+  .screenshot-item {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow);
+  }
+  .screenshot-item img { width: 100%; display: block; cursor: zoom-in; transition: opacity .2s; }
+  .screenshot-item img:hover { opacity: .92; }
+  .screenshot-caption {
+    padding: 7px 12px; background: var(--grey);
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted); font-style: italic;
+  }
+
+  /* ── Lightbox ── */
+  #lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,15,35,.88); z-index: 3000;
+    align-items: center; justify-content: center;
+    padding: 24px; cursor: zoom-out;
+  }
+  #lightbox.active { display: flex; }
+  #lightbox img {
+    max-width: 92vw; max-height: 88vh;
+    border-radius: var(--radius); box-shadow: 0 8px 48px rgba(0,0,0,.6);
+    cursor: default;
+  }
+  #lightbox-close {
+    position: fixed; top: 18px; right: 22px;
+    background: rgba(255,255,255,.15); border: none; color: #fff;
+    font-size: 22px; width: 38px; height: 38px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  #lightbox-close:hover { background: rgba(255,255,255,.25); }
+  @media print {
+    .section-body { max-height: none !important; opacity: 1 !important; }
+    .step-acc-body { max-height: none !important; }
+    .screenshots img { max-width: 100%; }
+  }
+
+
+  /* ── Commentaires par paragraphe ── */
+  .p-comment-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .p-comment-row > p { flex: 1; min-width: 0; margin-bottom: 0; }
+  .comment-btn {
+    flex-shrink: 0; margin-top: 2px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--blue-bg); color: var(--blue); border: none;
+    cursor: pointer; font-size: 13px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .15s, background .15s, color .15s, transform .15s;
+  }
+  .p-comment-row:hover .comment-btn,
+  .comment-btn.has-comment { opacity: 1; }
+  .comment-btn:hover { transform: scale(1.08); }
+  .comment-btn.has-comment { background: var(--orange); color: #fff; }
+  .comment-box {
+    display: none;
+    margin: 0 0 16px 0; padding: 12px 14px;
+    background: var(--orange-bg); border-left: 3px solid var(--orange);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .comment-box.open { display: block; }
+  .comment-box textarea {
+    width: 100%; min-height: 64px; resize: vertical;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-family: inherit; font-size: 13px; color: var(--text);
+  }
+  .comment-box .comment-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .comment-box button.save {
+    background: var(--blue); color: #fff; border: none;
+    padding: 6px 14px; border-radius: 6px; font-size: 12.5px;
+    font-weight: 700; cursor: pointer;
+  }
+  .comment-box button.save:hover { background: var(--blue-dark); }
+  .comment-box button.remove,
+  .comment-box button.cancel {
+    background: #fff; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 6px 14px; border-radius: 6px; font-size: 12.5px; cursor: pointer;
+  }
+  .comment-box button.remove:hover { color: var(--orange); border-color: var(--orange); }
+  .comment-display {
+    margin-bottom: 14px; font-size: 12.5px; color: var(--text-muted);
+    background: var(--orange-bg); border-left: 3px solid var(--orange);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 8px 14px; font-style: italic;
+  }
+  .comment-display strong { color: var(--orange); font-style: normal; margin-right: 4px; }
+
+  #export-comments-btn {
+    position: fixed; bottom: 24px; right: 84px;
+    background: var(--orange); color: #fff;
+    border: none; border-radius: 50%;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(235,95,70,.35);
+    transition: background .2s, transform .2s; z-index: 200;
+    font-size: 19px;
+  }
+  #export-comments-btn:hover { transform: scale(1.07); }
+  #export-comments-btn .badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--blue-dark); color: #fff;
+    font-size: 10px; font-weight: 800; border-radius: 10px;
+    padding: 1px 5px; min-width: 16px; text-align: center;
+    display: none;
+  }
+  #comments-modal {
+    display: none; position: fixed; inset: 0; background: rgba(10,15,35,.72);
+    z-index: 3000; align-items: center; justify-content: center; padding: 24px;
+  }
+  #comments-modal.active { display: flex; }
+  #comments-modal .modal-card {
+    background: #fff; border-radius: var(--radius); max-width: 640px; width: 100%;
+    max-height: 82vh; display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,.4);
+  }
+  #comments-modal .modal-head {
+    padding: 18px 22px; background: var(--blue-dark); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #comments-modal .modal-head h4 { font-size: 15px; font-weight: 800; }
+  #comments-modal .modal-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+  #comments-modal .modal-body { padding: 18px 22px; overflow-y: auto; }
+  #comments-modal textarea {
+    width: 100%; min-height: 260px; border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px; font-size: 12.5px; font-family: monospace;
+    color: var(--text);
+  }
+  #comments-modal .modal-foot {
+    padding: 14px 22px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+  }
+  #comments-modal .modal-foot button {
+    border: none; border-radius: 6px; padding: 9px 18px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  #comments-modal .btn-copy { background: var(--blue); color: #fff; }
+  #comments-modal .btn-copy:hover { background: var(--blue-dark); }
+
+  @media print {
+    .comment-btn, #export-comments-btn { display: none !important; }
+  }
+
+  /* ── Notes par chapitre ── */
+  .chapter-note-toggle {
+    flex-shrink: 0; margin-left: 10px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--blue-bg); color: var(--blue); border: none;
+    cursor: pointer; font-size: 13px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s, transform .15s;
+  }
+  .chapter-note-toggle:hover { transform: scale(1.08); }
+  .chapter-note-toggle.has-note { background: var(--orange); color: #fff; }
+  .chapter-note-panel {
+    display: none;
+    margin: 16px 0 0; padding: 14px 16px;
+    background: var(--blue-bg); border-left: 3px solid var(--blue);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .chapter-note-panel.open { display: block; }
+  .chapter-note-panel .chapter-note-label {
+    font-size: 12.5px; font-weight: 800; color: var(--blue-dark);
+    text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; display: block;
+  }
+  .chapter-note-panel textarea {
+    width: 100%; min-height: 80px; resize: vertical;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-family: inherit; font-size: 13px; color: var(--text);
+  }
+  .chapter-note-panel .chapter-note-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .chapter-note-panel button.save {
+    background: var(--blue); color: #fff; border: none;
+    padding: 6px 14px; border-radius: 6px; font-size: 12.5px;
+    font-weight: 700; cursor: pointer;
+  }
+  .chapter-note-panel button.save:hover { background: var(--blue-dark); }
+  .chapter-note-panel button.remove,
+  .chapter-note-panel button.cancel {
+    background: #fff; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 6px 14px; border-radius: 6px; font-size: 12.5px; cursor: pointer;
+  }
+  .chapter-note-panel button.remove:hover { color: var(--orange); border-color: var(--orange); }
+  .chapter-note-toggle.sub {
+    width: 22px; height: 22px; font-size: 11px; margin-left: 8px;
+    vertical-align: middle;
+  }
+  .chapter-note-panel.sub {
+    margin: 8px 0 16px; padding: 10px 14px;
+    border-left-width: 2px;
+  }
+  .chapter-note-panel.sub .chapter-note-label { font-size: 11.5px; }
+  .chapter-note-panel.sub textarea { min-height: 60px; font-size: 12.5px; }
+
+  #export-chapter-notes-btn {
+    position: fixed; bottom: 24px; right: 144px;
+    background: var(--blue); color: #fff;
+    border: none; border-radius: 50%;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(55,101,176,.35);
+    transition: background .2s, transform .2s; z-index: 200;
+    font-size: 19px;
+  }
+  #export-chapter-notes-btn:hover { transform: scale(1.07); }
+  #export-chapter-notes-btn .badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--orange); color: #fff;
+    font-size: 10px; font-weight: 800; border-radius: 10px;
+    padding: 1px 5px; min-width: 16px; text-align: center;
+    display: none;
+  }
+  #chapter-notes-modal {
+    display: none; position: fixed; inset: 0; background: rgba(10,15,35,.72);
+    z-index: 3000; align-items: center; justify-content: center; padding: 24px;
+  }
+  #chapter-notes-modal.active { display: flex; }
+  #chapter-notes-modal .modal-card {
+    background: #fff; border-radius: var(--radius); max-width: 640px; width: 100%;
+    max-height: 82vh; display: flex; flex-direction: column; overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,.4);
+  }
+  #chapter-notes-modal .modal-head {
+    padding: 18px 22px; background: var(--blue-dark); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #chapter-notes-modal .modal-head h4 { font-size: 15px; font-weight: 800; }
+  #chapter-notes-modal .modal-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+  #chapter-notes-modal .modal-body { padding: 18px 22px; overflow-y: auto; }
+  #chapter-notes-modal textarea {
+    width: 100%; min-height: 260px; border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px; font-size: 12.5px; font-family: monospace;
+    color: var(--text);
+  }
+  #chapter-notes-modal .modal-foot {
+    padding: 14px 22px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+  }
+  #chapter-notes-modal .modal-foot button {
+    border: none; border-radius: 6px; padding: 9px 18px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  #chapter-notes-modal .btn-copy { background: var(--blue); color: #fff; }
+  #chapter-notes-modal .btn-copy:hover { background: var(--blue-dark); }
+
+  @media print {
+    .chapter-note-toggle, #export-chapter-notes-btn { display: none !important; }
+  }
+
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- Mobile toggle -->
+<button id="menu-toggle" onclick="toggleSidebar()" aria-label="Menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="org-name">DAC Var Est</div>
+    <h2>Procédure<br>Activité de coordination</h2>
+  </div>
+  <nav>
+    <div class="nav-node open lvl-roman">
+      <div class="nav-row active">
+        <a href="#s1-1" class="nav-link active"><span class="nav-mark">I.</span>Objectifs</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-roman">
+      <div class="nav-row">
+        <a href="#s1-2" class="nav-link"><span class="nav-mark">II.</span>Domaine d'application</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-roman">
+      <div class="nav-row">
+        <a href="#s2" class="nav-link"><span class="nav-mark">III.</span>Sigles, abréviations et définitions</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-roman">
+      <div class="nav-row toggle-row" onclick="toggleNav(this)">
+        <span class="nav-mark">IV.</span><span class="nav-label">Prise en charge en coordination</span>
+        <button class="nav-exp" onclick="event.stopPropagation();toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-letter">
+      <div class="nav-row toggle-row" onclick="toggleNav(this)">
+        <span class="nav-mark">A.</span><span class="nav-label">Coordination Soutenue</span>
+        <button class="nav-exp" onclick="event.stopPropagation();toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s3" class="nav-link"><span class="nav-mark">1.</span>Entrée dans le dispositif</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-1" class="nav-link">Orientation d'une situation</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-2" class="nav-link">Réception et enregistrement des fiches</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-3" class="nav-link">Consentement</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-4" class="nav-link">Identitovigilance</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-5" class="nav-link">Livret d'accompagnement</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s3-6" class="nav-link">La personne de confiance</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s4" class="nav-link"><span class="nav-mark">2.</span>Évaluation et élaboration du projet</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s4-1" class="nav-link">Évaluation des besoins</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s4-2" class="nav-link">Co-construction du projet de vie</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s4-3" class="nav-link">Approche centrée sur la personne</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s4-4" class="nav-link">Réévaluation du PPCS</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s5" class="nav-link"><span class="nav-mark">3.</span>Mise en œuvre et suivi de la coordination</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-1" class="nav-link">Type de réponse(s) apportée(s)</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-2" class="nav-link">Suivi des dossiers</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-3" class="nav-link">Concertation pluriprofessionnelle</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-4" class="nav-link">Échange avec le médecin traitant</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-5" class="nav-link">Retour d'information à l'adresseur</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-6" class="nav-link">Recherche des professionnels de santé</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-7" class="nav-link">Subsidiarité</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s5-8" class="nav-link">Passation de dossiers CS / CI</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s8" class="nav-link"><span class="nav-mark">4.</span>Qualité, sécurité et vigilance</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s8-1" class="nav-link">Détection de la violence et de la maltraitance</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s8-2" class="nav-link">Fiches d'événements indésirables (FEI)</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s8-3" class="nav-link">Observatoire des ruptures</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s8-4" class="nav-link">Référents thématiques</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s8-5" class="nav-link">Traçabilité sur AZ</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s9" class="nav-link"><span class="nav-mark">5.</span>Outils numériques</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s9-1" class="nav-link">Promotion des outils numériques</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s9-2" class="nav-link">Cadre réglementaire du dossier patient numérisé</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s6" class="nav-link"><span class="nav-mark">6.</span>Clôture et évaluation de la prestation</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s6-1" class="nav-link">Clôture du dossier</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s6-2" class="nav-link">Questionnaire de satisfaction</a>
+      </div>
+    </div>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-letter">
+      <div class="nav-row toggle-row" onclick="toggleNav(this)">
+        <span class="nav-mark">B.</span><span class="nav-label">Coordination Intensive</span>
+        <button class="nav-exp" onclick="event.stopPropagation();toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s7-0" class="nav-link"><span class="nav-mark">1.</span>Préambule</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s7-1" class="nav-link"><span class="nav-mark">2.</span>Entrée dans le dispositif</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-1" class="nav-link">Prise en charge du dossier</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-2" class="nav-link">Première visite à domicile</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-3" class="nav-link">Livret d'accompagnement</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-4" class="nav-link">Droit à l'image à destination de l'usager</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-5" class="nav-link">Directives anticipées</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-1-6" class="nav-link">Identitovigilance</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s7-2" class="nav-link"><span class="nav-mark">3.</span>Évaluation et élaboration du projet</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-2-1" class="nav-link">Évaluation des dossiers en CI</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-2-2" class="nav-link">Réalisation d'un PPCS</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s7-3" class="nav-link"><span class="nav-mark">4.</span>Mise en œuvre et suivi de la coordination</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-3-1" class="nav-link">Évaluation des dossiers en CI</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-3-2" class="nav-link">Transport des usagers à des rendez-vous</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-3-3" class="nav-link">Prise de contact en cas d'hospitalisation</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-3-4" class="nav-link">Intervention — thérapies non médicamenteuses</a>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-number">
+      <div class="nav-row">
+        <a href="#s7-4" class="nav-link"><span class="nav-mark">5.</span>Clôture et évaluation de la prestation</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s7-4-1" class="nav-link">Questionnaire de satisfaction</a>
+      </div>
+    </div>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-letter">
+      <div class="nav-row">
+        <a href="#s10" class="nav-link"><span class="nav-mark">C.</span>Outils d'évaluation disponibles sur AZUREZO</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-1" class="nav-link">Gérontologie / fonctions cognitives</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-2" class="nav-link">Risque de chute</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-3" class="nav-link">Risque d'escarres</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-4" class="nav-link">Soins palliatifs</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-5" class="nav-link">Nutrition</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-6" class="nav-link">Qualité de vie / pathologies chroniques</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-7" class="nav-link">Transversales</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-8" class="nav-link">État psychologique / dépression</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-9" class="nav-link">Urgences</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-10" class="nav-link">Douleur</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s10-11" class="nav-link">Autre</a>
+      </div>
+    </div>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="nav-node lvl-roman">
+      <div class="nav-row">
+        <a href="#s11" class="nav-link"><span class="nav-mark">V.</span>Documents associés</a>
+        <button class="nav-exp" onclick="toggleNav(this)" aria-label="Déplier">&#9662;</button>
+      </div>
+      <div class="nav-sub">
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s11-1" class="nav-link">Documents référencés dans la procédure</a>
+      </div>
+    </div>
+    <div class="nav-node lvl-leaf">
+      <div class="nav-row">
+        <a href="#s11-2" class="nav-link">Sources et références</a>
+      </div>
+    </div>
+      </div>
+    </div>
+  </nav>
+  <div id="sidebar-footer">
+    Activité de coordination · Version 2026<br>
+    <a href="https://www.dacvarest.fr" target="_blank">www.dacvarest.fr</a>
+  </div>
+</nav>
+
+<!-- Main -->
+<main id="main">
+
+  <!-- Hero -->
+  <div id="hero">
+    <div class="badge">Procédure qualité</div>
+    <div class="badge" style="background:rgba(235,95,70,.22); border-color:rgba(235,95,70,.5); margin-left:8px;">⏳ En cours de vérification et de validation</div>
+    <h1>Activité de <span>coordination</span></h1>
+    <p>Cette procédure décrit le fonctionnement du pôle de coordination du DAC Var Est — de l'entrée dans le dispositif à la clôture du dossier — en Coordination Soutenue comme en Coordination Intensive.</p>
+    <div class="hero-meta">
+      <span>📄 Version 2026</span>
+      <span>✍️ Rédigé par Sandra AEIMERTON</span>
+      <span>👥 Pôle de coordination</span>
+      <span>🏥 DAC Var Est</span>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1 ── -->
+  <section class="section" id="s1">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">1</div>
+      <h2>Objectifs et domaine d'application</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s1-1">Objectifs</h3>
+    <p>Cette procédure vise à garantir une <strong>prise en charge coordonnée, respectueuse et adaptée</strong> aux besoins des usagers, tout en assurant une <strong>traçabilité</strong> et une <strong>qualité continue</strong> du service rendu. Elle complète le Guide régional des pratiques Azurezo PACA.</p>
+
+    <h3 id="s1-2">Domaine d'application</h3>
+    <p>Cette procédure s'applique à <strong>tous les membres du pôle de coordination</strong>.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🖥️</div>
+        <h4>Coordination Soutenue (CS)</h4>
+        <p>Prise en charge des situations par des coordinateurs sédentaires, sans contact physique direct avec l'usager.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h4>Coordination Intensive (CI)</h4>
+        <p>Prise en charge par des coordinateurs pouvant réaliser des visites à domicile, en établissement ou auprès d'un partenaire.</p>
+      </div>
+    </div>
+
+    <div class="info-box warning" style="margin-top:20px;">
+      <strong>⚠️ Procédure vivante</strong>
+      <p style="margin:4px 0 0; font-size:13.5px;">Certains outils, documents et livrets cités dans cette procédure sont encore <strong>« à venir »</strong> ou en cours d'élaboration. Ils seront intégrés au fur et à mesure de leur validation. Ces éléments sont explicitement signalés dans le texte.</p>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 2 ── -->
+  <section class="section" id="s2">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">2</div>
+      <h2>Sigles, abréviations et définitions</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <table class="lexique-table">
+      <thead><tr><th>Sigle</th><th>Définition</th></tr></thead>
+      <tbody>
+        <tr><td>CS</td><td>Coordination Soutenue — prise en charge de situations par des coordinateurs sédentaires.</td></tr>
+        <tr><td>CI</td><td>Coordination Intensive — prise en charge de situations par des coordinateurs ayant la possibilité de réaliser des visites à domicile, dans des établissements ou auprès d'un partenaire.</td></tr>
+        <tr><td>PPCS</td><td>Plan Personnalisé de Coordination de Santé.</td></tr>
+        <tr><td>AZ</td><td>AZUREZO, logiciel métier de gestion des dossiers.</td></tr>
+        <tr><td>GCS</td><td>Groupement de Coopération Sanitaire.</td></tr>
+        <tr><td>STAFF INTERNE</td><td>Réunion interne au DAC Var Est réunissant tous les coordinateurs, le médecin coordonnateur, la cheffe de service et tout autre personnel interne invité. Des dossiers ou des questions sont mis à l'ordre du jour et analysés collectivement.</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 3 ── -->
+  <section class="section" id="s3">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">3</div>
+      <h2>Coordination Soutenue — Entrée dans le dispositif</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <div class="stepper">
+      <div class="step">
+        <div class="step-left"><div class="step-dot">1</div><div class="step-line"></div></div>
+        <div class="step-body"><h4>Orientation d'une situation</h4><p>Un partenaire ou un professionnel de santé complète une fiche d'orientation ou un formulaire de demande réponse sur AZUREZO</p></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-dot">2</div><div class="step-line"></div></div>
+        <div class="step-body"><h4>Réception et enregistrement des fiches</h4><p>Réception de la fiche, répartition selon la charge de travail, création du dossier AZUREZO</p></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-dot">3</div><div class="step-line"></div></div>
+        <div class="step-body"><h4>Consentement <span class="tag orange" style="margin-left:6px;">à venir dans le livret d'accompagnement</span></h4><p>Consentement à la prise en charge, au traitement des données et au partage de l'information</p></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-dot">4</div><div class="step-line"></div></div>
+        <div class="step-body"><h4>Identitovigilance</h4><p>Vérification de la fiabilité de l'identité de l'usager</p></div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-dot">5</div><div class="step-line"></div></div>
+        <div class="step-body"><h4>Livret d'accompagnement <span class="tag orange" style="margin-left:6px;">à venir</span></h4><p>Transmission des documents d'information et de consentement à l'usager</p></div>
+      </div>
+    </div>
+
+    <h3 id="s3-1">Orientation d'une situation</h3>
+    <p>Lorsqu'un partenaire ou un professionnel de santé rencontre une situation qu'il juge complexe, il peut solliciter le DAC Var Est en complétant et transmettant une <strong>fiche d'orientation</strong> ou en remplissant un <strong>formulaire de demande réponse</strong> sur AZUREZO. La fiche d'orientation, disponible sur le site internet du DAC Var Est et en signature de mail, peut être adressée par messagerie sécurisée via MSSanté, par mail sécurisé à la suite d'un appel téléphonique, ou directement saisie dans le logiciel AZUREZO. Les demandes sont ensuite prises en charge par le pôle de coordination soutenue. L'adresseur est systématiquement informé de la bonne réception de la fiche d'orientation.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outils :</strong> prestataire téléphonique 3CX, Microsoft 365 / MSSanté, logiciel AZUREZO</li>
+        <li><strong>Documents :</strong> fiche d'orientation (signature de mail, site web), procédure d'utilisation de la messagerie sécurisée pour la réception des fiches (I_8_001_FICHE Tutos Medimail_MESSAGERIE), guide d'aide à l'utilisation d'AZUREZO (cf I_SD_002_Guide AZUREZO DAC Var Est)</li>
+        <li><strong>Méthode :</strong> retour de mails systématique lors de la réception de la fiche d'orientation ; remplissage systématique du formulaire demande / réponse</li>
+      </ul>
+    </div>
+
+    <h3 id="s3-2">Réception et enregistrement des fiches</h3>
+    <p>La plupart des fiches d'orientation sont réceptionnées par le pôle de coordination soutenue via une adresse mail commune à tous les coordinateurs DAC Var Est. Les dossiers des personnes accompagnées sont ensuite répartis en fonction de la charge de travail des coordinateurs soutenus et analysés collectivement avec la cheffe de service lorsque cela s'avère nécessaire. Un dossier est alors créé dans AZUREZO pour chaque personne accompagnée.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outils :</strong> AZUREZO / DMP / MSSanté</li>
+        <li><strong>Document :</strong> guide d'aide à l'utilisation d'AZUREZO (cf I_SD_002_Guide AZUREZO DAC Var Est)</li>
+        <li><strong>Méthode :</strong> enregistrement de la fiche d'orientation dans le dossier patient sur AZUREZO ; analyse des fiches d'orientation avec analyse collective si besoin ; répartition des dossiers selon la charge de travail</li>
+      </ul>
+    </div>
+
+    <h3 id="s3-3">Consentement <span class="tag orange" style="margin-left:6px;">à venir dans le livret d'accompagnement</span></h3>
+    <p><strong>Consentement à la prise en charge</strong> — l'adresseur doit recueillir le consentement de l'usager à l'orientation vers le DAC.</p>
+    <p><strong>Consentement au traitement des données</strong> — les DAC sont des dispositifs d'intérêt général. Le traitement des données des usagers est nécessaire à l'exécution de leur mission d'intérêt public. Le consentement de l'usager pour le traitement de ses données n'est donc pas requis.</p>
+    <p><strong>Consentement au partage de l'information</strong> — les coordinateurs s'assurent de l'information et de la non-opposition de l'usager au partage de ses données avec d'autres professionnels et le trace sur AZ : « Usager consent au partage de ses informations à X partenaires ».</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> site web DAC Var Est — rappel des bonnes pratiques liées au consentement sur le site web lors de l'ouverture de la fiche d'orientation ; livret d'accompagnement <span class="tag orange">à venir</span></li>
+        <li><strong>Documents :</strong> logigramme « Consentement en activité de coordination » (Q_LO_010 Confidentialité en coordination), support de formation « Consentement en activité de coordination » (RG_4_043 Formation ieSS CAPSI Confidentialité en activité de coordination), fiche d'orientation avec la mention sur le recueil du consentement, guide juridique et pratique d'accompagnement disponible en ligne, livret d'accompagnement (droit à l'image OP_TR_011 ; Charte des droits et libertés DAC Var Est Q_13_001 ; Flyer usager ; Q_6_005 Politique RGPD DAC Var Est) / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> traçabilité du consentement sur AZUREZO ; formation juridique auprès des professionnels DAC ; explication des droits aux usagers via le livret d'accompagnement <span class="tag orange">à venir</span></li>
+      </ul>
+    </div>
+
+    <h3 id="s3-4">Identitovigilance</h3>
+    <p>L'identitovigilance vise à garantir la fiabilité de l'identité des usagers tout au long de leur prise en charge, afin d'éviter tout risque d'erreur ou de confusion. Le DAC dispose d'un accès à l'<strong>INS</strong> (identité nationale de santé), renforçant les moyens de vérification de l'identité des usagers.</p>
+    <p>Les modalités de vérification diffèrent selon le type de coordination. Pour les coordinateurs soutenus, qui n'ont pas de contact direct avec l'usager, la vérification de l'identité repose exclusivement sur les outils à distance (RRI, puis INS), en croisant les informations transmises par l'adresseur avec celles enregistrées dans ces référentiels. Le coordinateur trace systématiquement la vérification sur AZUREZO.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> RRI (registre régional d'identité), INS (identité nationale de santé) <span class="tag orange">accès à venir</span></li>
+        <li><strong>Document :</strong> politique identitovigilance <span class="tag orange">à venir</span> / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> vérification systématique via le RRI/INS ; traçabilité de la vérification dans le dossier de l'usager</li>
+      </ul>
+    </div>
+
+    <h3 id="s3-5">Livret d'accompagnement <span class="tag orange" style="margin-left:6px;">à venir</span></h3>
+    <p>Un livret d'accompagnement est expliqué à l'usager par téléphone. Il lui est ensuite transmis par mail, ainsi que dans le DMP. Ce livret regroupe l'ensemble des documents d'information et de consentement nécessaires à l'accompagnement de l'usager :</p>
+    <ul class="dac-list">
+      <li>le flyer usager,</li>
+      <li>le document relatif au droit à l'image,</li>
+      <li>le consentement et information dossier patient,</li>
+      <li>les informations concernant le dossier patient numérique et autre documents,</li>
+      <li>le droit à l'image,</li>
+      <li>le document d'arrêt de prise en charge,</li>
+      <li>la charte du coordinateur</li>
+      <li>la charte des droits et libertés,</li>
+      <li>le formulaire de désignation de la personne de confiance (HAS)</li>
+      <li>un document synthétique sur les différentes possibilités d'accompagnement (coordination soutenue, intensive, orientation partenaire …)</li>
+      <li>une fiche explicative du PPCS</li>
+    </ul>
+    <p>Toutes les informations citées ci-dessus sont renseignées en FALC. Le coordinateur trace systématiquement la transmission du livret d'accompagnement sur AZUREZO.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel métier AZUREZO</li>
+        <li><strong>Document :</strong> livret d'accompagnement <span class="tag orange">à venir</span> / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> explication du livret à l'usager par téléphone par le coordinateur ; transmission par mail à l'usager (et/ou l'aidant) et dans le DMP ; traçabilité de la remise dans le dossier de l'usager</li>
+      </ul>
+    </div>
+
+    <h3 id="s3-6">La personne de confiance</h3>
+    <p>Le coordinateur informe systématiquement l'usager de cette possibilité et l'accompagne dans sa désignation si besoin. Si une personne de confiance a été désignée, le coordinateur la contacte dans le cadre du suivi de la situation.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> livret d'accompagnement <span class="tag orange">à venir</span></li>
+        <li><strong>Document :</strong> formulaire de désignation de la personne de confiance (HAS) <span class="tag orange">à venir dans le livret d'accompagnement</span></li>
+        <li><strong>Méthode :</strong> information systématique de l'usager sur son droit à désigner une personne de confiance ; contact de la personne de confiance si elle a été désignée ; traçabilité de la désignation (ou de son absence) dans le dossier AZUREZO</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <section class="section" id="s4">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">4</div>
+      <h2>Coordination Soutenue — Évaluation et élaboration du projet</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s4-1">Évaluation des besoins</h3>
+    <p>L'évaluation multidimensionnelle de la situation est effectuée au travers du <strong>formulaire principal</strong> et celui-ci est complété tout au long de la prise en charge. Il est systématiquement complété pour toutes les situations. Une grille d'évaluation multidimensionnelle est également mise à disposition des équipes si nécessaire. Il conviendra de renseigner le logiciel AZUREZO (formulaire principal) des informations récoltées et de détruire systématiquement le document si une version papier aurait été imprimée (version papier non recommandée par la direction).</p>
+    <p>Le <strong>PPCS</strong> est élaboré en cas de coordination dans la durée et/ou de transmission en coordination intensive. Une analyse est réalisée en compilant les évaluations des partenaires. Ces évaluations permettent aux équipes de coordonner les situations et de travailler en subsidiarité. Toutefois et si nécessaire, des outils et des ressources sont mis à disposition afin de réaliser une évaluation spécifique (cf paragraphe « Outils d'évaluation disponibles sur AZUREZO » de la procédure).</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> AZUREZO — PPCS</li>
+        <li><strong>Documents :</strong> guide d'aide à l'utilisation d'AZUREZO (cf I_SD_002_Guide AZUREZO DAC Var Est), grille d'évaluation OP_TR_013_Grille évaluation DAC PACA</li>
+        <li><strong>Méthodologie :</strong> formulaire principal rempli systématiquement ; si utilisation de la grille d'évaluation en version papier, destruction systématique du document après intégration des données sur AZUREZO</li>
+      </ul>
+    </div>
+
+    <h3 id="s4-2">Co-construction du projet de vie</h3>
+    <p>La co-construction du projet de vie s'effectue en plusieurs étapes. Un premier temps est consacré au recueil de donnée multidimensionnel (formulaire principal - AZUREZO) permettant de recueillir le projet de vie de la personne. L'usager est consulté afin de confirmer le projet de vie identifié au cours de son accompagnement. Un deuxième temps d'échange permet d'analyser sa faisabilité au regard de la situation et de coordonner les professionnels dans le respect du projet de vie de la personne. Tout au long de la prise en charge le projet de vie est ajusté selon les besoins identifiés. Le rapport bénéfice-risque est systématiquement évalué.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> AZUREZO – formulaire principal</li>
+        <li><strong>Document :</strong> FALC projet de vie <span class="tag orange">à élaborer</span> / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> traçabilité de la co-construction du projet de vie sur AZUREZO ; adapter le discours avec la méthodologie FALC ; concertation pluriprofessionnelle ; staff interne et externe</li>
+      </ul>
+    </div>
+
+    <h3 id="s4-3">Approche centrée sur la personne, respect de ses droits du refus et communication bienveillante</h3>
+    <p>Une posture centrée sur la personne est adoptée : ses souhaits, valeurs et choix de vie guident l'accompagnement. Face à un refus — partiel ou total — le coordinateur l'accueille sans jugement, informe la personne des risques éventuels et lui propose des alternatives, sans jamais dépasser le seuil d'insistance. Le travail du refus mobilise des compétences spécifiques, que possèdent les coordinateurs et qu'ils entretiennent grâce à des formations proposées régulièrement, leur permettant d'ajuster cette posture délicate entre le respect du refus de la personne et le travail de ce refus. Tout refus est systématiquement tracé dans Azurezo (date, objet du refus, information délivrée, alternative proposée) afin d'en assurer la traçabilité.</p>
+    <p>Le bénéficiaire est systématiquement informé de son droit d'accès aux informations le concernant dans le logiciel métier Azurezo, et cette information est tracée dans son dossier. Pour toute demande complémentaire (accès, rectification, suppression ou transfert de données), il est orienté vers le chargé de mission qualité et numérique, qui traite la demande et transmet la politique RGPD ou procède aux actions nécessaires.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel métier AZUREZO</li>
+        <li><strong>Documents :</strong> livret d'accompagnement (droit à l'image OP_TR_011 ; Charte des droits et libertés DAC Var Est Q_13_001 ; Flyer usager ; Q_6_005 Politique RGPD DAC Var Est) / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthodologie :</strong> déposer et présenter un livret d'accompagnement <span class="tag orange">à venir</span> ; si besoin : accès, rectification, suppression ou transfert de données du logiciel métier AZUREZO ; formation juridique pour le travail du refus</li>
+      </ul>
+    </div>
+
+    <h3 id="s4-4">Réévaluation du PPCS</h3>
+    <p>Un PPCS est clôturé tous les <strong>6 mois</strong>. Les coordinateurs informent en staff interne de la clôture de celui-ci et si nécessaire de la création d'un nouveau PPCS. Le PPCS est clôturé et envoyé au cercle de soins, au médecin traitant (par le biais d'une messagerie sécurisée) et sur le DMP. Le médecin coordonnateur peut également valider le PPCS si nécessaire (sollicitation lors d'un staff interne).</p>
+
+  </div>
+</section>
+
+  <section class="section" id="s5">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">5</div>
+      <h2>Coordination Soutenue — Mise en œuvre et suivi de la coordination</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s5-1">Type de réponse(s) apportée(s)</h3>
+    <p>Selon la complexité de la situation, plusieurs réponses peuvent être apportées :</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">ℹ️</div>
+        <h4>Information</h4>
+        <p>Communication d'une information, d'une procédure ou d'une ressource du territoire. <br><em>Outils :</em> ressource documentaire QUALIOS/CASSI. <br><em>Méthode :</em> partage des informations : ressources partenaires (flyers, plaquette, contact...).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧭</div>
+        <h4>Orientation</h4>
+        <p>Mise en relation de professionnels, analyse de la demande et adressage à un professionnel ou à un service. <br><em>Outils :</em> ressource documentaire QUALIOS/CASSI</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h4>Coordination</h4>
+        <p>Prise en charge globale de la situation en mettant en place ou en coordonnant le cercle de soins, être en appui des professionnels face à des situations complexes. <br><em>Outils :</em> PPCS (AZUREZO) / formulaire principal (AZUREZO) / recueil multidimensionnels / outils d'évaluation (AZUREZO) / ressources documentaires (QUALIOS) / CASSI / ressources territoriales. <br><em>Méthode :</em> concertation pluriprofessionnelle / staff partenaires / staff interne</p>
+      </div>
+    </div>
+
+    <h3 id="s5-2">Suivi des dossiers</h3>
+    <p>Les dossiers sont actualisés par le pôle de coordination <strong>au minimum une fois par mois</strong> afin de prévenir toute dégradation de la situation.</p>
+    <p>Tous les dossiers présents dans la file active depuis <strong>plus de trois mois</strong> sont évalués pour objectiver le maintien en coordination soutenu ou le passage en relais à une prise en charge de proximité. Cette évaluation peut être réalisée en staff interne (hebdomadaire) ou entre deux staffs avec la participation du chef de service. Le dossier AZUREZO est complété conformément au guide AZUREZO régional.</p>
+    <p>Un tableau de suivi piloté par la chef de service permet d'identifier la charge d'activité du dossier, l'intensité d'une situation, une répartition des dossiers de manière homogène et un échange collectif sur l'état d'avancement des situations <span class="tag orange">outil en cours d'élaboration</span>.</p>
+    <p>Toute divergence d'opinion concernant les préconisations/interventions — qu'elle oppose un usager à un professionnel, un usager aux équipes du DAC Var Est, ou un professionnel du DAC Var Est à un intervenant extérieur — fait l'objet d'un retour en staff interne si nécessaire. Le coordinateur recueille la position de chacune des parties puis soumet la situation pour analyse collective de la balance bénéfice-risque. Une trace écrite est systématiquement conservée. Lorsque la complexité de la situation le requiert ou qu'aucun consensus n'est dégagé, le chef de service peut solliciter la direction pour orientation ou arbitrage.</p>
+    <div class="info-box">
+      <strong>Méthodologie</strong>
+      <p style="margin:4px 0 0; font-size:13.5px;">Une tâche est réalisée au minimum une fois par mois afin de renseigner l'état de la situation et de s'assurer de la stabilité du dossier. Staff interne hebdomadaire. Suivi mensuel des dossiers.</p>
+    </div>
+
+    <h3 id="s5-3">Concertation pluriprofessionnelle</h3>
+    <p>Des concertations pluriprofessionnelles peuvent être mises en place. Elle réunit, selon les besoins identifiés, les différents professionnels impliqués dans l'accompagnement, pour partager les informations utiles, ajuster les interventions ou analyser le rapport bénéfice-risque d'une situation. Elles permettent également la coordination du cercle de soins. La personne accompagnée (ou son représentant) est informée de la tenue de cette concertation et peut, selon la situation, y être associée ou en recevoir une restitution. Ces échanges s'inscrivent dans le cadre du consentement au partage d'informations recueilli dès l'entrée dans le dispositif ; la personne conserve la possibilité de s'y opposer à tout moment.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel métier AZUREZO</li>
+        <li><strong>Document :</strong> compte rendu de concertation pluriprofessionnelle / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> organisation de la concertation à l'initiative du coordinateur en fonction de la complexité ou de l'évolution de la situation ; information de la personne accompagnée (ou de son représentant) et association selon la situation ; traçabilité des échanges, des décisions et du consentement dans le dossier de l'usager</li>
+      </ul>
+    </div>
+
+    <h3 id="s5-4">Echange et retour d'information au médecin traitant</h3>
+    <p>Le coordinateur s'assure que le médecin traitant est <strong>systématiquement informé</strong> de l'entrée de la personne dans le dispositif DAC, même lorsque la demande d'appui n'émane pas de lui. Un retour d'information (synthèse du PPCS si existant) lui est transmis à chaque étape considérée comme clé par le coordinateur, via une messagerie sécurisée ou un courrier de liaison. Toute communication avec le médecin traitant est tracée dans le logiciel métier AZUREZO.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel métier AZUREZO, PPCS</li>
+        <li><strong>Document :</strong> Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthodologie :</strong> information systématique du médecin traitant ; traçabilité sur le logiciel métier AZUREZO</li>
+      </ul>
+    </div>
+
+    <h3 id="s5-5">Retour d'information</h3>
+    <p>L'adresseur et le cercle de soins sont informés de la prise en charge de la personne accompagnée par le DAC après réception de la fiche d'orientation. Un retour sur la situation peut être effectué au cas par cas, soit directement auprès de l'adresseur, soit auprès d'un membre de la famille ou d'un autre professionnel de santé ou du secteur social.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outils :</strong> MSSANTE/AZUREZO (habilitation de l'adresseur dans le dossier si pertinent)</li>
+        <li><strong>Document :</strong> retour d'information à l'adresseur pendant la coordination <span class="tag orange">fréquence et traçabilité à adapter à la situation</span> / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> retour d'information auprès de l'adresseur ; habilitation de l'adresseur dans le dossier si pertinent</li>
+      </ul>
+    </div>
+
+    <h3 id="s5-6">Recherche des professionnels de santé</h3>
+    <p>Lors de la recherche d'un professionnel de santé, le dossier est orienté vers les CPTS. Si le dossier est retourné auprès du DAC suite à une absence de ressource disponible sur le territoire, il conviendra de se rapprocher des différentes associations de professionnels libéraux.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> CASSI</li>
+        <li><strong>Document :</strong> -</li>
+        <li><strong>Méthode :</strong> -</li>
+      </ul>
+    </div>
+
+    <h3 id="s5-7">Subsidiarité</h3>
+    <p>Le principe de subsidiarité constitue un fondement essentiel de l'intervention des DAC et doit être appréhendé à la fois comme une posture professionnelle, un repère organisationnel et un principe structurant du dispositif. Les DAC interviennent en appui des acteurs et des parcours déjà existants sur le territoire, en recherchant prioritairement une réponse auprès des professionnels et ressources de proximité avant de mobiliser leurs propres moyens. Ce principe guide chaque professionnel du DAC dans l'adaptation de son niveau d'intervention et de responsabilité, afin de ne pas se substituer aux acteurs de droit commun mais de renforcer la coordination lorsque la complexité de la situation dépasse les capacités d'un intervenant isolé. Le périmètre de l'appui est défini de manière concertée avec l'ensemble des professionnels, aidants et partenaires impliqués autour de la personne, et ajusté au regard des échanges pluridisciplinaires et des revues collectives de pratiques. Cette vigilance permet d'éviter que le DAC ne devienne effecteur des actions qu'il est chargé de coordonner.</p>
+    <p>Une fois la situation stabilisée et la complexité levée, le DAC organise le relais vers les dispositifs de droit commun et prépare sa sortie dans les meilleures conditions pour la personne accompagnée. Cette approche est formalisée dans le projet de service, la feuille de route, les conventions de partenariat et les outils d'analyse territoriale.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outils :</strong> projet de service, feuille de route, conventions de partenariat, diagnostics territoriaux, PPCS</li>
+        <li><strong>Document :</strong> Cadre national d'orientation des Dispositifs d'Appui à la Coordination (DAC), 2023</li>
+        <li><strong>Méthode :</strong> à réception d'une situation, le coordinateur vérifie si une ressource de proximité peut répondre ; si oui, il oriente ; si la complexité le justifie, il mobilise le DAC en appui des professionnels en place ; dès que la complexité est levée, il organise le relais et la sortie du DAC</li>
+      </ul>
+    </div>
+
+    <h3 id="s5-8">Passation de dossiers entre CS et CI</h3>
+    <p>Une situation peut nécessiter une proximité avec la personne accompagnée, justifiant le passage de la coordination soutenue (CS) vers la coordination intensive (CI). La passation de dossiers entre la CS et la CI doit se faire en réunion de staff interne et passe par la validation du chef de service. Une situation peut rapidement intégrer la file active de la coordination intensive si un besoin de proximité est identifié dès réception du dossier. La personne accompagnée est systématiquement informée du changement d'intervenants dans le cadre de son accompagnement. Le PPCS (si existant) est actualisé lors de la passation et un nouveau professionnel référent est désigné. Les éléments clés du dossier — objectifs, partenaires mobilisés, points de vigilance — sont transmis et tracés dans l'outil numérique de coordination (Azurezo) afin d'assurer la continuité et la fluidité du parcours. La passation fait l'objet d'un suivi en revue de dossier et d'une analyse régulière des indicateurs d'activité.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outils :</strong> outil de suivi en revue de dossier, revue des indicateurs</li>
+        <li><strong>Document :</strong> logigramme Q_LO_012_Passation dossier interne DAC <span class="tag orange">à mettre à jour</span></li>
+        <li><strong>Méthode :</strong> à l'identification d'un besoin de proximité, la CS présente la situation en staff interne ; le chef de service valide le passage en CI ; le nouveau référent CI est désigné, la personne informée du changement ; la passation est tracée dans Azurezo et suivie en revue de dossier et en revue des indicateurs</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 8 ── -->
+  <section class="section" id="s8">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">6</div>
+      <h2>Qualité, sécurité et vigilance</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <p style="margin-bottom:20px;">Ces dispositions s'appliquent de façon commune à la Coordination Soutenue et à la Coordination Intensive.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🚨</div>
+        <h4>Détection de la violence et de la maltraitance</h4>
+        <p>Repérage, traçabilité et signalement des situations à risque</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>Fiches d'événements indésirables (FEI)</h4>
+        <p>Signalement des dysfonctionnements et incidents</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔎</div>
+        <h4>Observatoire des ruptures</h4>
+        <p>Identification et analyse des ruptures de parcours</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌟</div>
+        <h4>Référents thématiques</h4>
+        <p>Appui interne par pair-aidance sur des thématiques spécifiques</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <h4>Traçabilité sur AZ</h4>
+        <p>Traçabilité systématique des actions et décisions</p>
+      </div>
+    </div>
+
+    <h3 id="s8-1">Détection de la violence et de la maltraitance</h3>
+    <p>Les coordinateurs du DAC sont en première ligne pour repérer des situations de violence ou de maltraitance envers les usagers, que ce soit lors d'une visite à domicile ou lors d'un échange téléphonique. Chaque année, le plan de prévention de gestion des violences et maltraitances ainsi que le guide publié par la HAS sur les violences intra familiales sont évoqués en réunion d'équipes pour rappel des bonnes pratiques. Toute suspicion ou signe d'alerte (physique, psychologique, financier, négligence) est signalé à son supérieur hiérarchique, avec traçabilité dans le dossier de l'usager. En fonction de l'urgence ou du danger de la situation un signalement sera réalisé conformément aux démarches officielles (numéros officiels, signalement au procureur de la République…).</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> fiche de remontée des informations en cas de détection de violence <span class="tag orange">à venir</span></li>
+        <li><strong>Documents :</strong> évaluation du risque de maltraitance intrafamiliale sur personnes majeures en situation de vulnérabilité – 27/06/2024 <span class="tag orange">en ligne, à vérifier</span> ; plan de prévention gestion des violences et maltraitances (Q_1_026) ; Charte des droits et libertés DAC Var Est (Q_13_001)</li>
+        <li><strong>Méthode :</strong> remplir la fiche de remontée des informations en cas de détection de violence, avertir immédiatement son supérieur hiérarchique et suivre ses instructions</li>
+      </ul>
+    </div>
+
+    <h3 id="s8-2">Fiches d'événements indésirables (FEI)</h3>
+    <p>La fiche d'événement indésirable (FEI) permet à tout professionnel du DAC de signaler un dysfonctionnement, un incident ou une situation à risque survenu dans le cadre de l'accompagnement des usagers ou du fonctionnement du service. Ce dispositif contribue à l'amélioration continue de la qualité en permettant l'analyse des causes, la mise en place d'actions correctives et le suivi de leur efficacité. Un tableau de bord avec les données quantitatives est mis à disposition des équipes pour consultation.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> fiche de signalement <span class="tag orange">en cours de restructuration</span>, logiciel QUALIOS</li>
+        <li><strong>Documents :</strong> procédure de gestion des évènements indésirables (Q_PR_022) ; fiche mémo sur le bon remplissage des FEI (Q_SD_014) ; fiche mémo pour différencier les EI des ruptures de parcours (Q_SD_015) ; analyse des évènements indésirables de 2025 (Q_1_021)</li>
+        <li><strong>Méthode :</strong> déclaration de l'événement par le professionnel dès son constat</li>
+      </ul>
+    </div>
+
+    <h3 id="s8-3">Observatoire des ruptures</h3>
+    <p>L'observatoire des ruptures du DAC a pour objectif d'identifier, d'analyser et de suivre les ruptures de parcours rencontrées par les usagers afin d'en comprendre les causes et de proposer des actions correctives. Chaque situation de rupture repérée par les coordinateurs est recensée et analysée collectivement, permettant de dégager des tendances, d'alerter les partenaires concernés et de contribuer à l'amélioration du parcours de santé sur le territoire.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> fiche de signalement, Microsoft Forms <span class="tag orange">à venir</span></li>
+        <li><strong>Documents :</strong> stratégie Observatoire de rupture de parcours <span class="tag orange">à venir</span> ; fiche mémo sur le bon remplissage des FEI (Q_SD_014)</li>
+        <li><strong>Méthode :</strong> signalement de la rupture par le coordinateur dès son repérage</li>
+      </ul>
+    </div>
+
+    <h3 id="s8-4">Référents thématiques</h3>
+    <p>Dans un principe de pair-aidance, des référents thématiques au sein du pôle de coordination ont été identifié pour venir en appui en interne sur des situations spécifiques. Ce référent est prioritaire sur les formations et sur les rencontres partenariales de la thématique identifiée. Il assure une veille documentaire à ce sujet avec l'appui du chargé de mission parcours. Des restitutions sont réalisées en réunion d'équipe pour diffuser l'information et homogénéiser les connaissances.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> tableau de suivi des participations et restitutions (Q_1_016)</li>
+        <li><strong>Documents :</strong> liste des référents thématiques (Q_1_012), trame de restitution (OP_TR_010), FAQ référents (Q_12_001)</li>
+        <li><strong>Méthode :</strong> restitution synthétique en réunion d'équipe selon la trame OP_TR_010 ; désignation progressive de nouveaux référents pour couvrir l'ensemble des thèmes</li>
+      </ul>
+    </div>
+
+    <h3 id="s8-5">Traçabilité sur AZ</h3>
+    <p>L'ensemble des actions menées et des décisions prises est tracé dans AZ et dans le PPCS. L'usager est informé de son droit d'accès aux informations le concernant et peut en faire la demande auprès de l'équipe à tout moment.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel AZUREZO</li>
+        <li><strong>Document :</strong> livret d'accompagnement <span class="tag orange">à venir</span></li>
+        <li><strong>Méthode :</strong> traçabilité sur le logiciel AZUREZO ; distribution et explication du livret d'accompagnement avec information sur le droit du patient (par mail, sur le DMP ou lors de la visite à domicile) <span class="tag orange">à venir</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 9 ── -->
+  <section class="section" id="s9">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">7</div>
+      <h2>Outils numériques</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s9-1">Promotion des outils numériques</h3>
+    <p>Les équipes du DAC assurent la promotion des solutions et outils numériques auprès des partenaires du territoire, notamment le <strong>DMP</strong> (dossier médical partagé), <strong>AZUREZO</strong> et <strong>CASSI</strong>, afin de faciliter le partage d'informations, la coordination des parcours et l'interopérabilité entre les acteurs de santé et du médico-social. Les équipes participent également à la diffusion des campagnes nationales de prévention auprès des partenaires et des usagers, relayant ainsi les messages de santé publique sur le territoire.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> -</li>
+        <li><strong>Document :</strong> supports de présentation des outils numériques (DMP, AZUREZO, CASSI), campagnes nationales de prévention, fiche tuto médimail (I_8_001_FICHE Tutos Medimail_MESSAGERIE) / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> -</li>
+      </ul>
+    </div>
+
+    <h3 id="s9-2">Cadre réglementaire du dossier patient numérisé</h3>
+    <p>La gestion du dossier patient numérisé sur AZUREZO s'inscrit dans le cadre réglementaire applicable aux données de santé, catégorie de données sensible au sens du RGPD (article 9) et de la loi Informatique et Libertés modifiée. Il s'appuie sur le secret professionnel partagé, encadré par le code de la santé publique, et garantit aux usagers l'exercice de leurs droits (information, accès, rectification, opposition, limitation), pouvant être exercés à tout moment auprès de rgpd@dac-varest.fr. En pratique, cette conformité repose sur des accès nominatifs et habilités à AZUREZO, la formation juridique des professionnels aux obligations de confidentialité et de secret partagé, la destruction systématique des supports papier après numérisation dans le dossier, et l'orientation de toute demande d'exercice de droits vers l'adresse mail : rgpd@dac-varest.fr.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> logiciel AZUREZO (hébergé par un HDS certifié)</li>
+        <li><strong>Document :</strong> Q_6_005 Politique RGPD DAC Var Est / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> habilitation nominative et traçabilité des accès au dossier sur AZUREZO ; formation juridique des professionnels DAC ; destruction systématique des documents papier après intégration dans AZUREZO ; information de l'usager sur ses droits et orientation des demandes d'exercice de ces droits vers rgpd@dac-varest.fr</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 6 ── -->
+  <section class="section" id="s6">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">8</div>
+      <h2>Coordination Soutenue — Clôture et évaluation de la prestation</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s6-1">Clôture du dossier</h3>
+    <p>Un dossier est clôturé lorsque :</p>
+    <ul class="dac-list">
+      <li>Le cercle de soins a été mise en place et coordonné.</li>
+      <li>La demande initiale a été résolue.</li>
+    </ul>
+    <p>Un dossier n'est pas maintenu dans la file active « au cas où il y aurait besoin d'un accompagnement du DAC plus tard », néanmoins le dossier peut être réactivé par n'importe quel professionnel si un besoin d'intervention du DAC est ressenti. Envoi d'un courrier type de fin de prise en charge.</p>
+    <div class="info-box">
+      <strong>Document</strong>
+      <p style="margin:4px 0 0; font-size:13.5px;">Courrier type de fin de prise en charge <span class="tag orange">à créer</span></p>
+    </div>
+
+    <h3 id="s6-2">Questionnaire de satisfaction</h3>
+    <p>À chaque clôture de dossier, un questionnaire de satisfaction est envoyé à l'adresseur initial via un lien dédié, à l'aide d'un modèle de mail type. Ce lien est également intégré à la signature de mail des professionnels du DAC, permettant une sollicitation continue.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> lien du questionnaire de satisfaction</li>
+        <li><strong>Document :</strong> OP_TR_012 Modèle mail questionnaire de satisfaction</li>
+        <li><strong>Méthode :</strong> envoi systématique du lien à l'adresseur initial via le modèle de mail ; intégration du lien dans la signature de mail de l'ensemble des professionnels</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 7 ── -->
+  <section class="section" id="s7">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">9</div>
+      <h2>Coordination Intensive — Spécificités</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s7-0">Préambule</h3>
+    <p>En coordination intensive, la prise en charge repose sur les mêmes principes qu'en coordination soutenue, avec une proximité renforcée auprès des usagers et des partenaires (visites à domicile notamment). Certains points diffèrent en conséquence et sont détaillés ci-après et les autres points sont identiques.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr><th></th><th>🔵 Coordination Soutenue (CS)</th><th>🟠 Coordination Intensive (CI)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Contact usager</td><td>À distance, sans contact physique direct</td><td>Visites à domicile, en établissement ou chez un partenaire</td></tr>
+          <tr><td>Identitovigilance</td><td>Vérification exclusivement via RRI / INS</td><td>Vérification possible sur place (document d'identité) en complément des outils numériques</td></tr>
+          <tr><td>Réévaluation de la file active</td><td>Dossiers actifs depuis plus de <strong>3 mois</strong></td><td>Dossiers actifs depuis plus de <strong>9 mois</strong></td></tr>
+          <tr><td>PPCS</td><td>Élaboré en cas de coordination dans la durée</td><td>Systématique pour toutes les situations complexes</td></tr>
+          <tr><td>Première visite</td><td>—</td><td>Réalisée en binôme (sécurité)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="s7-1">Entrée dans le dispositif</h3>
+
+    <h4 id="s7-1-1">Prise en charge du dossier</h4>
+    <p>Lors de la passation du dossier de CS à CI, un point d'échange est organisé afin de transmettre les informations nécessaires. Le coordinateur référent prend contact avec l'usager et le cercle de soin afin d'informer l'intégration du dossier en coordination intensive. Un rendez-vous est programmé pour réaliser une visite à domicile.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> Logiciel AZUREZO</li>
+        <li><strong>Document :</strong> Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> Temps d'échange pour la passation du dossier. Informer l'usager et le cercle de soins de la prise en charge en coordination intensive. Prendre rendez-vous avec l'usager pour organiser une visite à domicile.</li>
+      </ul>
+    </div>
+
+    <h4 id="s7-1-2">Première visite à domicile</h4>
+    <p>La première visite à domicile est effectuée en binôme pour des raisons de sécurité : deux coordinateurs DAC ou un coordinateur DAC et un partenaire (préconisation de la direction). Pour tout sentiment de mise en danger au domicile chez l'usager par le coordinateur, il conviendra de se rapprocher du chef de service. La direction et le chef de service se réserve le droit de refuser la réalisation de visites à domicile afin d'assurer la sécurité de ses salariés si nécessaire.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> Logiciel AZUREZO</li>
+        <li><strong>Document :</strong> Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> Première visite réalisée en binôme. Informer et proposer systématiquement à l'adresseur d'être présent lors de la première visite, en fonction de la situation.</li>
+      </ul>
+    </div>
+    <p>Droit de retrait en cas de sentiment d'insécurité du coordinateur.</p>
+
+    <h4 id="s7-1-3">Livret d'accompagnement <span class="tag orange" style="margin-left:6px;">à venir</span></h4>
+    <p>Lors de la première visite à domicile, un livret d'accompagnement est présenté et remis à l'usager. Ce document présente le rôle et les missions du DAC, précise les coordonnées du référent en charge de sa situation, intègre la charte des droits et libertés de la personne accompagnée et autre document (droit à l'image).. Cette remise permet à l'usager, ainsi qu'à son entourage, de disposer des informations nécessaires à la compréhension du dispositif et à l'exercice de ses droits tout au long de l'accompagnement.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> Logiciel métier AZUREZO</li>
+        <li><strong>Document :</strong> Livret d'accompagnement <span class="tag orange">à venir</span> / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> Remise du livret d'accompagnement lors de la première visite à domicile par le coordinateur, avec explication orale adaptée si besoin. Traçabilité de la remise dans le dossier de l'usager.</li>
+      </ul>
+    </div>
+
+    <h4 id="s7-1-4">Droit à l'image à destination de l'usager <span class="tag orange" style="margin-left:6px;">à venir dans le livret d'accompagnement</span></h4>
+    <p>Lors des prises en charges, une photo de l'usager ou d'une blessure peut être utile. Un document de droit à l'image devra être dûment rempli et signé par l'usager ou la personne de confiance. En cas de refus de l'usager ou si le document n'est pas signé avec autorisation, il est strictement interdit de prendre des photos. L'usager doit donner son accord pour toute transmission de cette photo à un professionnel en dehors du DAC.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> -</li>
+        <li><strong>Document :</strong> OP_TR_011_Droit à l'image à destination des usagers</li>
+        <li><strong>Méthode :</strong> Signature du document de droit à l'image qui indique du choix de l'usager.</li>
+      </ul>
+    </div>
+
+    <h4 id="s7-1-5">Directives anticipées <span class="tag orange" style="margin-left:6px;">à venir dans le livret d'accompagnement</span></h4>
+    <p>Chaque usager doit être accompagné à la rédaction des directives anticipées. Cette démarche vise à favoriser l'expression de la volonté des personnes en matière de soins, en particulier dans les situations où elles ne pourraient plus s'exprimer. Des ressources sont proposées par la Haute Autorité de Santé (HAS) et la Facile A Lire et à Comprendre (FALC). Ces supports doivent être utilisés pour informer, sensibiliser et accompagner les usagers dans la réflexion et la formalisation de leurs volontés anticipées.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> -</li>
+        <li><strong>Document :</strong> Guide à destination des professionnels de santé (HAS, avril 2016). / Guide pour le grand public (HAS, octobre 2016). /Une bande dessinée pédagogique simplifiée réalisée par la FALC et conçue pour faciliter la compréhension. / Modèle de formulaire de directives anticipées (HAS, octobre 2016).</li>
+        <li><strong>Méthode :</strong> Accompagner les usagers à la rédaction des directives anticipées.</li>
+      </ul>
+    </div>
+
+    <h4 id="s7-1-6">Identitovigilance</h4>
+    <p>L'identitovigilance vise à garantir la fiabilité de l'identité des usagers tout au long de leur prise en charge, afin d'éviter tout risque d'erreur ou de confusion. Le DAC dispose actuellement d'un accès au RRI (registre régional d'identité) et bénéficiera prochainement d'un accès à l'INS (identité nationale de santé), renforçant les moyens de vérification de l'identité des usagers.</p>
+    <p>Les modalités de vérification diffèrent selon le type de coordination. Pour les coordinatrices intensives, en visite à domicile, l'identité de l'usager peut être vérifiée directement sur place (si besoin), à l'aide d'un document d'identité ou de tout justificatif disponible, en complément des outils numériques.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> RRI (registre régional d'identité), INS (identité nationale de santé) - accès à venir</li>
+        <li><strong>Document :</strong> Politique Identito Vigilance <span class="tag orange">à venir</span></li>
+        <li><strong>Méthode :</strong> Si besoin, vérification de l'identité à domicile pour les coordinatrices intensives, vérification via le RRI/INS pour les coordinatrices soutenues. Traçabilité de la vérification dans le dossier de l'usager.</li>
+      </ul>
+    </div>
+
+    <h3 id="s7-2">Évaluation et élaboration du projet</h3>
+
+    <h4 id="s7-2-1">Évaluation des dossiers en CI</h4>
+    <p>Tous les dossiers présents dans la file active depuis plus de 9 mois doivent être évalués afin de déterminer si une prolongation de la prise en charge en CI est nécessaire. Cette évaluation peut être réalisée en staff interne ou avec le chef de service.</p>
+    <p>Un tableau de suivi piloté par la chef de service permet d'identifier la charge d'activité du dossier qui permet de questionner la charge de travail, l'identification d'une dégradation de situation, une répartition des dossiers homogène et un échange collectif sur l'état d'avancement des situations.</p>
+
+    <h4 id="s7-2-2">Réalisation d'un PPCS</h4>
+    <p>Le formulaire principal (CS) et un PPCS (CI) sont systématiquement réalisés pour toutes les situations complexes. Le principe du PPCS est expliqué et les objectifs sont définis avec l'usager et/ou son aidant. Le référent s'assure de la bonne compréhension du PPCS par la personne accompagnée afin de garantir une co-construction réelle avec la personne. Le PPCS est construit avec la personne : ses besoins, ses attentes et ses objectifs de vie sont recueillis en amont, intégrés dans le document et validés avec elle avant toute transmission. La personne est informée qu'elle peut demander à consulter son PPCS à tout moment et qu'elle sera associée à chaque réévaluation.</p>
+    <p>Le PPCS est transmis au médecin traitant dès sa formalisation, via messagerie sécurisée (e-CPS) afin de l'associer à la définition des objectifs et de recueillir sa validation. Cette transmission est tracée dans Azurezo. Le médecin coordinateur du DAC peut être sollicité pour valider le PPCS, faciliter le lien avec le médecin traitant ou assurer une concertation médicale si nécessaire.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> Livret d'accompagnement <span class="tag orange">en cours de réalisation</span>. Logiciel métier AZUREZO</li>
+        <li><strong>Document :</strong> Guide d'aide à l'utilisation d'AZUREZO : cf I_SD_002_Guide AZUREZO DAC Var Est) / Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthodologie :</strong> Co-construction du PPCS avec la personne accompagnée et/ou son aidant — recueil des besoins et attentes, explication des objectifs, validation par la personne. Transmission au médecin traitant dès formalisation. Réévaluation tous les 6 mois avec actualisation et nouveau retour au médecin traitant.</li>
+      </ul>
+    </div>
+
+    <h3 id="s7-3">Mise en œuvre et suivi de la coordination</h3>
+
+    <h4 id="s7-3-1">Évaluation des dossiers en CI</h4>
+    <p>Tous les dossiers présents dans la file active depuis plus de 9 mois doivent être évalués afin de déterminer si une prolongation de la prise en charge en CI est nécessaire. Cette évaluation peut être réalisée en staff interne ou avec le chef de service.</p>
+    <p>Un tableau de suivi piloté par la chef de service permet d'identifier la charge d'activité du dossier qui permet de questionner la charge de travail, l'identification d'une dégradation de situation, une répartition des dossiers homogène et un échange collectif sur l'état d'avancement des situations.</p>
+
+    <h4 id="s7-3-2">Transport des usagers à des rendez-vous</h4>
+    <p>Avant chaque rendez-vous médical, le coordinateur peut être amener à vérifier que la personne accompagnée dispose d'une solution de transport adaptée. Lorsque le patient n'est pas en mesure d'effectuer les démarches seul — difficultés cognitives, isolement, barrière numérique ou linguistique — elle peut l'accompagner dans la prise de contact avec le transporteur conventionné et l'organisation du déplacement. Dans des situations exceptionnelles où aucun moyen de transport n'a pu être mobilisé, elle peut conduire elle-même l'usager à son rendez-vous, uniquement avec l'autorisation préalable du chef de service et en dernier recours. L'ensemble des démarches effectuées est tracé dans le dossier du bénéficiaire.</p>
+
+    <h4 id="s7-3-3">Prise de contact en cas d'hospitalisation</h4>
+    <p>En cas d'hospitalisation programmée ou non programmée de la personne accompagnée, le coordinateur prend contact avec le service hospitalier concerné afin de signaler l'intervention du DAC sur le dossier et de recueillir les informations nécessaires à la bonne coordination de la situation (motif d'hospitalisation, durée prévisible, conditions de sortie envisagées). Cette prise de contact permet d'assurer la continuité de l'accompagnement et d'anticiper l'organisation du retour à domicile ou l'orientation ultérieure de la personne.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> AZUREZO / MSSANTE / DMP</li>
+        <li><strong>Document :</strong> Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> Prise de contact avec le service hospitalier dès connaissance de l'hospitalisation, recueil des informations utiles à la coordination, traçabilité dans le dossier de l'usager.</li>
+      </ul>
+    </div>
+
+    <h4 id="s7-3-4">Intervention de professionnels pour thérapies non médicamenteuses</h4>
+    <p>La possibilité de faire intervenir un professionnel pour une thérapie non médicamenteuse (diététicien, association sportive, etc.) est évaluée systématiquement et tracée sur AZUREZO : « Thérapie non médicamenteuse non nécessaire » ou « Thérapie non médicamenteuse proposée mais refusée ».</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> AZUREZO / MSSANTE / DMP</li>
+        <li><strong>Document :</strong> Guide AZUREZO PACA (document à enregistrer + codification)</li>
+        <li><strong>Méthode :</strong> Traçabilité de l'intervention d'une thérapie non médicamenteuse.</li>
+      </ul>
+    </div>
+
+    <h3 id="s7-4">Clôture et évaluation de la prestation</h3>
+
+    <h4 id="s7-4-1">Questionnaire de satisfaction</h4>
+    <p>À chaque clôture de dossier, un questionnaire de satisfaction est envoyé à l'adresseur initial via un lien dédié, à l'aide d'un modèle de mail type. Ce lien est également intégré à la signature de mail des professionnels du DAC, permettant une sollicitation continue. Un questionnaire de satisfaction est également partagé à l'usager et/ou son aidant.</p>
+    <div class="info-box">
+      <strong>Outils, documents et méthode</strong>
+      <ul class="dac-list" style="margin-top:6px;">
+        <li><strong>Outil :</strong> Lien du questionnaire de satisfaction.</li>
+        <li><strong>Document :</strong> OP_TR_012_Modèle mail questionnaire de satisfaction.</li>
+        <li><strong>Méthode :</strong> Envoi systématique du lien à l'adresseur initial à la clôture du dossier via le modèle de mail. Intégration du lien dans la signature de mail de l'ensemble des professionnels. Envoi systématique du questionnaire de satisfaction à l'usager et/ou son aidant.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ── SECTION 10 ── -->
+  <section class="section" id="s10">
+<div class="section-header" onclick="toggleSection(this)">
+<div class="section-num">10</div>
+<h2>Outils d'évaluation disponibles sur AZUREZO</h2> <div class="section-chevron">▾</div>
+</div>
+<div class="section-body" style="max-height:9999px;">
+<p style="margin-bottom:20px;">Ces grilles et échelles, classées par domaine, sont mises à disposition des coordinateurs dans le logiciel métier AZUREZO pour objectiver l'évaluation multidimensionnelle des situations.</p>
+<h3 id="s10-1">🧓 Gérontologie / fonctions cognitives</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Test Horloge</td><td>Évaluation des fonctions exécutives et de la mémoire visuo-spatiale, souvent utilisé pour dépister les troubles cognitifs.</td></tr>
+<tr><td>Evaluation fragilités / Dépendance</td><td>Ensemble de tests permettant d'évaluer la perte d'autonomie et la vulnérabilité des personnes âgées.</td></tr>
+<tr><td>ADL (Activities of Daily Living)</td><td>Évaluation des activités de la vie quotidienne comme l'hygiène, l'habillage, l'alimentation et la mobilité.</td></tr>
+<tr><td>AGGIR (Autonomie Gérontologique et Groupes Iso-Ressources)</td><td>Grille utilisée pour déterminer le niveau de dépendance et l'éligibilité à l'Allocation Personnalisée d'Autonomie (APA).</td></tr>
+<tr><td>EIM (score Trivalle)</td><td>Score utilisé pour évaluer la fragilité des personnes âgées et leur risque de perte d'autonomie.</td></tr>
+<tr><td>IADL (Instrumental Activities of Daily Living)</td><td>Évaluation des activités instrumentales comme la gestion des finances, l'utilisation du téléphone et la prise de médicaments.</td></tr>
+<tr><td>Les 5 mots de Dubois</td><td>Test rapide de mémoire épisodique verbale, utile pour le dépistage précoce de la maladie d'Alzheimer.</td></tr>
+<tr><td>MMSE (Mini Mental State Examination)</td><td>Test standardisé pour évaluer les fonctions cognitives et dépister les troubles neurocognitifs.</td></tr>
+<tr><td>Sega A et B</td><td>Grille d'évaluation de la fragilité des personnes âgées, permettant d'anticiper les risques de perte d'autonomie.</td></tr>
+<tr><td>Test de Tinetti</td><td>Évaluation du risque de chute chez les personnes âgées en analysant l'équilibre et la marche.</td></tr>
+<tr><td>Pallia 10</td><td>Outil d'évaluation des besoins en soins palliatifs et de la qualité de vie des patients en fin de vie</td></tr>
+<tr><td>Echelle Bref</td><td>Évaluation rapide des fonctions cognitives et du bien-être psychologique.</td></tr>
+<tr><td>Echelle MOCA (Montreal Cognitive Assessment)</td><td>Test de dépistage des troubles cognitifs légers, souvent utilisé pour détecter la maladie d'Alzheimer.</td></tr>
+<tr><td>Mini Cog</td><td>Test rapide combinant le test de l'horloge et un rappel de mots pour évaluer la mémoire et les fonctions exécutives.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-2">⚠️ Risque de chute</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>CES (SRC - CES)</td><td>Il s'agit d'un outil d'évaluation du risque de chute basé sur des critères spécifiques liés à la stabilité et aux capacités fonctionnelles du patient.</td></tr>
+<tr><td>Timed Up and go test</td><td>Ce test chronométré mesure la mobilité et l'équilibre d'une personne. Il consiste à se lever d'une chaise, marcher trois mètres, faire demi-tour, revenir à la chaise et s'asseoir. Un temps supérieur à 20 secondes indique un risque accru de chute.</td></tr>
+<tr><td>Test Unipodal</td><td>Ce test évalue la capacité d'une personne à rester en équilibre sur un seul pied pendant au moins cinq secondes. Une incapacité à maintenir cette position peut être un indicateur de fragilité et de risque de chute.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-3">🩹 Risque d'escarres</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>BRADEN</td><td>Elle permet d'évaluer le risque d'escarre en fonction de plusieurs critères, notamment la perception sensorielle, l'humidité de la peau, l'activité, la mobilité, la nutrition et les forces de friction et de cisaillement. Un score inférieur à 12 indique un risque élevé d'escarre.</td></tr>
+<tr><td>NORTON</td><td>Elle est utilisée principalement chez les patients âgés et prend en compte l'état général, l'état mental, l'activité, la mobilité et l'incontinence. Un score inférieur à 16 indique un risque accru d'escarre.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-4">🕊️ Soins palliatifs</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Echelle de richmond</td><td>Évalue le niveau de vigilance et d'agitation du patient, allant de l'agitation extrême (+4) à l'absence totale de réponse (-5)</td></tr>
+<tr><td>Echelle respiratoire et de sédation</td><td>Utilisée pour ajuster la sédation en fonction de la détresse respiratoire et du confort du patient.</td></tr>
+<tr><td>Indice de Karnofsky</td><td>Mesure l'état général et la capacité fonctionnelle du patient sur une échelle de 0 à 100, où 100 représente une autonomie complète et 0 l'état terminal.</td></tr>
+<tr><td>Pallia 10</td><td>Outil d'évaluation multidimensionnelle du patient en soins palliatifs, prenant en compte la douleur, l'état psychologique et les besoins spécifiques</td></tr>
+<tr><td>Score de performance OMS</td><td>Évalue l'état fonctionnel du patient sur une échelle de 0 (autonome) à 5 (décès imminent), utile pour adapter les soins.</td></tr>
+<tr><td>Sedation RAMSEY</td><td>Échelle permettant de mesurer le niveau de sédation du patient, allant de l'état éveillé et calme (1) à une absence de réponse aux stimuli</td></tr>
+</tbody>
+</table>
+<h3 id="s10-5">🍽️ Nutrition</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>MNA</td><td>Il s'agit d'un outil de dépistage permettant d'évaluer l'état nutritionnel des personnes âgées et de détecter précocement les risques de malnutrition. Il prend en compte plusieurs critères comme la perte de poids, l'IMC, l'alimentation et l'état général du patient.</td></tr>
+<tr><td>Mini MNA</td><td>Version abrégée du MNA, utilisée pour un dépistage rapide de la dénutrition. Il permet d'identifier les patients à risque avant l'apparition de complications graves.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-6">💛 Qualité de vie / pathologies chroniques</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>DUKE</td><td>Il s'agit d'un questionnaire auto-administré qui mesure la qualité de vie en lien avec la santé. Il évalue plusieurs dimensions comme la santé physique, mentale, sociale, l'estime de soi, l'anxiété et la douleur.</td></tr>
+<tr><td>HHEI-S</td><td>Cet outil est utilisé pour évaluer l'impact des troubles auditifs sur la qualité de vie des personnes âgées, en mesurant les conséquences sociales et émotionnelles de la perte auditive.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-7">🔁 Transversales</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Mini Zarit</td><td>Évalue la souffrance des aidants naturels en mesurant l'impact du soutien apporté à un proche dépendant.</td></tr>
+<tr><td>Score epices</td><td>Outil permettant d'évaluer la fragilité des personnes âgées en prenant en compte cinq dimensions : Énergie, Poids, Isolement, Capacités cognitives et État de santé.</td></tr>
+<tr><td>Transversales - PIPER</td><td>Il semble que cet outil soit utilisé dans l'évaluation multidimensionnelle, mais je n'ai pas trouvé d'informations précises à son sujet.</td></tr>
+<tr><td>Transversales - ZARIT</td><td>Variante de l'échelle Zarit, qui mesure la charge ressentie par les aidants familiaux et professionnels.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-8">🧠 État psychologique / dépression</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Mini GDS  (Geriatric Depression Scale)</td><td>Version courte du GDS, utilisée pour dépister rapidement la dépression chez les personnes âgées.</td></tr>
+<tr><td>Echelle de CORNELL</td><td>Spécifiquement conçue pour évaluer la dépression chez les personnes atteintes de démence, en prenant en compte les observations des soignants.</td></tr>
+<tr><td>Echelle Hamilton</td><td>Évalue la gravité des symptômes dépressifs et permet de suivre l'évolution de la dépression.</td></tr>
+<tr><td>GDS  (Geriatric Depression Scale)</td><td>Questionnaire utilisé pour mesurer la dépression chez les personnes âgées, basé sur des réponses oui/non.</td></tr>
+<tr><td>Raskin</td><td>Évalue la sévérité de la dépression en fonction de critères cliniques comme l'humeur, la pensée et le comportement.</td></tr>
+<tr><td>Echelle HADS</td><td>Permet d'évaluer simultanément l'anxiété et la dépression chez les patients hospitalisés.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-9">🚑 Urgences</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Score de Glascow</td><td>Échelle utilisée pour évaluer l'état de conscience d'un patient après un traumatisme crânien. Il prend en compte trois critères : ouverture des yeux, réponse verbale et réponse motrice, avec un score total allant de 3 (coma profond) à 15 (état normal).</td></tr>
+<tr><td>Fiche urgence pallia</td><td>Document destiné aux médecins intervenant en situation d'urgence auprès de patients en soins palliatifs. Il permet de transmettre des informations essentielles pour garantir une prise en charge adaptée et respectueuse des volontés du patient.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-10">🩺 Douleur</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Adulte communiquant DN4</td><td>Questionnaire permettant de dépister une douleur neuropathique à partir de 10 questions sur les symptômes et l'examen clinique.</td></tr>
+<tr><td>Adulte communiquant EVA</td><td>Échelle allant de 0 à 10 où le patient indique l'intensité de sa douleur sur une réglette.</td></tr>
+<tr><td>Adulte communiquant EVN</td><td>Le patient attribue un score de 0 à 10 à sa douleur, facilitant son évaluation rapide.</td></tr>
+<tr><td>Adulte communiquant – Quest. De St Antoine</td><td>Outil permettant une évaluation qualitative et quantitative de la douleur chronique.</td></tr>
+<tr><td>Adulte communiquant  - EN</td><td>Variante de l'EVN où le patient indique son niveau de douleur sur une échelle numérique.</td></tr>
+<tr><td>Adulte non communiquant - ALGOPlUS</td><td>Échelle comportementale utilisée pour évaluer la douleur aiguë chez les personnes âgées ayant des troubles de communication.</td></tr>
+<tr><td>Adulte non communiquant - DOLOPLUS</td><td>Échelle comportementale permettant d'évaluer la douleur chronique chez les personnes âgées non communicantes.</td></tr>
+<tr><td>Enfant Echelle des visages</td><td>Outil visuel où l'enfant choisit un visage correspondant à son ressenti douloureux.</td></tr>
+<tr><td>Enfant - EVENDOL</td><td>Échelle comportementale utilisée pour évaluer la douleur chez les enfants, notamment en situation de handicap.</td></tr>
+</tbody>
+</table>
+<h3 id="s10-11">🔷 Autre</h3>
+<table class="lexique-table">
+<thead><tr><th>Outil</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>EGS</td><td>Est une échelle utilisée pour évaluer l'état de conscience d'un patient, notamment après un traumatisme crânien.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ── SECTION 11 ── -->
+  <section class="section" id="s11">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num">11</div>
+      <h2>Documents associés</h2>      <div class="section-chevron">▾</div>
+    </div>
+  <div class="section-body" style="max-height:9999px;">
+
+    <h3 id="s11-1">Documents référencés dans la procédure</h3>
+    <div class="chips">
+      <span class="chip">Q_LO_010</span>
+      <span class="chip">Q_13_001</span>
+      <span class="chip">Q_13_004</span>
+      <span class="chip">Q_6_005</span>
+      <span class="chip">Q_1_012</span>
+      <span class="chip">Q_1_016</span>
+      <span class="chip">Q_12_001</span>
+      <span class="chip">I_SD_002</span>
+      <span class="chip">I_8_001</span>
+      <span class="chip">OP_TR_010</span>
+      <span class="chip">OP_TR_011</span>
+      <span class="chip">OP_TR_012</span>
+      <span class="chip">OP_TR_013</span>
+      <span class="chip">RG_4_043</span>
+    </div>
+
+    <ul class="dac-list" style="margin-top:16px;">
+      <li><strong>Q_LO_010</strong> — Confidentialité en coordination</li>
+      <li><strong>Q_13_001</strong> — Charte des droits et libertés DAC Var Est / Fiche tuto Medimail (messagerie)</li>
+      <li><strong>Q_13_004</strong> — Charte de bientraitance DAC Var Est</li>
+      <li><strong>Q_6_005</strong> — Politique RGPD DAC Var Est (09/01/2025)</li>
+      <li><strong>Q_1_012</strong> — Liste des référents thématiques</li>
+      <li><strong>Q_1_016</strong> — Tableau de suivi des participations et restitutions</li>
+      <li><strong>Q_12_001</strong> — FAQ référents</li>
+      <li><strong>I_SD_002</strong> — Guide AZUREZO DAC Var Est</li>
+      <li><strong>I_8_001</strong> — Fiche tuto Medimail (messagerie sécurisée)</li>
+      <li><strong>OP_TR_010</strong> — Trame de restitution des référents thématiques</li>
+      <li><strong>OP_TR_011</strong> — Droit à l'image à destination des usagers</li>
+      <li><strong>OP_TR_012</strong> — Modèle mail questionnaire de satisfaction</li>
+      <li><strong>OP_TR_013</strong> — Grille d'évaluation DAC PACA</li>
+      <li><strong>RG_4_043</strong> — Formation ieSS CAPSI Confidentialité en activité de coordination</li>
+    </ul>
+
+    <h3 id="s11-2">Sources et références</h3>
+    <ul class="dac-list">
+      <li>Cadre national d'orientation des Dispositifs d'Appui à la Coordination (DAC), DGOS/ANAP — 2023</li>
+      <li>Guides HAS sur les directives anticipées — avril et octobre 2016</li>
+    </ul>
+
+  </div>
+</section>
+
+</main>
+
+<!-- Print button -->
+<button id="print-btn" onclick="window.print()" title="Imprimer">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+</button>
+
+<script>
+
+  // ── Collapsible sections ──
+  function toggleSection(header) {
+    const section = header.closest('.section');
+    const body = section.querySelector('.section-body');
+    const isCollapsed = section.classList.contains('collapsed');
+    if (isCollapsed) {
+      section.classList.remove('collapsed');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      setTimeout(() => { body.style.maxHeight = '9999px'; }, 450);
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        section.classList.add('collapsed');
+      });
+    }
+  }
+
+  // ── Step accordion ──
+  function toggleStepAcc(btn) {
+    const acc = btn.closest('.step-acc');
+    const isOpen = acc.classList.contains('open');
+    if (isOpen) {
+      acc.classList.remove('open');
+    } else {
+      acc.classList.add('open');
+    }
+  }
+
+  // ── Lightbox ──
+  function openLightbox(img) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = img.src;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+
+  // ── Collapsible sections ──
+  function toggleSection(header) {
+    const sec = header.closest('.section');
+    const body = sec.querySelector('.section-body');
+    if (sec.classList.contains('collapsed')) {
+      sec.classList.remove('collapsed');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      setTimeout(() => { body.style.maxHeight = '9999px'; }, 460);
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { sec.classList.add('collapsed'); });
+      });
+    }
+  }
+
+  // ── Step accordion ──
+  function toggleStepAcc(btn) {
+    btn.closest('.step-acc').classList.toggle('open');
+  }
+
+  // ── Lightbox ──
+  function openLightbox(img) {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (e && e.target.id === 'lightbox-img') return;
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── Progress bar ──
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // ── Nav sub-list dépliage (I. / A. / 1. / a.) ──
+  function toggleNav(btn) {
+    const node = btn.closest('.nav-node');
+    node.classList.toggle('open');
+  }
+  function openAncestors(el) {
+    let node = el.closest('.nav-node');
+    while (node) {
+      node.classList.add('open');
+      node = node.parentElement ? node.parentElement.closest('.nav-node') : null;
+    }
+  }
+
+  // ── Active nav link (exact id, or sub-anchor "id-x") ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => { l.classList.remove('active'); l.closest('.nav-row').classList.remove('active'); });
+        const id = e.target.id;
+        document.querySelectorAll(`#sidebar nav a[href="#${id}"], #sidebar nav a[href^="#${id}-"]`)
+          .forEach(a => {
+            a.classList.add('active');
+            a.closest('.nav-row').classList.add('active');
+            openAncestors(a);
+          });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // Sommaire déplié par défaut à l'ouverture de la page
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('#sidebar .nav-node').forEach(n => n.classList.add('open'));
+    const activeLink = document.querySelector('#sidebar nav a.active');
+    if (activeLink) openAncestors(activeLink);
+  });
+
+  // ── FAQ accordion ──
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Mobile sidebar ──
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+  document.getElementById('main').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+
+  // ── Commentaires par paragraphe (stockés localement dans le navigateur) ──
+  (function () {
+    const STORAGE_KEY = 'dacVarEstComments_QPR015';
+    let store = {};
+    try { store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { store = {}; }
+
+    function persist() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); } catch (e) {}
+    }
+    function hashStr(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) | 0; }
+      return Math.abs(h).toString(36);
+    }
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function updateBadge() {
+      const badge = document.querySelector('#export-comments-btn .badge');
+      const n = Object.keys(store).length;
+      if (!badge) return;
+      if (n > 0) { badge.style.display = 'block'; badge.textContent = n; }
+      else { badge.style.display = 'none'; }
+    }
+
+    function initParagraphs() {
+      const paras = document.querySelectorAll('.section-body > p');
+      paras.forEach((p) => {
+        const section = p.closest('.section');
+        const sectionId = section ? section.id : 'sX';
+        const sectionTitleEl = section ? section.querySelector('.section-header h2') : null;
+        const sectionTitle = sectionTitleEl ? sectionTitleEl.textContent.trim() : sectionId;
+        const text = p.textContent.trim();
+        const cid = sectionId + '-' + hashStr(text.slice(0, 90));
+
+        const row = document.createElement('div');
+        row.className = 'p-comment-row';
+        row.dataset.cid = cid;
+        row.dataset.section = sectionTitle;
+        row.dataset.preview = text.slice(0, 100);
+        p.parentNode.insertBefore(row, p);
+        row.appendChild(p);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'comment-btn';
+        btn.title = 'Ajouter / voir un commentaire sur ce paragraphe';
+        btn.innerHTML = '&#128172;';
+        row.appendChild(btn);
+
+        const display = document.createElement('div');
+        display.className = 'comment-display';
+        display.style.display = 'none';
+        row.parentNode.insertBefore(display, row.nextSibling);
+
+        const box = document.createElement('div');
+        box.className = 'comment-box';
+        box.innerHTML =
+          '<textarea placeholder="Votre commentaire sur ce paragraphe…"></textarea>' +
+          '<div class="comment-actions">' +
+            '<button type="button" class="save">Enregistrer</button>' +
+            '<button type="button" class="remove">Supprimer</button>' +
+            '<button type="button" class="cancel">Fermer</button>' +
+          '</div>';
+        display.parentNode.insertBefore(box, display.nextSibling);
+
+        const textarea = box.querySelector('textarea');
+
+        function refresh() {
+          const val = store[cid];
+          if (val) {
+            btn.classList.add('has-comment');
+            display.style.display = 'block';
+            display.innerHTML = '<strong>Commentaire —</strong>' + escapeHtml(val);
+            textarea.value = val;
+          } else {
+            btn.classList.remove('has-comment');
+            display.style.display = 'none';
+            display.innerHTML = '';
+            textarea.value = '';
+          }
+        }
+        refresh();
+
+        btn.addEventListener('click', () => {
+          box.classList.toggle('open');
+          if (box.classList.contains('open')) textarea.focus();
+        });
+        box.querySelector('.save').addEventListener('click', () => {
+          const val = textarea.value.trim();
+          if (val) store[cid] = val; else delete store[cid];
+          persist(); refresh(); updateBadge();
+          box.classList.remove('open');
+        });
+        box.querySelector('.remove').addEventListener('click', () => {
+          delete store[cid];
+          persist(); refresh(); updateBadge();
+          box.classList.remove('open');
+        });
+        box.querySelector('.cancel').addEventListener('click', () => {
+          box.classList.remove('open');
+        });
+      });
+    }
+
+    function buildExportUI() {
+      const btn = document.createElement('button');
+      btn.id = 'export-comments-btn';
+      btn.title = 'Voir / exporter mes commentaires';
+      btn.innerHTML = '&#128172;<span class="badge"></span>';
+      document.body.appendChild(btn);
+
+      const modal = document.createElement('div');
+      modal.id = 'comments-modal';
+      modal.innerHTML =
+        '<div class="modal-card">' +
+          '<div class="modal-head"><h4>Mes commentaires</h4><button class="modal-close" type="button">&times;</button></div>' +
+          '<div class="modal-body"><textarea readonly></textarea></div>' +
+          '<div class="modal-foot">' +
+            '<button type="button" class="btn-copy">Copier le texte</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(modal);
+
+      function openModal() {
+        const rows = document.querySelectorAll('.p-comment-row');
+        let lines = ['Commentaires — Activité de coordination', ''];
+        let count = 0;
+        let lastSection = null;
+        rows.forEach((row) => {
+          const cid = row.dataset.cid;
+          const val = store[cid];
+          if (!val) return;
+          count++;
+          if (row.dataset.section !== lastSection) {
+            lines.push('== ' + row.dataset.section + ' ==');
+            lastSection = row.dataset.section;
+          }
+          lines.push('Paragraphe : "' + row.dataset.preview + '…"');
+          lines.push('Commentaire : ' + val);
+          lines.push('');
+        });
+        if (count === 0) lines.push('(Aucun commentaire enregistré pour le moment.)');
+        modal.querySelector('textarea').value = lines.join('\n');
+        modal.classList.add('active');
+      }
+      btn.addEventListener('click', openModal);
+      modal.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('active'));
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+      modal.querySelector('.btn-copy').addEventListener('click', () => {
+        const ta = modal.querySelector('textarea');
+        ta.select();
+        try {
+          navigator.clipboard.writeText(ta.value);
+        } catch (e) {
+          document.execCommand('copy');
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initParagraphs();
+      buildExportUI();
+      updateBadge();
+    });
+  })();
+
+  // ── Notes par chapitre et sous-chapitres (stockées localement dans le navigateur, indépendant des commentaires par paragraphe) ──
+  (function () {
+    const STORAGE_KEY = 'dacVarEstChapterNotes_QPR015';
+    let store = {};
+    try { store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { store = {}; }
+
+    function persist() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); } catch (e) {}
+    }
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function updateBadge() {
+      const badge = document.querySelector('#export-chapter-notes-btn .badge');
+      const n = Object.keys(store).length;
+      if (!badge) return;
+      if (n > 0) { badge.style.display = 'block'; badge.textContent = n; }
+      else { badge.style.display = 'none'; }
+    }
+
+    const registry = []; // { cid, title, level } in document order, for export
+
+    function wireNote(cid, title, toggle, panel, textarea) {
+      function refresh() {
+        const val = store[cid];
+        if (val) {
+          toggle.classList.add('has-note');
+          textarea.value = val;
+        } else {
+          toggle.classList.remove('has-note');
+          textarea.value = '';
+        }
+      }
+      refresh();
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.classList.toggle('open');
+        if (panel.classList.contains('open')) textarea.focus();
+      });
+      panel.querySelector('.save').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = textarea.value.trim();
+        if (val) store[cid] = val; else delete store[cid];
+        persist(); refresh(); updateBadge();
+        panel.classList.remove('open');
+      });
+      panel.querySelector('.remove').addEventListener('click', (e) => {
+        e.stopPropagation();
+        delete store[cid];
+        persist(); refresh(); updateBadge();
+        panel.classList.remove('open');
+      });
+      panel.querySelector('.cancel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.classList.remove('open');
+      });
+      panel.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    function initChapters() {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach((section) => {
+        const header = section.querySelector('.section-header');
+        const body = section.querySelector('.section-body');
+        const titleEl = header ? header.querySelector('h2') : null;
+        const title = titleEl ? titleEl.textContent.trim() : section.id;
+        const cid = section.id || title;
+        if (!header || !body) return;
+
+        registry.push({ cid, title, level: 'chapitre' });
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'chapter-note-toggle';
+        toggle.title = 'Ajouter / voir une note sur ce chapitre';
+        toggle.innerHTML = '&#128221;';
+        const chevron = header.querySelector('.section-chevron');
+        if (chevron) header.insertBefore(toggle, chevron); else header.appendChild(toggle);
+
+        const panel = document.createElement('div');
+        panel.className = 'chapter-note-panel';
+        panel.innerHTML =
+          '<span class="chapter-note-label">Note — ' + escapeHtml(title) + '</span>' +
+          '<textarea placeholder="Votre note sur ce chapitre…"></textarea>' +
+          '<div class="chapter-note-actions">' +
+            '<button type="button" class="save">Enregistrer</button>' +
+            '<button type="button" class="remove">Supprimer</button>' +
+            '<button type="button" class="cancel">Fermer</button>' +
+          '</div>';
+        body.insertBefore(panel, body.firstChild);
+
+        wireNote(cid, title, toggle, panel, panel.querySelector('textarea'));
+
+        // ── Sous-chapitres (h3 / h4 avec id) à l'intérieur de ce chapitre ──
+        const headings = body.querySelectorAll('h3[id], h4[id]');
+        headings.forEach((h) => {
+          const subCid = h.id;
+          if (!subCid) return;
+          const subTitle = h.textContent.trim();
+
+          registry.push({ cid: subCid, title: subTitle, level: 'sous-chapitre' });
+
+          const subToggle = document.createElement('button');
+          subToggle.type = 'button';
+          subToggle.className = 'chapter-note-toggle sub';
+          subToggle.title = 'Ajouter / voir une note sur ce sous-chapitre';
+          subToggle.innerHTML = '&#128221;';
+          h.appendChild(subToggle);
+
+          const subPanel = document.createElement('div');
+          subPanel.className = 'chapter-note-panel sub';
+          subPanel.innerHTML =
+            '<span class="chapter-note-label">Note — ' + escapeHtml(subTitle) + '</span>' +
+            '<textarea placeholder="Votre note sur ce sous-chapitre…"></textarea>' +
+            '<div class="chapter-note-actions">' +
+              '<button type="button" class="save">Enregistrer</button>' +
+              '<button type="button" class="remove">Supprimer</button>' +
+              '<button type="button" class="cancel">Fermer</button>' +
+            '</div>';
+          h.parentNode.insertBefore(subPanel, h.nextSibling);
+
+          wireNote(subCid, subTitle, subToggle, subPanel, subPanel.querySelector('textarea'));
+        });
+      });
+    }
+
+    function buildExportUI() {
+      const btn = document.createElement('button');
+      btn.id = 'export-chapter-notes-btn';
+      btn.title = 'Voir / exporter mes notes de chapitre';
+      btn.innerHTML = '&#128221;<span class="badge"></span>';
+      document.body.appendChild(btn);
+
+      const modal = document.createElement('div');
+      modal.id = 'chapter-notes-modal';
+      modal.innerHTML =
+        '<div class="modal-card">' +
+          '<div class="modal-head"><h4>Mes notes de chapitre</h4><button class="modal-close" type="button">&times;</button></div>' +
+          '<div class="modal-body"><textarea readonly></textarea></div>' +
+          '<div class="modal-foot">' +
+            '<button type="button" class="btn-copy">Copier le texte</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(modal);
+
+      function openModal() {
+        let lines = ['Notes de chapitre — Activité de coordination', ''];
+        let count = 0;
+        registry.forEach((entry) => {
+          const val = store[entry.cid];
+          if (!val) return;
+          count++;
+          const prefix = entry.level === 'sous-chapitre' ? '-- ' : '== ';
+          const suffix = entry.level === 'sous-chapitre' ? ' --' : ' ==';
+          lines.push(prefix + entry.title + suffix);
+          lines.push(val);
+          lines.push('');
+        });
+        if (count === 0) lines.push('(Aucune note enregistrée pour le moment.)');
+        modal.querySelector('textarea').value = lines.join('\n');
+        modal.classList.add('active');
+      }
+      btn.addEventListener('click', openModal);
+      modal.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('active'));
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+      modal.querySelector('.btn-copy').addEventListener('click', () => {
+        const ta = modal.querySelector('textarea');
+        ta.select();
+        try {
+          navigator.clipboard.writeText(ta.value);
+        } catch (e) {
+          document.execCommand('copy');
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initChapters();
+      buildExportUI();
+      updateBadge();
+    });
+  })();
+
+</script>
+</html>
